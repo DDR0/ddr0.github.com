@@ -1,7 +1,23 @@
 body{
-	background-color: #000;
 	color: #DDD;
+	background-color: black;
+}
+
+div#left-img{
+	float: left;
+	background: url("../images/Screenshot-Frogatto-30.png");
+	background-repeat: no-repeat;
+	background-position: center;
+}
+div#right-img{
+	float: right;
+	background: url("../images/Screenshot-Frogatto-28-composit.png");
+	background-repeat: no-repeat;
+	background-position: center;
+}
+div#content{
 	width: 400px;
+	margin: 0px auto;
 }
 
 p{
@@ -10,6 +26,7 @@ p#proper{
 	text-indent: 2em;
 }
 p#ul-header{
+	margin-bottom: -16px;
 }
 
 ul{

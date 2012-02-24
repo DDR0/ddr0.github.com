@@ -1,0 +1,17 @@
+body{
+	background-color: #000;
+	color: #DDD;
+	width: 400px;
+}
+
+p{
+}
+p#proper{
+	text-indent: 2em;
+}
+p#ul-header{
+}
+
+ul{
+	list-style-type: square;
+}

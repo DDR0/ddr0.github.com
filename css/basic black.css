@@ -15,3 +15,10 @@ p#ul-header{
 ul{
 	list-style-type: square;
 }
+
+img#right-bg-image{
+	float: right;
+}
+img#left-bg-image{
+	float: left;
+}

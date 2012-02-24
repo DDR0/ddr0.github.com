@@ -1,23 +1,11 @@
 body{
 	color: #DDD;
-	background-color: black;
-}
-
-div#left-img{
-	float: left;
-	background: url("../images/Screenshot-Frogatto-30.png");
-	background-repeat: no-repeat;
-	background-position: center;
-}
-div#right-img{
-	float: right;
-	background: url("../images/Screenshot-Frogatto-28-composit.png");
-	background-repeat: no-repeat;
-	background-position: center;
-}
-div#content{
 	width: 400px;
 	margin: 0px auto;
+	background-color: black;
+	background-image: url("../images/Screenshot-Frogatto-30.png"), url("../images/Screenshot-Frogatto-28-composit.png");
+	background-position: right top, left top;
+	background-repeat: no-repeat, no-repeat;
 }
 
 p{

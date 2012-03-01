@@ -39,3 +39,19 @@ p#ul-header{
 ul{
 	list-style-type: square;
 }
+
+a{
+	text-decoration: underline;
+}
+a:link {
+	color: #DDD;
+}
+a:visited {
+	color: #DDD;
+}
+a:active {
+	color: #FFF; 
+}
+a:hover {
+	color: #FFF;
+}

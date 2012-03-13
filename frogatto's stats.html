@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Frogatto Standard Stats Visulizer</title>
+		<link rel="stylesheet" type="text/css" href="css/basic black.css">
+		<script>
+		function getDataObjectURL() {return "http://theargentlark.com:5000/?version=1.2&level=" + document.getElementById('filename').value + ".cfg"}
+		
+		function getLevelImageURL() {return "http://theargentlark.com/david/frogatto-level-images/" + document.getElementById('filename').value + ".png"}
+		
+		function onEnterGraph(e) {if(e.which == 13) graph()}
+		
+		function graph() {
+			//set background image
+			document.getElementById("level image").src = getLevelImageURL();
+			
+			//draw overlying table
+			var req = new XMLHttpRequest();
+			req.open("GET", getDataObjectURL, false);
+			req.onreadystatechange = function() {
+				if (req.readyState == 4) {
+					alert(req.responseText);
+					}
+				}
+			
+			alert("done " + req);
+			}
+		</script>
+	</head>
+	<body>
+		<p>
+		<button tabindex="2" accesskey="g" type="button" onmouseup="graph()" onkeypress="onEnterGraph(event)">Graph</button> <input tabindex=1 type="text" id="filename" value="titlescreen" onkeypress="onEnterGraph(event)">.cfg
+		</p>
+		<img id="level image" style="position:absolute; left:0px; top:0px; z-index:-1;">
+	</body>
+</html>

@@ -4,28 +4,12 @@
 		<meta charset="utf-8">
 		<title>Frogatto Standard Stats Visulizer</title>
 		<link rel="stylesheet" type="text/css" href="css/basic black.css">
-		<script>
-		function getDataObjectURL() {return "http://theargentlark.com:5000/?version=1.2&level=" + document.getElementById('filename').value + ".cfg"}
-		
-		function getLevelImageURL() {return "http://theargentlark.com/david/frogatto-level-images/" + document.getElementById('filename').value + ".png"}
-		
-		function onEnterGraph(e) {if(e.which == 13) graph()}
-		
-		function graph() {
-			//set background image
-			document.getElementById("level image").src = getLevelImageURL();
-			
-			//draw overlying table
-			var req = new XMLHttpRequest();
-			req.open("GET", getDataObjectURL, false);
-			req.onreadystatechange = function() {
-				if (req.readyState == 4) {
-					alert(req.responseText);
-					}
-				}
-			
-			alert("done " + req);
-			}
+		<script src="http://code.jquery.com/jquery-latest.js"></script>
+		<script src="http://www.theargentlark.com/dark-chess/jquery.json.js"></script>
+		<script src="frogatto's stats.js"></script>
+		<script type="text/javascript"> $(document).ready(function() {
+			//init_visualizer();
+			});
 		</script>
 	</head>
 	<body>

@@ -5,17 +5,31 @@
 		<title>Frogatto Standard Stats Visulizer</title>
 		<link rel="stylesheet" type="text/css" href="css/basic black.css">
 		<script src="http://code.jquery.com/jquery-latest.js"></script>
-		<script src="http://www.theargentlark.com/dark-chess/jquery.json.js"></script>
+		<!--<script src="http://www.theargentlark.com/dark-chess/jquery.json.js"></script>-->
 		<script src="frogatto's stats.js"></script>
-		<script type="text/javascript"> $(document).ready(function() {
-			//init_visualizer();
+		<!--<script type="text/javascript"> $(document).ready(function() {
+			init_visualizer();
 			});
-		</script>
+		</script>-->
 	</head>
 	<body>
 		<p>
-		<button tabindex="2" accesskey="g" type="button" onmouseup="graph()" onkeypress="onEnterGraph(event)">Graph</button> <input tabindex=1 type="text" id="filename" value="titlescreen" onkeypress="onEnterGraph(event)">.cfg
+			<div>
+				<button tabindex="2" accesskey="g" type="button" onmouseup="graph()" onkeypress="onEnterGraph(event)">Graph</button> <input tabindex=1 type="text" id="filename" value="titlescreen" onkeypress="onEnterGraph(event)">.cfg<br>
+			</div>
+			<div id="message" style="font-size:90%"></div>
 		</p>
-		<img id="level image" style="position:absolute; left:0px; top:0px; z-index:-1;">
+		<img id="level image" style="position:absolute; left:0px; top:0px; z-index:-2;">
+		<!--<table id="graph" style="position:absolute; left:0px; top:0px; z-index:-1; table-layout:fixed; width:64px; height:64px; border: 0px solid white; background-color: #FF0000; opacity:0.4;">
+			<tr>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+			</tr>
+		</table>-->
+		<div id="graph" style="position:absolute; left:0px; top:0px; z-index:-1;"></div>
 	</body>
 </html>

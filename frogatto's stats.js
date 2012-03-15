@@ -1,288 +1,69 @@
-function getDataObjectURL() {return "http://theargentlark.com:5000/?version=1.2&level=" + document.getElementById('filename').value + ".cfg"}
+colour_intensity = 1
 
-function getLevelImageURL() {return "http://theargentlark.com/david/frogatto-level-images/" + document.getElementById('filename').value + ".png"}
+function levelName() {return document.getElementById('filename').value}
+
+function getDataObjectURL() {return "http://theargentlark.com:5000/?version=1.2&level=" + levelName() + ".cfg"}
+
+function getLevelImageURL() {return "http://theargentlark.com/david/frogatto-level-images/" + levelName() + ".png"}
 
 function onEnterGraph(e) {if(e.which == 13) graph()}
 
+function alert(msg, colour) {
+	if(colour == undefined) {colour = '#DDD'}
+	document.getElementById("message").style.color = colour
+	document.getElementById("message").innerHTML = msg + '<br>'
+}
+
 function graph() {
+	alert('Loading…')
+	//<div style="width:32px; height:32px; background-color:#F00; position:absolute; left:150px; top:150px; opacity:0.4"></div>
+	grapher = document.getElementById("graph")
+	grapher.innerHTML = ''
+	
 	//set background image
-	document.getElementById("level image").src = getLevelImageURL();
+	document.getElementById("level image").src = getLevelImageURL()
 	
 	//draw overlying table
-	/*jQuery.ajax({
-		url: 'http://theargentlark.com:5000/?version=1.2&level=titlescreen.cfg', 
+	jQuery.ajax({
+		url: "http://theargentlark.com/david/frogatto-level-images/level-info.json",
 		dataType: 'json',
 		type: 'get',
-		success: function(msg) {
-			alert("it works"); 
+		success: function(offsets) {
+			offsetIndex = offsets.map(function(oin){return oin.name}).indexOf(levelName()+".cfg")
+			if(offsetIndex < 0) {
+				alert("Error: " + levelName() + ".cfg's info cannot be retrieved.", '#F11')
+			}
+			else {
+				offset = offsets[offsets.map(function(oin){return oin.name}).indexOf(levelName()+".cfg")].dimensions
+				jQuery.ajax({
+					url: getDataObjectURL(),
+					dataType: 'json',
+					type: 'get',
+					success: function(msg) {
+						alert('Processing…')
+						maxTiles = [Math.round((offset[2]-offset[0])/32), Math.round((offset[3]-offset[1])/32)] //.reduce(function(a,b){return Math.max(a.value,b.value)})
+						zeros = [-offset[0], -offset[1]]
+						
+						theBitWithTables = msg[msg.map(function(oin){return oin.type}).indexOf("move")]
+						fullPowerMultiplier = Math.round(255 / (theBitWithTables.total / theBitWithTables.tables[0].entries.length / colour_intensity))
+						
+						grid = []; grid.length = maxTiles[0]	//construct a grid of a certain size
+						$.each(grid, function(index){grid[index] = []; grid[index].length = maxTiles[1]})
+						
+						safeSetConstrainedToGrid = function(coord, value){
+							grapher.innerHTML += "<div style=\"width:32px; height:32px; background-color:#F00; position:absolute; left:" + (coord[0]+zeros[0]) + "px; top:" + (coord[1]+zeros[1]) + "px; opacity:" + value/250 + "\"></div>"
+						}
+						
+						//safeSetConstrainedToGrid([50,50], 2)
+						$.each(theBitWithTables.tables[0].entries,function(index, value){
+							key = value.key
+							key[0] -= 16; key[1] -= 16
+							safeSetConstrainedToGrid(key, value.value*fullPowerMultiplier)
+						})
+						alert('')
+					},
+				})
+			}
 		},
-	});*/
-	msg = [
-  {
-    "tables": [
-      {
-        "entries": [
-          {
-            "key": null,
-            "value": {
-              "mean": 26,
-              "nsamples": 7,
-              "sum": 186
-            }
-          }
-        ],
-        "name": "sum"
-      },
-      {
-        "entries": [
-          {
-            "key": 482375297,
-            "value": 2
-          },
-          {
-            "key": 2120124826,
-            "value": 2
-          }
-        ],
-        "name": "unique_users"
-      }
-    ],
-    "total": 7,
-    "type": "load"
-  },
-  {
-    "tables": [
-      {
-        "entries": [
-          {
-            "key": [
-              16,
-              272
-            ],
-            "value": 1
-          },
-          {
-            "key": [
-              80,
-              240
-            ],
-            "value": 2
-          },
-          {
-            "key": [
-              176,
-              368
-            ],
-            "value": 1
-          },
-          {
-            "key": [
-              176,
-              400
-            ],
-            "value": 1
-          },
-          {
-            "key": [
-              176,
-              432
-            ],
-            "value": 1
-          },
-          {
-            "key": [
-              208,
-              432
-            ],
-            "value": 1
-          },
-          {
-            "key": [
-              240,
-              432
-            ],
-            "value": 1
-          },
-          {
-            "key": [
-              304,
-              432
-            ],
-            "value": 2
-          },
-          {
-            "key": [
-              336,
-              432
-            ],
-            "value": 9
-          },
-          {
-            "key": [
-              368,
-              432
-            ],
-            "value": 1
-          },
-          {
-            "key": [
-              400,
-              432
-            ],
-            "value": 7
-          },
-          {
-            "key": [
-              432,
-              432
-            ],
-            "value": 35
-          },
-          {
-            "key": [
-              464,
-              432
-            ],
-            "value": 3
-          },
-          {
-            "key": [
-              496,
-              432
-            ],
-            "value": 1
-          },
-          {
-            "key": [
-              528,
-              432
-            ],
-            "value": 1
-          },
-          {
-            "key": [
-              560,
-              432
-            ],
-            "value": 2
-          },
-          {
-            "key": [
-              592,
-              400
-            ],
-            "value": 2
-          },
-          {
-            "key": [
-              592,
-              432
-            ],
-            "value": 1
-          },
-          {
-            "key": [
-              624,
-              240
-            ],
-            "value": 1
-          },
-          {
-            "key": [
-              624,
-              304
-            ],
-            "value": 1
-          },
-          {
-            "key": [
-              624,
-              336
-            ],
-            "value": 1
-          },
-          {
-            "key": [
-              624,
-              400
-            ],
-            "value": 1
-          },
-          {
-            "key": [
-              656,
-              176
-            ],
-            "value": 3
-          },
-          {
-            "key": [
-              656,
-              336
-            ],
-            "value": 1
-          },
-          {
-            "key": [
-              656,
-              368
-            ],
-            "value": 1
-          },
-          {
-            "key": [
-              688,
-              176
-            ],
-            "value": 1
-          },
-          {
-            "key": [
-              688,
-              336
-            ],
-            "value": 1
-          },
-          {
-            "key": [
-              688,
-              432
-            ],
-            "value": 2
-          },
-          {
-            "key": [
-              720,
-              208
-            ],
-            "value": 1
-          },
-          {
-            "key": [
-              720,
-              432
-            ],
-            "value": 8
-          },
-          {
-            "key": [
-              752,
-              240
-            ],
-            "value": 1
-          }
-        ],
-        "name": "tile_group"
-      }
-    ],
-    "total": 95,
-    "type": "move"
-  },
-  {
-    "tables": [],
-    "total": 3,
-    "type": "quit"
-  }
-]
-	alert("Note to self:\nGraph " + msg[msg.map(function(oin){return oin.type}).indexOf("move")].total + " things here.");
+	})
 }

@@ -44,23 +44,25 @@ function graph() {
 					dataType: 'json',
 					type: 'get',
 					success: function(msg) {
-						alert('Processing…')
 						maxValue = [Math.round((offset[2]-offset[0])-33), Math.round((offset[3]-offset[1])-33)] //.reduce(function(a,b){return Math.max(a.value,b.value)})
 						zeros = [-offset[0], -offset[1]]
 						
 						graphStuff = function(theBitWithTables, colour, intensityDivisor) {
-							safeSetConstrainedToGrid = function(coord, value){
-								coord[0] = Math.min(Math.max(coord[0], offset[0]), maxValue[0])
-								coord[1] = Math.min(Math.max(coord[1], offset[1]), maxValue[1])
-								grapher.innerHTML += "<div style=\"width:32px; height:32px; background-color:" + colour + "; position:absolute; left:" + (coord[0]+zeros[0]) + "px; top:" + (coord[1]+zeros[1]) + "px; opacity:" + value/intensityDivisor + "\"></div>"
+							alert('Processing…', colour)
+							if(theBitWithTables != undefined){
+								safeSetConstrainedToGrid = function(coord, value){
+									coord[0] = Math.min(Math.max(coord[0], offset[0]), maxValue[0])
+									coord[1] = Math.min(Math.max(coord[1], offset[1]), maxValue[1])
+									grapher.innerHTML += "<div style=\"width:32px; height:32px; background-color:" + colour + "; position:absolute; left:" + (coord[0]+zeros[0]) + "px; top:" + (coord[1]+zeros[1]) + "px; opacity:" + value/intensityDivisor + "\"></div>"
+								}
+								
+								//safeSetConstrainedToGrid([50,50], 2)
+								$.each(theBitWithTables.tables[0].entries,function(index, value){
+									key = value.key
+									key[0] -= 16; key[1] -= 16
+									safeSetConstrainedToGrid(key, value.value)
+								})
 							}
-							
-							//safeSetConstrainedToGrid([50,50], 2)
-							$.each(theBitWithTables.tables[0].entries,function(index, value){
-								key = value.key
-								key[0] -= 16; key[1] -= 16
-								safeSetConstrainedToGrid(key, value.value)
-							})
 						}
 						
 						theBitWithTables = msg[msg.map(function(oin){return oin.type}).indexOf("move")]
@@ -68,7 +70,6 @@ function graph() {
 						
 						theBitWithTables = msg[msg.map(function(oin){return oin.type}).indexOf("die")]
 						graphStuff(theBitWithTables, '#08F', 4)
-						
 						
 						alert('')
 					},

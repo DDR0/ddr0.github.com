@@ -1,4 +1,5 @@
 colour_intensity = 1
+full_width = 0
 
 function levelName() {return document.getElementById('filename').value}
 
@@ -6,7 +7,7 @@ function getDataObjectURL() {return "http://theargentlark.com:5000/?version=1.2&
 
 function getLevelImageURL() {return "http://theargentlark.com/david/frogatto-level-images/" + levelName() + ".png"}
 
-function onEnterGraph(e) {if(e.which == 13) graph()}
+function onEnterGraph(e) {if(e.which == 13) newGraph()}
 
 function alert(msg, colour) {
 	if(colour == undefined) {colour = '#DDD'}
@@ -18,14 +19,22 @@ function setup() {
 	0
 }
 
+function newGraph() {
+	//set background image
+	lvlImage = document.getElementById("level image")
+	lvlImage.removeAttribute("width")
+	lvlImage.src = getLevelImageURL()
+	full_width = lvlImage.width
+	scaleBackground()
+	graph()
+}
+
 function graph() {
 	alert('Loading…')
 	//<div style="width:32px; height:32px; background-color:#F00; position:absolute; left:150px; top:150px; opacity:0.4"></div>
+	
 	grapher = document.getElementById("graph")
 	grapher.innerHTML = ''
-	
-	//set background image
-	document.getElementById("level image").src = getLevelImageURL()
 	
 	//draw overlying table
 	jQuery.ajax({
@@ -47,13 +56,17 @@ function graph() {
 						maxValue = [Math.round((offset[2]-offset[0])-33), Math.round((offset[3]-offset[1])-33)] //.reduce(function(a,b){return Math.max(a.value,b.value)})
 						zeros = [-offset[0], -offset[1]]
 						
+						zoomMult = Math.max(document.getElementById("zoom").value / 100.0, 0.032) //0.032 should make the math work out to one data-point equals one pixel.
+						
 						graphStuff = function(theBitWithTables, colour, intensityDivisor) {
 							alert('Processing…', colour)
 							if(theBitWithTables != undefined){
 								safeSetConstrainedToGrid = function(coord, value){
-									coord[0] = Math.min(Math.max(coord[0], offset[0]), maxValue[0])
-									coord[1] = Math.min(Math.max(coord[1], offset[1]), maxValue[1])
-									grapher.innerHTML += "<div style=\"width:32px; height:32px; background-color:" + colour + "; position:absolute; left:" + (coord[0]+zeros[0]) + "px; top:" + (coord[1]+zeros[1]) + "px; opacity:" + value/intensityDivisor + "\"></div>"
+									coordx = Math.min(Math.max(coord[0], offset[0]), maxValue[0])*zoomMult
+									coordy = Math.min(Math.max(coord[1], offset[1]), maxValue[1])*zoomMult
+									pxwidth = Math.min(Math.max(coord[0]+32, offset[0]+32), maxValue[0]+32)*zoomMult - coordx //This should provide variable-sized sizes and prevent the off-by-one pixel errors when zooming. It doesn't.
+									pxheight = Math.min(Math.max(coord[1]+32, offset[1]+32), maxValue[1]+32)*zoomMult - coordy
+									grapher.innerHTML += "<div style=\"width:" + pxwidth + "px; height:" + pxheight + "px; background-color:" + colour + "; position:absolute; left:" + (coordx+zeros[0]*zoomMult) + "px; top:" + (coordy+zeros[1]*zoomMult) + "px; opacity:" + value/intensityDivisor + "\"></div>"
 								}
 								
 								//safeSetConstrainedToGrid([50,50], 2)
@@ -77,4 +90,11 @@ function graph() {
 			}
 		},
 	})
+}
+
+function scaleBackground() {
+	newZoom = document.getElementById("zoom")
+	lvlImage = document.getElementById("level image")
+	lvlImage.width = full_width * newZoom.value / 100.0
+	document.getElementById("graph").innerHTML = '' //clear the coloured squares
 }

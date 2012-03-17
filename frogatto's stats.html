@@ -12,7 +12,24 @@
 	<body>
 		<p>
 			<div style="position:fixed">
-				<button tabindex="2" accesskey="g" type="button" onmouseup="graph()" onkeypress="onEnterGraph(event)">Graph</button> <input tabindex=1 type="text" id="filename" value="titlescreen" onkeypress="onEnterGraph(event)">.cfg<br>
+				<table style="background-color:#333;"> <!--Yeah, yeah, I'll replace the table in a bit with the right CSS or something.-->
+					<tr>
+						<td>
+							<button tabindex="2" accesskey="g" type="button" onmouseup="newGraph()" onkeypress="onEnterGraph(event)">Graph</button>
+						</td>
+						<td>
+							<input tabindex=1 type="text" id="filename" value="titlescreen" onkeypress="onEnterGraph(event)" required>.cfg
+						<td>
+					</tr>
+					<tr>
+						<td>
+							 zoom
+						</td>
+						<td>
+							<input id="zoom" type="range" value="100" min="3" max="100" onmouseup="graph()" onkeypress="onEnterGraph(event)" onchange="scaleBackground()"/>%
+						</td>
+					</tr>
+				</table>
 				<div id="message" style="font-size:90%"></div>
 			</div>
 		</p>

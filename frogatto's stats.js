@@ -22,8 +22,12 @@ function setup() {
 function newGraph() {
 	//set background image
 	lvlImage = document.getElementById("level image")
+	lvlImage.src = getLevelImageURL() //this'll call newGraphContinue
+}
+
+function newGraphContinue() {
+	console.debug('test passed')
 	lvlImage.removeAttribute("width")
-	lvlImage.src = getLevelImageURL()
 	full_width = lvlImage.width
 	scaleBackground()
 	graph()

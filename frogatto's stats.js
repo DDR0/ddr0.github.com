@@ -26,7 +26,6 @@ function newGraph() {
 }
 
 function newGraphContinue() {
-	console.debug('test passed')
 	lvlImage.removeAttribute("width")
 	full_width = lvlImage.width
 	scaleBackground()

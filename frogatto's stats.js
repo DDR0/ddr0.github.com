@@ -1,7 +1,21 @@
+// === external ===
+
+//from http://papermashup.com/read-url-get-variables-withjavascript/
+function getUrlVars() {
+    var vars = {};
+    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+        vars[key] = value;
+    });
+    return vars;
+}
+
+// === custom ===
+
 colour_intensity = 1
 full_width = 0
+now_graphing = ''
 
-function levelName() {return document.getElementById('filename').value}
+function levelName() {return now_graphing}
 
 function getDataObjectURL() {return "http://theargentlark.com:5000/?version=1.2&level=" + levelName() + ".cfg"}
 
@@ -16,24 +30,36 @@ function alert(msg, colour) {
 }
 
 function setup() {
-	0
+	lname = getUrlVars()["level"]
+	if(lname != undefined){
+		document.getElementById('filename').value = lname
+		newGraph()
+	}
 }
 
 function newGraph() {
 	//set background image
+	/*wasGraphing = window.location.href
+	if(wasGraphing.indexOf('?') >= 0){
+		wasGraphing = wasGraphing.substring(0,wasGraphing.indexOf('?'))
+	}*/
+	alert('Loading…')
+	now_graphing=document.getElementById('filename').value
 	lvlImage = document.getElementById("level image")
 	lvlImage.src = getLevelImageURL() //this'll call newGraphContinue
+	window.history.pushState("test", now_graphing + " - Frogatto Standard Stats Visulizer", "frogatto's stats.html?level="+now_graphing);
+	document.getElementById("graph").innerHTML = ''
 }
 
 function newGraphContinue() {
-	lvlImage.removeAttribute("width")
+	lvlImage.removeAttribute("width") //resets to default
 	full_width = lvlImage.width
 	scaleBackground()
 	graph()
 }
 
 function graph() {
-	alert('Loading…')
+	alert('Processing…')
 	//<div style="width:32px; height:32px; background-color:#F00; position:absolute; left:150px; top:150px; opacity:0.4"></div>
 	
 	grapher = document.getElementById("graph")
@@ -98,6 +124,7 @@ function graph() {
 function scaleBackground() {
 	newZoom = document.getElementById("zoom")
 	lvlImage = document.getElementById("level image")
+	if(46 < newZoom.value && newZoom.value < 54){newZoom.value = 50}
 	lvlImage.width = full_width * newZoom.value / 100.0
 	document.getElementById("graph").innerHTML = '' //clear the coloured squares
 }

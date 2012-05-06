@@ -1,6 +1,7 @@
 body{
 	background-color: black;
 	color: #DDD;
+	overflow-x: hidden;
 }
 
 div#content{
@@ -9,24 +10,24 @@ div#content{
 	width: 400px;
 }
 div#left-img{
-	background: url("../images/Screenshot-Frogatto-30.png"); 
+	background: url("../images/Screenshot-Frogatto-54-composite.png"); 
 	background-repeat: no-repeat; 
 	position: absolute; 
 	top: 150px; 
 	right: 50%; 
 	margin-right: 400px; 
-	width: 1008px; 
-	height: 822px;
+	width: 1032px; 
+	height: 1090px;
 }
 div#right-img{
-	background: url("../images/Screenshot-Frogatto-28-composite.png"); 
+	background: url("../images/Screenshot-Frogatto-56-composite.png"); 
 	background-repeat: no-repeat; 
 	position: absolute; 
 	top: 150px; 
 	left: 50%; 
 	margin-left: 400px; 
-	width: 822px; 
-	height: 1090px;
+	width: 1632px; 
+	height: 1212px;
 }
 
 p#proper{
@@ -37,7 +38,7 @@ p#ul-header{
 }
 
 ul{
-	list-style-type: square;
+	list-style-type: none;
 }
 
 a{

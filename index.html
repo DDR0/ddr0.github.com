@@ -1,5 +1,14 @@
 ﻿<!doctype html>
 <html lang="en">
+	<script type="text/javascript"> //start Mixpanel
+		(function(d,c){var a,b,g,e;a=d.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===d.location.protocol?"https:":"http:")+'//api.mixpanel.com/site_media/js/api/mixpanel.2.js';b=d.getElementsByTagName("script")[0];b.parentNode.insertBefore(a,b);c._i=[];c.init=function(a,d,f){var b=c;"undefined"!==typeof f?b=c[f]=[]:f="mixpanel";g="disable track track_pageview track_links track_forms register register_once unregister identify name_tag set_config".split(" ");
+		for(e=0;e<g.length;e++)(function(a){b[a]=function(){b.push([a].concat(Array.prototype.slice.call(arguments,0)))}})(g[e]);c._i.push([a,d,f])};window.mixpanel=c})(document,[]);
+		mixpanel.init("fa690803d8c9479ed96635dd52ea1837");
+		
+		mixpanel.track_links("a#mac-download",		"mac download",		{'referrer': document.referrer });
+		mixpanel.track_links("a#windows-download",	"windows download",	{'referrer': document.referrer });
+		mixpanel.track_links("a#source-download",	"source download",	{'referrer': document.referrer });
+	</script> <!-- end Mixpanel -->
 	<head>
 		<meta charset="utf-8">
 		<title>Cube Trains</title>
@@ -9,19 +18,32 @@
 		<div id="left-img"></div>
 		<div id="content">
 			<h1>CUBE TRAINS</h1>
-			<p id="proper">Solve routing puzzles in the inner city with Cube Trains. You start off as a young urban planner trying to connect a city's fragmented rail lines together, and work your way up to become an old urban planner trying to connect a city's fragmented rail lines together! Over the course of your life, you'll build towering structures, beautiful bridges, and some truly convoluted infrastructure. Download it below.</p>
+			
+			<p id="proper">Solve routing puzzles in a dense city with Cube Trains. You start off as a young urban planner trying to connect a city's fragmented rail lines together, and work your way up to become an old urban planner trying to connect a city's fragmented rail lines together! Over the course of your career, you'll build towering structures, beautiful bridges, and some truly convoluted infrastructure. Download the beta below, for free.</p>
+			
 			<p id="ul-header">Features:</p>
 			<ul>
-				<li>Puzzles in three dimensions.</li>
-				<li>Twenty reasonably unique levels.</li>
-				<li>Infinite undo/redo.</li>
-				<li>A cheering crowd, just for you.</li>
-				<li>Colourblind mode.</li>
+				<li><font color="lime">☑</font> Puzzles in three dimensions.</li>
+				<li><font color="yellow">☐</font> Twenty reasonably unique levels.</li>
+				<li><font color="lime">☑</font> Undo/redo.</li>
+				<li><font color="lime">☑</font> Individual level saving.</li>
+				<li><font color="lime">☑</font> Colourblind mode.</li>
 			</ul>
-			<p>Coming summer 2012. Yours for the price of one Canadian dollar.</p>
-			<p id="proper">Feedback? <a href="mailto:robertsdavidddr@gmail.com">Email me</a>. <a href="irc://freenode/frogatto">Talk with me</a> on <a href="http://en.wikipedia.org/wiki/Internet_Relay_Chat">IRC</a>. Visit <a href="http://www.frogatto.com/forum/index.php">the Frogatto forums</a>. I'd like to hear what you think, and not in a 'please stay on the line, your call is important to us' way.</p>
+			
+			<p>Coming summer 2012. Yours for the price of two Canadian dollars.</p>
+			
+			<p id="proper">Feedback? <a href="mailto:robertsdavidddr@gmail.com">Email me</a>. <a href="irc://freenode/frogatto">Talk with me</a> on <a href="http://en.wikipedia.org/wiki/Internet_Relay_Chat">IRC</a>. Visit <a href="http://www.frogatto.com/forum/index.php">the Frogatto forums</a>. I'd like to hear what you think, and not in a 'please stay on the line, your call is important to us' way. <i>Telus</i>.</p>
 			<hr>
-			<p id="proper">Alpha release available for download. No cheering crowd, no colourblind mode, and no story... yet. (Ignore the illegible text printed to the upper-left corner, it's not important. Promise it'll be gone in the beta.)<br><b>Mac Download:</b> <a href="files/release/mac/Cube Trains 0.1.1.zip">Cube Trains 0.1.1.zip</a> <em>Note: Mouse input doesn't work for some people. If this happens, try restarting stuff and <a href="mailto:robertsdavidddr@gmail.com">email me</a>!</em><br><b>Linux i386 Download:</b> <a href="files/release/linux/cubetrains_0.1.1-1_i386.deb">Cube Trains 0.1.1.deb</a></br><b>Windows Download:</b> <a href="files/release/win/Cube Trains 0.1.1.zip">Cube Trains 0.1.1.zip</a></p>
+			
+			<p id="proper">Beta releases available for download. There is currently no sound or reset button, and inconsistent art quality.
+			<!-- <br><b>Mac Download:</b> <a href="files/release/mac/Cube Trains 0.2.0.zip">Cube Trains 0.1.1.zip</a> <br><b>Linux i386 Download:</b> <a href="files/release/linux/cubetrains_0.1.1-1_i386.deb">Cube Trains 0.1.1.deb</a></br><b>Windows Download:</b> <a href="files/release/win/Cube Trains 0.1.1.zip">Cube Trains 0.1.1.zip</a> --> 
+			
+			<br><b>Macintosh:</b> <a id="mac-download" href="files/release/mac/Cube Trains 0.2.0.zip">Cube Trains 0.2.0.zip</a> <i>This download will be available later today. Please be patient.</i>
+			<br><b>Windows:</b> <a id="windows-download" href = "files/release/win/Cube Trains 0.2.0.zip">Cube Trains 0.2.0.zip</a>
+			<br><b>Source Code:</b> <a id="source-download" href="https://github.com/DDR0/Cube_Trains/zipball/0.2.0">Cube Trains 0.2.0.zip</a> <i>This doubles as the linux download. It does not contain an executable file.</i>
+			
+			
+			</p>
 		</div>
 		<div id="right-img" style="overflow: hidden;"></div>
 	</body>

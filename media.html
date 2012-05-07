@@ -1,0 +1,25 @@
+﻿<!doctype html>
+<html lang="en">
+	<script type="text/javascript"> //start Mixpanel
+		(function(d,c){var a,b,g,e;a=d.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===d.location.protocol?"https:":"http:")+'//api.mixpanel.com/site_media/js/api/mixpanel.2.js';b=d.getElementsByTagName("script")[0];b.parentNode.insertBefore(a,b);c._i=[];c.init=function(a,d,f){var b=c;"undefined"!==typeof f?b=c[f]=[]:f="mixpanel";g="disable track track_pageview track_links track_forms register register_once unregister identify name_tag set_config".split(" ");
+		for(e=0;e<g.length;e++)(function(a){b[a]=function(){b.push([a].concat(Array.prototype.slice.call(arguments,0)))}})(g[e]);c._i.push([a,d,f])};window.mixpanel=c})(document,[]);
+		mixpanel.init("fa690803d8c9479ed96635dd52ea1837");
+	</script> <!-- end Mixpanel -->
+	<head>
+		<meta charset="utf-8">
+		<title>Cube Trains</title>
+		<link rel="stylesheet" type="text/css" href="css/basic black.css">
+	</head>
+	<body onLoad="mixpanel.track('media load')">
+		<div id="left-img"></div>
+		<div id="content">
+			<h1>MEDIA</h1>
+			<h2>Pictures</h2>
+			<p><img src="images/Screenshot-Frogatto-61.png" width=50% height=50%/><img src="images/Screenshot-Frogatto-60.png" width=50% height=50%/><img src="images/Screenshot-Frogatto-56.png" width=50% height=50%/><img src="images/Screenshot-Frogatto-48.png" width=50% height=50%/><img src="images/Screenshot-Frogatto-39.png" width=50% height=50%/></p>
+			<p id="proper">Not all the pictures are from current version. Newer pictures are near the top.</p>
+			<h2>Videos</h2>
+			<p>Youtube: <a href="http://youtu.be/AEHyRQnQVNQ">0.2.0</a> · <a href="http://www.youtube.com/watch?v=H7OMc4HwYS8">0.1.0</a></p>
+		</div>
+		<div id="right-img" style="overflow: hidden;"></div>
+	</body>
+</html>

@@ -5,9 +5,10 @@
 		for(e=0;e<g.length;e++)(function(a){b[a]=function(){b.push([a].concat(Array.prototype.slice.call(arguments,0)))}})(g[e]);c._i.push([a,d,f])};window.mixpanel=c})(document,[]);
 		mixpanel.init("fa690803d8c9479ed96635dd52ea1837");
 		
-		mixpanel.track_links("a#mac-download",		"mac download",		{'referrer': document.referrer });
-		mixpanel.track_links("a#windows-download",	"windows download",	{'referrer': document.referrer });
-		mixpanel.track_links("a#source-download",	"source download",	{'referrer': document.referrer });
+		mixpanel.track_links("a#mac-download",			"mac download",				{'referrer': document.referrer });
+		mixpanel.track_links("a#windows-download",		"windows download",			{'referrer': document.referrer });
+		mixpanel.track_links("a#windows-download-64",	"windows download 64-bit",	{'referrer': document.referrer });
+		mixpanel.track_links("a#source-download",		"source download",			{'referrer': document.referrer });
 	</script> <!-- end Mixpanel -->
 	<head>
 		<meta charset="utf-8">
@@ -33,7 +34,7 @@
 			<p id="proper">Release notes: Beta releases available for download. There is currently no sound or reset button, and inconsistent art quality. <i>This does not affect mac users, but there is a bug with regards to the save file which manifests itself by Cube Trains refusing to finish starting up or crashing after rendering the first frame. This is caused by a Frogatto and Friends save file in the same place Cube Trains is expecting one of its saved games. To remedy this problem, find (search for) a file named "save.cfg". It will probably be in a folder called .frogatto or something like that. Remove the file from the folder. Once Cube Trains has started up, rename either file and put the first file back in the folder. This will be fixed in a day or two in version 0.2.1 or greater.</i>
 			</p><p>
 			<br><b>Macintosh:</b> <a id="mac-download" href="files/release/mac/Cube Trains 0.2.0.zip">Cube Trains 0.2.0.zip</a>
-			<br><b>Windows:</b> <a id="windows-download" href = "files/release/win/Cube Trains 0.2.0.zip">Cube Trains 0.2.0.zip</a>
+			<br><b>Windows:</b> <a id="windows-download" href = "files/release/win/Cube Trains 0.2.0.zip">Cube Trains 0.2.0.zip</a> - Experimental 64-bit edition: <a id="windows-download-64" href = "files/release/win/Cube Trains 0.2.0 64-bit.zip">Cube Trains 0.2.0 64-bit.zip</a>
 			<br><b>Source Code:</b> <a id="source-download" href="https://github.com/DDR0/Cube_Trains/zipball/0.2.0">Cube Trains 0.2.0.zip</a> <i>This doubles as the linux download. It does not contain an executable file.</i></p>
 			<hr>
 			

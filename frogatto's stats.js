@@ -88,6 +88,7 @@ function graph() {
 						var zoomMult = Math.max(document.getElementById("zoom").value / 100.0, 0.032) //0.032 should make the math work out to one data-point equals one pixel.
 						
 						var graphStuff = function(theBitWithTables, colour, intensityDivisor, next_call) {
+							var newHTML = grapher.innerHTML
 							if(theBitWithTables != undefined){
 								var safeSetConstrainedToGrid = function(coord, value){
 									alert('Processing…', colour)
@@ -95,17 +96,18 @@ function graph() {
 									coordy = Math.min(Math.max(coord[1], offset[1]), maxValue[1])*zoomMult
 									pxwidth = Math.min(Math.max(coord[0]+32, offset[0]+32), maxValue[0]+32)*zoomMult - coordx //This should provide variable-sized sizes and prevent the off-by-one pixel errors when zooming. It doesn't.
 									pxheight = Math.min(Math.max(coord[1]+32, offset[1]+32), maxValue[1]+32)*zoomMult - coordy
-									grapher.innerHTML += "<div style=\"width:" + pxwidth + "px; height:" + pxheight + "px; background-color:" + colour + "; position:absolute; left:" + (coordx+zeros[0]*zoomMult) + "px; top:" + (coordy+zeros[1]*zoomMult) + "px; opacity:" + value/intensityDivisor + "\"></div>"
+									newHTML += "<div style=\"width:" + pxwidth + "px; height:" + pxheight + "px; background-color:" + colour + "; position:absolute; left:" + (coordx+zeros[0]*zoomMult) + "px; top:" + (coordy+zeros[1]*zoomMult) + "px; opacity:" + value/intensityDivisor + "\"></div>"
 								}
 								
 								//safeSetConstrainedToGrid([50,50], 2)
 								var graph_a_bit = function(entry) {
-									var slice_size = 5
+									var slice_size = 50
 									$.each(entry.slice(0,slice_size), function(index, value){
 										key = value.key
 										key[0] -= 16; key[1] -= 16
 										safeSetConstrainedToGrid(key, value.value)
 									})
+									grapher.innerHTML = newHTML
 									if(entry.slice(0,slice_size).length === slice_size) {
 										window.setTimeout(graph_a_bit, 0, entry.slice(slice_size))
 									} else {

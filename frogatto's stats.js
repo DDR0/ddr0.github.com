@@ -11,9 +11,10 @@ function getUrlVars() {
 
 // === custom ===
 
-colour_intensity = 1
-full_width = 0
-now_graphing = ''
+var colour_intensity = 1
+var full_width = 0
+var now_graphing = ''
+var fsTimer
 
 function levelName() {return now_graphing}
 
@@ -23,7 +24,7 @@ function getLevelImageURL() {return "http://theargentlark.com/david/frogatto-lev
 
 function onEnterGraph(e) {if(e.which == 13) newGraph()}
 
-function alert(msg, colour) {
+function notify(msg, colour) {
 	if(colour == undefined) {colour = '#DDD'}
 	document.getElementById("message").style.color = colour
 	document.getElementById("message").innerHTML = msg + '<br>'
@@ -43,12 +44,16 @@ function newGraph() {
 	if(wasGraphing.indexOf('?') >= 0){
 		wasGraphing = wasGraphing.substring(0,wasGraphing.indexOf('?'))
 	}*/
-	alert('Loading…')
+	notify('Loading…')
 	now_graphing=document.getElementById('filename').value
 	lvlImage = document.getElementById("level image")
-	lvlImage.src = getLevelImageURL() //this'll call newGraphContinue
 	window.history.pushState("test", now_graphing + " - Frogatto Standard Stats Visulizer", "frogatto's stats.html?level="+now_graphing);
 	document.getElementById("graph").innerHTML = ''
+	if(lvlImage.src !== getLevelImageURL()){
+		lvlImage.src = getLevelImageURL() //this'll call newGraphContinue
+	} else {
+		newGraphContinue()
+	}
 }
 
 function newGraphContinue() {
@@ -59,11 +64,12 @@ function newGraphContinue() {
 }
 
 function graph() {
-	alert('Processing…')
+	notify('Processing…')
 	//<div style="width:32px; height:32px; background-color:#F00; position:absolute; left:150px; top:150px; opacity:0.4"></div>
 	
 	grapher = document.getElementById("graph")
 	grapher.innerHTML = ''
+	window.clearTimeout(fsTimer)
 	
 	//draw overlying table
 	jQuery.ajax({
@@ -73,7 +79,7 @@ function graph() {
 		success: function(offsets) {
 			offsetIndex = offsets.map(function(oin){return oin.name}).indexOf(levelName()+".cfg")
 			if(offsetIndex < 0) {
-				alert("Error: " + levelName() + ".cfg's info cannot be retrieved.", '#F11')
+				notify("Error: " + levelName() + ".cfg's info cannot be retrieved.", '#F11')
 			}
 			else {
 				offset = offsets[offsets.map(function(oin){return oin.name}).indexOf(levelName()+".cfg")].dimensions
@@ -91,7 +97,7 @@ function graph() {
 							var newHTML = grapher.innerHTML
 							if(theBitWithTables != undefined){
 								var safeSetConstrainedToGrid = function(coord, value){
-									alert('Processing…', colour)
+									notify('Processing…', colour)
 									coordx = Math.min(Math.max(coord[0], offset[0]), maxValue[0])*zoomMult
 									coordy = Math.min(Math.max(coord[1], offset[1]), maxValue[1])*zoomMult
 									pxwidth = Math.min(Math.max(coord[0]+32, offset[0]+32), maxValue[0]+32)*zoomMult - coordx //This should provide variable-sized sizes and prevent the off-by-one pixel errors when zooming. It doesn't.
@@ -109,9 +115,9 @@ function graph() {
 									})
 									grapher.innerHTML = newHTML
 									if(entry.slice(0,slice_size).length === slice_size) {
-										window.setTimeout(graph_a_bit, 0, entry.slice(slice_size))
+										fsTimer = window.setTimeout(graph_a_bit, 0, entry.slice(slice_size))
 									} else {
-										alert('')
+										notify('')
 										if(next_call) {
 											next_call()
 										}
@@ -119,17 +125,13 @@ function graph() {
 								}
 								
 								graph_a_bit(theBitWithTables.tables[0].entries)
-								
-								
 							}
 						}
 						
 						var theBitWithTables = msg[msg.map(function(oin){return oin.type}).indexOf("move")]
-						graphStuff(theBitWithTables, '#F80', 40, //calculate this value based on how much data we have in the level
-							function() {
-								var theBitWithTables = msg[msg.map(function(oin){return oin.type}).indexOf("die")]
-								graphStuff(theBitWithTables, '#08F', 4)
-							}
+						graphStuff(theBitWithTables, '#F80', 40, function() {//calculate this value based on how much data we have in the level
+						var theBitWithTables = msg[msg.map(function(oin){return oin.type}).indexOf("die")]
+						graphStuff(theBitWithTables, '#08F', 4)}
 						)
 						
 					},

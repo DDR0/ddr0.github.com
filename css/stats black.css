@@ -1,0 +1,34 @@
+body{
+	background-color: black;
+	color: #DDD;
+}
+
+p#proper{
+	text-indent: 2em;
+}
+p#ul-header{
+	margin-bottom: -15px;
+}
+
+ul{
+	list-style-type: none;
+}
+
+a{
+	text-decoration: underline;
+}
+a:link {
+	color: #DDD;
+}
+a:visited {
+	color: #DDD;
+}
+a:active {
+	color: #FFF; 
+}
+a:hover {
+	color: #FFF;
+}
+b{
+	color: #FFF;
+}

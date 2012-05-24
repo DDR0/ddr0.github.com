@@ -82,15 +82,15 @@ function graph() {
 					dataType: 'json',
 					type: 'get',
 					success: function(msg) {
-						maxValue = [Math.round((offset[2]-offset[0])-33), Math.round((offset[3]-offset[1])-33)] //.reduce(function(a,b){return Math.max(a.value,b.value)})
-						zeros = [-offset[0], -offset[1]]
+						var maxValue = [Math.round((offset[2]-offset[0])-33), Math.round((offset[3]-offset[1])-33)] //.reduce(function(a,b){return Math.max(a.value,b.value)})
+						var zeros = [-offset[0], -offset[1]]
 						
-						zoomMult = Math.max(document.getElementById("zoom").value / 100.0, 0.032) //0.032 should make the math work out to one data-point equals one pixel.
+						var zoomMult = Math.max(document.getElementById("zoom").value / 100.0, 0.032) //0.032 should make the math work out to one data-point equals one pixel.
 						
-						graphStuff = function(theBitWithTables, colour, intensityDivisor) {
-							alert('Processing…', colour)
+						var graphStuff = function(theBitWithTables, colour, intensityDivisor, next_call) {
 							if(theBitWithTables != undefined){
-								safeSetConstrainedToGrid = function(coord, value){
+								var safeSetConstrainedToGrid = function(coord, value){
+									alert('Processing…', colour)
 									coordx = Math.min(Math.max(coord[0], offset[0]), maxValue[0])*zoomMult
 									coordy = Math.min(Math.max(coord[1], offset[1]), maxValue[1])*zoomMult
 									pxwidth = Math.min(Math.max(coord[0]+32, offset[0]+32), maxValue[0]+32)*zoomMult - coordx //This should provide variable-sized sizes and prevent the off-by-one pixel errors when zooming. It doesn't.
@@ -99,21 +99,37 @@ function graph() {
 								}
 								
 								//safeSetConstrainedToGrid([50,50], 2)
-								$.each(theBitWithTables.tables[0].entries,function(index, value){
-									key = value.key
-									key[0] -= 16; key[1] -= 16
-									safeSetConstrainedToGrid(key, value.value)
-								})
+								var graph_a_bit = function(entry) {
+									var slice_size = 5
+									$.each(entry.slice(0,slice_size), function(index, value){
+										key = value.key
+										key[0] -= 16; key[1] -= 16
+										safeSetConstrainedToGrid(key, value.value)
+									})
+									if(entry.slice(0,slice_size).length === slice_size) {
+										window.setTimeout(graph_a_bit, 1, entry.slice(slice_size))
+									} else {
+										alert('')
+										if(next_call) {
+											next_call()
+										}
+									}
+								}
+								
+								graph_a_bit(theBitWithTables.tables[0].entries)
+								
+								
 							}
 						}
 						
-						theBitWithTables = msg[msg.map(function(oin){return oin.type}).indexOf("move")]
-						graphStuff(theBitWithTables, '#F80', 6) //calculate this '6' based on how much data we have in the level
+						var theBitWithTables = msg[msg.map(function(oin){return oin.type}).indexOf("move")]
+						graphStuff(theBitWithTables, '#F80', 40, //calculate this value based on how much data we have in the level
+							function() {
+								var theBitWithTables = msg[msg.map(function(oin){return oin.type}).indexOf("die")]
+								graphStuff(theBitWithTables, '#08F', 4)
+							}
+						)
 						
-						theBitWithTables = msg[msg.map(function(oin){return oin.type}).indexOf("die")]
-						graphStuff(theBitWithTables, '#08F', 4)
-						
-						alert('')
 					},
 				})
 			}

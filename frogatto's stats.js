@@ -107,7 +107,7 @@ function graph() {
 										safeSetConstrainedToGrid(key, value.value)
 									})
 									if(entry.slice(0,slice_size).length === slice_size) {
-										window.setTimeout(graph_a_bit, 1, entry.slice(slice_size))
+										window.setTimeout(graph_a_bit, 0, entry.slice(slice_size))
 									} else {
 										alert('')
 										if(next_call) {

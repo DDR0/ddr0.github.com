@@ -15,7 +15,7 @@
 		<div id="content">
 			<h1>COMPILING</h1>
 			<h2>Linux Quick-Guide</h2>
-			<p> ① Paste into a console (aka "Terminal"), "sudo apt-get install libboost-dev libboost-regex-dev libboost-system-dev libglew1.5-dev libsdl-image1.2-dev libsdl-mixer1.2-dev libsdl-ttf2.0-dev libsdl1.2-dev libz-dev libpng12-dev" and hit enter. This will install the dependancies of the game.</p>
+			<p> ① Paste into a console (aka "Terminal"), "sudo apt-get install ccache libboost-dev libboost-regex-dev libboost-system-dev libglew1.5-dev libsdl-image1.2-dev libsdl-mixer1.2-dev libsdl-ttf2.0-dev libsdl1.2-dev libz-dev libpng12-dev" and hit enter. This will install the dependancies of the game.</p>
 			<p> ② If you are not already in the Cube Trains folder (it'll have a file called "makefile"), navigate there with the "cd" command.</p>
 			<p> ③ Next, run the "make" command there. This will compile the game. If it doesn't say "ERROR", then all is good. (It will print a bunch of stuff like "ccache g++ -DIMPLEMENT_SAVE_PNG -fno-inline-functions -g -O2 -fno-inline-functions `sdl-config --cflags` -D_GNU_SOURCE=1 -D_REENTRANT -Wnon-virtual-dtor -Werror=return-type -fthreadsafe-statics -c src/external_text_editor.cpp", though.) If you still get an error, contact me (details on main page) and we'll try to figure out what's wrong.</p>
 			<p> ④ Run the game with "./game". If everything is working right, you should see the game start up. Have fun!</p>

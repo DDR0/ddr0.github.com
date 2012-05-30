@@ -4,22 +4,29 @@ body{
 	/*overflow-x: hidden;*/
 }
 
-div#content{
-	border-style: solid;
+div#header{
+	/*position:absolute;
+	right:70%;*/
+	width:30%;
+	margin:0px;
+	text-align:right;
+	float:left;
+	min-width:141px;
+}
+h2{
+	margin:10px;
 }
 
-div#content p#header{
-	position:absolute;
-	right:70%;
-	margin:5px;
-	font-size:150%;
-	font-weight:bold;
-	text-align:right;
+div#entry{
+	/*position:absolute;
+	left:30%;*/
+	margin:0px;
+	width:70%;
+	float:right;
 }
-div#content p#entry{
-	position:absolute;
-	margin:5px;
-	left:30%;
+div#entry-content{
+	margin:10px;
+	max-width:400px;
 }
 
 p#proper{

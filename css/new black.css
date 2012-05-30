@@ -4,7 +4,13 @@ body{
 	/*overflow-x: hidden;*/
 }
 
-div#header{
+div#content{
+	max-width:1000px;
+	margin-left:auto;
+	margin-right:auto;
+}
+
+div.header{
 	/*position:absolute;
 	right:70%;*/
 	width:30%;
@@ -12,19 +18,21 @@ div#header{
 	text-align:right;
 	float:left;
 	min-width:141px;
+	max-width:400px;
 }
 h2{
 	margin:10px;
 }
 
-div#entry{
+div.entry{
 	/*position:absolute;
 	left:30%;*/
 	margin:0px;
 	width:70%;
 	float:right;
+	margin-bottom:150px;
 }
-div#entry-content{
+div.entry-content{
 	margin:10px;
 	max-width:400px;
 }

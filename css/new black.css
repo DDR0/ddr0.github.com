@@ -1,0 +1,50 @@
+body{
+	background-color: #000;
+	color: #DDD;
+	/*overflow-x: hidden;*/
+}
+
+div#content{
+	border-style: solid;
+}
+
+div#content p#header{
+	position:absolute;
+	right:70%;
+	margin:5px;
+	font-size:150%;
+	font-weight:bold;
+	text-align:right;
+}
+div#content p#entry{
+	position:absolute;
+	margin:5px;
+	left:30%;
+}
+
+p#proper{
+	text-indent: 1em;
+}
+
+ul{
+	list-style-type: none;
+}
+
+a{
+	text-decoration: underline;
+}
+a:link {
+	color: #DDD;
+}
+a:visited {
+	color: #DDD;
+}
+a:active {
+	color: #FFF; 
+}
+a:hover {
+	color: #FFF;
+}
+b{
+	color: #FFF;
+}

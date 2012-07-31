@@ -60,5 +60,5 @@ function reflow_titles() {
 };
 
 function deflow_titles() {
-	console.log('deflow titles here');
+	document.location.reload(false);
 };

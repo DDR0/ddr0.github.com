@@ -1,3 +1,5 @@
+"use strict";
+
 // === external ===
 
 //from http://papermashup.com/read-url-get-variables-withjavascript/
@@ -15,6 +17,9 @@ var colour_intensity = 1
 var full_width = 0
 var now_graphing = ''
 var fsTimer
+
+var lname
+var lvlImage
 
 function levelName() {return now_graphing}
 
@@ -67,7 +72,7 @@ function graph() {
 	notify('Processing…')
 	//<div style="width:32px; height:32px; background-color:#F00; position:absolute; left:150px; top:150px; opacity:0.4"></div>
 	
-	grapher = document.getElementById("graph")
+	var grapher = document.getElementById("graph")
 	grapher.innerHTML = ''
 	window.clearTimeout(fsTimer)
 	
@@ -77,12 +82,12 @@ function graph() {
 		dataType: 'json',
 		type: 'get',
 		success: function(offsets) {
-			offsetIndex = offsets.map(function(oin){return oin.name}).indexOf(levelName()+".cfg")
+			var offsetIndex = offsets.map(function(oin){return oin.name}).indexOf(levelName()+".cfg")
 			if(offsetIndex < 0) {
 				notify("Error: " + levelName() + ".cfg's info cannot be retrieved.", '#F11')
 			}
 			else {
-				offset = offsets[offsets.map(function(oin){return oin.name}).indexOf(levelName()+".cfg")].dimensions
+				var offset = offsets[offsets.map(function(oin){return oin.name}).indexOf(levelName()+".cfg")].dimensions
 				jQuery.ajax({
 					url: getDataObjectURL(),
 					dataType: 'json',
@@ -98,10 +103,10 @@ function graph() {
 							if(theBitWithTables != undefined){
 								var safeSetConstrainedToGrid = function(coord, value){
 									notify('Processing…', colour)
-									coordx = Math.min(Math.max(coord[0], offset[0]), maxValue[0])*zoomMult
-									coordy = Math.min(Math.max(coord[1], offset[1]), maxValue[1])*zoomMult
-									pxwidth = Math.min(Math.max(coord[0]+32, offset[0]+32), maxValue[0]+32)*zoomMult - coordx //This should provide variable-sized sizes and prevent the off-by-one pixel errors when zooming. It doesn't.
-									pxheight = Math.min(Math.max(coord[1]+32, offset[1]+32), maxValue[1]+32)*zoomMult - coordy
+									var coordx = Math.min(Math.max(coord[0], offset[0]), maxValue[0])*zoomMult
+									var coordy = Math.min(Math.max(coord[1], offset[1]), maxValue[1])*zoomMult
+									var pxwidth = Math.min(Math.max(coord[0]+32, offset[0]+32), maxValue[0]+32)*zoomMult - coordx //This should provide variable-sized sizes and prevent the off-by-one pixel errors when zooming. It doesn't.
+									var pxheight = Math.min(Math.max(coord[1]+32, offset[1]+32), maxValue[1]+32)*zoomMult - coordy
 									newHTML += "<div style=\"width:" + pxwidth + "px; height:" + pxheight + "px; background-color:" + colour + "; position:absolute; left:" + (coordx+zeros[0]*zoomMult) + "px; top:" + (coordy+zeros[1]*zoomMult) + "px; opacity:" + value/intensityDivisor + "\"></div>"
 								}
 								
@@ -109,7 +114,7 @@ function graph() {
 								var graph_a_bit = function(entry) {
 									var slice_size = 50
 									$.each(entry.slice(0,slice_size), function(index, value){
-										key = value.key
+										var key = value.key
 										key[0] -= 16; key[1] -= 16
 										safeSetConstrainedToGrid(key, value.value)
 									})
@@ -142,7 +147,7 @@ function graph() {
 }
 
 function scaleBackground() {
-	newZoom = document.getElementById("zoom")
+	var newZoom = document.getElementById("zoom")
 	lvlImage = document.getElementById("level image")
 	if(46 < newZoom.value && newZoom.value < 54){newZoom.value = 50}
 	lvlImage.width = full_width * newZoom.value / 100.0

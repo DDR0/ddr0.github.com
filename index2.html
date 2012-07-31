@@ -7,7 +7,7 @@
 		<script src="http://code.jquery.com/jquery-latest.js"></script>
 		<script src="index reflow.js"></script>
 	</head>
-	<body onLoad="mixpanel.track('index2 load'); reflow_titles();" onScroll="reflow_titles();" onResize="reflow_titles();">
+	<body onLoad="mixpanel.track('index2 load');" onScroll="reflow_titles();" onResize="reflow_titles();">
 		<!-- For some reason, reflow_titles is fired twice each time the window size changes. -->
 		<script type="text/javascript"> //start Mixpanel
 			(function(d,c){var a,b,g,e;a=d.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===d.location.protocol?"https:":"http:")+'//api.mixpanel.com/site_media/js/api/mixpanel.2.js';b=d.getElementsByTagName("script")[0];b.parentNode.insertBefore(a,b);c._i=[];c.init=function(a,d,f){var b=c;"undefined"!==typeof f?b=c[f]=[]:f="mixpanel";g="disable track track_pageview track_links track_forms register register_once unregister identify name_tag set_config".split(" ");
@@ -16,18 +16,22 @@
 		</script> <!-- end Mixpanel -->
 		
 		<div id="content">
-			<div class="header"><h2>Download</div>
+			<h2 class="header">Download</h2>
 			<div class="entry"><div class="entry-content">Download stuff. Bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla.</div></div>
 			<div style="clear: both;"></div>
-			<div class="header"><h2>Game Manual</div>
+			<h2 class="header">Game Manual</h2>
 			<div class="entry"><div class="entry-content">Read stuff. Bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla.</div></div>
 			<div style="clear: both;"></div>
-			<div class="header"><h2>Screenshots</div>
+			<h2 class="header">Screenshots</h2>
 			<div class="entry"><div class="entry-content">Observe stuff. Bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla.</div></div>
 			<div style="clear: both;"></div>
-			<div class="header"><h2>Technical</div>
+			<h2 class="header">Technical</h2>
 			<div class="entry"><div class="entry-content">Computery stuff. Bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla.</div></div>
 			<div style="clear: both;"></div>
 		</div>
+		
+		<script type="text/javascript"> /*We'll do this here, because we don't want to wait for the document to finish loading to check stuff.*/
+			assign_scrolling_links(); reflow_titles(); 
+		</script>
 	</body>
 </html>

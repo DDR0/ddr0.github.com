@@ -27,7 +27,7 @@ function getDataObjectURL() {return "http://theargentlark.com:5000/?version=1.2&
 
 function getLevelImageURL() {return "http://theargentlark.com/david/frogatto-level-images/" + levelName() + ".png"}
 
-function onEnterGraph(e) {if(e.which == 13) newGraph()}
+function onEnterGraph(e) {if(e.which == 13) newGraph()} //Enter key.
 
 function notify(msg, colour) {
 	if(colour == undefined) {colour = '#DDD'}

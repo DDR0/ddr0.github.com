@@ -15,34 +15,40 @@
 //END SCROLLTO
 
 var reflow_count = 0;
+var headers_set_up = false;
+
+function can_reflow_titles (headers, entries) {
+	for (var currentIndex = 0; currentIndex < headers.length; currentIndex+=1) {
+		if($(headers[currentIndex]).offset().top - parseInt($(headers[currentIndex]).css('margin-top')) !== $(entries[currentIndex]).offset().top
+				&& headers[currentIndex].style.position !== 'relative'
+				|| $(headers[currentIndex]).offset().left + $(headers[currentIndex]).width() > $(entries[currentIndex]).offset().left) {
+			return false;
+		};
+	};
+	return true;
+};
 
 function reflow_titles() {
 	if(document.getElementsByClassName) {
 		//old_window_size = $(window).outerWidth();
 		var headers = document.getElementsByClassName('header');
 		var entries = document.getElementsByClassName('entry');
-		
-		//Check to see if our headers are in the space beside our content. If they're not, we can't move them around because they'd overlap with the content.
-		var enable_flow = true;
-		for (var currentIndex = 0; currentIndex < headers.length; currentIndex+=1) {
-			if($(headers[currentIndex]).offset().top !== $(entries[currentIndex]).offset().top
-					&& headers[currentIndex].style.position !== 'relative'
-					|| $(headers[currentIndex]).offset().left + $(headers[currentIndex]).width() > $(entries[currentIndex]).offset().left) {
-				enable_flow = false; //Above, test to see if the right side is farther than the left side of the text.
-			};
-		};
+		var enable_flow = can_reflow_titles(headers, entries);
 		
 		if (enable_flow){
 			reflow_count += 1;
+			if(reflow_count === 1) {
+				assign_scrolling_links();
+			};
 			var window_top = $(window).scrollTop();
 			var window_bottom = $(window).scrollTop() + $(window).height();
 			var calculateOffsets = function (start, end) {
 				var height = 0;
 				if(start > end) {
-					start -= end = (start += end) - end;
+					start -= end = (start += end) - end; //Switch the values of start and end. Thank you, internet!
 				};
 				for (var currentIndex = start; currentIndex < end; currentIndex+=1) {
-					height += $(headers[currentIndex]).height();
+					height += $(headers[currentIndex]).outerHeight();
 				};
 				return height;
 			};
@@ -54,15 +60,15 @@ function reflow_titles() {
 				header_offset = calculateOffsets(0, currentIndex);
 				if(entry.offset().top < window_top + header_offset) {
 					(function () {
-						header.offset({'top': window_top + header_offset});
+						header.offset({'top': window_top + header_offset + parseInt(header.css('margin-top'))});
 					})();
-				} else if(entry.offset().top + header.height() > window_bottom - (header_total - header_offset)) {
+				} else if(entry.offset().top + header.outerHeight() + parseInt(header.css('margin-top')) + parseInt(header.css('margin-bottom')) > window_bottom - (header_total - header_offset)) {
 					(function () {
-						header.offset({'top': window_bottom - (header_total - header_offset) - header.height()});
+						header.offset({'top': window_bottom - (header_total - header_offset) - header.outerHeight() - parseInt(header.css('margin-bottom'))});
 					})();
 				} else {
 					(function () {
-						header.offset({'top': $(entries[currentIndex]).offset().top});
+						header.offset({'top': $(entries[currentIndex]).offset().top + parseInt(header.css('margin-top'))});
 					})();
 				};
 			};
@@ -80,15 +86,24 @@ function deflow_titles() {
 function assign_scrolling_links() {
 	var headers = document.getElementsByClassName('header');
 	var entries = document.getElementsByClassName('entry');
+	var enable_flow = can_reflow_titles(headers, entries);
+	
 	for (var currentIndex = 0; currentIndex < headers.length; currentIndex+=1) {
 		var header = $(headers[currentIndex]);
-		header.click(
-			{'entry': $(entries[currentIndex])}, 
+		header.unbind("click").click(
+			{'entry': $(entries[currentIndex]), 'header':header, 'enable_flow': enable_flow}, 
 			function (args) {
-				//$(window).scrollTop(args.data.entry.offset().top)
-				$.scrollTo(args.data.entry, {duration:200});
+				if(args.data.enable_flow) {
+					$.scrollTo(args.data.entry, {duration:200});
+				} else {
+					$.scrollTo(args.data.header, {duration:200});
+				};
 			}
 		);
-		header.html('<a>' + header.html() + '</a>');
+		
+		if(!headers_set_up) {
+			header.html('<a>' + header.html() + '</a>');
+		};
 	};
+	headers_set_up = true;
 };

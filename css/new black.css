@@ -4,27 +4,36 @@ body{
 	/*overflow-x: hidden;*/
 }
 
-div#content{
+*#content{
 	max-width:1000px;
 	margin-left:auto;
 	margin-right:auto;
 }
 
-h2.header{
+*.header{
 	/*position:absolute;
 	right:70%;*/
 	width:30%;
-	margin:0px;
+	margin:0px; /*Anything larger will break the column effect.*/
+	margin-top:10px;
+	margin-bottom:10px; /*Used by the JS, at least.*/
 	text-align:right;
 	float:left;
 	min-width:165px;
 	max-width:400px;
 }
+
+h1{
+	text-align:center;
+	margin:30px;
+	font-size:4em;
+}
+
 h2{
 	margin:10px;
 }
 
-div.entry{
+*.entry{
 	/*position:absolute;
 	left:30%;*/
 	margin:0px;
@@ -32,7 +41,7 @@ div.entry{
 	float:right;
 	margin-bottom:50px;
 }
-div.entry-content{
+*.entry-content{
 	margin:10px;
 	max-width:400px;
 }

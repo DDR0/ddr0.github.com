@@ -11,15 +11,9 @@
 			(function(d,c){var a,b,g,e;a=d.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===d.location.protocol?"https:":"http:")+'//api.mixpanel.com/site_media/js/api/mixpanel.2.js';b=d.getElementsByTagName("script")[0];b.parentNode.insertBefore(a,b);c._i=[];c.init=function(a,d,f){var b=c;"undefined"!==typeof f?b=c[f]=[]:f="mixpanel";g="disable track track_pageview track_links track_forms register register_once unregister identify name_tag set_config".split(" ");
 			for(e=0;e<g.length;e++)(function(a){b[a]=function(){b.push([a].concat(Array.prototype.slice.call(arguments,0)))}})(g[e]);c._i.push([a,d,f])};window.mixpanel=c})(document,[]);
 			mixpanel.init("fa690803d8c9479ed96635dd52ea1837");
+		mixpanel.track_links("a#mac-download",			"mac download",				{'referrer': document.referrer });
 		</script> <!-- end Mixpanel -->
-		<h1>Linux Download</h1>
-		<p>There are seveal direct download options available to linux users. Cube Trains may (or may not) be found in your package manager as well.</p>
-		<h2>32-bit .deb</h2>
-		<a id="deb-download" class="shinyButtonTiny" href = "files/release/linux/cubetrains_0.2-1_i386.deb">cubetrains_0.2.1-1_i386.deb</a>
-		<h2>Gentoo ebuild</h2>
-		<a id="ebuild-download" class="shinyButtonTiny" href = "files/release/linux/cubetrains-0.2.1.ebuild">cubetrains-0.2.1.ebuild</a>
-		<h2>Source Code</h2>
-		<a id="source-download" class="shinyButtonTiny" href="https://github.com/DDR0/Cube_Trains/zipball/0.2.1">Cube Trains 0.2.1.zip</a>
-		
+		<h1>Macintosh Download</h1>
+		<a id="mac-download" class="shinyButtonTiny" href = "files/release/mac/Cube Trains 0.2.1.zip">Cube Trains 0.2.1.zip</a>
 	</body>
 </html>

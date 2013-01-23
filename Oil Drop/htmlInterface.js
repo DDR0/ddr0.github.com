@@ -1,19 +1,21 @@
 var linkHTMLDisplayTo = function(mainWindow){
+	"strict mode";
 	cashDisplay = $("#cash")[0];
 	scoreDisplay = $("#score")[0];
 	mainWindow.watch('money', function() {
-		cashDisplay.innerText = " Cash: $" + arguments[2]; //0 is the property key, 1 is the old value, 2 is the new value.
+		cashDisplay.textContent = " Cash: $" + arguments[2]; //0 is the property key, 1 is the old value, 2 is the new value.
 		if(arguments[2]) {
-			cashDisplay.innerText += "000";
+			cashDisplay.textContent += "000";
 		}
 		return arguments[2];
 	});
 	mainWindow.watch('score', function() {
+		console.log('got score change ' + arguments[2]);
 		var zeros = Math.floor(Math.random()*100);
 		if(zeros < 10) {
 			zeros = "0"+zeros;
 		}
-		scoreDisplay.innerText = " Score: " + arguments[2] + zeros;
+		scoreDisplay.textContent = " Score: " + arguments[2] + zeros;
 		return arguments[2];
 	});
 	mainWindow.watch('gameOver', _.once(function() {

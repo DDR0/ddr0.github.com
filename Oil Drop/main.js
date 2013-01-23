@@ -1,31 +1,41 @@
-/*global createjs console _*/// Thought we'd give jslint a try. What an annoying, useful program.
+/*global createjs console _ $ iScore iMoney iTiles iCities iMatch*/// Thought we'd give jslint a try. What an annoying, useful program.
 //Chromium: Run with --allow-file-access-from-files. Apparently it'll be fine in production.
-mainWindow = function() {
+mainWindowFunction = function() {
 	"use strict";
 	
+	//This does not play a sound, unfortunantly, nor does it cause any errors.
+	console.log(createjs.SoundJS.play("sounds/stream-waterfall_0.ogg", createjs.SoundJS.INTERRUPT_NONE, 0, 400, -1));
+	
 	//CONFIG
-	var score = 0;
-	var money = 50;
+	var watched = {
+		score: typeof iScore !== 'undefined' && iScore || 0,
+		money: typeof iMoney !== 'undefined' && iMoney || 150,
+		gameOver: false,
+		won: false
+	};
+	
 	var destructionCost = 1;
 	
-	var numTileTypes = 3;
-	var number_of_cities = 3;
+	var numTileTypes = typeof iTiles !== 'undefined' && iTiles || 3;
+	var number_of_cities = typeof iCities !== 'undefined' && iCities || 3;
 	var enableOilTanks = true;
 	var overlayLayout = ['horisontal','vertical'][0];
 	
-	var minimumTileMatchCount = 2;
+	var minimumTileMatchCount = typeof iMatch !== 'undefined' && iMatch || 2;
 	
-	var gameOver = false;
+	var victoryCallbacks = [];
 	
 	//SETUP
 	var canvas = document.getElementById('main');
-	var stage = new createjs.Stage(canvas);
-	
+	var stage = new createjs.Stage(canvas); //Sadly, we have to expose this to kill it later.
+	stage.snapToPixel = true;
 	stage.enableMouseOver();
 	
 	var Width = canvas.width;                 var Height = canvas.height;
 	var tileWidth = 32;                       var tileHeight = 32;
 	var xTiles = Math.floor(Width/tileWidth); var yTiles = Math.floor(Height/tileHeight);
+	
+	var mouseX = 0; var mouseY = 0;
 	
 	//The 'tile' object exists to make coordinating an object less of a chore.
 	//var tileClickEvent = false;
@@ -34,7 +44,7 @@ mainWindow = function() {
 		var lemon = new createjs.Bitmap("images/cc-by-sa/ails english/I_C_Lemon.png");
 		var cherry = new createjs.Bitmap("images/cc-by-sa/ails english/I_C_Cherry.png");
 		var grapes = new createjs.Bitmap("images/cc-by-sa/ails english/I_C_Grapes.png");
-		var pepper = new createjs.Bitmap("images/cc-by-sa/ails english/I_C_GreenPepper.png");
+		var pepper = new createjs.Bitmap("images/cc-by-sa/ails english/I_C_Watermellon.png");
 		var radish = new createjs.Bitmap("images/cc-by-sa/ails english/I_C_Radish.png");
 		
 		var pipes = {
@@ -83,7 +93,7 @@ mainWindow = function() {
 		//I'd prefer to have it so that when you set a property, the property was instead set in all children, and read from the 'base' tile only. However, my javascript-fu is weak, and I don't know how to do this well enough to make it work with easel.js. We will just go with mapping over the list of children (bits) for now.
 		return function(type, pipe, row, column, index) { //x/y/z, z optional.
 			var tileBackground = tilePrototype.clone();
-			tileBackground.cache(0 ,0, tileBackground.image.width || tileWidth, tileBackground.image.height || tileHeight); //TODO: Once the previous todo is fixed, remove the check against tileWidth/height.
+			tileBackground.cache(0, 0, tileBackground.image.width || tileWidth, tileBackground.image.height || tileHeight); //TODO: Once the previous todo is fixed, remove the check against tileWidth/height.
 			var tileIcon;
 			switch(type) {
 			case "lemon":
@@ -112,13 +122,7 @@ mainWindow = function() {
 			var tilePipe = pipes[pipe].clone();
 			
 			var bits = [tileBackground, tileIcon, tilePipe];
-			/*
-			var tileOverlay = false;
-			if(overlay != "none") {
-				tileOverlay = overlays[overlay].clone();
-				bits.push(tileOverlay);
-			}
-			*/
+			
 			var indexOffset = 0;
 			bits.map(function(bit) {
 				if(index===undefined) {
@@ -183,6 +187,76 @@ mainWindow = function() {
 				break;
 			}
 			
+			var margin = 5;
+			var offsetX = xFromTile(row) + tileWidth/2;
+			var offsetY = yFromTile(column) + tileHeight + margin/2;
+			
+			var header = new createjs.Text("Header", "bold 11px Arial");
+			header.y = offsetY + 2; //We'll compute x later.
+			
+			var text = new createjs.Text("Text", "10px Arial");
+			text.y = offsetY + header.getMeasuredHeight() + margin - 2.5;
+			
+			var box = new createjs.Shape();
+			box.snapToPixel = true;
+			
+			var redrawTextBox = function() {
+				var bubbleArrowWidth = 10;
+				var bubbleArrowTop = -bubbleArrowWidth;
+				var bubbleWidth = Math.max(header.getMeasuredWidth(), text.getMeasuredWidth()) + margin*2;
+				var bTop = 0;
+				var bBottom = header.getMeasuredHeight() + text.getMeasuredHeight() + margin*2 - 3;
+				var bLeft = -bubbleWidth/2;
+				var bRight = bubbleWidth/2;
+				var strokeWidth = 1.6;
+				
+				box.graphics.clear()
+					.beginStroke(createjs.Graphics.getRGB(0,0,0))
+					.beginFill(createjs.Graphics.getRGB(255,255,255,0.75))
+					.setStrokeStyle(strokeWidth)
+					.moveTo(bLeft,bTop)
+					.lineTo(-bubbleArrowWidth,bTop)
+					.lineTo(0,bubbleArrowTop)
+					.lineTo(bubbleArrowWidth,bTop)
+					.lineTo(bRight,bTop)
+					.lineTo(bRight, bBottom)
+					.lineTo(bLeft, bBottom)
+					.closePath()
+					.endStroke();
+				//box.cache(bLeft-strokeWidth, bubbleArrowTop-strokeWidth, bubbleWidth+strokeWidth*2, bBottom - bubbleArrowTop+strokeWidth*2);
+				//box.updateCache(); //Caching made it look bad. (box._cacheOffsetX was a decimal?)
+				box.x = offsetX;
+				box.y = offsetY;
+				
+				header.x = offsetX - bubbleWidth/2 + margin;
+				text.x = offsetX - bubbleWidth/2 + margin;
+			};
+			redrawTextBox();
+			
+			stage.addChild(box, header, text);
+			
+			var setText = function(newHeader, newText) {
+				if(text.text != newText || header.text != newHeader) {
+					if(text.text != newText) {
+						text.text = newText; }
+					if(header.text != newHeader) {
+						header.text = newHeader; }
+					redrawTextBox();
+				}
+			};
+			
+			var setAlpha = function(value) {
+				box.alpha = value;
+				header.alpha = value;
+				text.alpha = value;
+			};
+			setAlpha(0);
+			
+			[box, header, text].map(function(textBalloon) {
+				createjs.Tween.get(textBalloon)
+				.to({alpha:1}, 200, createjs.Ease.linear);
+			});
+			
 			var tileToReturn = {
 				x: row,
 				y: column,
@@ -190,7 +264,9 @@ mainWindow = function() {
 				supply: supply,
 				demand: demand,
 				storage: storage,
-				graphic: overlay
+				graphic: overlay,
+				setMsgText: setText,
+				setMsgAlpha: setAlpha
 			};
 			
 			overlayMap[row][column] = tileToReturn;
@@ -226,14 +302,7 @@ mainWindow = function() {
 		var tees = ['pipe-246', 'pipe-248', 'pipe-468', 'pipe-268'];
 		var crosses = ['pipe-2468'];
 		return getRandomType([].concat(corners, corners, corners, straights, straights, tees, crosses));
-	};/*
-	var getRandomOverlayType = function() {
-		if(Math.random() < 0.1) {
-			return getRandomType(['city', 'tank', 'well'].slice(0,1+enableOilTanks));
-		} else {
-			return "none";
-		}
-	};*/
+	};
 	
 	//GetNewTile was once a simpler function, so it has been replaced by getRandomTile. getNewTile needs the long args because we'll want control for powerups.
 	var getRandomTile = function(x,y,z) {return getNewTile(getRandomTileType(), getRandomPipeType(), x, y, z);};
@@ -241,6 +310,10 @@ mainWindow = function() {
 	var frame = xTiles+yTiles; //It use to load from the top down, but I decided I wanted it to load from the bottom up. So... run time backwards, but we have to start with the right amount of time.
 	var frame_last_modified = 0;
 	var turn = 0;
+	
+	var callInitialRefreshCache = _.once(function() {
+			_.last(_.last(gamefield)).tile.image.onload=refreshCache;
+		});
 	
 	var spawnTiles = function() {
 		var rowsSpawnedPerFrame = 3;
@@ -269,6 +342,7 @@ mainWindow = function() {
 			}
 		};
 		_(rowsSpawnedPerFrame).times(spawnRow);
+		callInitialRefreshCache();
 	};
 	
 	var oilWells = [];
@@ -277,6 +351,9 @@ mainWindow = function() {
 	var addOverlays = _.once(function() {
 		var segments = number_of_cities;
 		var segmentHeight = Math.floor(yTiles/segments);
+		
+		oilGraphic = new createjs.Shape();
+		stage.addChild(oilGraphic);
 		
 		[].concat(
 			_.range(1, segments+1).map(function(index) { //Cities, on the left.
@@ -287,6 +364,7 @@ mainWindow = function() {
 			}).map(function(loc) {
 				var city = getNewOverlay('city', loc[0], loc[1]);
 				cities.push(city);
+				city.setMsgText("City", "Wants oil.");
 				return city;
 			}),
 			
@@ -298,6 +376,7 @@ mainWindow = function() {
 			}).map(function(loc) {
 				var no = getNewOverlay('well', loc[0], loc[1]);
 				oilWells.push(no);
+				no.setMsgText("Oil Well", "Not connected.");
 				return no;
 			})
 		).map(function(overlay) {
@@ -309,24 +388,33 @@ mainWindow = function() {
 		
 		updateOilGraph();
 		
-		oilGraphic = new createjs.Shape();
-		stage.addChild(oilGraphic);
-		
 		setTimeout(function() {createjs.Ticker.addListener(oilLogic);}, 500);
 	});
 	
-	var oilSpeed = 20; //percent of a tile
 	var oilLogic = function() {
 		frame += 1;
 		var gfx = oilGraphic.graphics;
+		var halfTileX = tileWidth/2;
+		var halfTileY = tileHeight/2;
+		
+		var oilSpeed = 0;
+		if(frame - frame_last_modified > 10) {
+			oilSpeed = 0.04; //percent of a tile
+		}
+		
+		//Draw oil in pipes.
 		gfx.clear();
 		
-		var printPath = function(tile, colour) {
+		var printPath = function(tile, colour, pressure) {
 			var pipe = tile.pipe;
-			var halfTileX = tileWidth/2;
-			var halfTileY = tileHeight/2;
 			var lineRadius = 3;
 			var lineLengthOut = {"-1": -14, 0:0, "1": 15};
+			var legOutComplete = Math.min(tile.oilLevel*2, 1);
+			var legInComplete = Math.min((Math.max(tile.oilLevel-0.5, 0))*2, 1);
+			
+			if(tile.oilLevel < 1) {
+				tile.oilLevel += pressure;
+			}
 			
 			tile.oilPathed.children.map(function(child) {
 				var pipedir = [child.x-tile.x, child.y-tile.y];
@@ -338,23 +426,84 @@ mainWindow = function() {
 					pipe.x+halfTileX+lineRadius*pipedir[0],
 					pipe.y+halfTileY+lineRadius*pipedir[1])
 				.lineTo(
-					pipe.x+halfTileX+lineLengthOut[pipedir[0]],
-					pipe.y+halfTileY+lineLengthOut[pipedir[1]])
+					pipe.x+halfTileX+lineRadius*pipedir[0] + (lineLengthOut[pipedir[0]]-lineRadius*pipedir[0])*legOutComplete,
+					pipe.y+halfTileY+lineRadius*pipedir[1] + (lineLengthOut[pipedir[1]]-lineRadius*pipedir[1])*legOutComplete)
 				.moveTo( //Draw the line inside the second pipe, to the center.
 					cpipe.x+halfTileX+lineLengthOut[-pipedir[0]],
 					cpipe.y+halfTileY+lineLengthOut[-pipedir[1]])
 				.lineTo(
-					cpipe.x+halfTileX-lineRadius*-pipedir[0],
-					cpipe.y+halfTileY-lineRadius*-pipedir[1])
+					cpipe.x+halfTileX-(lineRadius*-pipedir[0])*legInComplete + lineLengthOut[-pipedir[0]]*(1-legInComplete),
+					cpipe.y+halfTileY-(lineRadius*-pipedir[1])*legInComplete + lineLengthOut[-pipedir[1]]*(1-legInComplete))
 				.endStroke();
-				printPath(child, colour);
+				
+				if(tile.oilLevel < 1) {
+					//console.log("Drawing pipe lo="+legOutComplete+"/li="+legInComplete+".");
+				} else {
+					printPath(child, colour, pressure);
+					child.hasOil = true;
+				}
 			});
 		};
-		
 		oilWells.map(function(well) {
-			printPath(gamefield[well.x][well.y], "rgba(0,0,0,1)");
+			if(well.highlighted) {
+				printPath(gamefield[well.x][well.y], "rgba(60,60,200,0.8)", oilSpeed);
+			} else {
+				printPath(gamefield[well.x][well.y], "rgba(0,0,0,1)", oilSpeed);
+			}
+			well.setMsgText('Oil Well', 'Not connected.');
+			well.connected = false;
 		});
-		
+		cities.map(function(city) {
+			
+			var parentWalker = function(obj, depth, currentDepth) { //Return the object at depth in the chain or the last object, and the depth it was found at.
+				depth = depth || 0;
+				currentDepth = currentDepth || 0;
+				if((depth && depth == currentDepth) || !obj.parent || !obj.parent.oilPathed){
+					//console.log(["Didn't recurse.", depth, currentDepth, obj.parent]);
+					return {object: obj, depth: currentDepth};
+				} else {
+					//console.log("Recursed. " + currentDepth);
+					return parentWalker(obj.parent.oilPathed, depth, currentDepth+1);
+				}
+			};
+			
+			city.setMsgText('City', 'Wants oil.');
+			city.connected = false;
+			
+			if(gamefield[city.x][city.y].hasOil && gamefield[city.x][city.y].oilPathed) {
+				if(!city.initialWave) {
+					createjs.Tween.get(city)
+					.to({initialWave:500});
+				}
+				if(city.initialWave && city.initialWave < 500) {
+					//Render backwards path here, width based on initialwave.
+				}
+				//city.addNewOilBlob; //This will render the oil flowing from the wells.
+				//city.advanceExistingOilBlobs;
+				
+				city.setMsgText('City', 'Has oil supply!');
+				var wellLoc = parentWalker(gamefield[city.x][city.y].oilPathed, 0).object.loc;
+				overlayMap[wellLoc[0]][wellLoc[1]].setMsgText('Oil Well', 'Connected to city.');
+				city.connected = true;
+				overlayMap[wellLoc[0]][wellLoc[1]].connected = true;
+				
+			}
+			
+			if(!watched.gameOver && !_.find(
+				[].concat(oilWells, cities),
+				function(elem) {
+					return !elem.connected;
+				})) {
+				victoryCallbacks.map(function(call) {
+					call();
+				});
+				watched.won = true; //We should set this first.
+				watched.gameOver = true;
+			}
+			
+			
+			
+		});
 	};
 	
 	var updateOilGraph = function () {
@@ -384,7 +533,8 @@ mainWindow = function() {
 				if(!tile.oilPathed) { //Do we actually exist?
 					tile.oilPathed = {
 						children: [],
-						parent: parent
+						parent: parent,
+						loc: [tile.x, tile.y]
 					};
 					
 					if(parent) {parent.oilPathed.children.push(tile);} //Hi, parental unit.
@@ -412,6 +562,7 @@ mainWindow = function() {
 					}
 				} else {
 					//console.log("recursed, was alread pathed");
+					//if(parent) {parent.oilPathed.children.push(tile);} //Enabling this line, even if it's not actually called, crashes the Chrome tab.
 					seek(activeHeads.slice(1,activeHeads.length), well);
 				}
 			} else {
@@ -428,6 +579,14 @@ mainWindow = function() {
 			oilWells.map(function(well) {
 				well.targetCity = null;
 				seekCity([{tile:gamefield[well.x][well.y]}], well);
+			});
+		
+			gamefield.map(function(column) {
+				column.map(function(tile) {
+					if(!tile.oilPathed) {
+						tile.oilLevel = 0;
+					}
+				});
 			});
 		};
 	}();
@@ -452,25 +611,26 @@ mainWindow = function() {
 	var selectedObjects = [];
 	stage.onMouseDown = function(evt) { //Register which tile we're over.
 		if(evt.nativeEvent.which==1) {
-			var overTileX = pixToTile(evt.stageX, tileWidth);
-			var overTileY = pixToTile(evt.stageY, tileHeight);
-			if(overTileX >= xTiles || overTileY >= yTiles) {return;}
-			var selectedObject = gamefield[overTileX][overTileY];
-			
-			//console.log(selectedObject);
-			
-			selectedObjects = [selectedObject];
-			selectedObject.tile.filters.push(selectedColor);
-			selectedObject.tile.updateCache();
-			
+			if(watched.money) {
+				var overTileX = pixToTile(evt.stageX, tileWidth);
+				var overTileY = pixToTile(evt.stageY, tileHeight);
+				if(overTileX >= xTiles || overTileY >= yTiles) {return;}
+				var selectedObject = gamefield[overTileX][overTileY];
+				
+				//console.log(selectedObject);
+				
+				selectedObjects = [selectedObject];
+				selectedObject.tile.filters.push(selectedColor);
+				selectedObject.tile.updateCache();
+			}
 			endMouseEvent(evt);
 		}
 	};
 	
 	stage.onMouseMove = function(evt) { //Add more tiles as we move.
+		var overTileX = pixToTile(evt.stageX, tileWidth);
+		var overTileY = pixToTile(evt.stageY, tileHeight);
 		if(evt.nativeEvent.which==1) {
-			var overTileX = pixToTile(evt.stageX, tileWidth);
-			var overTileY = pixToTile(evt.stageY, tileHeight);
 			if(overTileX >= xTiles || overTileY >= yTiles) {return true;} //If we aren't over a tile, then abort the function.
 			var selectedObject = gamefield[overTileX][overTileY];
 			
@@ -480,7 +640,7 @@ mainWindow = function() {
 					var comp_y = Math.abs(adj.y - selectedObject.y);
 					return comp_x === 1 && comp_y === 0 || comp_x === 0 && comp_y === 1;
 				});
-				if(selectedObject.type == _.head(selectedObjects).type && adjacentXY) {
+				if(selectedObjects.length && selectedObject.type == _.head(selectedObjects).type && adjacentXY) {
 					selectedObjects.push(selectedObject);
 					selectedObject.tile.filters.push(selectedColor);
 					selectedObject.tile.updateCache();
@@ -489,6 +649,18 @@ mainWindow = function() {
 			
 			endMouseEvent(evt);
 		}
+		
+		[].concat(cities, oilWells).map(function(over) {
+			var maxDist = Math.max(Math.abs(over.graphic.x - evt.stageX + tileWidth/2), Math.abs(over.graphic.y - evt.stageY + tileHeight*1.5)/1.5);
+			over.setMsgAlpha(maxDist/100-0.5);
+		});
+		
+		oilWells.map(function(well) {
+			well.highlighted = well.x == overTileX && well.y == overTileY;
+		});
+		
+		mouseX = Math.floor(evt.stageX);
+		mouseY = Math.floor(evt.stageY);
 	};
 	
 	stage.onMouseUp = function(evt) { //And, finally, remove tiles, recompute stuff, add new tiles.
@@ -499,8 +671,13 @@ mainWindow = function() {
 					obj.tile.updateCache();
 				});
 			} else { //Remove object from play, shuffle objects above it down a space, and spawn new objects at the top.
-				money -= destructionCost; //Destruction is a flat-rate buisiness. This provides incentive to do more complicated destroys.
+				watched.money -= destructionCost; //Destruction is a flat-rate buisiness. This provides incentive to do more complicated destroys.
+				watched.score += Math.floor(Math.pow(selectedObjects.length, 1.4));
 				frame_last_modified = frame;
+				
+				if(watched.money <= 0) {
+					watched.gameOver = true;
+				}
 				
 				var columnsAffected = {}; //Will be a [] later.
 				selectedObjects.map(function(obj) {
@@ -557,18 +734,33 @@ mainWindow = function() {
 				});
 				updateOilGraph();
 			}
+			
 			//Before we destroy this, deal with these objects' destruction.
 			selectedObjects=[];
 			endMouseEvent(evt);
 		}
 	};
 	
+	stage.onMouseOut = function(evt) {
+		[].concat(cities, oilWells).map(function(over) {
+			over.setMsgAlpha(1);
+		});
+	};
+	
+	var refreshCache = function() {
+		gamefield.map(function(column) {
+			column.map(function(tile) {
+				if(tile) {
+					tile.tile.updateCache();
+				}
+			});
+		});
+	};
+	
 	createjs.Ticker.addListener(stage);
 	createjs.Ticker.addListener(spawnTiles);
 	
-	return {
-		score: function() {return score;},
-		money: function() {return money;},
-		gameOver: function() {return gameOver;}
-	};
-}();
+	return watched; //Use 'mainWindow.watch(key, function)' to get stuff when changed. :)
+};
+
+mainWindow = mainWindowFunction();

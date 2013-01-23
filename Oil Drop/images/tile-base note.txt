@@ -1,0 +1,1 @@
+There may not be wholly transparent pixels in the tile-base, because it messes with the on_mouse_out event in the javascript. However, rgba = 0,0,0,1 is perfectly acceptable, and almost as good.

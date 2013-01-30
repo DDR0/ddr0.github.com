@@ -23,7 +23,7 @@ var lvlImage
 
 function levelName() {return now_graphing}
 
-function getDataObjectURL() {return "http://theargentlark.com:5000/?version=1.2&level=" + levelName() + ".cfg"}
+function getDataObjectURL() {return "http://theargentlark.com:5000/?module=frogatto&version=1.3&level=" + levelName() + ".cfg"}
 
 function getLevelImageURL() {return "http://theargentlark.com/david/frogatto-level-images/" + levelName() + ".png"}
 

@@ -1138,6 +1138,7 @@ startNewGame = function() {
 	var overlayContainer = new createjs.Container(); stage.addChild(overlayContainer);
 	
 	var gamefield = makeField();
+	console.log(gamefield);
 	gamefield.map(function(row, row_count) {
 		row.map(function(tile, column_count) {
 			gamefield[row_count][column_count] = getNewTile(row_count, column_count);
@@ -1272,25 +1273,23 @@ startNewGame = function() {
 	};
 	
 	stage.onMouseDown = function(evt) {
-		if(evt.nativeEvent===null || isRightButton(evt.nativeEvent.which)) { //1 is the left mouse button. We won't use right because I think that doesn't play nicely with EaselFL.
-			if(canInput()) {
-				var overTileX = pixToTile(evt.stageX, tileWidth);
-				var overTileY = pixToTile(evt.stageY, tileHeight);
-				var newSelectedObject = gamefield[overTileX][overTileY];
-				
-				//console.log(newSelectedObject);
-				
-				if(tilesAreAdjacent(newSelectedObject, selectedObject)) {
-					if(!noSwitch) {
-						switchTiles(newSelectedObject, selectedObject);
-						selectObject();
-					}
-				} else { //We won't deselect if we click on the same tile because it'll play awkwardly with fat fingers double-tapping on touchscreens.
-					selectObject(newSelectedObject);
+		if(canInput()) {
+			var overTileX = pixToTile(evt.stageX, tileWidth);
+			var overTileY = pixToTile(evt.stageY, tileHeight);
+			var newSelectedObject = gamefield[overTileX][overTileY];
+			
+			//console.log(newSelectedObject);
+			
+			if(tilesAreAdjacent(newSelectedObject, selectedObject)) {
+				if(!noSwitch) {
+					switchTiles(newSelectedObject, selectedObject);
+					selectObject();
 				}
+			} else { //We won't deselect if we click on the same tile because it'll play awkwardly with fat fingers double-tapping on touchscreens.
+				selectObject(newSelectedObject);
 			}
-			return swallowMouseEvent(evt);
 		}
+		return swallowMouseEvent(evt);
 		
 		// Debug code. If we middle-click, it sets the tile to a special.
 		/*var overTileX = pixToTile(evt.stageX, tileWidth);
@@ -1326,21 +1325,19 @@ startNewGame = function() {
 	
 	
 	stage.onMouseMove = function(evt) {
-		if(evt.nativeEvent===null || isRightButton(evt.nativeEvent.which)) {
-			if(canInput()) {
-				var overTileX = pixToTile(evt.stageX, tileWidth);
-				var overTileY = pixToTile(evt.stageY, tileHeight);
-				var over = gamefield[overTileX][overTileY];
-				
-				if(tilesAreAdjacent(over, selectedObject)) {
-					if(!noSwitch) {
-						switchTiles(over, selectedObject);
-						selectObject();
-					}
+		if(canInput()) {
+			var overTileX = pixToTile(evt.stageX, tileWidth);
+			var overTileY = pixToTile(evt.stageY, tileHeight);
+			var over = gamefield[overTileX][overTileY];
+			
+			if(tilesAreAdjacent(over, selectedObject)) {
+				if(!noSwitch) {
+					switchTiles(over, selectedObject);
+					selectObject();
 				}
 			}
-			return swallowMouseEvent(evt);
 		}
+		return swallowMouseEvent(evt);
 	};
 	
 	

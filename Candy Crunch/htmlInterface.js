@@ -1,7 +1,7 @@
 var linkHTMLDisplay = function(){
 	"use strict";
-	cashDisplay = $("#cash")[0];
-	scoreDisplay = $("#score")[0];
+	var cashDisplay = $("#cash")[0];
+	var scoreDisplay = $("#score")[0];
 	var writer = cashDisplay.textContent !== undefined ? "textContent" : "innerHTML";
 	if(mainWindow.mode() === 'turns') {
 		mainWindow.watchRemainingTilesWith(function(value) {

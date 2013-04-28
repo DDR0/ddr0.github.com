@@ -38,6 +38,25 @@ body {
 	background: -o-linear-gradient(#C2C5CC, #BCB9BF);
 	background: linear-gradient(#C2C5CC, #BCB9BF);
 	background-clip: padding-box;
+	z-index: 1;
+}
+	
+#badge {
+	display: none;
+	position: absolute;
+	overflow: hidden; 
+	height: 135px; /*Set to 146 for ribbon transparency effect.*/
+}
+
+#badge img {
+	width: 325px;
+	height: 325px;
+	-webkit-transform: translate(-25px, -25px) rotate(-20deg);
+	-moz-transform: translate(-25px, -25px) rotate(-20deg);
+	-o-transform: translate(-25px, -25px) rotate(-20deg);
+	transform: translate(-25px, -25px) rotate(-20deg);
+    transform-origin: 50% 50%;
+    opacity: 0.25;
 }
 
 h1 {
@@ -203,6 +222,10 @@ a :hover {
 		margin-bottom: -24px;
 		padding-top: 10px;
 		padding-bottom: 20px;
+	}
+	
+	#badge {
+		display: block;
 	}
 }
 

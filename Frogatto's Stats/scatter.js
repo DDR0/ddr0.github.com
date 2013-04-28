@@ -52,7 +52,7 @@ function newGraph() {
 	notify('Loading…')
 	now_graphing=document.getElementById('filename').value
 	lvlImage = document.getElementById("level image")
-	window.history.pushState("test", now_graphing + " - Frogatto Standard Stats Visulizer", "frogatto's stats.html?level="+now_graphing);
+	window.history.pushState("test", now_graphing + " - Frogatto's Standard Stats Visulizer", "scatter.html?level="+now_graphing);
 	document.getElementById("graph").innerHTML = ''
 	if(lvlImage.src !== getLevelImageURL()){
 		lvlImage.src = getLevelImageURL() //this'll call newGraphContinue

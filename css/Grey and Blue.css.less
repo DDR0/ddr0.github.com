@@ -1,0 +1,296 @@
+//--watch, the homebrew version:
+/* In FF, set ReloadEvery to 5. In bash, go to ~/css/ and run:
+while [ 1 ]; do
+  lessc Grey\ and\ Blue.css.less Grey\ and\ Blue.css;
+  sleep 1;
+done
+*/
+
+/* Unfortunantly, browsers insist on applying AA to this, rendering it somewhat useless.*/
+/* @font-face {
+	font-family: "Monospace";
+	src: local("Fixedsys"), local("Fixedsys500c"), local("FSEX300"), url("../images/Fixedsys500c.woff");
+	font-smooth: never;
+	-webkit-font-smoothing : none;
+} *//*This was blurry, the browser insisted on scaling the font with interpolation.*/
+
+//Colours
+//general
+@cBlue:            rgba(51,119,255,1.0);
+@cBlueTransparent: rgba(51,119,255,0.5);
+@cContentBackgroundShadow: rgba(0,0,0,0.75);
+@cSidebarBackgroundShadow: rgba(0,0,0,1.00);
+
+//content-pane
+@cContentTopGrey: #C2C5CC;
+@cContentBottomGrey: #BCB9BF;
+
+//header
+@cHeaderTextColor: cHeaderTextColor;
+@cHeaderColor: #2E2F33;
+
+//icon bar (may be in header)
+@cIconWhite:          rgba(255,255,255,1);
+@cIconWhiteInvisible: rgba(255,255,255,0);
+@cIconGrey: lightgrey;
+@sIconText: 0px 0px 5px black;
+@cIconBarBackground:          #484B50;
+@cIconBarAlternateBackground: #6C7175;
+
+//footer
+@sInsetText: rgba(0,0,0,0.1) -1px 0, rgba(0,0,0,0.1) 0 -1px,
+             rgba(255,255,255,0.1) 1px 0, rgba(255,255,255,0.1) 0 1px,
+             rgba(0,0,0,0.1) -1px -1px, rgba(255,255,255,0.1) 1px 1px;
+@cFooterIntensity: rgba(0,0,0,0.3);
+
+
+
+body {
+	background-image: url('data:image/gif;base64,R0lGODdhCAAIAIACALG0uszMzCwAAAAACAAIAAACDQyOZ7kL/mKSjNI2QwEAOw==');
+	padding: 50px;
+	min-width: 150px;
+	max-width: 1000px;
+	margin: auto;
+}
+
+@media (max-width: 480px) {
+	body {
+		padding: calc(53.8% - 200px);
+	}
+}
+
+#content-holder {
+	width: 100%;
+	box-shadow: 0px 0px 50px @cContentBackgroundShadow;
+	/*overflow:hidden;*/ /*Enabling this prevents the h1 from eating the nav images on lower resolutions, and isn't needed at higher resolutions.*/
+}
+
+#content-pane {
+	margin: 0px;
+	padding: 3em;
+	padding-top: 3em;
+	margin-top: -11px;
+	border-top: 11px solid @cBlueTransparent;
+	background: -webkit-gradient(linear, 0 0, 100% 0, from(@cContentTopGrey), to(@cContentBottomGrey));
+	background: -webkit-linear-gradient(@cContentTopGrey, @cContentBottomGrey);
+	background: -moz-linear-gradient(@cContentTopGrey, @cContentBottomGrey);
+	background: -o-linear-gradient(@cContentTopGrey, @cContentBottomGrey);
+	background: linear-gradient(@cContentTopGrey, @cContentBottomGrey);
+	background-clip: padding-box;
+}
+	
+#badge {
+	display: none;
+	position: absolute;
+	overflow: hidden; 
+	height: 135px; /*Set to 146 for ribbon transparency effect.*/
+}
+
+#badge img {
+	width: 325px;
+	height: 325px;
+	-webkit-transform: @gMove;
+	-moz-transform: @gMove;
+	-o-transform: @gMove;
+	transform: @gMove;
+	transform-origin: 50% 50%;
+	@gMove: translate(-25px, -25px) rotate(-20deg);
+	opacity: 0.25;
+}
+
+h1 {
+	font-size: 4em;
+	color: @cHeaderTextColor;
+	background-color: @cHeaderColor;
+	text-align: right;
+	padding: 38px; /*33px*/
+	padding-bottom: 21px;
+	margin: 0px;
+	border-bottom: 11px solid @cBlue; /*We only have alpha-over blending, so to simulate the full colour we have the solid blue strip here, which will be overlaid by the large symbol, which will be overlaid by a transparent version of the border.*/
+	//Xfont-family: "Monospace"; /*Disabled, this screws up alignment. (It seems stuff is calc'd to 4em.)*/
+}
+
+h2 {
+	margin: 0px;
+}
+
+h1 img {
+	max-width: 100%;
+	height: auto;
+}
+	
+a:focus {
+	outline: none;
+}
+	
+a :hover {
+	text-decoration: underline;
+}
+
+#icon-bar a {
+	text-decoration: none;
+}
+
+#icon-bar :hover {
+	text-decoration: underline;
+}
+
+#icon-bar img { /*These have a native resolution of 500x500. We want to be really sure that they don't get that big, because it's very big.*/
+	width: 40px;
+	height: 40px;
+	padding: 5px;
+	margin-right: -4px; /*Mystery value, else they are 53px across.*/
+	margin-bottom: -4px; /*This line -4 for firefox, -5 for chrome for perfect tesselation.*/
+	/*background-color: rgba(255,255,255,0.5)*/ /*For testing.*/
+}
+
+#icon-bar div {
+	clear: none;
+	font-size: 12px;
+	margin: 0;
+	padding-bottom: 11px;
+	height: 9px;
+	width: 100;
+	text-align: center;
+}
+
+@media (max-width: 590px) { /*590 is the minimum width "gallery" will fit into the header.*/
+	#icon-bar {
+		float: left;
+		margin: 18px;
+		width: 250px;
+	}
+	
+	h1 {
+		font-size: 1em;
+	}
+	
+	#icon-bar img {
+		float: left;
+	}
+	
+	#icon-bar a {
+		display: block;
+		width: 50px;
+		float: left;
+		color: @cIconGrey;
+	}
+	
+	#icon-bar div {
+		width: 100%;
+		clear: both;
+	}
+}
+
+@media (min-width: 591px) and (max-width: 750px) {
+	#icon-bar {
+		float: left;
+		clear: none;
+		width: 100px;
+		margin: 18px;
+	}
+	
+	#icon-bar div {
+		padding-top: 15px;
+		width: 50px;
+	}
+	
+	#icon-bar :hover {
+		color: @cIconWhite;
+		text-shadow: @sIconText;
+		text-decoration: none;
+	}
+
+	#icon-bar a {
+		color: @cIconWhiteInvisible;
+	}
+	
+	#icon-bar :nth-child(even) div {
+		float: right;
+		margin-right: -50px;
+		text-align: left;
+	}
+	
+	#icon-bar :nth-child(odd) div {
+		float: left;
+		margin-left: -50px;
+		text-align: right;
+	}
+}
+
+@media (min-width: 751px) {
+	body {
+		padding-right: 151px; /*50px gutter, 100px icon-bar, 1 px blue border.*/
+	}
+	
+	#icon-bar {
+		width: 100px;
+		height: 100%;
+		position: fixed;
+		top: 0px;
+		right: 0px;
+		background-color: @cIconBarBackground;
+		border-left: 1px solid @cBlue;
+		box-shadow: 0px 0px 10px @cSidebarBackgroundShadow;
+	}
+	
+	#icon-bar :hover {
+		text-decoration: none;
+	}
+	
+	#icon-bar a :hover {
+		box-shadow: inset 0px 0px 10px @cIconWhite;
+	}
+	
+	#icon-bar div {
+		pointer-events: none;
+	}
+	
+	#icon-bar a {
+		color: @cIconGrey;
+	}
+	
+	#icon-bar :nth-last-child(odd) img {
+		background-color: @cIconBarAlternateBackground;
+	}
+
+	#icon-bar img {
+		width: 70px;
+		height: 70px;
+		padding: 15px;
+		margin-bottom: -24px;
+		padding-top: 10px;
+		padding-bottom: 20px;
+	}
+	
+	#badge {
+		display: block;
+	}
+}
+
+@media (max-width: 260px) {
+	#icon-bar {
+		width: 100%;
+	}
+	
+	#icon-bar img {
+		width: 80%;
+		height: auto;
+		padding: 15%;
+		padding-bottom: 5px;
+	}
+	
+	#icon-bar a {
+		width: 20%;
+	}
+	
+	#icon-bar div {
+		display: none;
+	}
+}	
+
+footer {
+	margin-bottom: -19px;
+	color: @cFooterIntensity;
+	text-shadow: @sInsetText;
+}

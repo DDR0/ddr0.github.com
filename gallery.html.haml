@@ -1,0 +1,36 @@
+:ruby
+	def blogContent
+		buffer = Dir.glob(Dir.getwd+'/Blog Posts/*.html').
+			sort!.last(5000).reverse!. #We won't figure out multiple pages until we have to.
+			map!{|f| File.read(f)}.
+			join
+	end
+
+!!!
+%html{"lang"=>"en"}
+	%head
+		%meta{"charset"=>"utf-8"}
+		%title Status
+		%link{"rel"=>"stylesheet", "href"=>"css/Grey and Blue.css"}
+	%body
+		#badge<
+			%img{"src"=>"images/icons/page.svg", "alt"=>""}> 
+			-#This is the background icon to display.
+		#icon-bar
+			%a{"href"=>"blog.html"}<
+				%img{"src"=>"images/icons/page.svg", "alt"=>""}>
+				%div blog
+			%a{"href"=>"gallery.html"}<
+				%img{"src"=>"images/icons/work.svg", "alt"=>""}>
+				%div gallery
+			%a{"href"=>"contact.html"}<
+				%img{"src"=>"images/icons/chat2.svg", "alt"=>""}>
+				%div contact
+			%a{"href"=>"feeds.html"}<
+				%img{"src"=>"images/icons/rss.svg", "alt"=>""}>
+				%div rss
+		#content-holder
+			%h1<
+				%img{"src"=>"images/text-blog.png", "alt"=>"blog"}
+			#content-pane ❹❍❹: Gallery Not Found.
+	%footer	This site ©2013 David Roberts.

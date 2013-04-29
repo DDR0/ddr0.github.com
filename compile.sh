@@ -21,9 +21,10 @@ green="\e[00;32m"
 echo "Compiling ${PWD##*/}:"
 
 function render {
-	echo -n "  ${bold}$[$(grep --only-matching \n <<< $2 | wc -l)+1]${norm} $3"
+	files=$(find $2)
+	echo -n "  ${bold}$(find $2 | wc -l)${norm} $3" #Pipe results directly to wc, can't provide as arg to wc and can't echo to wc without loosing newlines.
 
-	for target_name in $2
+	for target_name in $files
 	do
 		dest_name=$(echo $target_name |sed 's/.\{5\}$//')
 		compile_results=$($1 "$target_name" "$dest_name" 2>&1 >/dev/null)
@@ -37,16 +38,17 @@ function render {
 
 #===Blog Posts===
 #Compile blog posts first, because the .html is needed to compile the blog.
-render haml "$(find $blog_post_directory/*.haml)" "blog posts"
+render haml "$blog_post_directory/*.haml" "blog posts"
 
 
 #===Other Pages===
 #Now that we've got the blog fragments rendered, we can compile the main site.
-render haml "$(find *.haml)" "pages"
+render haml "*.haml" "pages"
+cp blog.html index.html
 
 
 #===CSS===
-render lessc "$(find $style_directory/*.less)" "styles"
+render lessc "$style_directory/*.less" "styles"
 
 
 exit 0;

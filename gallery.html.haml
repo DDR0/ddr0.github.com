@@ -33,4 +33,8 @@
 			%h1<
 				%img{"src"=>"images/text-blog.png", "alt"=>"blog"}
 			#content-pane ❹❍❹: Gallery Not Found.
-	%footer	This site ©2013 David Roberts.
+	%footer	
+		This site ©2013 David Roberts.
+		-#Launch the background city simulation. It should show up after a few minuites of idleness, so there's no reason to wait on it loading before we render the page.
+		%canvas{"id"=>"background-city", "width"=>0, "height"=>0}
+		%script{"src"=>"scripts/background city.js"}

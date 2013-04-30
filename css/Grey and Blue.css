@@ -12,7 +12,7 @@ done
 	-webkit-font-smoothing : none;
 } *//*This was blurry, the browser insisted on scaling the font with interpolation.*/
 body {
-  background-image: url('data:image/gif;base64,R0lGODdhCAAIAIACALG0uszMzCwAAAAACAAIAAACDQyOZ7kL/mKSjNI2QwEAOw==');
+  background-image: url('data:image/gif;base64,R0lGODlhJAASAKEAALG0uszMzLG0urG0uiH5BAEKAAIALAAAAAAkABIAAAJHTICpaHwLW5LxKbrwtUBn7kGOKIZkx52fOk7p6pKmN4Nv1aqmfp/GHkOxhEEczIgkymxD4HK4gSpZGGC1V0tGi76Hcyr9bgoAOw==');
   padding: 50px;
   min-width: 150px;
   max-width: 1000px;
@@ -63,7 +63,7 @@ body {
 }
 h1 {
   font-size: 4em;
-  color: cHeaderTextColor;
+  color: #b7bece;
   background-color: #2e2f33;
   text-align: right;
   padding: 38px;
@@ -116,7 +116,7 @@ a :hover {
   margin: 0;
   padding-bottom: 11px;
   height: 9px;
-  width: 100;
+  width: 100px;
   text-align: center;
 }
 @media (max-width: 590px) {

@@ -29,6 +29,7 @@ body {
   /*overflow:hidden;*/
   /*Enabling this prevents the h1 from eating the nav images on lower resolutions, and isn't needed at higher resolutions.*/
 
+  opacity: 0.25;
 }
 #content-pane {
   margin: 0px;
@@ -59,7 +60,6 @@ body {
   -o-transform: translate(-25px, -25px) rotate(-20deg);
   transform: translate(-25px, -25px) rotate(-20deg);
   transform-origin: 50% 50%;
-  opacity: 0.25;
 }
 h1 {
   font-size: 4em;

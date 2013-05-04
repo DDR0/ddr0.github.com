@@ -4,6 +4,7 @@
 #Config Vars:
 blog_post_directory="Blog Posts"
 style_directory="css"
+coffee_directory="background town"
 
 
 #script
@@ -50,5 +51,19 @@ cp blog.html index.html
 #===CSS===
 render lessc "$style_directory/*.less" "styles"
 
+
+#===Script===
+files=$(find $coffee_directory -name "*.coffee")
+echo -n "  ${bold}$(find $coffee_directory -name "*.coffee" | wc -l)${norm} coffeescripts"
+
+for target_name in $files
+do
+	compile_results=$(coffee -c -m "$target_name" 2>&1 >/dev/null)
+	if [[ $compile_results ]]; then
+		echo -e " ${red}✘${norm}\n\n${bold}$target_name${norm}:\n$compile_results\n"
+		exit 1;
+	fi
+done
+echo -e " ${green}✔${norm}"
 
 exit 0;

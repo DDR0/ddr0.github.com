@@ -6,7 +6,8 @@ tileHeight = 18
 
 #globals
 c = console
-tileSheet=tileSheetRects=groundLayer=stage=windowMidpoint=
+tileSheet=tileSheetRects=stage=windowMidpoint=commercialAxisIsVertical=null
+groundLayer=buildingLayer=null
 
 handleComplete = ->
 	jQuery.globalEval queue.getResult('_').innerHTML
@@ -14,7 +15,7 @@ handleComplete = ->
 	tileSheet = new createjs.Bitmap queue.getResult 'tiles'
 	configureCanvas()
 	cacheEaselValues()
-	setCallbacks()
+	initializeCity()
 
 queue = new createjs.LoadQueue()
 queue.addEventListener("complete", handleComplete)
@@ -64,16 +65,23 @@ cacheEaselValues = ->
 		vacant    : new createjs.Rectangle 4*w, 3*h, w, h
 		dirt      : new createjs.Rectangle 5*w, 3*h, w, h
 
-setCallbacks = ->
+initializeCity = ->
 	stage = new createjs.Stage "background-city"
 	stage.snapToPixel = true
-	groundLayer = new createjs.Container(); stage.addChild groundLayer
+	groundLayer = new createjs.Container();
+	stage.addChild groundLayer
 	groundLayer.tiles = []
-	pane = $('#content-holder')
+	buildingLayer = new createjs.Container();
+	stage.addChild buildingLayer
+	buildingLayer.tiles = []
+	
+	pane = $ '#content-holder'
 	windowMidpoint = closestTile pane.width()/2+pane.position().left, pane.height()/2+pane.position().top
-	cityGen windowMidpoint
+	commercialAxisIsVertical = Math.random() < 0.5
+	
+	roadGen windowMidpoint #Defines advanceRoadTileAgent and roadTileAgents, which we can use to grow the city later.
+	propertyGen knownRoadTiles, true
 	stage.update()
-	c.log(windowMidpoint)
 	
 newTile = (x, y, type) ->
 	throw new Error "Tile is off grid. x:#{x} and y:#{y} should sum to an even number." if (x/2+y/2)%1
@@ -91,6 +99,12 @@ addTile = (x, y, type) ->
 	((groundLayer.tiles[x]?=[])[y]?=[]).push(tile)
 	null
 	
+addBldg = (x, y, type) ->
+	tile = newTile(x, y, type)
+	buildingLayer.addChild(tile)
+	((buildingLayer.tiles[x]?=[])[y]?=[]).push(tile)
+	null
+	
 closestTile = (x, y) -> #takes pixels, returns a *valid* grid point
 	x *= 2; y *= 2
 	newX = Math.round x/tileWidth
@@ -105,16 +119,19 @@ closestTile = (x, y) -> #takes pixels, returns a *valid* grid point
 			++newY if y-newY >= 0
 	new createjs.Point newX, newY
 	
-advanceRoadTileAgent = null
-roadTileAgents = null
-
+advanceRoadTileAgent=roadTileAgents=null
+knownRoadTiles = []
 addNewRoadTiles = (walked) ->
 	for tile in walked
 		addTile(tile.x, tile.y, 'outline')
-		addTile(tile.x, tile.y, 'grass')
+		if !(tile.connects[1] and tile.connects[9] or tile.connects[3] and tile.connects[7]) #Any road connecting opposite sides of the tile will cover all the tile, so we can skip putting a ground type beneath it.
+			addTile(tile.x, tile.y, if propertyValues(tile) > 0.15 then 'grass' else 'vacant')
 		addTile(tile.x, tile.y, 'road' + (tile.connects[1]*1 or '') + (tile.connects[3]*3 or '') + (tile.connects[7]*7 or '') + (tile.connects[9]*9 or ''))
+	knownRoadTiles = knownRoadTiles.concat(walked)
 
-cityGen = (startTile) -> 
+reverse = (dir) -> {1:9,3:7,7:3,9:1}[dir]
+
+roadGen = (startTile) -> 
 	#First, generate a street grid.
 	branchChance = _.random(20, 40)/100  
 	branchType = _.random(10, 90)/100 #true => X, false => T
@@ -141,13 +158,11 @@ cityGen = (startTile) ->
 		false: {7:1,9:7,3:9,1:3}
 		}[turnCCW][facing]
 	
-	reverse = (dir) -> {1:9,3:7,7:3,9:1}[dir]
-	
 	walk = (agent) ->
 		do (delta = `{1:{x:-1, y:+1}, //For some reason, this just confuses Coffeescript.
-					 3:{x:+1, y:+1},
-					 7:{x:-1, y:-1},
-					 9:{x:+1, y:-1},
+					  3:{x:+1, y:+1},
+					  7:{x:-1, y:-1},
+					  9:{x:+1, y:-1},
 				}[agent.directive]`) ->
 			agent.position.x += delta.x
 			agent.position.y += delta.y
@@ -158,7 +173,7 @@ cityGen = (startTile) ->
 		++agent.step
 		crossedPath = crossedExistingPath agent
 		if crossedPath #We should check we haven't actually started a side-by-side road, too, here. That would look like all three tiles to our left or right being occupied.
-			oldAgents.push(agent) #Retire the agent.
+			oldAgents.push(agent) #Retire the agent. #Wait, better rule: If there is a road ahead of us, we must join up with it without turning or branching.
 			agent.tileOn.connects[agent.directive] = true
 			crossedPath.connects[reverse(agent.directive)] = true
 		else
@@ -210,7 +225,7 @@ cityGen = (startTile) ->
 				agent.directive = turnTo agent.directive, turnDir
 			agent.impetus = 3 if branch or turn
 	
-	for step in [1..Math.min(startTile.x, startTile.y)/2] #Compensate for diagonal-only walking.		
+	for step in [1..Math.min(startTile.x, startTile.y)/2-1] #Compensate for diagonal-only walking.		
 		for agent in agents
 			advanceAgent agent
 		agents = agents
@@ -221,7 +236,90 @@ cityGen = (startTile) ->
 	
 	advanceRoadTileAgent = advanceAgent #Export the function and data so we can grow the city later.
 	roadTileAgents = agents
-	
 	addNewRoadTiles walked
+
+propertyValues = (point, y) -> #Takes a point or an x and a y value. Both are in units of 'tiles'.
+	if isFinite(y)
+		x = point
+	else
+		x = point.x
+		y = point.y
+	Math.abs(Math.sin(x)/2+Math.sin(y)/2)+0.1 #The implications of this are that neighbourhoods are about 7x7 tiles. Or maybe 3x3.
+
+pointsAreEqual = (p1, p2) ->
+	p1.x == p2.x and p1.y == p2.y
+
+knownProperties = []
+populateProperty = (tiles) ->
+	tiles.forEach (tile) -> 
+		addTile(tile.x, tile.y, 'outline')
+		addTile(tile.x, tile.y, if propertyValues(tiles[0]) > 0.15 then 'grass' else 'vacant')
+	addBldg(tiles[0].x, tiles[0].y, if commercialUndesirability(tiles[0], windowMidpoint) < Math.min(windowMidpoint.x, windowMidpoint.y)*0.15 then 'shop' else 'house')
+	knownProperties.push(tiles)
+
+propertyGen = (roadTiles, exNihilo) ->
+	#First, find the roadfront properties.
+	relativeTile = (tile, delta) ->
+		rTile = tile.clone()
+		dir = {
+			1: [-1, +1]
+			3: [+1, +1]
+			7: [-1, -1]
+			9: [+1, -1] }
+		rTile.x += dir[delta][0]; rTile.y += dir[delta][1]
+		rTile.facing = reverse(delta)
+		rTile
 		
-	null
+	tilesToTheSide = (tile) -> {
+		1: [3,7] 
+		3: [1,9] 
+		7: [1,9] 
+		9: [3,7]}[tile.facing].map (dir) -> relativeTile(tile, dir)
+		
+	validPropertyLocation = (tile, index, tileList) -> #Make sure we aren't trying to build on another property or a municipal road. It is unremittingly O(n²), but whatever. Small n, fast O.
+		!(index > _.find(_.range(tileList.length), (tIndex) -> pointsAreEqual(tile, tileList[tIndex]))) and
+		!(_.find(roadTiles, (road) -> pointsAreEqual(tile, road)))
+		
+	existingProperties = _.chain(roadTiles)
+		.map( (roadTile) -> #First, figure out property fronts on the roads.
+			propertyLocations = []
+			propertyLocations.push(relativeTile(roadTile, 1)) if !roadTile.connects[1] and Math.random() < 0.75 #Might want to check we're not at the end of a cul-de-sac, here.
+			propertyLocations.push(relativeTile(roadTile, 3)) if !roadTile.connects[3] and Math.random() < 0.75 #And perhaps a random chance element?
+			propertyLocations.push(relativeTile(roadTile, 7)) if !roadTile.connects[7] and Math.random() < 0.75
+			propertyLocations.push(relativeTile(roadTile, 9)) if !roadTile.connects[9] and Math.random() < 0.75
+			propertyLocations
+		).flatten(
+		).shuffle( #Shuffle now to avoid patterns related to road building order when we filter.
+		).filter( #Might be able to remove this?
+			validPropertyLocation
+		).map( (prop, index) -> 
+			prop.front = true
+			prop.address = index
+			prop.priority = 1
+			prop
+		).map( (prop) -> #Second, try to expand property back one tile. Everyone likes a yard.
+			newProp = relativeTile(prop, reverse(prop.facing))
+			newProp.address = prop.address
+			newProp.priority = 2
+			[prop, newProp]
+		).flatten(
+		).map( (plot) -> #Third, expand the yards out to fill the corners.
+			tilesToTheSide(plot).map( (newPlot) ->
+				newPlot.address = plot.address
+				newPlot.priority = 3
+				newPlot
+			).concat(plot)
+		).flatten(
+		).sortBy( 'priority'
+		).filter(
+			validPropertyLocation
+		).groupBy( 'address'
+		).values(
+		).value()
+		
+	#c.log existingProperties
+	existingProperties.forEach (prop) -> populateProperty(prop)
+	
+commercialUndesirability = (pointA, pointB) ->
+	c.log(((!commercialAxisIsVertical)+1), ((commercialAxisIsVertical)+1))
+	Math.abs(pointA.x - pointB.x)/((!commercialAxisIsVertical)+1) + Math.abs(pointA.y - pointB.y)/((commercialAxisIsVertical)+1)

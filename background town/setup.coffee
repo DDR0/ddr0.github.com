@@ -6,7 +6,7 @@ tileHeight = 18
 
 #globals
 c = console
-tileSheet=tileSheetRects=stage=windowMidpoint=commercialAxisIsVertical=null
+tileSheet=tileSheetRects=stage=windowMidpoint=commercialAxisIsVertical=pane=null
 groundLayer=buildingLayer=null
 
 handleComplete = ->
@@ -16,6 +16,7 @@ handleComplete = ->
 	configureCanvas()
 	cacheEaselValues()
 	initializeCity()
+	registerEvents()
 
 queue = new createjs.LoadQueue()
 queue.addEventListener("complete", handleComplete)
@@ -29,8 +30,8 @@ configureCanvas = ->
 	$('#background-city').css({
 		position: 'absolute'
 		top: 0, left: 0
-		width: $(window).width()
-		height: $(window).height()
+		width: '100%'
+		height: '100%'
 		'z-index': -1
 	}).attr({
 		width: $(window).width()
@@ -321,5 +322,26 @@ propertyGen = (roadTiles, exNihilo) ->
 	existingProperties.forEach (prop) -> populateProperty(prop)
 	
 commercialUndesirability = (pointA, pointB) ->
-	c.log(((!commercialAxisIsVertical)+1), ((commercialAxisIsVertical)+1))
 	Math.abs(pointA.x - pointB.x)/((!commercialAxisIsVertical)+1) + Math.abs(pointA.y - pointB.y)/((commercialAxisIsVertical)+1)
+	
+registerEvents = ->
+	#$('#clickme').click(function() {
+	#$('#book').animate({
+	#opacity: 0.25,
+	#left: '+=50',
+	#height: 'toggle'
+	#}, 5000, function() {
+	#// Animation complete.
+	#});
+	#});
+	slideContentOut = ->
+		window.city.toggleVisibility = slideContentIn
+		$('body').animate({
+			'margin-top': "-=#{pane.height()}"
+		}, pane.height()*1.5)
+	slideContentIn = ->
+		window.city.toggleVisibility = slideContentOut
+		$('body').animate({
+			'margin-top': "+=#{pane.height()}"
+		}, pane.height()*1.5)
+	(window.city?={}).toggleVisibility = slideContentOut

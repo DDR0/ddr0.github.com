@@ -33,9 +33,11 @@
 			%h1<
 				%img{"src"=>"images/text-blog.png", "alt"=>"blog"}
 			#content-pane ❹❍❹: Gallery Not Found.
-	%footer	
+	%footer
 		This site ©2013 David Roberts.
 		-#Launch the background city simulation. It should show up after a few minuites of idleness, so there's no reason to wait on it loading before we render the page.
+		%a{"src"=>"images/easter-egg pull.svg", "style"=>"float: right; margin-right: 20%;", "onclick"=>"window.city.toggleVisibility()", "href"=>"#"}
+			%img{"src"=>"images/easter-egg pull.svg"}
 		%canvas{"id"=>"background-city", "width"=>0, "height"=>0}
 		%script{"src"=>"http://code.jquery.com/jquery-2.0.0.min.js"}
 		%script{"src"=>"http://code.createjs.com/preloadjs-0.3.0.min.js"}

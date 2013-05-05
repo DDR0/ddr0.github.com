@@ -29,7 +29,6 @@ body {
   /*overflow:hidden;*/
   /*Enabling this prevents the h1 from eating the nav images on lower resolutions, and isn't needed at higher resolutions.*/
 
-  opacity: 0.25;
 }
 #content-pane {
   margin: 0px;

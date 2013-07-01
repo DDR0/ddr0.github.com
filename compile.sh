@@ -39,6 +39,7 @@ function render {
 
 #===Blog Posts===
 #Compile blog posts first, because the .html is needed to compile the blog.
+rm $blog_post_directory/*.html
 render haml "$blog_post_directory/*.haml" "blog posts"
 
 

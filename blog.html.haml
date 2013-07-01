@@ -1,9 +1,11 @@
 :ruby
 	def blogContent
+		counter = 1;
 		buffer = Dir.glob(Dir.getwd+'/Blog Posts/*.html').
-			sort!.last(5000).reverse!. #We won't figure out multiple pages until we have to.
-			map!{|f| File.read(f)}.
-			join
+			sort!.last(5000). #We won't figure out multiple pages until we have to.
+			map{|f| File.read(f)}.
+			each{|f| f.gsub!("~/", "Blog Posts/%02d/" % counter); counter+=1}.
+			reverse!.join
 	end
 
 !!!

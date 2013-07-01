@@ -1,0 +1,2 @@
+These haml snippets are compiled to the blog page using ./compile.sh.
+~/ evaluates to the relative path of the file's resources folder. As it stands now, 01.Flowcharts of Game Mechanics.html.haml's ~/ would be replaced by Blog Posts/01/. Since the HTML is rendered to the blog post page, all links are otherwise relative to there. ~/ is a nice shortcut for a post's resources folder; and it makes things really easy to change later.

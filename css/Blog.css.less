@@ -1,0 +1,30 @@
+#content-pane img {
+	max-width: 100%;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	clear: both;
+}
+
+#content-pane figure {
+	margin: 0px;
+	text-align: center;
+	background-color: rgba(255,255,255,0.2);
+}
+
+#content-pane figcaption{
+	padding-bottom: 1em;
+}
+
+#content-pane a{
+	color: black;
+	text-decoration: underline;
+}
+#content-pane a:after{
+	content: url("../images/icons/external link.svg");
+	margin-right: 2px;
+	margin-left: 2px;
+}
+#content-pane a.lp:after { //It was this or !important, to override the previous a:after.
+	content: url("../images/icons/lets play.svg");
+}

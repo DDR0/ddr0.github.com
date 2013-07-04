@@ -1,0 +1,44 @@
+<h2>Diagrams and Charts of Game Mechanics</h2>
+
+%p
+	Most games have some sort of internal economy, in which you can trade <em>this</em> for <em>that</em>. By graphing relations between parts of the game we can see, generally, how well a game's economy will stand up during play. Lets start off by looking at the simplest example there is, <a href="http://progressquest.com/">Progress Quest</a><a class="lp" href="http://www.youtube.com/watch?v=0W2DyOWPbAA"></a>.
+%figure
+	%img{:src => "~/Progress Quest.svg", :alt => "One relationship, here: time positively influences progress through the game."}
+	%figcaption <strong>Progress Quest:</strong> No time to grind.
+%p	
+	The player is not noted on this graph, as the player is only involved during the setup of the game. Like <a href="http://rob-bell.net/2009/06/a-beginners-guide-to-big-o-notation/">big O notation</a>, our graphs disregard one-time costs.
+%h3 Farmville
+%p
+	A more complicated example might be <a href="http://company.zynga.com/games/farmville">Farmville</a><a class='lp' href="http://www.youtube.com/watch?v=poq5RSNmYnM"></a>, which I have not played. In <em>general</em>, I gather you trade attention for crops for currency. Generally, the more attention you pay the game, the more currency it gives you. You can trade others' attention for currency, too, by bugging friends for it. You can trade more of your attention by getting a job, using it to convert your attention to money, and converting the real money into in-game currency. You can then trade currency in for better ways to get currency. The focus of play seems to be on getting currency or waiting for it, as opposed to putting effort in.
+%h3 OpenTTD
+%p
+	A similiar game that I have played is <a href="http://www.openttd.org">OpenTTD</a><a class='lp' href="http://youtu.be/ic-lzaJigDk?t=10m"></a>. In it, instead of waiting to harvest our plants, we wait for our vehicles to deliver our cargo. The result is the same: currency, for which to improve our currency-getting abilities.
+%figure
+	%img{:src => "~/OpenTTD.svg", :alt => "A complex graph of relationships in OpenTTD."}
+	%img{:src => "~/Key.svg"}
+	%figcaption <strong>OpenTTD:</strong> An unsubtle graph, containing the loudest relationships.
+%p
+	For example, say we have a length of railway that is not congested yet. Our effort could be better spent somewhere else, even though the decongestion of the route would decrease. The route would have less future potential to generate revenue, since trains would progress slower along the route as they got in their way. We could spend that effort making the route longer, or making it straighter. Alternatively, we might have to wait for some time to pass, and for existing investments in vehicles to pay off. As with Farmville, we see the effort-time-currency pyramid again, but in this game it is weighted towards the effort side.
+%h3 Sim City
+%p
+	In <a href="http://www.ea.com/simcity-4-deluxe">Sim City 4</a><a class='lp' href="http://www.youtube.com/watch?v=HMzz2LPYYsY"></a>, we have a <strong>lot</strong> of arrows pointing to and from the transit system of your city in comparison to the other services of the game. The power system basically goes: currency → power plant → power lines → demand → currency. The water system works exactly the same way, with no other significant effects. Transit systems, however, are in demand based on terrain, where stuff has been zoned, and what neighbours you have. Their ability to supply the demand is lowered when demand is high. They directly generate currency, in addition to consuming it. They're comprised of roads, rails, airports, subways, and so on. The partial failure of transit systems can lower or raise demand on all systems, sometimes spectacularly so. In terms of city infrastructure, you will put down more transit tiles than other infrastructure, combined. The game revolves around transit, to the detriment of the other fascets of city planning. If cause and effect were graphed out, this would show up as a large number of arrows surrounding "transit". While this would be fine for a transit game, I do not believe it is what makes Sim City a good game.
+%p
+	Every version of Sim City, and most other earlier Maxis games, adheres to the effort-time-currency pyramid. You can put effort in, if you don't have to wait for a period of time to get currency. It is partially avoided in Spore and The Sims, since you are generally able to put effort in even if you don't have currency.
+%h3 A Dark Room
+%p
+	I found an interesting game a few days ago. It is very well designed, and can be played at <a href="http://adarkroom.doublespeakgames.com/">Doublespeak Games</a>. The game takes a fairly extreme approach to growing the graph of interactions. It starts with one, and you move up from there. (This is the polar opposite of <a href="">Dwarf Fortress</a><a class='lp' href="http://www.youtube.com/watch?v=kQUihAU6GHE"></a>, which starts you off with all the interacitons.) A Dark Room is ridiculously easy to learn, and it stays fresh throughout the game as the interaction web expands.
+%figure
+	%img{:src => "~/A Dark Room 1.svg", :alt => "A simple graph of relationships in A Dark Room."}
+	%figcaption <strong>Stage 1</strong>
+%figure
+	%img{:src => "~/A Dark Room 2.svg", :alt => "A less simple graph."}
+	%figcaption <strong>Stage 2</strong>
+%figure
+	%img{:src => "~/A Dark Room 3.svg", :alt => "An even less simple graph."}
+	%figcaption <strong>Stage 3</strong>
+%figure
+	%img{:src => "~/A Dark Room 4.svg", :alt => "And so on."}
+	/ %img{:src => "~/Key.svg"} /Don't need this here 'cause it's been said already.
+	%figcaption <strong>Stage 4</strong>
+%p
+	That is powerful stuff.

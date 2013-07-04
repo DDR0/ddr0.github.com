@@ -22,8 +22,8 @@ done
 @cSidebarBackgroundShadow: rgba(0,0,0,1.00);
 
 //content-pane
-@cContentTopGrey: #C2C5CC;
-@cContentBottomGrey: #BCB9BF;
+@cContentTopGrey: lighten(#C2C5CC, 5%);
+@cContentBottomGrey: lighten(#BCB9BF, 5%);
 
 //header
 @cHeaderTextColor: #B7BECE;
@@ -239,7 +239,9 @@ a :hover {
 	}
 	
 	#icon-bar a :hover {
-		box-shadow: inset 0px 0px 10px @cIconWhite;
+		//box-shadow: inset 0px 0px 3px @cIconWhite;
+		border-left: 2px solid @cIconWhite;
+		margin-left: -2px;
 	}
 	
 	#icon-bar div {
@@ -253,12 +255,19 @@ a :hover {
 	#icon-bar :nth-last-child(odd) img {
 		background-color: @cIconBarAlternateBackground;
 	}
+	
+	// #icon-bar :nth-last-child(even) :hover {
+	// 	background-image: linear-gradient(90deg, @cIconBarBackground, lighten(@cIconBarBackground, 10%));
+	// }
+	// #icon-bar :nth-last-child(odd) :hover {
+	// 	background-image: linear-gradient(90deg, @cIconBarAlternateBackground, lighten(@cIconBarAlternateBackground, 10%));
+	// }
 
 	#icon-bar img {
 		width: 70px;
 		height: 70px;
 		padding: 15px;
-		margin-bottom: -24px;
+		margin-bottom: -25px;
 		padding-top: 10px;
 		padding-bottom: 20px;
 	}

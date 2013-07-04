@@ -5,7 +5,7 @@
 			sort!.last(5000). #We won't figure out multiple pages until we have to.
 			map{|f| File.read(f)}.
 			each{|f| f.gsub!("~/", "Blog Posts/%02d/" % counter); counter+=1}.
-			reverse!.join
+			reverse!.join("\n\n\n\n\n\n<hr>\n\n\n\n\n\n")
 	end
 
 !!!
@@ -14,6 +14,7 @@
 		%meta{"charset"=>"utf-8"}
 		%title Status
 		%link{"rel"=>"stylesheet", "href"=>"css/Grey and Blue.css"}
+		%link{"rel"=>"stylesheet", "href"=>"css/Blog.css"}
 	%body
 		#badge<
 			%img{"src"=>"images/icons/page.svg", "alt"=>""}> 
@@ -35,4 +36,4 @@
 			%h1<
 				%img{"src"=>"images/text-blog.png", "alt"=>"blog"}
 			#content-pane=blogContent
-	%footer	This site ©2013 David Roberts.
+	%footer	Site ©2013 David Roberts.

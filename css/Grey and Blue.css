@@ -36,11 +36,11 @@ body {
   padding-top: 3em;
   margin-top: -11px;
   border-top: 11px solid rgba(51, 119, 255, 0.5);
-  background: -webkit-gradient(linear, 0 0, 100% 0, from(#c2c5cc), to(#bcb9bf));
-  background: -webkit-linear-gradient(#c2c5cc, #bcb9bf);
-  background: -moz-linear-gradient(#c2c5cc, #bcb9bf);
-  background: -o-linear-gradient(#c2c5cc, #bcb9bf);
-  background: linear-gradient(#c2c5cc, #bcb9bf);
+  background: -webkit-gradient(linear, 0 0, 100% 0, from(#d0d2d8), to(#c9c6cb));
+  background: -webkit-linear-gradient(#d0d2d8, #c9c6cb);
+  background: -moz-linear-gradient(#d0d2d8, #c9c6cb);
+  background: -o-linear-gradient(#d0d2d8, #c9c6cb);
+  background: linear-gradient(#d0d2d8, #c9c6cb);
   background-clip: padding-box;
 }
 #badge {
@@ -192,7 +192,8 @@ a :hover {
     text-decoration: none;
   }
   #icon-bar a :hover {
-    box-shadow: inset 0px 0px 10px #ffffff;
+    border-left: 2px solid #ffffff;
+    margin-left: -2px;
   }
   #icon-bar div {
     pointer-events: none;
@@ -207,7 +208,7 @@ a :hover {
     width: 70px;
     height: 70px;
     padding: 15px;
-    margin-bottom: -24px;
+    margin-bottom: -25px;
     padding-top: 10px;
     padding-bottom: 20px;
   }

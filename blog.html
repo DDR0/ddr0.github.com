@@ -4,6 +4,7 @@
     <meta charset='utf-8'>
     <title>Status</title>
     <link href='css/Grey and Blue.css' rel='stylesheet'>
+    <link href='css/Blog.css' rel='stylesheet'>
   </head>
   <body>
     <div id='badge'><img alt='' src='images/icons/page.svg'></div>
@@ -16,37 +17,80 @@
     <div id='content-holder'>
       <h1><img alt='blog' src='images/text-blog.png'></h1>
       <div id='content-pane'>
-        <h2>Blog Post #2</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-        <p>PART 2: Again! Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
         <h2>Diagrams and Charts of Game Mechanics</h2>
-        <p>Most games have an overarching "formula" which determines the broad strokes of gameplay. The shape of the curves that the formula would make when charted offer answers to some surprisingly basic questions, like "Will the game be fun?" or "Will the game be winnable at all?"
-        </p>
-        <!-- Progress Quest -->
-        <p>To determine what a chart looks like, we need to figure out the major elements of a game, and their relationships. Lets start with the simplest example -- Progress Quest. [<a href="http://progressquest.com/">site</a>/<a href="http://www.youtube.com/watch?v=0W2DyOWPbAA">lp</a>]
-        <img src="Blog Posts/01/Progress Quest.jpg">
-        Here, we see a constantly granted resource, time. Via the mechanics of the game, time is directly converted into progress. Therefore, the game's "progress" has a linear relation to the amount of time passed.
-        <img src="Blog Posts/01/Progress Quest Graph.jpg">
-        Since no other factors influence the game, it's a very simple graph.
-        </p>
-        <!-- OpenTTD -->
-        <div id="hr"></div>
-        <p>OpenTTD [<a href="http://www.openttd.org/">site</a>/<a href="http://www.youtube.com/watch?v=CoAKmx6sfZc">lp</a>] is a bit more complex. The goal of OpenTTD is to collect the most money by the end, as score is pretty much irrelevant. Money is earned by a vehicle, and is called operating profit. So, what affects money? Routes, primarily. A "route" is the collective station, infrastructure, and vehicle required to make money.
-        </p>
-        <img src="Blog Posts/01/OpenTTD.jpg">
         <p>
-        Graph #1 agrees with the focus of the game quite well - OpenTTD is, fundamentally, a game about building routes to transport goods along. When a node appears connected to many other elements, but is <em>not</em> the focus of the game, the game will suffer because because that node <em>will be</em> the focus of the player. (Example: Sim City 4) <!-- TODO: Link to Sim City paragraph. --> Odd focus is a common symptom shoddy design. Note that money is not the focus of the graph -- although much links to it, it's merely a limiting factor. For an example of a game where money would be considered a focus, check out Railroad Tycoon II. [<a href="http://store.steampowered.com/app/7620/">site</a>/<a href="http://www.youtube.com/watch?v=fC8iaE_d1vA">lp</a>]
+          Most games have some sort of internal economy, in which you can trade <em>this</em> for <em>that</em>. By graphing relations between parts of the game we can see, generally, how well a game's economy will stand up during play. Lets start off by looking at the simplest example there is, <a href="http://progressquest.com/">Progress Quest</a><a class="lp" href="http://www.youtube.com/watch?v=0W2DyOWPbAA"></a>.
         </p>
-        <p>Anyway, Graph #1 details a route the broadest sense. It is not weighted for the intensity of the interaction, as it's just a first step to let us see the basics of the system. It lets us consider the fundamental growth pattern in OpenTTD - the player spends time and money to build a route so that the player has money during the time she is building another route. Route-building behavior will exponentially increase in frequency until the player can constantly build new routes. Since income grows exponentially during this period, it shifts the bottleneck resource to player's time and effort. This averts runaway exponential growth -- almost! <!-- TODO: Make 'almost' a link, which pops in the next paragraph. -->
+        <figure>
+          <img alt='One relationship, here: time positively influences progress through the game.' src='Blog Posts/02/Progress Quest.svg'>
+          <figcaption><strong>Progress Quest:</strong> No time to grind.</figcaption>
+        </figure>
+        <p>
+          The player is not noted on this graph, as the player is only involved during the setup of the game. Like <a href="http://rob-bell.net/2009/06/a-beginners-guide-to-big-o-notation/">big O notation</a>, our graphs disregard one-time costs.
         </p>
-        <p id="popin">With the cause and effect laid out, we can identify the 'weak point' in the limiting effect. If the player were to be able to create new routes without spending time to do so, she would be able to exponentially increase her income until she hit hardware limits. A bit of background: OpenTTD has four transport types: road, rail, ship, and air. Vehicles on road rail, and airport tarmac can't pass each other (for the most part) and congestion will force new infrastructure to be built by the player. However, for whatever reason, ships don't block each other. They are, however, limited by water tiles being ruinously expensive to build. Although a large amount of infrastructure exists naturally (aka "oceans") it only serves a small percentage of the world. This normally limits the usefulness of ships, as there are only so many routes to capitalize on. However, after we have engaged in exponential growth to the point of running out of time on land, we can exploit the waterways' unique ability to be able to carry an infinite number of routes on a single tile. After we have grown our income on land, we will have enough money to be able to afford huge canal systems. This, combined with the large cities we grew as we expanded, gives us a huge supply of passengers to transport by water. Because we can reuse existing canals, the amount of time it takes to build a new route is minimal. With the limiting factor on our growth rate removed, the game will end in short order as we have to stop building new routes. (Either the hardware can't handle it or we encounter a hard limit on the number of vehicles.)
+        <h3>Farmville</h3>
+        <p>
+          A more complicated example might be <a href="http://company.zynga.com/games/farmville">Farmville</a><a class='lp' href="http://www.youtube.com/watch?v=poq5RSNmYnM"></a>, which I have not played. In <em>general</em>, I gather you trade attention for crops for currency. Generally, the more attention you pay the game, the more currency it gives you. You can trade others' attention for currency, too, by bugging friends for it. You can trade more of your attention by getting a job, using it to convert your attention to money, and converting the real money into in-game currency. You can then trade currency in for better ways to get currency. The focus of play seems to be on getting currency or waiting for it, as opposed to putting effort in.
         </p>
-        <p>Graph #2 partially describes the workings of a route. Players must figure out a complex web of relationships to make a route highly profitable -- where it should connect, how fast it should go, what type of vehicle it should run it, and so on. This presents the challenge in the game, and is "the fun bit".
+        <h3>OpenTTD</h3>
+        <p>
+          A similiar game that I have played is <a href="http://www.openttd.org">OpenTTD</a><a class='lp' href="http://youtu.be/ic-lzaJigDk?t=10m"></a>. In it, instead of waiting to harvest our plants, we wait for our vehicles to deliver our cargo. The result is the same: currency, for which to improve our currency-getting abilities.
         </p>
-        <p>The graph does, however, represent a downside to the visualization technique. Since it focuses on the vehicle to money connection, it is incomplete. Because it is incomplete, it is misleading. As it stands, it would suggest that vehicles are the core of the route system. I would consider the infrastructure to be worth more, since it's what the player spends the majority of her time building. (Especially with trains. You have to build signals and everything.) It is very hard to consider everything when making a graph, as incomplete graphs can look quite finished. There are no 'warning signs'. That said, with careful consideration, a good graph can be quite helpful. Just make sure it does not go against common sense. It is a just tool for thinking, after all, not an oracle.
+        <figure>
+          <img alt='A complex graph of relationships in OpenTTD.' src='Blog Posts/02/OpenTTD.svg'>
+          <img src='Blog Posts/02/Key.svg'>
+          <figcaption><strong>OpenTTD:</strong> An unsubtle graph, containing the loudest relationships.</figcaption>
+        </figure>
+        <p>
+          For example, say we have a length of railway that is not congested yet. Our effort could be better spent somewhere else, even though the decongestion of the route would decrease. The route would have less future potential to generate revenue, since trains would progress slower along the route as they got in their way. We could spend that effort making the route longer, or making it straighter. Alternatively, we might have to wait for some time to pass, and for existing investments in vehicles to pay off. As with Farmville, we see the effort-time-currency pyramid again, but in this game it is weighted towards the effort side.
         </p>
+        <h3>Sim City</h3>
+        <p>
+          In <a href="http://www.ea.com/simcity-4-deluxe">Sim City 4</a><a class='lp' href="http://www.youtube.com/watch?v=HMzz2LPYYsY"></a>, we have a <strong>lot</strong> of arrows pointing to and from the transit system of your city in comparison to the other services of the game. The power system basically goes: currency → power plant → power lines → demand → currency. The water system works exactly the same way, with no other significant effects. Transit systems, however, are in demand based on terrain, where stuff has been zoned, and what neighbours you have. Their ability to supply the demand is lowered when demand is high. They directly generate currency, in addition to consuming it. They're comprised of roads, rails, airports, subways, and so on. The partial failure of transit systems can lower or raise demand on all systems, sometimes spectacularly so. In terms of city infrastructure, you will put down more transit tiles than other infrastructure, combined. The game revolves around transit, to the detriment of the other fascets of city planning. If cause and effect were graphed out, this would show up as a large number of arrows surrounding "transit". While this would be fine for a transit game, I do not believe it is what makes Sim City a good game.
+        </p>
+        <p>
+          Every version of Sim City, and most other earlier Maxis games, adheres to the effort-time-currency pyramid. You can put effort in, if you don't have to wait for a period of time to get currency. It is partially avoided in Spore and The Sims, since you are generally able to put effort in even if you don't have currency.
+        </p>
+        <h3>A Dark Room</h3>
+        <p>
+          I found an interesting game a few days ago. It is very well designed, and can be played at <a href="http://adarkroom.doublespeakgames.com/">Doublespeak Games</a>. The game takes a fairly extreme approach to growing the graph of interactions. It starts with one, and you move up from there. (This is the polar opposite of <a href="">Dwarf Fortress</a><a class='lp' href="http://www.youtube.com/watch?v=kQUihAU6GHE"></a>, which starts you off with all the interacitons.) A Dark Room is ridiculously easy to learn, and it stays fresh throughout the game as the interaction web expands.
+        </p>
+        <figure>
+          <img alt='A simple graph of relationships in A Dark Room.' src='Blog Posts/02/A Dark Room 1.svg'>
+          <figcaption><strong>Stage 1</strong></figcaption>
+        </figure>
+        <figure>
+          <img alt='A less simple graph.' src='Blog Posts/02/A Dark Room 2.svg'>
+          <figcaption><strong>Stage 2</strong></figcaption>
+        </figure>
+        <figure>
+          <img alt='An even less simple graph.' src='Blog Posts/02/A Dark Room 3.svg'>
+          <figcaption><strong>Stage 3</strong></figcaption>
+        </figure>
+        <figure>
+          <img alt='And so on.' src='Blog Posts/02/A Dark Room 4.svg'>
+          <!-- %img{:src => "Blog Posts/02/Key.svg"} /Don't need this here 'cause it's been said already. -->
+          <figcaption><strong>Stage 4</strong></figcaption>
+        </figure>
+        <p>
+          That is powerful stuff.
+        </p>
+        
+        
+        
+        
+        
+        
+        <hr>
+        
+        
+        
+        
+        
+        <h2>The Start</h2>
+        <p>This is the start of the blog. That's all there is, there is no more.</p>
       </div>
     </div>
   </body>
-  <footer>This site ©2013 David Roberts.</footer>
+  <footer>Site ©2013 David Roberts.</footer>
 </html>

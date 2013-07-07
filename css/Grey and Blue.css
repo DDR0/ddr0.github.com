@@ -43,6 +43,10 @@ body {
   background: linear-gradient(#d0d2d8, #c9c6cb);
   background-clip: padding-box;
 }
+#content-pane a {
+  color: black;
+  text-decoration: underline;
+}
 #badge {
   display: none;
   position: absolute;
@@ -237,10 +241,4 @@ footer {
   margin-bottom: -19px;
   color: rgba(0, 0, 0, 0.3);
   text-shadow: rgba(0, 0, 0, 0.1) -1px 0, rgba(0, 0, 0, 0.1) 0 -1px, rgba(255, 255, 255, 0.1) 1px 0, rgba(255, 255, 255, 0.1) 0 1px, rgba(0, 0, 0, 0.1) -1px -1px, rgba(255, 255, 255, 0.1) 1px 1px;
-}
-footer img {
-  pointer-events: auto;
-}
-#background-city {
-  pointer-events: auto;
 }

@@ -13,10 +13,6 @@
 #content-pane figcaption {
   padding-bottom: 1em;
 }
-#content-pane a {
-  color: black;
-  text-decoration: underline;
-}
 #content-pane a:after {
   content: url("../images/icons/external link.svg");
   margin-right: 2px;

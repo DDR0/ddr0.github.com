@@ -1,0 +1,10 @@
+footer img {
+  pointer-events: auto;
+}
+#background-city {
+  pointer-events: auto;
+}
+h2 {
+  text-align: center;
+  height: 100px;
+}

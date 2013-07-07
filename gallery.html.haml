@@ -1,17 +1,10 @@
-:ruby
-	def blogContent
-		buffer = Dir.glob(Dir.getwd+'/Blog Posts/*.html').
-			sort!.last(5000).reverse!. #We won't figure out multiple pages until we have to.
-			map!{|f| File.read(f)}.
-			join
-	end
-
 !!!
 %html{"lang"=>"en"}
 	%head
 		%meta{"charset"=>"utf-8"}
 		%title Status
 		%link{"rel"=>"stylesheet", "href"=>"css/Grey and Blue.css"}
+		%link{"rel"=>"stylesheet", "href"=>"css/Gallery.css"}
 	%body
 		#badge<
 			%img{"src"=>"images/icons/page.svg", "alt"=>""}> 
@@ -32,10 +25,19 @@
 		#content-holder
 			%h1<
 				%img{"src"=>"images/text-gallery.png", "alt"=>"gallery"}
-			#content-pane TODO: Content.
+			#content-pane<
+				/Oh, wouldn't it be nice to be able to define a height variable here… but can't do that.
+				%div{style:"min-height:300px;"}
+					<a href="http://www.frogatto.com/"><img src="images/gallery/frogatto forest-crossroads.png", width=400, height=300, align="right"></a>
+					%h2 Frogatto &&nbsp;Friends
+					%p Frogatto and friends is a beautiful 2D platformer which I have been working on since 2009. You can buy it on <a href="http://www.frogatto.com/">Frogatto.com</a> for $9.99. <a href="http://en.wikipedia.org/wiki/Digital_rights_management">DRM</a>-free. 10+ hours of gameplay. No internet connection required. Hand-pixelled artwork. Family-friendly. Source available on <a href="https://github.com/frogatto/frogatto/">github</a>.
+				%hr
+				%p{style:"min-height:300px;"}
+					<img src="images/gallery/frogatto forest-crossroads.png", width=400, height=300, align="left">This is a test of text and image, side by side. This is a test of text and image, side by side. This is a test of text and image, side by side. This is a test of text and image, side by side. This is a test of text and image, side by side. This is a test of text and image, side by side. This is a test of text and image, side by side. This is a test of text and image, side by side. This is a test of text and image, side by side. This is a test of text and image, side by side. This is a test of text and image, side by side. This is a test of text and image, side by side. This is a test of text and image, side by side. This is a test of text and image, side by side.
+				
 	%footer
 		Site ©2013 David Roberts.
-		-#Launch the background city simulation. It should show up after a few minuites of idleness, so there's no reason to wait on it loading before we render the page.
+		-#Launch the background city simulation after the page has loaded. It should show up after a few minuites of idleness anyway, so there's no reason to wait on it loading before we render the page.
 		%a{"src"=>"images/easter-egg pull.svg", "style"=>"float: right; margin-right: 20%;", "onclick"=>"window.city.toggleVisibility()", "href"=>"#"}
 			%img{"src"=>"images/easter-egg pull.svg"}
 		%canvas{"id"=>"background-city", "width"=>0, "height"=>0}

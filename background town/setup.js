@@ -594,7 +594,6 @@
       'margin-top': "-=" + (pane.height())
     }, pane.height() * 1.5);
     return setTimeout(function() {
-      window.scroll(0, document.body.clientHeight);
       return window.scrollTo(0, document.body.clientHeight / 2 - $(window).height() / 2);
     }, 10);
   };

@@ -1,0 +1,95 @@
+@font-face {
+	font-family: "candy";
+	font-style: normal;
+	font-weight: normal;
+	src: url(images/CANDY.woff);
+}
+
+body {
+	margin: 0;
+	overflow:hidden;
+}
+
+div#game {
+	background-image: url("images/CC_BG.jpg");
+	font-family: "candy";
+	font-size: 2em;
+	padding : 0;
+	width: 641px;
+	overflow: visible;
+}
+
+canvas#main {
+	background-image: url("images/CC_Gameboard_2.png");
+	box-shadow: 3px 3px 4px rgba(0,0,0,0.2);
+	padding-bottom: 0px;
+	position:relative;
+	border: 1px solid black;
+}
+
+/*Note: There are patterns related to local, global, and function calls in code.*/
+
+p.textDisplay {
+	background-color: #FFCDCE;
+	color: #364830;
+	border-radius: 10px;
+	box-shadow: inset 5px 5px 10px -5px black, inset -5px -5px 10px -5px white;
+	margin: 0px;
+	padding-top: 4px;
+	height: 37px;
+}
+
+p#score {
+	float: left;
+	width:  49%;
+	width: -moz-calc(50% - 4px);
+	width: -webkit-calc(50% - 4px);
+	width: calc(50% - 4px);
+}
+
+p#cash {
+	margin-left:  51%;
+	margin-left: -moz-calc(50% + 4px);
+	margin-left: -webkit-calc(50% + 4px);
+	margin-left: calc(50% + 4px);
+}
+
+div.textDisplayBorder {
+	background-color: #F260B1;
+	background: -webkit-repeating-linear-gradient(45deg, #FFC2C7 0px, #FFC2C7 25px, #F260B1 25px, #F260B1 60px);
+	background: repeating-linear-gradient(50deg, #F260B1 0px, #FFC2C7 1px, #FFC2C7 25px, #F260B1 26px, #F260B1 60px);
+	border-radius: 15px;
+	margin-bottom: 1em;
+	padding: 8px;
+	overflow: visible;
+};
+
+div#popover {
+	background:  white;
+	background: rgba(255,255,255,0.8);
+	font-size: 20px;
+	margin-left: 40px;
+	margin-right: auto;
+	outline: 3px solid black;
+	position: absolute;
+	text-align: center;
+	top: 250px;
+	width: 400px;
+}
+
+div#music {
+	background: #3ba1c2; /*A pretty blue.*/
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
+	border: 1px solid black;
+	bottom: 0%;
+	margin-bottom: -6px;
+	padding-bottom: 0px;
+	padding: 6px;
+	position: fixed;
+	right: 5%;
+}
+
+.gameTextOverlay {
+	pointer-events: none; /*Sometimes, CSS is amazingly wonderful.*/
+}

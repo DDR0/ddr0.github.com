@@ -10,10 +10,16 @@ h2 {
 	text-align: center;
 }
 
-#content-pane img {
-	float:right;
+@mMargin: 2ex;
+.left {
+	float: left;
+	margin-right: @mMargin;
+}
+.right {
+	float: right;
+	margin-left: @mMargin;
 }
 
-#content-pane img :nth-child(odd) { //Flip. This doesn't work here.
-	float:right;
+iframe {
+	border: 0 solid transparent;
 }

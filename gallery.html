@@ -16,14 +16,28 @@
     </div>
     <div id='content-holder'>
       <h1><img alt='gallery' src='images/text-gallery.png'></h1>
-      <div id='content-pane'><!-- Oh, wouldn't it be nice to be able to define a height variable here… but can't do that. -->
-      <div style='min-height:300px;'>
-        <a href="http://www.frogatto.com/"><img src="images/gallery/frogatto forest-crossroads.png" width=400 height=300></a>
-        <!-- %section{"style"=>"float:left;"} -->
-        <h2>Frogatto &&nbsp;Friends</h2>
-        <p>Frogatto and friends is a beautiful 2D platformer which I have been working on since 2009. You can buy it on <a href="http://www.frogatto.com/">Frogatto.com</a> for $9.99. <a href="http://en.wikipedia.org/wiki/Digital_rights_management">DRM</a>-free. 10+ hours of gameplay. No internet connection required. Hand-pixelled artwork. Family-friendly. Source available on <a href="https://github.com/frogatto/frogatto/">github</a>.</p>
+      <div id='content-pane'>
+        <!-- Oh, wouldn't it be nice to be able to define a height variable here… but can't do that. -->
+        <div style='min-height:300px;'>
+          <a href="http://www.frogatto.com/"><img class="cover right" src="images/gallery/frogatto forest-crossroads (small).png" width=400 height=300></a>
+          <h2>Frogatto &&nbsp;Friends</h2>
+          <p>This a beautiful 2D platformer which I have been working on since 2009. You can buy it on <a href="http://www.frogatto.com/">Frogatto.com</a> for $9.99. <a href="http://en.wikipedia.org/wiki/Digital_rights_management">DRM</a>-free. 10+ hours of gameplay. No internet connection required. Hand-pixelled artwork. Family-friendly. Source available on <a href="https://github.com/frogatto/frogatto/">github</a>.</p>
+        </div>
+        <hr>
+        <script src='http://code.jquery.com/jquery-2.0.0.min.js'></script>
+        <div style='min-height:322px;'>
+          <!-- Measured width/height is 641, 643. Half that is 320, 321. We have two margins, so half that is 160/161. Margin right is +2ex. -->
+          <iFrame class='cover left' height='643' id='candy-crush' src='Candy Crunch/minimal.html' style='-webkit-transform:scale(0.5,0.5); transform:scale(0.5,0.5); margin-left:-161px; margin-right:-150px; margin-top:-161px; margin-bottom:-161px;' width='641'></iFrame>
+          <h2>Candy Crunch</h2>
+          <p>Over the course of two weeks in the spring of 2013, I was commissioned by a company called <a href="http://ayogo.com">Ayogo</a> to program a match-3 game. Candy Crunch was the outcome. Match more than three candies together to score a bonus. There is also a <a href="Candy Crunch/index.html">double-sized version</a>. You can <button onclick="$('#candy-crush')[0].contentWindow.location.reload()">restart</button> the game.</p>
+        </div>
+        <hr>
+        <div style='min-height:300px;'>
+          <iFrame class='cover right' height='300' id='editabled' onclick="$('#editabled')[0].focus()" src='https://dl.dropboxusercontent.com/u/138485812/editabled/fullscreen.html' width='400'></iFrame>
+          <h2>Editabled Pre-Alpha</h2>
+          <p>An editable pixel editor. Eventually. You can draw sharp lines on it with your mouse and non-destructively move around with the arrow keys. Infinite scroll in any direction. Features a custom multi-threaded compositing engine. You can <button onclick="var e = $('#editabled')[0]; e.src = e.src; //Basically, we're not allowed to reload the window content here because it's not of this domain. Perhaps we should, uh, make it so. Considering this is what it was meant for.">clear</button> the canvas if you've messed up, since there is no ereaser yet. There is a <a href="https://dl.dropboxusercontent.com/u/138485812/editabled/fullscreen.html">full-screen version</a> available that works much better than this tiny version.</p>
+        </div>
       </div>
-      <hr></div>
     </div>
     <footer>
       Site ©2013 David Roberts.
@@ -31,7 +45,6 @@
         <img src='images/easter-egg pull.svg'>
       </a>
       <canvas height='0' id='background-city' width='0'></canvas>
-      <script src='http://code.jquery.com/jquery-2.0.0.min.js'></script>
       <script src='http://code.createjs.com/preloadjs-0.3.0.min.js'></script>
       <script src='background town/setup.js'></script>
     </footer>

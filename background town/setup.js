@@ -50,11 +50,11 @@
       top: 0,
       left: 0,
       width: '100%',
-      height: '100%',
+      height: document.body.clientHeight + 'px',
       'z-index': -1
     }).attr({
       width: $(window).width(),
-      height: $(window).height()
+      height: document.body.clientHeight
     });
   };
 
@@ -588,11 +588,15 @@
 
   slideContentOut = function() {
     window.city.toggleVisibility = slideContentIn;
-    return $('body').css({
+    $('body').css({
       'pointer-events': 'none'
     }).animate({
       'margin-top': "-=" + (pane.height())
     }, pane.height() * 1.5);
+    return setTimeout(function() {
+      window.scroll(0, document.body.clientHeight);
+      return window.scrollTo(0, document.body.clientHeight / 2 - $(window).height() / 2);
+    }, 10);
   };
 
   slideContentIn = function() {

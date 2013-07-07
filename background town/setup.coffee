@@ -32,11 +32,11 @@ configureCanvas = ->
 		position: 'absolute'
 		top: 0, left: 0
 		width: '100%'
-		height: '100%'
+		height: document.body.clientHeight + 'px'
 		'z-index': -1
 	}).attr({
 		width: $(window).width()
-		height: $(window).height()
+		height: document.body.clientHeight
 	})
 	
 cacheEaselValues = ->
@@ -449,6 +449,9 @@ slideContentOut = -> #Called alternately, by way of storing one or the other in 
 	}).animate({
 		'margin-top': "-=#{pane.height()}"
 	}, pane.height()*1.5)
+	setTimeout(-> #We must wait a little bit, because something is setting the scroll to 0,0. This is bad, because it could produce a flicker.
+		window.scrollTo(0, document.body.clientHeight/2-$(window).height()/2)
+	10)
 slideContentIn = ->
 	window.city.toggleVisibility = slideContentOut
 	$('body').css({

@@ -7,3 +7,9 @@ footer img {
 h2 {
   text-align: center;
 }
+#content-pane img {
+  float: right;
+}
+#content-pane img :nth-child(odd) {
+  float: right;
+}

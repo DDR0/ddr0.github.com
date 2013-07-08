@@ -7,6 +7,9 @@ footer img {
 h2 {
   text-align: center;
 }
+.cover {
+  max-width: 100%;
+}
 .left {
   float: left;
   margin-right: 2ex;

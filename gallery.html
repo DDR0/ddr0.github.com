@@ -19,7 +19,7 @@
       <div id='content-pane'>
         <!-- Oh, wouldn't it be nice to be able to define a height variable here… but can't do that. -->
         <div style='min-height:300px;'>
-          <a href="http://www.frogatto.com/"><img class="cover right" src="images/gallery/frogatto forest-crossroads (small).png" width=400 height=300></a>
+          <a href="http://www.frogatto.com/"><img class="cover right" src="images/gallery/frogatto forest-crossroads (small).png"></a>
           <h2>Frogatto &&nbsp;Friends</h2>
           <p>This a beautiful 2D platformer which I have been working on since 2009. You can buy it on <a href="http://www.frogatto.com/">Frogatto.com</a> for $9.99. <a href="http://en.wikipedia.org/wiki/Digital_rights_management">DRM</a>-free. 10+ hours of gameplay. No internet connection required. Hand-pixelled artwork. Family-friendly. Source available on <a href="https://github.com/frogatto/frogatto/">github</a>.</p>
         </div>
@@ -27,7 +27,7 @@
         <script src='http://code.jquery.com/jquery-2.0.0.min.js'></script>
         <div style='min-height:322px;'>
           <!-- Measured width/height is 641, 643. Half that is 320, 321. We have two margins, so half that is 160/161. Margin right is +2ex. -->
-          <iFrame class='cover left' height='643' id='candy-crush' src='Candy Crunch/minimal.html' style='-webkit-transform:scale(0.5,0.5); transform:scale(0.5,0.5); margin-left:-161px; margin-right:-150px; margin-top:-161px; margin-bottom:-161px;' width='641'></iFrame>
+          <iFrame class='cover left' height='643' id='candy-crush' src='Candy Crunch/minimal.html' style='-webkit-transform:scale(0.5,0.5); transform:scale(0.5,0.5); margin-left:-161px; margin-right:-150px; margin-top:-161px; margin-bottom:-161px; max-width:200%;' width='641'></iFrame>
           <h2>Candy Crunch</h2>
           <p>Over the course of two weeks in the spring of 2013, I was commissioned by a company called <a href="http://ayogo.com">Ayogo</a> to program a match-3 game. Candy Crunch was the outcome. Match more than three candies together to score a bonus. There is also a <a href="Candy Crunch/index.html">double-sized version</a>. You can <button onclick="$('#candy-crush')[0].contentWindow.location.reload()">restart</button> the game.</p>
         </div>

@@ -16,11 +16,12 @@
 		%link{"rel"=>"stylesheet", "href"=>"css/Grey and Blue.css"}
 		%link{"rel"=>"stylesheet", "href"=>"css/Blog.css"}
 	%body
+		%a{id:"skip-nav", href:"#content"}Skip navigation.
 		#badge<
 			%img{"src"=>"images/icons/page.svg"}> 
 			-#This is the background icon to display.
 		#icon-bar
-			%a{}<
+			%a{"href"=>"blog.html"}<
 				%img{"src"=>"images/icons/page.svg"}>
 				%div blog
 			%a{"href"=>"gallery.html"}<
@@ -35,5 +36,6 @@
 		#content-holder
 			%h1<
 				%img{"src"=>"images/text-blog.png", "alt"=>"blog"}
+			%a{name:"content"}
 			#content-pane=blogContent
 	%footer	Site ©2013 David Roberts.

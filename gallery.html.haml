@@ -6,6 +6,7 @@
 		%link{"rel"=>"stylesheet", "href"=>"css/Grey and Blue.css"}
 		%link{"rel"=>"stylesheet", "href"=>"css/Gallery.css"}
 	%body
+		%a{id:"skip-nav", href:"#content"}Skip navigation.
 		#badge<
 			%img{"src"=>"images/icons/work.svg"}> 
 			-#This is the background icon to display.
@@ -13,7 +14,7 @@
 			%a{"href"=>"blog.html"}<
 				%img{"src"=>"images/icons/page.svg"}>
 				%div blog
-			%a{}<
+			%a{"href"=>"gallery.html"}<
 				%img{"src"=>"images/icons/work.svg"}>
 				%div gallery
 			%a{"href"=>"contact.html"}<
@@ -25,6 +26,7 @@
 		#content-holder
 			%h1<
 				%img{"src"=>"images/text-gallery.png", "alt"=>"gallery"}
+			%a{name:"content"}
 			#content-pane
 				/Oh, wouldn't it be nice to be able to define a height variable here… but can't do that.
 				%div{style:"min-height:300px;"}

@@ -13,6 +13,7 @@
 		%title Status
 		%link{"rel"=>"stylesheet", "href"=>"css/Grey and Blue.css"}
 	%body
+		%a{id:"skip-nav", href:"#content"}Skip navigation.
 		#badge<
 			%img{"src"=>"images/icons/chat2.svg"}> 
 			-#This is the background icon to display.
@@ -23,7 +24,7 @@
 			%a{"href"=>"gallery.html"}<
 				%img{"src"=>"images/icons/work.svg"}>
 				%div gallery
-			%a{}<
+			%a{"href"=>"contact.html"}<
 				%img{"src"=>"images/icons/chat2.svg"}>
 				%div contact
 			%a{"href"=>"feeds.html"}<
@@ -32,5 +33,6 @@
 		#content-holder
 			%h1<
 				%img{"src"=>"images/text-contact.png", "alt"=>"contact"}
+			%a{name:"content"}
 			#content-pane You can reach me at robertsdavidddr@gmail.com, on Github as DDR0, or on IRC as DDR on freenode.net.
 	%footer	Site ©2013 David Roberts.

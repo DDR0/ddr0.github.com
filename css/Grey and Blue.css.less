@@ -59,6 +59,20 @@ body {
 	}
 }
 
+#skip-nav {
+	color: transparent;
+	position: absolute;
+}
+
+#skip-nav:active, #skip-nav:focus {
+	color: white;
+	text-shadow: black 0 0 2px;
+}
+
+#skip-nav:hover {
+	cursor: default;
+}
+
 #content-holder {
 	width: 100%;
 	box-shadow: 0px 0px 50px @cContentBackgroundShadow;
@@ -90,6 +104,7 @@ body {
 	position: absolute;
 	overflow: hidden; 
 	height: 135px; /*Set to 146 for ribbon transparency effect.*/
+	pointer-events: none;
 }
 
 #badge img {

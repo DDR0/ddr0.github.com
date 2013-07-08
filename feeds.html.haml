@@ -5,6 +5,7 @@
 		%title Status
 		%link{"rel"=>"stylesheet", "href"=>"css/Grey and Blue.css"}
 	%body
+		%a{id:"skip-nav", href:"#content"}Skip navigation.
 		#badge<
 			%img{"src"=>"images/icons/rss.svg"}> 
 			-#This is the background icon to display.
@@ -18,11 +19,12 @@
 			%a{"href"=>"contact.html"}<
 				%img{"src"=>"images/icons/chat2.svg"}>
 				%div contact
-			%a{}<
+			%a{"href"=>"feeds.html"}<
 				%img{"src"=>"images/icons/rss.svg"}>
 				%div rss
 		#content-holder
 			%h1<
 				%img{"src"=>"images/text-feeds.png", "alt"=>"feeds"}
+			%a{name:"content"}
 			#content-pane No RSS yet.
 	%footer	Site ©2013 David Roberts.

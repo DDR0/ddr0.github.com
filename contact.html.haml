@@ -1,16 +1,8 @@
-:ruby
-	def blogContent
-		buffer = Dir.glob(Dir.getwd+'/Blog Posts/*.html').
-			sort!.last(5000).reverse!. #We won't figure out multiple pages until we have to.
-			map!{|f| File.read(f)}.
-			join
-	end
-
 !!!
 %html{"lang"=>"en"}
 	%head
 		%meta{"charset"=>"utf-8"}
-		%title Status
+		%title Contact
 		%link{"rel"=>"stylesheet", "href"=>"css/Grey and Blue.css"}
 	%body
 		%a{id:"skip-nav", href:"#content"}Skip navigation.

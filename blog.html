@@ -21,22 +21,21 @@
       <div id='content-pane'>
         <h2>Diagrams and Charts of Game Mechanics</h2>
         <p>
-          Most games have some sort of internal economy, in which you can trade <em>this</em> for <em>that</em>. By graphing relations between parts of the game we can see, generally, how well a game's economy will stand up during play. Lets start off by looking at the simplest example there is, <a href="http://progressquest.com/">Progress Quest</a><a class="lp" href="http://www.youtube.com/watch?v=0W2DyOWPbAA"></a>.
+          Computer games are, in broad terms, systems of exchange. The player can exchange gold coins for a fancy sword; time and attention for progress; or the player can sit back and watch the game exchange stuff with itself. By graphing interactions between the player and bits of the game, we can see what the focus of the play of the game will be. Lets start off by looking at the simplest example there is, <a href="http://progressquest.com/">Progress Quest</a><a class="lp" href="http://www.youtube.com/watch?v=0W2DyOWPbAA"></a>.
         </p>
         <figure>
           <img alt='One relationship, here: time positively influences progress through the game.' src='Blog Posts/02/Progress Quest.svg'>
-          <figcaption><strong>Progress Quest:</strong> No time to grind.</figcaption>
+          <figcaption><strong>Progress Quest:</strong> Time is exchanged for progress, no effort on behalf of the player required. If a repetitive task can be optimized, it should be, right?</figcaption>
         </figure>
         <p>
-          The player is not noted on this graph, as the player is only involved during the setup of the game. Like <a href="http://rob-bell.net/2009/06/a-beginners-guide-to-big-o-notation/">big O notation</a>, our graphs disregard one-time costs.
+          The player is not noted on this graph, as the player is only involved during the setup of the game. Like <a href="http://rob-bell.net/2009/06/a-beginners-guide-to-big-o-notation/">big O notation</a>, our graphs will disregard one-time costs.
         </p>
-        <h3>Farmville</h3>
-        <p>
-          A more complicated example might be <a href="http://company.zynga.com/games/farmville">Farmville</a><a class='lp' href="http://www.youtube.com/watch?v=poq5RSNmYnM"></a>, which I have not played. In <em>general</em>, I gather you trade attention for crops for currency. Generally, the more attention you pay the game, the more currency it gives you. You can trade others' attention for currency, too, by bugging friends for it. You can trade more of your attention by getting a job, using it to convert your attention to money, and converting the real money into in-game currency. You can then trade currency in for better ways to get currency. The focus of play seems to be on getting currency or waiting for it, as opposed to putting effort in.
-        </p>
+        <!-- %h3 Farmville -->
+        <!-- %p -->
+        <!-- A more complicated example might be <a href="http://company.zynga.com/games/farmville">Farmville</a><a class='lp' href="http://www.youtube.com/watch?v=poq5RSNmYnM"></a>, which I have not actually played. In <em>general</em>, I gather you trade attention for currency by growing crops. Generally, the more attention you pay the game, the more currency it gives you. You can trade others' attention for currency, too, by bugging friends for it. You can trade more of your attention by getting a job, using it to convert your attention to money, and converting the real money into in-game currency. You can then trade currency in for better ways to get currency. The focus of play seems to be on getting currency. -->
         <h3>OpenTTD</h3>
         <p>
-          A similiar game that I have played is <a href="http://www.openttd.org">OpenTTD</a><a class='lp' href="http://youtu.be/ic-lzaJigDk?t=10m"></a>. In it, instead of waiting to harvest our plants, we wait for our vehicles to deliver our cargo. The result is the same: currency, for which to improve our currency-getting abilities.
+          A rather more interesting example is <a href="http://www.openttd.org">Open Transport Tycoon Deluxe</a><a class='lp' href="http://youtu.be/ic-lzaJigDk?t=10m"></a>. As with many games, you are limited in your actions by your budget. You can actually earn enough money that it becomes a non-issue, however, at which point you are limited simply by the amount of time you can actually put in to building new routes. (Side note: This presents a curious inversion to Zynga games such as <a href="http://company.zynga.com/games/farmville">Farmville</a><a class='lp' href="http://www.youtube.com/watch?v=poq5RSNmYnM"></a>, which progress slower as you progress. OpenTTD <strong>accelerates</strong> the pace as the game goes on.) The chart below describes one facet of the game, the routes you have your vehicles haul goods over to make money.
         </p>
         <figure>
           <img alt='A complex graph of relationships in OpenTTD.' src='Blog Posts/02/OpenTTD.svg'>
@@ -44,18 +43,27 @@
           <figcaption><strong>OpenTTD:</strong> An unsubtle graph, containing the loudest relationships.</figcaption>
         </figure>
         <p>
-          For example, say we have a length of railway that is not congested yet. Our effort could be better spent somewhere else, even though the decongestion of the route would decrease. The route would have less future potential to generate revenue, since trains would progress slower along the route as they got in their way. We could spend that effort making the route longer, or making it straighter. Alternatively, we might have to wait for some time to pass, and for existing investments in vehicles to pay off. As with Farmville, we see the effort-time-currency pyramid again, but in this game it is weighted towards the effort side.
+          A route can (basically) be graded on a handful of characteristics; straightness, decongestion, infrastructure, and potential. To examine straightness: First, it takes more effort to make a straight route. Other things have to moved out of the way. So more effort positively affects straightness. It costs money to (re)move things, so straightness negatively affects money. However, it positively affects decongestion, which (following the arrows) leads to vehicles having higher speed, which leads to progressing along the route faster, which leads to more money. So, straightness is an investment which will return long-term. Since the interaction graph is very circular like this, we can conclude that OpenTTD is a game of investments, with a strong focus on money.
+        </p>
+        <p>
+          Or, say we have a length of railway that is not congested yet. Our effort could be better spent somewhere else, even though the decongestion of the route would decrease. The route would have less future potential to generate revenue, since trains would progress slower along the route as they got in their way. We could spend that effort making the route longer, or making it straighter.
+        </p>
+        <p>
+          Alternatively, we might have to wait for some time to pass, and for existing investments to pay off.
         </p>
         <h3>Sim City</h3>
         <p>
-          In <a href="http://www.ea.com/simcity-4-deluxe">Sim City 4</a><a class='lp' href="http://www.youtube.com/watch?v=HMzz2LPYYsY"></a>, we have a <strong>lot</strong> of arrows pointing to and from the transit system of your city in comparison to the other services of the game. The power system basically goes: currency → power plant → power lines → demand → currency. The water system works exactly the same way, with no other significant effects. Transit systems, however, are in demand based on terrain, where stuff has been zoned, and what neighbours you have. Their ability to supply the demand is lowered when demand is high. They directly generate currency, in addition to consuming it. They're comprised of roads, rails, airports, subways, and so on. The partial failure of transit systems can lower or raise demand on all systems, sometimes spectacularly so. In terms of city infrastructure, you will put down more transit tiles than other infrastructure, combined. The game revolves around transit, to the detriment of the other fascets of city planning. If cause and effect were graphed out, this would show up as a large number of arrows surrounding "transit". While this would be fine for a transit game, I do not believe it is what makes Sim City a good game.
+          In <a href="http://www.ea.com/simcity-4-deluxe">Sim City 4</a><a class='lp' href="http://www.youtube.com/watch?v=HMzz2LPYYsY"></a>, we would have a <em>lot</em> of arrows pointing to and from the transit system of our city. Take the power system: the power system basically goes currency → power plant → city growth → currency. The water system works exactly the same way, with no other significant effects. Transit systems, however, are in demand based on terrain, where stuff has been zoned, and what neighbours you have. Their ability to supply the demand is lowered when demand is high. They directly generate currency, in addition to consuming it. They're comprised of roads, rails, airports, subways, and so on. The partial failure of transit systems can lower or raise demand on all systems, sometimes spectacularly so – in addition to positively or negatively affecting city growth! In terms of city infrastructure, you will put down more transit tiles than other infrastructure combined.
         </p>
         <p>
-          Every version of Sim City, and most other earlier Maxis games, adheres to the effort-time-currency pyramid. You can put effort in, if you don't have to wait for a period of time to get currency. It is partially avoided in Spore and The Sims, since you are generally able to put effort in even if you don't have currency.
+          Since there are no other systems which interact deeply as transit does, we can conclude the Sim City 4 revolves around transit. This is a bit of thematic clash with the presentation of the game, which is to build a <em>city</em>. By charting relationships before building a game, we can foresee such problems and know what steps to take to avoid them.
+        </p>
+        <p>
+          Every version of Sim City, and most other earlier Maxis games, adhere to a effort-time-currency pyramid. You can put effort in, if you don't have to wait for a period of time to get enough currency to fund your efforts. This is a very popular model for simulation-genre games, and is seen in such games as <a href="http://www.openttd.org">Open TTD</a><a class='lp' href="http://youtu.be/ic-lzaJigDk?t=10m"></a>, the <a href="http://www.tropico3.com/us/index.php">Tropico</a><a class='lp' href="http://www.youtube.com/watch?v=4Jhb1wzRtgs"></a> series, and <a href=http://www.old-games.com/download/4506/yoot-tower>YooT Tower</a><a class='lp' href="http://www.youtube.com/watch?v=afgaeCdw-4s"></a>. (YooT Tower is a sequel to the more popular Sim Tower.)
         </p>
         <h3>A Dark Room</h3>
         <p>
-          I found an interesting game a few days ago. It is very well designed, and can be played at <a href="http://adarkroom.doublespeakgames.com/">Doublespeak Games</a>. The game takes a fairly extreme approach to growing the graph of interactions. It starts with one, and you move up from there. (This is the polar opposite of <a href="">Dwarf Fortress</a><a class='lp' href="http://www.youtube.com/watch?v=kQUihAU6GHE"></a>, which starts you off with all the interacitons.) A Dark Room is ridiculously easy to learn, and it stays fresh throughout the game as the interaction web expands.
+          I found an interesting game a few days ago. It is very well designed, and can be played at <a href="http://adarkroom.doublespeakgames.com/">Doublespeak Games</a>' site. The game takes a fairly extreme approach the graph of interactions. It starts with one. You move up from there. (This is the polar opposite of <a href="http://www.bay12games.com/dwarves/">Dwarf Fortress</a><a class='lp' href="http://www.youtube.com/watch?v=kQUihAU6GHE"></a>.) A Dark Room is ridiculously easy to learn, and it stays fresh throughout the game as the number of interactions expands.
         </p>
         <figure>
           <img alt='A simple graph of relationships in A Dark Room.' src='Blog Posts/02/A Dark Room 1.svg'>
@@ -75,7 +83,7 @@
           <figcaption><strong>Stage 4</strong></figcaption>
         </figure>
         <p>
-          That is powerful stuff.
+          And that – that is powerful stuff. <a href="http://www.valvesoftware.com/games/portal.html">Portal</a><a class='lp' href="http://www.youtube.com/watch?v=urlwUpCDLW4&list=SP28A9E697FB499C82&index=1"></a> (the first version, at least) played the same game, to great effect, and enjoyed great success. <em>Progress</em> is a powerful thing!
         </p>
         
         

@@ -21,3 +21,6 @@
 #content-pane a.lp:after {
   content: url("../images/icons/lets play.svg");
 }
+#content-pane > p {
+  text-indent: 2em;
+}

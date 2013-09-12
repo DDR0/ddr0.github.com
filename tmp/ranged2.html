@@ -1,0 +1,72 @@
+<html>
+  <body>
+    <p>Check the javascript console for output. (Chrome prints it the nicest.)</p>
+    <script>
+      "use strict";
+      //Inserts a finite interval into a list of ordered, non-overlapping intervals. May or may not change the list passed in.
+      function insert(intervals, newInterval) {
+        
+        //Scan through the list to find the first element that's bigger than our interval and does not overlap. This could/should be done through a binary search, say, _.find().
+        intervals.push([Infinity, Infinity]); //This means that we'll always have a value to insert under.
+        for(var i = 0; i < intervals.length; i++) {
+          if(intervals[i][0] > newInterval[1]) {
+            
+            //Add our element in where it belongs, below the next largest interval.
+            intervals = [].concat(
+              intervals.slice(0,i),
+              [newInterval],
+              intervals.slice(i,intervals.length) );
+            
+            //Now, we'll back up through the list until we find a non-overlapping element…
+            while(i >= 1 && intervalsOverlap(intervals[i-1], intervals[i])) {
+              //…collapsing overlapping elements as we do so.
+              intervals = [].concat(
+                intervals.slice(0,i-1),
+                [combineIntervals([intervals[i-1], intervals[i]])],
+                intervals.slice(i+1, intervals.length) );
+              i = i - 1;
+            }
+            
+            //Clean up and return.
+            intervals.pop(); //Get rid of the Infinity interval, we don't need it anymore.
+            return intervals;
+          }
+        }
+      }
+      
+      function intervalsOverlap(a,b) {
+        return a[1] >= b[0]-1 && a[0] <= b[1]+1;
+      }
+      
+      //Returns a new interval by concatenating the list of all intervals, then selecting the maximum and minimum value in the list.
+      function combineIntervals(intervals) {
+        intervals = [].concat.apply([], intervals);
+        return [
+          Math.min.apply(Math, intervals), 
+          Math.max.apply(Math, intervals),
+        ];
+      }
+      
+      //Run the tests.
+      var toInsert = [
+        [10,12],  //Test for insertion, no deletion.
+        [9,12],   //For insertion, collapsing the 7-8 range with the 9-12 range. (Is this is correct behaviour, or are ranges 7-8 and 9-12 non-contiguous?)
+        [9,14],   //Test for insertion, collapsing the 14-16 range as well.
+        [0,100],  //Collapse all.
+        [-4,-2],  //Test for insertion before the first element.
+        [-4,2],   //And it collapses correctly?
+        [100,110],//Test for insertion after the last element.
+        [70,110], //And it collapses correctly?
+      ];
+      
+      console.log.apply(console, ['intervals are', [1,3],[7,8],[14,16],[70,72]]);
+      console.log('');
+      toInsert.forEach(function(range, index) {
+        var intervals = [[1,3],[7,8],[14,16],[70,72]]; //This will get modified, so we'll redeclare it each iteration.
+        console.log('Input '+(index+1), range);
+        console.log.apply(console, ['Output '+(index+1)].concat(insert(intervals, range)));
+        console.log('');
+      });
+    </script>
+  </body>
+</html>

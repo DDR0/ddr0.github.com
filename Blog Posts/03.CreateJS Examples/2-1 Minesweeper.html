@@ -1,0 +1,75 @@
+<HTML>
+	<head>
+		<title>Example 2-1: Minesweeper</title>
+		<script src="http://code.createjs.com/createjs-2013.05.14.min.js"></script>
+	</head>
+	<body>
+		<canvas id="output" width=320 height=320></canvas>
+		<script>
+			"use strict"
+			
+			var stage = new createjs.Stage("output");
+			
+			//Set up some z-layers, as in example 1.
+			var tileContainer, uiContainer;
+			stage.addChild(tileContainer = new createjs.Container());
+			stage.addChild(uiContainer = new createjs.Container());
+			
+			tileContainer.cache(0,0,320,320);
+			
+			
+			//Add 1600 tiles in a square. This should load one of our processors a little, and we can observe it with our task manager. You can open one up in Chrome by pressing shift-esc.
+			var tiles = [];
+			for (var x = 0; x < 40; x++) {
+				tiles.push([])
+				for (var y = 0; y < 40; y++) {
+					tiles[x][y] = addTile(tileContainer, x, y);
+				};
+			};
+			tiles[39][39].image.onload = function() {tileContainer.updateCache()}; //When the last tile's image has loaded, we need to refresh the cache. Otherwise, we'll just draw a blank canvas.
+			//When we click on the tile, we should make it respond. We'll use the question mark in place of an actual game of minesweeper.
+			stage.addEventListener("mousedown", function revealTile(event) {
+				var x = Math.floor(event.stageX/8); //StageX is the pixel of the stage we clicked on. (The formula gives us the index of our tile.)
+				var y = Math.floor(event.stageY/8); //8 is how wide our tiles are.
+				tiles[x][y].image.src="images/question mark tile.png";
+				tiles[x][y].image.onload = function() {tileContainer.updateCache()}; //Update the cache when our new image has been drawn.
+			});
+			
+			
+			//Add two blue bars to the stage to track the mouse.
+			var horizontalBlueBar = addGridTool(uiContainer, -90);
+			var verticalBlueBar = addGridTool(uiContainer, 0);
+			//We'll make them track our mouse cursor. How quickly they do so will also give us a good feel for our framerate.
+			stage.addEventListener("stagemousemove", function updateGridTool(event) {
+				horizontalBlueBar.y = event.stageY;
+				verticalBlueBar.x = event.stageX;
+			});
+			
+			//When we redraw the stage, we should make the blue bars flicker a bit for effect.
+			createjs.Ticker.addEventListener("tick", function paintStage() {
+				horizontalBlueBar.alpha = 0.3 + Math.random()/3;
+				verticalBlueBar.alpha = 0.3 + Math.random()/3;
+				
+				stage.update();
+			});
+			
+			
+			function addTile(stage, x, y) {
+				var tile = new createjs.Bitmap("images/blank tile.png");
+				tile.x = x*8,      tile.y = y*8;      //Our tile is 16 pixels wide, but we'll scale them down for this example.
+				tile.scaleX = 0.5, tile.scaleY = 0.5; //We need to draw lots of objects to produce a measurable stress on a modern computer.
+				stage.addChild(tile);
+				return tile;
+			}
+			
+			function addGridTool(stage, rotation) {
+				var gridTool = new createjs.Bitmap("images/bar gradient.png");
+				gridTool.regX = 4;     //Offset the bar a bit in the narrow dimension, so our mouse will be over the middle of it.
+				gridTool.scaleY = 320; //Make the bar as long as the gamefield.
+				gridTool.rotation = rotation;
+				stage.addChild(gridTool)
+				return gridTool;
+			}
+		</script>
+	</body>
+</HTML>

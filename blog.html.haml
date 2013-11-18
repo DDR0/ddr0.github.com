@@ -1,10 +1,11 @@
 :ruby
-	def blogContent
+	def blogContent #Compile the blog posts. They will look in the folder named after them for their resources. eg, 01.My Post.html.haml will look in the 01.My Post/ in the same directory for it's files. 01.My Post/file.ext is easily referenced by ~/file.ext. … I bet this is how Ruby on Rails started.
 		counter = 1;
 		buffer = Dir.glob(Dir.getwd+'/Blog Posts/*.html').
-			sort!.last(5000). #We won't figure out multiple pages until we have to.
-			map{|f| File.read(f)}.
-			each{|f| f.gsub!("~/", "Blog Posts/%02d/" % counter); counter+=1}.
+			sort!.#last(5000). We won't figure out multiple pages until we have to.
+			map{|f| File.read(f). #TODO: Figure out how to use the gsub! function. Speed.
+				gsub("~/", "Blog Posts/#{File.basename(f, '.*')}/").
+				gsub("~\\/", "~/")}.
 			reverse!.join("\n\n\n\n\n\n<hr>\n\n\n\n\n\n")
 	end
 

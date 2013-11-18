@@ -1,0 +1,168 @@
+<HTML>
+	<head>
+		<title>Example 4-1: Per-Pixel Effects</title>
+		<meta charset="utf-8">
+		<script src="http://code.createjs.com/createjs-2013.05.14.min.js"></script>
+		<style>
+			canvas {position: absolute;}
+			#overlay {
+				background: url('images/forest background.png') no-repeat;
+				z-index: 1;
+			}
+			#underlay {
+				background: black;
+				top: 180px;
+			}
+		</style>
+	</head>
+	<body>	
+		<canvas id="overlay"  width=346 height=274></canvas>
+		<canvas id="underlay" width=346 height=102></canvas>
+		
+		<!--The game simulation up top. Written with the CreateJS library.-->
+		<script>
+			"use strict";
+			var stage = new createjs.Stage("overlay");
+			
+			createjs.Ticker.addEventListener("tick", function paintStage() { stage.update(); });
+			createjs.Ticker.setInterval(1000/50); //Results in a delay of 20 ms/frame for 50fps.
+			
+			var playerSpriteSheet = new createjs.SpriteSheet({
+				images: ["images/frogatto.png"], //A (very) pared-down version of the character.
+				frames: [
+					//[x, y, width, height, imageIndex, regX, regY]
+					[  7,12,48,48,0,21,42], //Run frames.
+					[ 58,12,48,48,0,21,42],
+					[  7,63,48,48,0,21,42],
+					[ 58,63,48,48,0,21,42],
+					[122,58,48,48,0,25,40], //Skid animation.
+					[124,18,32,32,0,16,31], //Idle animation.
+					[159,18,32,32,0,16,31],
+					[194,18,32,32,0,16,31],
+					[187,68,32,48,0,16,37], //Fall pose.
+				],
+				animations: { //Refer to http://www.createjs.com/Docs/EaselJS/classes/SpriteSheet.html for documentation.
+					run: {
+						frames:[0,1,2,3],
+						frequency: 5,
+						next: "run",
+					}, 
+					skid: {
+						frames:[4,4], //"next" won't trigger if we only have one frame.
+						frequency: 6,
+						next: "idle",
+					},
+					idle: {
+						frames:[5,6,7,6],
+						frequency: 15,
+						next: "idle",
+					},
+					fall: {
+						frames:[8],
+					},
+				}
+			});
+			
+			var player = new createjs.BitmapAnimation(playerSpriteSheet);
+			player.gotoAndPlay('idle');
+			player.x = 171, player.y = 150;
+			stage.addChild(player);
+			
+			function groundAt(x) {
+				return Math.min(x+95, 170, 438-x); //A mathematical formula describing the curve of the ground, in the form f(x).
+			}
+			
+			var playerSpeed = 3;
+			var velocityX = 0, velocityY = 0, onGround = false;
+			createjs.Ticker.addEventListener("tick", function addVelocity() {
+				var newX, newY;
+				velocityY += 0.5;
+				newX = player.x + velocityX,
+				newY = player.y + velocityY;
+				var groundY = groundAt(newX);
+				if(newY > groundY) {
+					onGround = true;
+					newY = groundY;
+					velocityY = 0;
+				}
+				player.x = Math.round(newX), player.y = Math.round(newY); 
+				//We seem need to set our position to a whole number, or otherwise we antialias with the red bounding box in our spritesheet.
+				//If we planned on moving slower than ~2px/frame, we'd need to store a decimal shadow between frames.
+			});
+			
+			document.addEventListener("keydown", function(event) {
+				//console.debug('key', event.which);
+				
+				if(!velocityX && (event.which === 37 || event.which === 39)) { //Left and right arrow key codes.
+					if(event.which === 37) {
+						velocityX = -playerSpeed;
+						player.scaleX = -1;
+					} else {
+						player.scaleX = 1;
+						velocityX = +playerSpeed;
+					}
+					player.gotoAndPlay("run");
+				}
+				
+				if(onGround && event.which === 38) {
+					velocityY = -8;
+					onGround = false;
+				}
+			});
+			
+			document.addEventListener("keyup", function(event) {
+				if(velocityX && (event.which === 37 || event.which === 39)) {
+					velocityX = 0;
+					player.gotoAndPlay("skid");
+				}
+			});
+		</script>
+		
+		<script>
+			var seed = document.getElementById('overlay' ).getContext('2d');
+			var pond = document.getElementById('underlay').getContext('2d');
+			
+			var frame=0;
+			//Copy the line of pixels our feet are on to the backing canvas. This will be the seed value for our data.
+			requestAnimationFrame(function copySeedToPond() {requestAnimationFrame(copySeedToPond); 
+				if(!(++frame%5)) { //Five frames, because that's the frequency of our fastest animation. This will produce pulses in the output.
+					pond.putImageData(seed.getImageData(0,169,seed.canvas.width,1), 0,0);
+				}
+			});
+			
+			
+			var w = pond.canvas.width;
+			var h = pond.canvas.height;
+			var d = 4; //Depth; four colour channels per pixel. (Red, Green, Blue, & Alpha.)
+			var dataSize = w*h*d;
+			var lineWidth = w*d;
+			var dataOut = new Uint8ClampedArray(dataSize);
+			var diagonal=0, chan=0, x=0, y=0, z=0; //x,y,z → x of pixel, y of pixel, and colour channel of pixel.
+			
+			requestAnimationFrame(function runPond() {requestAnimationFrame(runPond);
+				var image = pond.getImageData(0,0,w,h);
+				var dataIn = image.data;
+				diagonal = 0; //In 30% of the cases, expand diagonally too. Since we're on a square grid, I can't track circular expansion properly.
+				
+				//Loop over each channel of each pixel, and copy the highest neighbouring channel into ourself.
+				for(chan=0; chan!=dataSize; chan++) {
+					diagonal = Math.random() > 0.8;
+					dataOut[chan] = Math.max(
+						dataIn[chan-d], 
+						dataIn[chan+d], 
+						dataIn[chan-lineWidth], 
+						dataIn[chan+lineWidth],
+						diagonal && dataIn[chan-d-lineWidth],
+						diagonal && dataIn[chan-d+lineWidth],
+						diagonal && dataIn[chan+d-lineWidth],
+						diagonal && dataIn[chan+d+lineWidth]
+					)-2;
+				}
+				
+				image.data.set(dataOut);
+				pond.putImageData(image, 0, 0);
+			});
+			
+		</script>
+	</body>
+</HTML>

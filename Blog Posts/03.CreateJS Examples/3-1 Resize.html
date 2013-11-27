@@ -1,9 +1,13 @@
-<HTML>
+<!DOCTYPE html>
+<html>
 	<head>
 		<title>Example 3-1: Resizing</title>
 		<meta charset="utf-8">
-		<script src="http://code.createjs.com/createjs-2013.05.14.min.js"></script>
+		<script src="createjs-2013.05.14.min.js"></script>
 		<style>
+			body {
+				margin: 0; /*Since the example is normally embedded *somewhere*, we have to remove some implicit padding.*/
+			}
 			div {
 				background-color: black;
 				overflow: hidden; /*Make the div resizable.*/
@@ -72,4 +76,4 @@
 			stage.update();
 		</script>
 	</body>
-</HTML>
+</html>

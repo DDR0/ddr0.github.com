@@ -9,8 +9,8 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="12"
-   height="12"
+   width="11"
+   height="11"
    id="svg15847"
    version="1.1"
    inkscape:version="0.48.4 r9939"
@@ -25,7 +25,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="22.197802"
-     inkscape:cx="2.8304453"
+     inkscape:cx="-7.5759904"
      inkscape:cy="8"
      inkscape:current-layer="layer1"
      showgrid="true"
@@ -44,8 +44,8 @@
        visible="true"
        enabled="true"
        snapvisiblegridlinesonly="true"
-       spacingx="0.9975px"
-       spacingy="0.9975px" />
+       spacingx="1px"
+       spacingy="1px" />
   </sodipodi:namedview>
   <metadata
      id="metadata15852">
@@ -63,24 +63,24 @@
      id="layer1"
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
-     transform="translate(0,-4)">
+     transform="translate(0,-5)">
     <rect
        style="fill:none;stroke:#000000;stroke-width:0.73509145;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
        id="rect15857"
        width="10.265553"
        height="10.265553"
-       x="0.86504573"
-       y="4.8694024"
+       x="0.36754572"
+       y="5.3669009"
        ry="2.1997612" />
     <path
        style="fill:none;stroke:#000000;stroke-width:0.73509145px;stroke-linecap:round;stroke-linejoin:miter;stroke-opacity:1"
-       d="M 3.0648069,12.935193 8.197583,7.8024171"
+       d="M 2.5673069,13.432691 7.700083,8.2999155"
        id="path17307"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cc" />
     <path
        style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.20876598;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-opacity:1;stroke-dasharray:none"
-       d="M 8.9182225,7.0817775 8.0843076,12.085266 7.250393,8.7496071 3.9147339,7.9156923 z"
+       d="M 8.4207225,7.5792759 7.5868076,12.582764 6.752893,9.2471055 3.4172339,8.4131907 z"
        id="path17309"
        inkscape:connector-curvature="0" />
   </g>

@@ -19,23 +19,157 @@
       <h1><img alt='blog' src='images/text-blog.png'></h1>
       <a name='content'></a>
       <div id='content-pane'>
+        <h2 class='start-code-viewer-scan'>Practical CreateJS Examples</h2>
+        <!-- /This is a trigger to start looking for elements with data-code-sources. The script pans through the entire page looking for it, because I don't know to to 'get elements after this element'. We break at the <hr> -->
+        <script>
+          "use strict";
+          var listenerWindow = {};
+          var createjsExamples = {
+          	play: function play(iframe, url) {document.getElementById(iframe).src = url;},
+          	stop: function stop(iframe) {document.getElementById(iframe).src = ""},
+          	show: function show(iframe, url) {
+          		var codeWindow = window.open("Blog Posts/03.CreateJS Examples/code viewer.html", '_blank');
+          		window.cw = codeWindow;
+          		
+          		function sendURL(event) {
+          			if(event.data === "need-url") {
+          				console.log('sending url');
+          				codeWindow.postMessage({url:url, iframe:iframe}, window.location.origin);
+          				codeWindow.removeEventListener("message", sendURL, false);
+          				
+          				var listenForSelect = function(message, event) {
+          					console.log('got event ' + event.type, event);
+          					if("turn-off" === event.data.type) {
+          						codeWindow.removeEventListener("message", listenForSelect, false);
+          						configureEvents(iframe, true);
+          					}
+          				};
+          				codeWindow.addEventListener("message", listenForSelect, false);
+          				
+          				configureEvents(iframe, false);
+          			}
+          		};
+          		codeWindow.addEventListener("message", sendURL, false);
+          		},
+          	};
+        </script>
+        <script>
+            "use strict";
+            (function scopeForConfigEvents() {
+              var enable = false;
+              window.configureEvents = function configureEvents(target, disable) {//takes id of one of the code examples and a boolean.
+                if(typeof(target) === 'undefined' || typeof(disable) === 'undefined') {throw new Error('target ('+target+') and disable ('+disable+') must be defined.')}
+                enable = typeof(disable)==='boolean' ? !disable : !enable;
+                var triggerTag = 'data-code-viewer-scan';
+                var codeTag = 'data-code-source';
+              	var context = "«none»";
+                var mode;
+                
+                var searchForStart = function(child) {
+                  //Scans forward for data attr start. This triggers the rest of the code.
+                  var trigger = child.getAttribute(triggerTag);
+                  if("start" === trigger) {mode = processData;}
+                  else if(trigger) {throw new Error("Found "+trigger+" attr before finding start attr of "+triggerTag+". ("+child+")");}
+                };
+                
+                var processData = function(child) {
+                  //This scans forward until we hit the end data attr.
+                  var trigger = child.getAttribute(triggerTag);
+                  var code = child.getAttribute(codeTag);
+                  var classes = child.classList;
+                  
+                  if(code) {context = child.getAttribute('id');}
+                  
+                  if(context === target) {
+                  
+                    if([].indexOf.call(classes, "cjs-line") > -1) {
+                      //console.log('found one', classes, child);
+                      child.style.backgroundColor = enable?"khaki":"inherit";
+                      child.onclick = (enable?
+                        function(code, lines, event){
+                          console.log('highlighting', code, lines);
+                          event.preventDefault(); //If we happen to have a highlighted /link/, we don't want it to open up on us when we click for code.
+                        }:function() {}
+                      ).bind(this, context, [].filter.call(classes, 
+                        function(x) {return !isNaN(x)}))
+                    }
+                  }
+                  
+                  if("end" === trigger) {
+                    mode = searchForStart;
+                  } else if("start" === trigger) {
+                    throw new Error("Found start attr before finding end attr of "+triggerTag+". ("+child+")");
+                  }
+                };
+                
+                mode = searchForStart;
+              	[].forEach.call(document.getElementById('content-pane').children, function processElement(elem) {
+                  mode(elem);
+                  [].forEach.call(elem.children, processElement); //I have a feeling this may play hell with slower devices.
+                });
+              };
+            })();
+        </script>
+        <p style='font-size: 10px;'>Note: Some examples were previously discussed in the October 2013 issue of the <a href="http://sdjournal.org/">Software Developer's Journal</a>.</p>
+        <span data-code-viewer-scan='start'></span>
+        <p>I have found it difficult to find nice, minimal examples of EaselJS (from the CreateJS suite). The documentation is nice, but while it does an excellent job of covering the nuts and bolts of the library, I find that some additional assembly instructions would be helpful. So, in rough order of my progression through the library, we have:</p>
+        <h3>Example 1: A Basic Scene</h3>
+        <iframe id="clouds-1" class="iframe-player" data-code-source="Blog Posts/03.CreateJS Examples/1-0 Clouds.html" width="300" height="150" scrolling="no"></iframe>
+        	<div class="iframe-player-buttons">
+        		<button onclick="createjsExamples.play('clouds-1', 'Blog Posts/03.CreateJS Examples/1-0 Clouds.html')">play</button>
+        		<button onclick="createjsExamples.stop('clouds-1')">stop</button>
+        		<button onclick="createjsExamples.show('clouds-1', 'Blog Posts/03.CreateJS Examples/1-0 Clouds.html')">code</button>
+        	</div>
+        <p>We'll start with a small platformer mockup, very basic. In it, we want to have some clouds float behind the player. We'll create a new HTML file, <span class="cjs-line 3">import our library</span>, and write a simple scene. (You may want to reference <a class="cjs-line 3 external" href="http://code.createjs.com/createjs-2013.05.14.min.js">http://code.createjs.com/createjs-2013.05.14.min.js</a> instead, if you're following along at home.)</p>
+        <p>As a first attempt, we add the <span class="cjs-line 24">ground</span>, <span class="cjs-line 29">a cloud</span>, and <span class="cjs-line 40">an actor</span>. Since we're planning to add more clouds later, we've made that code a function. And – what do you know, it works! Our little cloud wafts gently across the sky, behind our actor.</p>
+        <!-- /	<a href="Blog Posts/03.CreateJS Examples/code viewer.html" target="_blank" class="new-window">Interactive Code View</a> -->
+        <iframe id="clouds-2" class="iframe-player" data-code-source="Blog Posts/03.CreateJS Examples/1-1 Clouds.html" width="300" height="150" scrolling="no"></iframe>
+        	<div class="iframe-player-buttons">
+        		<button onclick="createjsExamples.play('clouds-2', 'Blog Posts/03.CreateJS Examples/1-1 Clouds.html')">play</button>
+        		<button onclick="createjsExamples.stop('clouds-2')">stop</button>
+        		<button onclick="createjsExamples.show('clouds-2', 'Blog Posts/03.CreateJS Examples/1-1 Clouds.html')">code</button>
+        	</div>
+        <p>Here, we've added <span class="cjs-line 30 31 32">a function on line 30 to add clouds to our scene every two seconds</span>. While the first cloud works just fine, the other clouds float over our player because they're added after the player is. An index-based solution, like "add this after the first 5 objects", will be a rolling disaster. The best way I've found so far to deal with this problem, generally, is to have named z-orders. Even giving z-orders by an arbitrary number grows difficult to manage after a while.</p>
+        <p>Z-orders are also known as layers, and fill the same role as a 3D game's depth buffer.</p>
+        <iframe id="clouds-3" class="iframe-player" data-code-source="Blog Posts/03.CreateJS Examples/1-2 Clouds.html" width="300" height="150" scrolling="no"></iframe>
+        	<div class="iframe-player-buttons">
+        		<button onclick="createjsExamples.play('clouds-3', 'Blog Posts/03.CreateJS Examples/1-2 Clouds.html')">play</button>
+        		<button onclick="createjsExamples.stop('clouds-3')">stop</button>
+        		<button onclick="createjsExamples.show('clouds-3', 'Blog Posts/03.CreateJS Examples/1-2 Clouds.html')">code</button>
+        	</div>
+        <p>Luckily, CreateJS implements the best of the three systems. They just don't tell you about it. Instead, <a href="http://www.createjs.com/Docs/EaselJS/classes/Container.html">the documentation</a> merely suggests that containers are a good way of grouping together objects that you would like to transform in the same manner. They are also a <em>great</em> way of grouping together objects you'd like to keep beneath other objects. At the start of the program, you can define all the z-orders that will exist as containers, and give them descriptive names. Now, as the program progresses, we can add objects into the right layer.</p>
+        <p>Here, we've added some <span class="cjs-line 17">containers</span> to the stage, and passed those containers into the various function that add our objects. Now, although our functions are unchanged from the previous example, we have our clouds correctly added to the middle layer.</p>
+        <!-- /Replace this with the last element in the article, when we've written it. -->
+        <span data-code-viewer-scan='end'></span>
+        
+        
+        
+        
+        
+        
+        <hr>
+        
+        
+        
+        
+        
         <h2>Diagrams and Charts of Game Mechanics</h2>
         <p>
-          Computer games are, in broad terms, systems of exchange. The player can exchange gold coins for a fancy sword; time and attention for progress; or the player can sit back and watch the game exchange stuff with itself. By graphing interactions between the player and bits of the game, we can see what the focus of the play of the game will be. Lets start off by looking at the simplest example there is, <a href="http://progressquest.com/">Progress Quest</a><a class="lp" href="http://www.youtube.com/watch?v=0W2DyOWPbAA"></a>.
+          Computer games are, in broad terms, systems of exchange. The player can exchange gold coins for a fancy sword; time and attention for progress; or the player can sit back and watch the game exchange stuff with itself. By graphing interactions between the player and bits of the game, we can see what the focus of the play of the game will be. Lets start off by looking at the simplest example there is, <a class="external" href="http://progressquest.com/">Progress Quest</a><a class="lp" href="http://www.youtube.com/watch?v=0W2DyOWPbAA"></a>.
         </p>
         <figure>
           <img alt='One relationship, here: time positively influences progress through the game.' src='Blog Posts/02.Flowcharts of Game Mechanics/Progress Quest.svg'>
           <figcaption><strong>Progress Quest:</strong> Time is exchanged for progress, no effort on behalf of the player required. If a repetitive task can be optimized, it should be, right?</figcaption>
         </figure>
         <p>
-          The player is not noted on this graph, as the player is only involved during the setup of the game. Like <a href="http://rob-bell.net/2009/06/a-beginners-guide-to-big-o-notation/">big O notation</a>, our graphs will disregard one-time costs.
+          The player is not noted on this graph, as the player is only involved during the setup of the game. Like <a class="external" href="http://rob-bell.net/2009/06/a-beginners-guide-to-big-o-notation/">big O notation</a>, our graphs will disregard one-time costs.
         </p>
         <!-- %h3 Farmville -->
         <!-- %p -->
-        <!-- A more complicated example might be <a href="http://company.zynga.com/games/farmville">Farmville</a><a class='lp' href="http://www.youtube.com/watch?v=poq5RSNmYnM"></a>, which I have not actually played. In <em>general</em>, I gather you trade attention for currency by growing crops. Generally, the more attention you pay the game, the more currency it gives you. You can trade others' attention for currency, too, by bugging friends for it. You can trade more of your attention by getting a job, using it to convert your attention to money, and converting the real money into in-game currency. You can then trade currency in for better ways to get currency. The focus of play seems to be on getting currency. -->
+        <!-- A more complicated example might be <a class="external" href="http://company.zynga.com/games/farmville">Farmville</a><a class='lp' href="http://www.youtube.com/watch?v=poq5RSNmYnM"></a>, which I have not actually played. In <em>general</em>, I gather you trade attention for currency by growing crops. Generally, the more attention you pay the game, the more currency it gives you. You can trade others' attention for currency, too, by bugging friends for it. You can trade more of your attention by getting a job, using it to convert your attention to money, and converting the real money into in-game currency. You can then trade currency in for better ways to get currency. The focus of play seems to be on getting currency. -->
         <h3>OpenTTD</h3>
         <p>
-          A rather more interesting example is <a href="http://www.openttd.org">Open Transport Tycoon Deluxe</a><a class='lp' href="http://youtu.be/ic-lzaJigDk?t=10m"></a>. As with many games, you are limited in your actions by your budget. You can actually earn enough money that it becomes a non-issue, however, at which point you are limited simply by the amount of time you can actually put in to building new routes. (Side note: This presents a curious inversion to Zynga games such as <a href="http://company.zynga.com/games/farmville">Farmville</a><a class='lp' href="http://www.youtube.com/watch?v=poq5RSNmYnM"></a>, which progress slower as you progress. OpenTTD <strong>accelerates</strong> the pace as the game goes on.) The chart below describes one facet of the game, the routes you have your vehicles haul goods over to make money.
+          A rather more interesting example is <a class="external" href="http://www.openttd.org">Open Transport Tycoon Deluxe</a><a class='lp' href="http://youtu.be/ic-lzaJigDk?t=10m"></a>. As with many games, you are limited in your actions by your budget. You can actually earn enough money that it becomes a non-issue, however, at which point you are limited simply by the amount of time you can actually put in to building new routes. (Side note: This presents a curious inversion to Zynga games such as <a class="external" href="http://company.zynga.com/games/farmville">Farmville</a><a class='lp' href="http://www.youtube.com/watch?v=poq5RSNmYnM"></a>, which progress slower as you progress. OpenTTD <strong>accelerates</strong> the pace as the game goes on.) The chart below describes one facet of the game, the routes you have your vehicles haul goods over to make money.
         </p>
         <figure>
           <img alt='A complex graph of relationships in OpenTTD.' src='Blog Posts/02.Flowcharts of Game Mechanics/OpenTTD.svg'>
@@ -53,17 +187,17 @@
         </p>
         <h3>Sim City</h3>
         <p>
-          In <a href="http://www.ea.com/simcity-4-deluxe">Sim City 4</a><a class='lp' href="http://www.youtube.com/watch?v=HMzz2LPYYsY"></a>, we would have a <em>lot</em> of arrows pointing to and from the transit system of our city. Take the power system: the power system basically goes currency → power plant → city growth → currency. The water system works exactly the same way, with no other significant effects. Transit systems, however, are in demand based on terrain, where stuff has been zoned, and what neighbours you have. Their ability to supply the demand is lowered when demand is high. They directly generate currency, in addition to consuming it. They're comprised of roads, rails, airports, subways, and so on. The partial failure of transit systems can lower or raise demand on all systems, sometimes spectacularly so – in addition to positively or negatively affecting city growth! In terms of city infrastructure, you will put down more transit tiles than other infrastructure combined.
+          In <a class="external" href="http://www.ea.com/simcity-4-deluxe">Sim City 4</a><a class='lp' href="http://www.youtube.com/watch?v=HMzz2LPYYsY"></a>, we would have a <em>lot</em> of arrows pointing to and from the transit system of our city. Take the power system: the power system basically goes currency → power plant → city growth → currency. The water system works exactly the same way, with no other significant effects. Transit systems, however, are in demand based on terrain, where stuff has been zoned, and what neighbours you have. Their ability to supply the demand is lowered when demand is high. They directly generate currency, in addition to consuming it. They're comprised of roads, rails, airports, subways, and so on. The partial failure of transit systems can lower or raise demand on all systems, sometimes spectacularly so – in addition to positively or negatively affecting city growth! In terms of city infrastructure, you will put down more transit tiles than other infrastructure combined.
         </p>
         <p>
           Since there are no other systems which interact deeply as transit does, we can conclude the Sim City 4 revolves around transit. This is a bit of thematic clash with the presentation of the game, which is to build a <em>city</em>. By charting relationships before building a game, we can foresee such problems and know what steps to take to avoid them.
         </p>
         <p>
-          Every version of Sim City, and most other earlier Maxis games, adhere to a effort-time-currency pyramid. You can put effort in, if you don't have to wait for a period of time to get enough currency to fund your efforts. This is a very popular model for simulation-genre games, and is seen in such games as <a href="http://www.openttd.org">Open TTD</a><a class='lp' href="http://youtu.be/ic-lzaJigDk?t=10m"></a>, the <a href="http://www.tropico3.com/us/index.php">Tropico</a><a class='lp' href="http://www.youtube.com/watch?v=4Jhb1wzRtgs"></a> series, and <a href=http://www.old-games.com/download/4506/yoot-tower>YooT Tower</a><a class='lp' href="http://www.youtube.com/watch?v=afgaeCdw-4s"></a>. (YooT Tower is a sequel to the more popular Sim Tower.)
+          Every version of Sim City, and most other earlier Maxis games, adhere to a effort-time-currency pyramid. You can put effort in, if you don't have to wait for a period of time to get enough currency to fund your efforts. This is a very popular model for simulation-genre games, and is seen in such games as <a class="external" href="http://www.openttd.org">Open TTD</a><a class='lp' href="http://youtu.be/ic-lzaJigDk?t=10m"></a>, the <a class="external" href="http://www.tropico3.com/us/index.php">Tropico</a><a class='lp' href="http://www.youtube.com/watch?v=4Jhb1wzRtgs"></a> series, and <a class="external" href=http://www.old-games.com/download/4506/yoot-tower>YooT Tower</a><a class='lp' href="http://www.youtube.com/watch?v=afgaeCdw-4s"></a>. (YooT Tower is a sequel to the more popular Sim Tower.)
         </p>
         <h3>A Dark Room</h3>
         <p>
-          I found an interesting game a few days ago. It is very well designed, and can be played at <a href="http://adarkroom.doublespeakgames.com/">Doublespeak Games</a>' site. The game takes a fairly extreme approach the graph of interactions. It starts with one. You move up from there. (This is the polar opposite of <a href="http://www.bay12games.com/dwarves/">Dwarf Fortress</a><a class='lp' href="http://www.youtube.com/watch?v=kQUihAU6GHE"></a>.) A Dark Room is ridiculously easy to learn, and it stays fresh throughout the game as the number of interactions expands.
+          I found an interesting game a few days ago. It is very well designed, and can be played at <a class="external" href="http://adarkroom.doublespeakgames.com/">Doublespeak Games</a>' site. The game takes a fairly extreme approach the graph of interactions. It starts with one. You move up from there. (This is the polar opposite of <a class="external" href="http://www.bay12games.com/dwarves/">Dwarf Fortress</a><a class='lp' href="http://www.youtube.com/watch?v=kQUihAU6GHE"></a>.) A Dark Room is ridiculously easy to learn, and it stays fresh throughout the game as the number of interactions expands.
         </p>
         <figure>
           <img alt='A simple graph of relationships in A Dark Room.' src='Blog Posts/02.Flowcharts of Game Mechanics/A Dark Room 1.svg'>
@@ -83,7 +217,7 @@
           <figcaption><strong>Stage 4</strong></figcaption>
         </figure>
         <p>
-          And that – that is powerful stuff. <a href="http://www.valvesoftware.com/games/portal.html">Portal</a><a class='lp' href="http://www.youtube.com/watch?v=urlwUpCDLW4&list=SP28A9E697FB499C82&index=1"></a> (the first version, at least) played the same game, to great effect, and enjoyed great success. <em>Progress</em> is a powerful thing!
+          And that – that is powerful stuff. <a class="external" href="http://www.valvesoftware.com/games/portal.html">Portal</a><a class='lp' href="http://www.youtube.com/watch?v=urlwUpCDLW4&list=SP28A9E697FB499C82&index=1"></a> (the first version, at least) played the same game, to great effect, and enjoyed great success. <em>Progress</em> is a powerful thing!
         </p>
         
         

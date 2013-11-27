@@ -1,9 +1,11 @@
-<HTML>
+<!DOCTYPE html>
+<html>
 	<head>
 		<title>Example 4-1: Per-Pixel Effects</title>
 		<meta charset="utf-8">
-		<script src="http://code.createjs.com/createjs-2013.05.14.min.js"></script>
+		<script src="createjs-2013.05.14.min.js"></script>
 		<style>
+			body {margin: 0;}
 			canvas {position: absolute;}
 			#overlay {
 				background: url('images/forest background.png') no-repeat;
@@ -11,13 +13,13 @@
 			}
 			#underlay {
 				background: black;
-				top: 180px;
+				top: 179px;
 			}
 		</style>
 	</head>
 	<body>	
 		<canvas id="overlay"  width=346 height=274></canvas>
-		<canvas id="underlay" width=346 height=102></canvas>
+		<canvas id="underlay" width=346 height=103></canvas>
 		
 		<!--The game simulation up top. Written with the CreateJS library.-->
 		<script>
@@ -117,52 +119,5 @@
 				}
 			});
 		</script>
-		
-		<script>
-			var seed = document.getElementById('overlay' ).getContext('2d');
-			var pond = document.getElementById('underlay').getContext('2d');
-			
-			var frame=0;
-			//Copy the line of pixels our feet are on to the backing canvas. This will be the seed value for our data.
-			requestAnimationFrame(function copySeedToPond() {requestAnimationFrame(copySeedToPond); 
-				if(!(++frame%5)) { //Five frames, because that's the frequency of our fastest animation. This will produce pulses in the output.
-					pond.putImageData(seed.getImageData(0,169,seed.canvas.width,1), 0,0);
-				}
-			});
-			
-			
-			var w = pond.canvas.width;
-			var h = pond.canvas.height;
-			var d = 4; //Depth; four colour channels per pixel. (Red, Green, Blue, & Alpha.)
-			var dataSize = w*h*d;
-			var lineWidth = w*d;
-			var dataOut = new Uint8ClampedArray(dataSize);
-			var diagonal=0, chan=0, x=0, y=0, z=0; //x,y,z → x of pixel, y of pixel, and colour channel of pixel.
-			
-			requestAnimationFrame(function runPond() {requestAnimationFrame(runPond);
-				var image = pond.getImageData(0,0,w,h);
-				var dataIn = image.data;
-				diagonal = 0; //In 30% of the cases, expand diagonally too. Since we're on a square grid, I can't track circular expansion properly.
-				
-				//Loop over each channel of each pixel, and copy the highest neighbouring channel into ourself.
-				for(chan=0; chan!=dataSize; chan++) {
-					diagonal = Math.random() > 0.8;
-					dataOut[chan] = Math.max(
-						dataIn[chan-d], 
-						dataIn[chan+d], 
-						dataIn[chan-lineWidth], 
-						dataIn[chan+lineWidth],
-						diagonal && dataIn[chan-d-lineWidth],
-						diagonal && dataIn[chan-d+lineWidth],
-						diagonal && dataIn[chan+d-lineWidth],
-						diagonal && dataIn[chan+d+lineWidth]
-					)-2;
-				}
-				
-				image.data.set(dataOut);
-				pond.putImageData(image, 0, 0);
-			});
-			
-		</script>
 	</body>
-</HTML>
+</html>

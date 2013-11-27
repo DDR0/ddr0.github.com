@@ -1,0 +1,124 @@
+%h2{:class => "start-code-viewer-scan"} Practical CreateJS Examples
+//This is a trigger to start looking for elements with data-code-sources. The script pans through the entire page looking for it, because I don't know to to 'get elements after this element'. We break at the <hr> 
+
+-# Define the div to run the examples, and some buttons:
+:ruby 
+	def codeViewer(id, width, height, targetURL) 
+		return "<iframe id=\"#{id}\" class=\"iframe-player\" data-code-source=\"#{targetURL}\" width=\"#{width}\" height=\"#{height}\" scrolling=\"no\"></iframe>
+		<div class=\"iframe-player-buttons\">
+			<button onclick=\"createjsExamples.play('#{id}', '#{targetURL}')\">play</button>
+			<button onclick=\"createjsExamples.stop('#{id}')\">stop</button>
+			<button onclick=\"createjsExamples.show('#{id}', '#{targetURL}')\">code</button>
+		</div>"
+	end
+:javascript
+	"use strict";
+	var listenerWindow = {};
+	var createjsExamples = {
+		play: function play(iframe, url) {document.getElementById(iframe).src = url;},
+		stop: function stop(iframe) {document.getElementById(iframe).src = ""},
+		show: function show(iframe, url) {
+			var codeWindow = window.open("Blog Posts/03.CreateJS Examples/code viewer.html", '_new');
+			window.cw = codeWindow;
+			
+			function sendURL(event) {
+				if(event.data === "need-url") {
+					console.log('sending url');
+					codeWindow.postMessage({url:url, iframe:iframe}, window.location.origin);
+					codeWindow.removeEventListener("message", sendURL, false);
+					
+					var listenForSelect = function(message, event) {
+						console.log('got event ' + event.type, event);
+						if("turn-off" === event.data.type) {
+							codeWindow.removeEventListener("message", listenForSelect, false);
+							configureEvents(iframe, true);
+						}
+					};
+					codeWindow.addEventListener("message", listenForSelect, false);
+					
+					configureEvents(iframe, false);
+				}
+			};
+			codeWindow.addEventListener("message", sendURL, false);
+			},
+		};
+		
+:javascript
+	  "use strict";
+	  (function scopeForConfigEvents() {
+	    var enable = false;
+	    window.configureEvents = function configureEvents(target, disable) {//takes id of one of the code examples and a boolean.
+	      if(typeof(target) === 'undefined' || typeof(disable) === 'undefined') {throw new Error('target ('+target+') and disable ('+disable+') must be defined.')}
+	      enable = typeof(disable)==='boolean' ? !disable : !enable;
+	      var triggerTag = 'data-code-viewer-scan';
+	      var codeTag = 'data-code-source';
+	    	var context = "«none»";
+	      var mode;
+	      
+	      var searchForStart = function(child) {
+	        //Scans forward for data attr start. This triggers the rest of the code.
+	        var trigger = child.getAttribute(triggerTag);
+	        if("start" === trigger) {mode = processData;}
+	        else if(trigger) {throw new Error("Found "+trigger+" attr before finding start attr of "+triggerTag+". ("+child+")");}
+	      };
+	      
+	      var processData = function(child) {
+	        //This scans forward until we hit the end data attr.
+	        var trigger = child.getAttribute(triggerTag);
+	        var code = child.getAttribute(codeTag);
+	        var classes = child.classList;
+	        
+	        if(code) {context = child.getAttribute('id');}
+	        
+	        if(context === target) {
+	        
+	          if([].indexOf.call(classes, "cjs-line") > -1) {
+	            //console.log('found one', classes, child);
+	            child.style.backgroundColor = enable?"khaki":"inherit";
+	            child.onclick = (enable?
+	              function(code, lines, event){
+	                console.log('highlighting', code, lines);
+	                event.preventDefault(); //If we happen to have a highlighted /link/, we don't want it to open up on us when we click for code.
+	              }:function() {}
+	            ).bind(this, context, [].filter.call(classes, 
+	              function(x) {return !isNaN(x)}))
+	          }
+	        }
+	        
+	        if("end" === trigger) {
+	          mode = searchForStart;
+	        } else if("start" === trigger) {
+	          throw new Error("Found start attr before finding end attr of "+triggerTag+". ("+child+")");
+	        }
+	      };
+	      
+	      mode = searchForStart;
+	    	[].forEach.call(document.getElementById('content-pane').children, function processElement(elem) {
+	        mode(elem);
+	        [].forEach.call(elem.children, processElement); //I have a feeling this may play hell with slower devices.
+	      });
+	    };
+	  })();
+		
+	
+%p{:style => "font-size: 10px;"} Note: Some examples were previously discussed in the October 2013 issue of the <a href="http://sdjournal.org/">Software Developer's Journal</a>.
+%span{:"data-code-viewer-scan" => "start"}
+%p I have found it difficult to find nice, minimal examples of EaselJS (from the CreateJS suite). The documentation is nice, but while it does an excellent job of covering the nuts and bolts of the library, I find that some additional assembly instructions would be helpful. So, in rough order of my progression through the library, we have:
+
+
+%h3 Example 1: A Basic Scene
+= codeViewer("clouds-1", 300, 150, "~/1-0 Clouds.html")
+%p We'll start with a small platformer mockup, very basic. In it, we want to have some clouds float behind the player. We'll create a new HTML file, <span class="cjs-line 3">import our library</span>, and write a simple scene. (You may want to reference <a class="cjs-line 3 external" href="http://code.createjs.com/createjs-2013.05.14.min.js">http://code.createjs.com/createjs-2013.05.14.min.js</a> instead, if you're following along at home.)
+%p As a first attempt, we add the <span class="cjs-line 24">ground</span>, <span class="cjs-line 29">a cloud</span>, and <span class="cjs-line 40">an actor</span>. Since we're planning to add more clouds later, we've made that code a function. And – what do you know, it works! Our little cloud wafts gently across the sky, behind our actor.
+//	<a href="~/code viewer.html" target="_blank" class="new-window">Interactive Code View</a>
+ 
+= codeViewer("clouds-2", 300, 150, "~/1-1 Clouds.html")
+%p Here, we've added <span class="cjs-line 30 31 32">a function on line 30 to add clouds to our scene every two seconds</span>. While the first cloud works just fine, the other clouds float over our player because they're added after the player is. An index-based solution, like "add this after the first 5 objects", will be a rolling disaster. The best way I've found so far to deal with this problem, generally, is to have named z-orders. Even giving z-orders by an arbitrary number grows difficult to manage after a while.
+%p Z-orders are also known as layers, and fill the same role as a 3D game's depth buffer.
+
+= codeViewer("clouds-3", 300, 150, "~/1-2 Clouds.html")
+%p Luckily, CreateJS implements the best of the three systems. They just don't tell you about it. Instead, <a href="http://www.createjs.com/Docs/EaselJS/classes/Container.html">the documentation</a> merely suggests that containers are a good way of grouping together objects that you would like to transform in the same manner. They are also a <em>great</em> way of grouping together objects you'd like to keep beneath other objects. At the start of the program, you can define all the z-orders that will exist as containers, and give them descriptive names. Now, as the program progresses, we can add objects into the right layer.
+%p Here, we've added some <span class="cjs-line 17">containers</span> to the stage, and passed those containers into the various function that add our objects. Now, although our functions are unchanged from the previous example, we have our clouds correctly added to the middle layer.
+
+//Replace this with the last element in the article, when we've written it.
+%span{:"data-code-viewer-scan" => "end"}

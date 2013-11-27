@@ -13,14 +13,37 @@
 #content-pane figcaption {
   padding-bottom: 1em;
 }
-#content-pane a:after {
+#content-pane a:hover {
+  background-color: white;
+}
+#content-pane .external:after {
   content: url("../images/icons/external link.svg");
   margin-right: 2px;
   margin-left: 2px;
 }
-#content-pane a.lp:after {
+#content-pane .lp:after,
+#content-pane .video:after {
   content: url("../images/icons/lets play.svg");
+  margin-right: 2px;
+  margin-left: 2px;
+}
+#content-pane .new-window:after {
+  content: url("../images/icons/new window.svg");
+  margin-right: 2px;
+  margin-left: 2px;
 }
 #content-pane > p {
   text-indent: 2em;
+}
+#content-pane iframe {
+  overflow: hidden;
+  background-color: darkkhaki;
+  border-width: 0;
+  display: block;
+}
+#content-pane .iframe-player,
+#content-pane .iframe-player-buttons {
+  float: right;
+  clear: right;
+  margin-left: 5px;
 }

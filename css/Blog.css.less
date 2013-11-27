@@ -1,29 +1,56 @@
-#content-pane img {
-	max-width: 100%;
-	display: block;
-	margin-left: auto;
-	margin-right: auto;
-	clear: both;
-}
+#content-pane {
+	img {
+		max-width: 100%;
+		display: block;
+		margin-left: auto;
+		margin-right: auto;
+		clear: both;
+	}
 
-#content-pane figure {
-	margin: 0px;
-	text-align: center;
-	background-color: rgba(255,255,255,0.2);
-}
+	figure {
+		margin: 0px;
+		text-align: center;
+		background-color: rgba(255,255,255,0.2);
+	}
 
-#content-pane figcaption {
-	padding-bottom: 1em;
-}
-#content-pane a:after {
-	content: url("../images/icons/external link.svg");
-	margin-right: 2px;
-	margin-left: 2px;
-}
-#content-pane a.lp:after { //It was this or !important, to override the previous a:after.
-	content: url("../images/icons/lets play.svg");
-}
+	figcaption {
+		padding-bottom: 1em;
+	}
+	
+	a:hover {
+		background-color: white;
+	}
+	
+	.external:after {
+		content: url("../images/icons/external link.svg");
+		margin-right: 2px;
+		margin-left: 2px;
+	}
+	.lp:after, .video:after {
+		content: url("../images/icons/lets play.svg");
+		margin-right: 2px;
+		margin-left: 2px;
+	}
+	.new-window:after {
+		content: url("../images/icons/new window.svg");
+		margin-right: 2px;
+		margin-left: 2px;
+	}
 
-#content-pane > p {
-	text-indent: 2em;
+	> p {
+		text-indent: 2em;
+	}
+	
+	iframe {
+		overflow: hidden;
+		background-color: darkkhaki;
+		border-width: 0;
+		display: block;
+	}
+	
+	.iframe-player, .iframe-player-buttons {
+		float: right;
+		clear: right;
+		margin-left: 5px;
+	}
 }

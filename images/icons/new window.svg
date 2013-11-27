@@ -14,7 +14,7 @@
    id="svg15847"
    version="1.1"
    inkscape:version="0.48.4 r9939"
-   sodipodi:docname="lets play.svg">
+   sodipodi:docname="new window.svg">
   <defs
      id="defs15849" />
   <sodipodi:namedview
@@ -24,9 +24,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="20.123081"
-     inkscape:cx="4.7711056"
-     inkscape:cy="5.8515524"
+     inkscape:zoom="22.197802"
+     inkscape:cx="16.023965"
+     inkscape:cy="0.98182491"
      inkscape:current-layer="layer1"
      showgrid="true"
      inkscape:grid-bbox="true"
@@ -36,7 +36,9 @@
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="1"
-     objecttolerance="20"
+     units="px"
+     inkscape:snap-global="true"
+     inkscape:snap-bbox="true"
      inkscape:snap-page="true"
      inkscape:snap-grids="true"
      inkscape:snap-to-guides="true">
@@ -48,7 +50,8 @@
        enabled="true"
        snapvisiblegridlinesonly="true"
        spacingx="1px"
-       spacingy="1px" />
+       spacingy="1px"
+       dotted="false" />
   </sodipodi:namedview>
   <metadata
      id="metadata15852">
@@ -58,7 +61,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -72,20 +75,29 @@
        id="rect15857"
        width="10.264952"
        height="10.264952"
-       x="0.36752415"
+       x="0.36752418"
        y="5.3675246"
-       ry="2.1996319" />
+       ry="2.1996322" />
     <path
+       style="fill:none;stroke:#000000;stroke-width:0.99994135px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:0.49758456"
+       d="m 8.4795028,7.5204959 0,5.9846481 -5.9846491,0"
+       id="path3893"
+       inkscape:connector-curvature="0" />
+    <rect
+       style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:0.49997067;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="rect3121"
+       width="5.9846492"
+       height="5.9846492"
+       x="2.494854"
+       y="7.5204959" />
+    <rect
        style="fill:#000000;fill-opacity:1;stroke:none"
-       d="m 3,7.5 1,0 0,6 -1,0 z"
-       id="path18818"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="ccccc" />
-    <path
-       style="fill:#000000;fill-opacity:1;stroke:none"
-       d="m 5,7 0,7 3.5000001,-3.500001 z"
-       id="path18820"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cccc" />
+       id="rect3891"
+       width="3.9897661"
+       height="0.99744153"
+       x="3.4922953"
+       y="8.5179386"
+       ry="0"
+       rx="1.9072369e-08" />
   </g>
 </svg>

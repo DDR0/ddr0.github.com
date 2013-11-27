@@ -1,9 +1,11 @@
-<HTML>
+<!DOCTYPE html>
+<html>
 	<head>
 		<title>Example 4-0: DOM Interface</title>
 		<meta charset="utf-8">
-		<script src="http://code.createjs.com/createjs-2013.05.14.min.js"></script>
+		<script src="createjs-2013.05.14.min.js"></script>
 		<style>
+			body {margin: 0;}
 			#speech-bubble { /*A grey speech-bubble.*/
 				background-color: lightgrey;
 				position: absolute; /*Make bubble repositionable.*/
@@ -78,7 +80,7 @@
 				}
 			}
 			
-			//Position the speech bubble HTML element above 
+			//Position the speech bubble html element above 
 			var speechBubble = document.getElementById("speech-bubble");
 			
 			function calculateSpeechBubbleOffset() { //We don't have access (that I know about) from CSS to calculate 'half our width' as a margin value. This is essentially a regX/regY value for the DOM speech bubble, which makes later positioning easier and faster.
@@ -96,9 +98,9 @@
 			
 			function getName() {
 				var name = document.getElementById("name").value;
-				document.getElementById("speech-bubble").innerHTML = "Hello, "+name+".";
+				document.getElementById("speech-bubble").innerhtml = "Hello, "+name+".";
 				calculateSpeechBubbleOffset();
 			}
 		</script>
 	</body>
-</HTML>
+</html>

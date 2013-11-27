@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Code View</title>
+		<style>
+			h1 {
+				font-size: 1em;
+			}
+			ol {
+				/*margin: 0;*/
+				list-style: decimal-leading-zero;
+				/*padding: 0;*/
+			}
+			li {
+				font-family: monospace;
+			}
+			.selected-line {
+				background-color: yellow;
+			}
+		</style>
+	</head>
+	<body onload="loadCode(); if(!localStorage.hideAbout) {document.getElementById('about').style.display = 'inline';}">
+		<h1 id="title">Code Viewer</h1>
+		<p id="about" style="display:none">
+			The idea here is that we have this in a window open beside the article, and then when you mouse over a highlighted phrase there it highlights the relevant lines of code here. It's a bit of an experimental technology, though, so if it doesn't work you can just right click on the demo when it's playing and view the source.<br>
+			<button onclick="localStorage.hideAbout = true; document.getElementById('about').remove()">dismiss</button>
+		</p>
+		<p  id="msg">Loading…</p>
+		<ol id="code"></ol>
+		<script>
+			"use strict";
+			//What is happening, and why: Once we're loaded and the dom is ready to go, send a message to the site that we're ready and we need the url to display the code for. Then, when the site gets back to us, request the URL from the server and display the code. Once /that's/ loaded, start listening for highlight events from the site.
+			var c=console;
+			c.log('stage 1 - document loaded');
+			
+			var loadCode=function() {
+				c.log('stage 2 - body loaded');
+				window.addEventListener("message", loadFromURL, false);
+				window.postMessage("need-url", window.location.origin);
+				
+				function loadFromURL(event) {
+					if(event.origin === window.location.origin && event.data.url) {
+						c.log('stage 3 - url loaded from parent page');
+						window.removeEventListener("message", loadFromURL, false);
+						
+						window.iframeId = event.data.iframeId;
+						
+						var filename = event.data.url.split('/').pop();
+						document.getElementById('title').textContent = filename;
+						
+						var reqListener = function(event) {
+							c.log('stage 4 - recieved data');
+							document.getElementById("msg").remove();
+							event.target.response.split("\n").forEach(displayLine);
+						};
+
+						var oReq = new XMLHttpRequest();
+						oReq.onload = reqListener;
+						oReq.open("get", filename, true);
+						oReq.send(null);
+					}
+				};
+			};
+			
+			var codeContainer = document.getElementById("code");
+			var displayLine = function(line) {
+				var li = document.createElement('li');
+				var split = /^(\s*)(.*)$/.exec(line); //Returns whitespace & rest of line.
+				li.textContent = split[0];
+				li.style.paddingLeft = split[1].length+"em";
+				codeContainer.appendChild(li);
+			};
+		</script>
+	</body>
+</html>

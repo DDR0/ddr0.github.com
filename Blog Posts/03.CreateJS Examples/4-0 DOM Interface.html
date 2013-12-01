@@ -5,7 +5,9 @@
 		<meta charset="utf-8">
 		<script src="createjs-2013.05.14.min.js"></script>
 		<style>
-			body {margin: 0;}
+			body {
+				margin: 0; /*Since the example is normally embedded *somewhere*, we have to remove some implicit padding.*/
+			}
 			#speech-bubble { /*A grey speech-bubble.*/
 				background-color: lightgrey;
 				position: absolute; /*Make bubble repositionable.*/
@@ -80,7 +82,7 @@
 				}
 			}
 			
-			//Position the speech bubble html element above 
+			//Position the speech bubble HTML element above 
 			var speechBubble = document.getElementById("speech-bubble");
 			
 			function calculateSpeechBubbleOffset() { //We don't have access (that I know about) from CSS to calculate 'half our width' as a margin value. This is essentially a regX/regY value for the DOM speech bubble, which makes later positioning easier and faster.
@@ -90,15 +92,16 @@
 			calculateSpeechBubbleOffset();
 			
 			function repositionSpeechBubble(object) {
-				object = player.localToGlobal(8,-40); //The offset of the speech bubble point from our regX/regY point.
+				object = player.localToGlobal(0,-48); //The offset of the speech bubble point from our regX/regY point.
 				speechBubble.style.left = object.x + 'px',
 				speechBubble.style.top = object.y + 'px';
+				calculateSpeechBubbleOffset();
 			}
 			repositionSpeechBubble(player);
 			
 			function getName() {
 				var name = document.getElementById("name").value;
-				document.getElementById("speech-bubble").innerhtml = "Hello, "+name+".";
+				document.getElementById("speech-bubble").innerHTML = "Hello, "+name+".";
 				calculateSpeechBubbleOffset();
 			}
 		</script>

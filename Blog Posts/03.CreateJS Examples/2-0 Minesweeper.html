@@ -28,7 +28,7 @@
 			};
 			//When we click on the tile, we should make it respond. We'll use the question mark in place of an actual game of minesweeper.
 			stage.addEventListener("mousedown", function revealTile(event) {
-				var x = Math.floor(event.stageX/8); //StageX is the pixel of the stage we clicked on.
+				var x = Math.floor(event.stageX/8); //StageX is the pixel of the stage we clicked on. (The formula gives us the index of our tile.)
 				var y = Math.floor(event.stageY/8); //8 is how wide our tiles are.
 				tiles[x][y].image.src="images/question mark tile.png";
 			});
@@ -50,6 +50,7 @@
 				
 				stage.update();
 			});
+			createjs.Ticker.setInterval(1000/50); //Results in a delay of 20 ms/frame for 50fps.
 			
 			
 			function addTile(stage, x, y) {

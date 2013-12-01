@@ -1,29 +1,23 @@
-#content-pane img {
-  max-width: 100%;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  clear: both;
+footer img {
+  pointer-events: auto;
 }
-#content-pane figure {
-  margin: 0px;
+#background-city {
+  pointer-events: auto;
+}
+h2 {
   text-align: center;
-  background-color: rgba(255, 255, 255, 0.2);
 }
-#content-pane figcaption {
-  padding-bottom: 1em;
+.cover {
+  max-width: 100%;
 }
-#content-pane .external:after {
-  content: url("../images/icons/external link.svg");
-  margin-right: 2px;
-  margin-left: 2px;
+.left {
+  float: left;
+  margin-right: 2ex;
 }
-#content-pane a:hover {
-  text-shadow: 1px 1px 2px black, 0 0 1em blue, 0 0 0.2em blue;
+.right {
+  float: right;
+  margin-left: 2ex;
 }
-#content-pane .lp:after {
-  content: url("../images/icons/lets play.svg");
-}
-#content-pane > p {
-  text-indent: 2em;
+iframe {
+  border: 0 solid transparent;
 }

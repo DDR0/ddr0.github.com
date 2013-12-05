@@ -7,6 +7,14 @@
 			h1 {
 				font-size: 1em;
 			}
+			#about {
+				background-color: #bdd8ff;
+				border-radius: 1em;
+				padding: 1em;
+			}
+			button {
+				float: right;
+			}
 			ol {
 				/*margin: 0;*/
 				list-style: decimal-leading-zero;
@@ -20,17 +28,22 @@
 			}
 		</style>
 	</head>
-	<body onload="loadCode(); if(!localStorage.hideAbout) {document.getElementById('about').style.display = 'inline';}">
+	<body onload="loadCode(); if(!localStorage.hideAbout) {document.getElementById('about').style.display = 'block';}">
 		<h1 id="title">Code Viewer</h1>
-		<p id="about" style="display:none">
+		<div id="about" style="display:none">
 			The idea here is that we have this in a window open beside the article, and then when you mouse over a highlighted phrase there it highlights the relevant lines of code here. It's a bit of an experimental technology, though, so if it doesn't work you can just right click on the demo when it's playing and view the source.<br>
 			<button onclick="localStorage.hideAbout = true; document.getElementById('about').remove()">dismiss</button>
-		</p>
+			<div style="clear:both;"></div>
+		</div>
 		<p  id="msg">Loading…</p>
 		<ol id="code"></ol>
 		<script>
 			"use strict";
 			//What is happening, and why: Once we're loaded and the dom is ready to go, send a message to the site that we're ready and we need the url to display the code for. Then, when the site gets back to us, request the URL from the server and display the code. Once /that's/ loaded, start listening for highlight events from the site.
+			var light  = "#f7ff59"; //Link colours.
+			var medium = "#e4ed3f";
+			var dark   = "#a8a433";
+			
 			var c=console;
 			c.log('stage 1 - document loaded');
 			
@@ -48,11 +61,30 @@
 						
 						var filename = event.data.url.split('/').pop();
 						document.getElementById('title').textContent = filename;
+						window.document.title += " ⦁ " + filename;
 						
 						var reqListener = function(event) {
 							c.log('stage 4 - recieved data');
 							document.getElementById("msg").remove();
 							event.target.response.split("\n").forEach(displayLine);
+							window.addEventListener("message", function(event) {
+								if(event.origin === window.location.origin) {
+									switch(event.data.type) {
+										case "mousedown":
+											event.data.lines.forEach(highlightLine.bind(this, event.data.depressed?dark:medium))
+										return;
+										case "mouseup":
+											event.data.lines.forEach(highlightLine.bind(this, event.data.depressed?dark:light))
+										return;
+										case "mouseover":
+											event.data.lines.forEach(highlightLine.bind(this, light))
+										return;
+										case "mouseout":
+											event.data.lines.forEach(highlightLine.bind(this, event.data.depressed?dark:"transparent")) //This should, strictly speaking, be 'medium'. But I think it looks better dark.
+										return;
+									}
+								}
+							}, false);
 						};
 
 						var oReq = new XMLHttpRequest();
@@ -71,6 +103,24 @@
 				li.style.paddingLeft = split[1].length+"em";
 				codeContainer.appendChild(li);
 			};
+			
+			var highlightLine = function(colour, line) {
+				var element = window.foo = codeContainer.children[line-1];
+				element.style.backgroundColor = colour;
+				
+				var start = window.scrollY;
+				var finish = element.offsetTop + element.clientHeight/2 - window.innerHeight/2;
+				var step = 0; var maxSteps = Math.min(15, Math.ceil(Math.abs(start-finish)/50));
+				if(window.innerHeight/2 < Math.abs(start-finish)+25) {
+					requestAnimationFrame(function scrollWindowSlowly() {
+						step += 1;
+						scrollTo(0, Math.round(start*(maxSteps-step)/maxSteps + finish*step/maxSteps));
+						if(step < maxSteps) {
+							requestAnimationFrame(scrollWindowSlowly);
+						};
+					})
+				}
+			}
 		</script>
 	</body>
 </html>

@@ -140,7 +140,7 @@
 			var lineWidth = w*d;
 			var image, dataIn;
 			var dataOut = new Uint8ClampedArray(dataSize);
-			var diagonal=0, chan=0, x=0, y=0, z=0; //x,y,z → x of pixel, y of pixel, and colour channel of pixel.
+			var diagonal=0, chan=0; //x,y,z → x of pixel, y of pixel, and colour channel of pixel.
 			
 			requestAnimationFrame(function runPond() {requestAnimationFrame(runPond);
 				image = pond.getImageData(0,0,w,h);
@@ -162,7 +162,7 @@
 					)-2;
 				}
 				
-				image.data.set(dataOut);
+				dataIn.set(dataOut);
 				pond.putImageData(image, 0, 0);
 			});
 			

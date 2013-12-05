@@ -47,3 +47,7 @@
   clear: right;
   margin-left: 5px;
 }
+#content-pane hr {
+  margin-top: 5em;
+  margin-bottom: 5em;
+}

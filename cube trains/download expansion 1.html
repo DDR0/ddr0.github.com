@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Cube Trains</title>
+		<meta name="robots" content="noindex">
+		<link rel="shortcut icon" href="/images/favicon.png">
+		<link rel="stylesheet" type="text/css" href="css/black.css">
+		<link rel="stylesheet" type="text/css" href="css/download.css">
+	</head>
+	<body onLoad="mixpanel.track('download lin load');">
+		<script type="text/javascript"> //start Mixpanel
+			(function(d,c){var a,b,g,e;a=d.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===d.location.protocol?"https:":"http:")+'//api.mixpanel.com/site_media/js/api/mixpanel.2.js';b=d.getElementsByTagName("script")[0];b.parentNode.insertBefore(a,b);c._i=[];c.init=function(a,d,f){var b=c;"undefined"!==typeof f?b=c[f]=[]:f="mixpanel";g="disable track track_pageview track_links track_forms register register_once unregister identify name_tag set_config".split(" ");
+			for(e=0;e<g.length;e++)(function(a){b[a]=function(){b.push([a].concat(Array.prototype.slice.call(arguments,0)))}})(g[e]);c._i.push([a,d,f])};window.mixpanel=c})(document,[]);
+			mixpanel.init("fa690803d8c9479ed96635dd52ea1837");
+			mixpanel.track_links("a#source-download",				"exp source download",		{'referrer': document.referrer });
+			mixpanel.track_links("a#mac-download",					"exp mac download",			{'referrer': document.referrer });
+			mixpanel.track_links("a#windows-download-32-download",	"exp windows download 32",	{'referrer': document.referrer });
+			mixpanel.track_links("a#lin-make-download",				"exp linux make download",		{'referrer': document.referrer });
+		</script> <!-- end Mixpanel -->
+		<div id="body">
+			<h1>Expansion Pack Download</h1>
+			<p style="text-align: center;">•  <a href="media.html">Screenshots</a>  •  <a href="index.html#Downloads">Download</a>  •  <a href="index.html#Credits">Credits</a>  •<p>
+			<p>Thank you for supporting Cube Trains! (Paypal should email you a reciept.) It would be a good idea to bookmark this page, as updates will be released for the pack here.</p>
+			<h2>Macintosh</h2>
+			<a class="shinyButton" href="http://ddr0.github.com/files/release/mac/Cube Trains 1.0.0-exp1.zip">Cube Trains 1.0.0-exp1.zip</a>
+			<h2>Windows</h2>
+			<a id="windows-download-32" class="shinyButton" href = "http://ddr0.github.com/files/release/win/Cube Trains 1.0.0-exp1.exe">Cube Trains 1.0.0-exp1.exe</a>
+			<h2>Linux</h2>
+			<div class="buttonContainer">
+				<a id="lin-make-download" class="shinyButton" href="http://ddr0.github.com/files/release/linux/ct-1.0.0-exp1 Ubuntu 12.04.1 LTS.tar.gz">ct-1.0.0 installer</a>
+				<p class="buttonSubtext">Expansion Installer for<br>Ubuntu 12.04.1 LTS</p>
+			</div>
+			<p><strong>The editor has been disabled</strong> for Linux due to the copy/paste feature not working.</p>
+			<p>To run the expansion pack, simply extract to where you extracted the base pack. If you would like to install the expansion pack somewhere else, you may run the installer again following the notes on the <a href="download linux.html">base pack download page</a>.</p>
+		</div>
+	</body>
+</html>

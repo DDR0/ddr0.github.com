@@ -1,0 +1,19 @@
+Each test renders 10,000 random characters/frame in a 100x100 block, in 12pt monospace.
+
+CHROME                              :                                               :  
+run-time:   975ms @ 62fps (620kcps) : no display                                    : A
+run-time:  1045ms @ 57fps (570kcps) : natural characters and newlines               : B
+run-time:  1323ms @ 45fps (450kcps) : each line as an element                       : C
+run-time:  1389ms @ 43fps (430kcps) : each character in a canvas line               : D
+run-time:  7190ms @  8fps ( 80kcps) : each character as a separate canvas operation : E
+run-time: 11247ms @  5fps ( 50kcps) : each character as an element                  : F
+                                    :                                               :  
+FIREFOX                             :                                               :  
+run-time:  1086ms @ 55fps (550kcps) : no display                                    : A
+run-time:  1822ms @ 33fps (330kcps) : natural characters and newlines               : B
+run-time:  2655ms @ 23fps (230kcps) : each character in a canvas line               : D
+run-time:  3147ms @ 19fps (190kcps) : each line as an element                       : C
+run-time: 17178ms @  3fps ( 30kcps) : each character as a separate canvas operation : E
+run-time: 52385ms @  1fps ( 10kcps) : each character as an element                  : F
+
+ms = milliseconds, fps = frames per second, kcps = kilochars per second. A char is an ascii glyph.

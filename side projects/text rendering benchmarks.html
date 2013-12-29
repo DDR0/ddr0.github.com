@@ -1,0 +1,80 @@
+<doctype html>
+<html>
+	<head>
+		<meta charset='utf-8'>
+		<title>Text Rendering Benchmarks</title>
+		<style>
+			#controlPanel {
+				position: absolute;
+				bottom: 0.5ex;
+				left: 0.5ex;
+				color: white;
+				background-color: rgba(0,0,0,0.75);
+				border: 1px solid black;
+				padding: 0.5ex;
+				position: fixed;
+			}
+			table {
+				margin-bottom: 1ex;
+				padding-right: 1ex;
+			}
+			.vertical-header {
+				/*height: 60px;*/
+			}
+			.vertical-text {
+				-webkit-transform-origin: bottom left;
+				transform-origin: bottom left;
+				-webkit-transform: translate(2.0ex) rotate(-70deg);
+				transform: translate(2.0ex) rotate(-70deg);
+				text-align: left;
+				vertical-align: bottom;
+				max-width: 1em;
+			}
+			th {
+				color: white;
+				text-align: right;
+			}
+			td {
+				color: white;
+			}
+			button {
+				padding-left: 1px;
+				padding-right: 1px;
+			}
+			#payload {
+				font-family: monospace;
+			}
+		</style>
+		<script src="underscore 1.5.2.js"></script>
+		<script src="text rendering benchmark.js"></script>
+	</head>
+	<body>
+		<div id="controlPanel">
+			Control<br>Panel
+			<table>
+				<tr class="vertical-header">
+					<td></td>
+					<th class="vertical-text">block</th>
+					<th class="vertical-text">line</th>
+					<th class="vertical-text">char</th>
+				</tr>
+				<tr>
+					<th>HTML</th>
+					<td><button>⚙</button></td>
+					<td><button>⚙</button></td>
+					<td><button>⚙</button></td>
+				</tr>
+				<tr>
+					<th>Canvas</th>
+					<td><button disabled>⚙</button></td>
+					<td><button>⚙</button></td>
+					<td><button>⚙</button></td>
+				</tr>
+			</table>
+			<button>silent test</button>
+			<button style="float:right;">reset</button>
+			<hr>Output in console.
+		</div>
+		<pre id="payload"></pre>
+	</body>
+</html>

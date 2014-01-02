@@ -6,31 +6,49 @@ window.addEventListener('load', function() {
 
 var payload = document.getElementById('payload');
 var text;
-var width = 100; //Testing ratings: 100 width, 400 height in characters.
-var height = 100;
+var width = 81; //Testing ratings: 100 width, 400 height in characters.
+var height = 49;
+var tick;
+var linearIndex; //The character we're on. Incremented each time we generate a character to render. Must be reset between frames.
+
+var reset = function() {
+	text = "";
+	payload.textContent = text;
+	tick = 0;
+	linearIndex = 0;
+};
+reset();
 
 var textGen = function (length, wrap) {
 	if(!length) throw new Error('Invalid length for textGen(length).');
 	text = "";
-	var lastChar = "";
+	var lastChar = " ";
 	for(var x=0; x<length; x++) {
-		lastChar = 
-		Math.random() < 0.2 && lastChar.trim() ? 
+		linearIndex++;
+		lastChar = '▓';
+		/*Math.random() < 0.2 && lastChar.trim() ? 
 			' ' : 
-			String.fromCharCode(_.random(47,126));
+			String.fromCharCode(_.random(47,126));*/
 		if(x%wrap===wrap-1) {
 			lastChar = '\n';
+		} else if(!helixTest()) {
+			lastChar = '░';
 		}
 		text += lastChar;
 	}
 	return text;
 };
 
-var reset = function() {
-	text = " »";
-	payload.textContent = text;
+var helixTest = function() {
+	var x = linearIndex%width;
+	var y = Math.floor(linearIndex/height);
+	var sin = Math.sin;
+	var curveX1 = sin(y/20+tick/10)*20+40;
+	var curveX2 = sin(y/20+tick/10+2)*20+40;
+	return (x < curveX1 && x > curveX2 ||
+	        x > curveX1 && x < curveX2) /*&&
+	       (y%5!==0)*/;
 };
-reset();
 
 var log = function() {
 	console.log('button pressed', arguments);
@@ -38,10 +56,14 @@ var log = function() {
 
 var iterate = function(renderFunction) {
 	console.log('Drawing ' + width*height + ' characters/frame');
-	var duration = 1; //target seconds
+	var duration = 2; //target seconds
+	
 	var iteration = 0;
 	var startTime = (new Date()).getTime();
+	
 	requestAnimationFrame(function render() {
+		tick++;
+		linearIndex=0;
 		renderFunction(iteration);
 		if(iteration++ < 60*duration) {
 			requestAnimationFrame(render);
@@ -81,11 +103,11 @@ var htmlLine = function() { //8fps
 	});
 };
 
-var htmlChar = function() { //⅓fps
+var HtmlChar0 = function() { //⅓fps
 	//Can update on a character-by-character basis. Slower, though.
 	console.log('Running test with each character as an element.');
 	payload.textContent="";
-	if(!confirm("This test may take a long time to run.")) {return;}
+	//if(!confirm("This test may take a long time to run.")) {return;}
 	
 	var lines = _.range(height).map(function() {
 		var line = payload.appendChild(document.createElement("div"));
@@ -99,6 +121,48 @@ var htmlChar = function() { //⅓fps
 				chr.textContent = textGen(1);
 			});
 		});
+	});
+};
+
+var htmlChar1 = function() { //⅔fps
+	//Can update on a character-by-character basis. Avoids reflows by caching to an unadded element.
+	console.log('Running test with each character as an element.');
+	//if(!confirm("This test may take a long time to run.")) {return;}
+	var cache = document.createDocumentFragment();
+	var lines = _.range(height).map(function() {
+		var line = cache.appendChild(document.createElement("div"));
+		return _.range(width).map(function() {
+			return line.appendChild(document.createElement("span"));
+		});
+	});
+	iterate(function() {
+		lines.forEach(function(line) {
+			line.forEach(function(chr) {
+				chr.textContent = textGen(1);
+			});
+		});
+		payload.textContent="";
+		payload.appendChild(cache.cloneNode());
+	});
+};
+
+var htmlChar = function() { //⅓fps, a little better than the naive version, but... not much.
+	//Updates like 'block', but parses an html string instead of raw characters.
+	console.log('Running test with each character as an element.');
+	//if(!confirm("This test may take a long time to run.")) {return;}
+	reset();
+	
+	iterate(function() {
+		var buffer = "";
+		for(var x=0; x<width*height; x++) {
+			var fg = _.sample(['255,0,0', '0,255,0', '0,0,255']);
+			var bg = _.sample(['255,127,127', '127,255,127', '127,127,255']);
+			buffer += '<span style="color:rgb('+fg+'); background-color:rgb('+bg+');">' + textGen(1) + "</span>";
+			if(x%width===width-1) {
+				buffer += '\n';
+			}
+		}
+		payload.innerHTML = buffer;
 	});
 };
 
@@ -132,7 +196,7 @@ var canvasCharacters = function() { //1fps
 	canvas.width = cWidth; canvas.height = cHeight;
 	var c = canvas.getContext('2d');
 	c.font = "12px monospace";
-	if(!confirm("This test may take a long time to run.")) {return;}
+	//if(!confirm("This test may take a long time to run.")) {return;}
 	
 	iterate(function() {
 		c.clearRect(0,0,cWidth,cHeight);

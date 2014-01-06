@@ -51,6 +51,7 @@ body {
 	min-width: 150px;
 	max-width: 1000px;
 	margin: auto;
+	font-size: large;
 }
 
 @media (max-width: 480px) {
@@ -119,7 +120,8 @@ body {
 }
 
 h1 {
-	font-size: 4em;
+	font-size: 63px; //Makes the header resize so the title image is beneath the nav icons on 'medium' size.
+	min-height: 76px; //However, the calculation results in the right height for the section image in large only on Firefox, it's one pixel too short on Chrome. So, set the minimum height to the height of our image.
 	color: @cHeaderTextColor;
 	background-color: @cHeaderColor;
 	text-align: right;

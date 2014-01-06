@@ -25,10 +25,10 @@ var textGen = function (length, wrap) {
 	var lastChar = " ";
 	for(var x=0; x<length; x++) {
 		linearIndex++;
-		lastChar = '▓';
-		/*Math.random() < 0.2 && lastChar.trim() ? 
+		lastChar = //'▓';
+		Math.random() < 0.2 && lastChar.trim() ? 
 			' ' : 
-			String.fromCharCode(_.random(47,126));*/
+			String.fromCharCode(_.random(47,126));
 		if(x%wrap===wrap-1) {
 			lastChar = '\n';
 		} else if(!helixTest()) {

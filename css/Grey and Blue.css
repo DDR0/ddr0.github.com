@@ -17,6 +17,7 @@ body {
   min-width: 150px;
   max-width: 1000px;
   margin: auto;
+  font-size: large;
 }
 @media (max-width: 480px) {
   body {
@@ -78,7 +79,8 @@ body {
   transform-origin: 50% 50%;
 }
 h1 {
-  font-size: 4em;
+  font-size: 63px;
+  min-height: 76px;
   color: #b7bece;
   background-color: #2e2f33;
   text-align: right;

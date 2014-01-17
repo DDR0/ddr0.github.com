@@ -1,4 +1,4 @@
-/* global _, console*/
+/* global _, console */
 /* jshint globalstrict: true */
 
 window.addEventListener('load', function() {

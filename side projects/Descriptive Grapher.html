@@ -1,0 +1,66 @@
+<doctype html>
+<html>
+	<head>
+		<meta charset='utf-8'>
+		<title>Descriptive Grapher</title>
+		<style>
+			footer {
+				bottom: 0;
+				position: absolute;
+				margin-bottom: 1ex;
+			}
+			progress {
+				display: none;
+			}
+			#main {
+				display: none;
+				position: relative;
+				margin-left: auto; margin-right: auto; /*center*/
+				max-width: 1000px; /*The graph becomes unwieldly befor this, even.*/
+			}
+			#graphs {
+			}
+			#outputs {
+				top: 0;
+				right: 0;
+				position: absolute;
+				max-width: 33.333%;
+				padding-top: 3px;
+			}
+			#outputs > * {
+				border-left: 2px solid black; /*might be more of a pitn than it's worth*/
+				margin-bottom: 5px;
+				padding-left: 3px;
+			}
+			#options {
+				text-align: center;
+			}
+			.formula-error {
+				box-shadow: inset 0 0 1px 1px red;
+			}
+		</style>
+		<script src="underscore 1.5.2.js"></script>
+		<script src="Descriptive Grapher.js"></script>
+	</head>
+	<body>
+		<div id="intro">
+			<p>I'm looking for a line. It is 
+				<button onclick="init('line')" title="A straight line at an angle.">straight</button>
+				<button onclick="init('wavy')" title="A sine wave.">wavy</button>
+				<button onclick="init('bowl')" title="An exponential curve.">bowl-shaped</button>
+				<button onclick="init('bell')" title="A gaussian or bell curve.">hill-shaped</button>
+			</p>
+		</div>
+		<progress id="resize"></progress>
+		<div id="main">
+			<canvas id="graphs"></canvas>
+			<div id="outputs"></div>
+			<div id="options">
+				Mouse: 
+				<input id="move" type="radio" name="group1" accesskey="m" value="Move"> <u>M</u>ove
+				<input id="scale" type="radio" name="group1" accesskey="s" value="Stretch" checked> <u>S</u>tretch
+			</div>
+		</div>
+		<footer id="footer">The Descriptive Grapher is a graph tool for those who hate graphing. It gives you a formula from a graph as well as the graph from the formula, because you need both.</footer>
+	</body>
+</html>

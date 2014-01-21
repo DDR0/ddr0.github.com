@@ -38,18 +38,19 @@
 			.formula-error {
 				box-shadow: inset 0 0 1px 1px red;
 			}
+			.cursor-move {
+				cursor: move;
+			}
+			.cursor-resize {
+				cursor: nesw-resize;
+			}
 		</style>
 		<script src="underscore 1.5.2.js"></script>
 		<script src="Descriptive Grapher.js"></script>
 	</head>
 	<body>
 		<div id="intro">
-			<p>I'm looking for a line. It is 
-				<button onclick="init('line')" title="A straight line at an angle.">straight</button>
-				<button onclick="init('wavy')" title="A sine wave.">wavy</button>
-				<button onclick="init('bowl')" title="An exponential curve.">bowl-shaped</button>
-				<button onclick="init('bell')" title="A gaussian or bell curve.">hill-shaped</button>
-			</p>
+			This page requires a modern browser with javascript enabled. <a href="http://www.mozilla.org/en-US/firefox/new/">Firefox</a> or <a href="https://www.google.com/intl/en/chrome/browser/">Chrome</a> should work out-of-the-box.
 		</div>
 		<progress id="resize"></progress>
 		<div id="main">
@@ -58,9 +59,12 @@
 			<div id="options">
 				Mouse: 
 				<input id="move" type="radio" name="group1" accesskey="m" value="Move"> <u>M</u>ove
-				<input id="scale" type="radio" name="group1" accesskey="s" value="Stretch" checked> <u>S</u>tretch
+				<input id="scale" type="radio" name="group1" accesskey="s" value="Stretch" checked> <u>S</u>cale
 			</div>
 		</div>
+		<p>
+			Drag functions around with the mouse. Click on the equation to the side to edit. Looks to ab/cd for offset/scale values.
+		</p>
 		<footer id="footer">The Descriptive Grapher is a graph tool for those who hate graphing. It gives you a formula from a graph as well as the graph from the formula, because you need both.</footer>
 	</body>
 </html>

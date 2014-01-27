@@ -1,0 +1,59 @@
+<!-- Image from https://www.google.ca/search?q=picture+of+one+mcnugget&client=ubuntu&hs=BZp&channel=fs&tbm=isch&source=iu&imgil=V172b48s2BD3DM%253A%253Bhttps%253A%252F%252Fencrypted-tbn2.gstatic.com%252Fimages%253Fq%253Dtbn%253AANd9GcTR4_gXGNUU5XoISzMi3WyATDuB0EDjNCB4vZX4mljVcQ1twO8o%253B290%253B400%253BXsvTVRcbXBzHmM%253Bhttp%25253A%25252F%25252Fwww.always-drunk.com%25252F2011%25252F06%25252Fmcnugget-jones.html&sa=X&ei=UHjmUrvpB4XfoATPjoKIAg&ved=0CDIQ9QEwAg -->
+<!-- Made for a stupid McNugget-eating event. Oh, tired ideas… -->
+<html>
+	<head>
+		<meta charset='utf-8' />
+		<meta name="HandheldFriendly" content="True" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+		<meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0" />
+		<meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, target-densitydpi=device-dpi" />
+		<meta name="viewport" content="initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,width=device-width,user-scalable=no" />
+		<title>McNugget Dinger</title>
+		<style>
+			body {
+				background-color: #d80019;
+				text-align: center;
+				margin: 2em;
+				margin-top: 1em;
+				background-image: url('banner.jpg');
+				background-repeat: no-repeat;
+			}
+			#nugget {
+				max-width: 100%;
+				width: 500px;
+			}
+			#undo {
+				position: absolute;
+				right: 0;
+				bottom: 0;
+			}
+			#stupidityCount {
+				font-size: 200px;
+			}
+		</style>
+	</head>
+	<body>
+		<h1>Nuggets Eaten</h1>
+		<div>
+			<button id="nugget"><img src="nugget.jpg" alt="+1"></button>
+			<br>
+			<button id="undo">Uncount</button>
+		</div>
+		<div id="stupidityCount">0</div>
+		<div id="ding"></div>
+		<script>
+			var count = 0;
+			document.getElementById('nugget').addEventListener('click', function(event) {
+				event.preventDefault();
+				document.getElementById('stupidityCount').innerHTML = ++count;
+				//document.getElementById('ding').innerHTML = '<audio src="ding.mp3" volume="1" muted="0" autoplay="1" />'
+				//document.getElementById('ding').innerHTML += '<audio src="ding.ogg" volume="1" muted="0" autoplay="1" />'
+			});
+			document.getElementById('undo').addEventListener('click', function(event) {
+				event.preventDefault();
+				document.getElementById('stupidityCount').innerHTML = count = Math.max(count-1, 0);
+			});
+		</script>
+	</body>
+</html>

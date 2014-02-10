@@ -3,21 +3,30 @@
 <html>
 	<head>
 		<meta charset='utf-8' />
+		<title>McNugget Dinger</title>
+		
+		<!-- Try to make double-tap not zoom. Mostly fails. -->
 		<meta name="HandheldFriendly" content="True" />
 		<meta name="apple-mobile-web-app-capable" content="yes" />
 		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-		<meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0" />
 		<meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, target-densitydpi=device-dpi" />
-		<meta name="viewport" content="initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,width=device-width,user-scalable=no" />
-		<title>McNugget Dinger</title>
+		
+		<script src="/socket.io/socket.io.js:8077"></script>
+		<script src="socket.js"></script>
+		
 		<style>
 			body {
 				background-color: #d80019;
 				text-align: center;
 				margin: 2em;
 				margin-top: 1em;
-				background-image: url('banner.jpg');
+				/*background-image: url('banner.jpg');*/
 				background-repeat: no-repeat;
+				color: white;
+				font-family: sans-serif;
+			}
+			h1 {
+				font-family: Impact, Charcoal, sans-serif;
 			}
 			#nugget {
 				max-width: 100%;
@@ -25,34 +34,58 @@
 			}
 			#undo {
 				position: absolute;
-				right: 0;
-				bottom: 0;
+				right: 1ex;
+				bottom: 1ex;
 			}
 			#stupidityCount {
 				font-size: 200px;
+				color: #faa90f; /*goldenarch, goldenrod is a bit different :( */
+			}
+			#login {
+				position: fixed;
+				left: 1ex;
+				bottom: -1ex;
 			}
 		</style>
+		
+		<script>
+			var round = 1;
+		</script>
 	</head>
 	<body>
 		<h1>Nuggets Eaten</h1>
 		<div>
-			<button id="nugget"><img src="nugget.jpg" alt="+1"></button>
+			<button id="nugget" width="234" height="305"><img src="nugget.jpg" alt="+1" width="231" height="302"></button>
 			<br>
 			<button id="undo">Uncount</button>
 		</div>
-		<div id="stupidityCount">0</div>
+		<strong id="stupidityCount">0</strong>
 		<div id="ding"></div>
+		
 		<script>
-			var count = 0;
-			document.getElementById('nugget').addEventListener('click', function(event) {
+			//Add logged in message at bottom.
+			document.body.innerHTML += "<p id='login'>Logged in as " + (localStorage.name||'nobody. (Your nugget count will not be recorded for posterity.)') + "</p>"
+		</script>
+		
+		<script>
+			//Set callbacks for buttons.
+			document.getElementById('stupidityCount').innerHTML = localStorage[round] = localStorage[round] || 0;
+			
+			var increment = function(event) {
 				event.preventDefault();
-				document.getElementById('stupidityCount').innerHTML = ++count;
+				document.getElementById('stupidityCount').innerHTML = ++localStorage[round];
+				socket.emit('set-nugget-count', {name: localStorage.name, count: localStorage[round]});
 				//document.getElementById('ding').innerHTML = '<audio src="ding.mp3" volume="1" muted="0" autoplay="1" />'
 				//document.getElementById('ding').innerHTML += '<audio src="ding.ogg" volume="1" muted="0" autoplay="1" />'
-			});
+			};
+			
+			document.getElementById('nugget').addEventListener('click', increment);
+			document.getElementById('stupidityCount').addEventListener('click', increment);
+			
 			document.getElementById('undo').addEventListener('click', function(event) {
 				event.preventDefault();
-				document.getElementById('stupidityCount').innerHTML = count = Math.max(count-1, 0);
+				document.getElementById('stupidityCount').innerHTML = localStorage[round] = Math.max(localStorage[round]-1, 0);
+				socket.emit('set-nugget-count', {name: localStorage.name, count: localStorage[round]});
 			});
 		</script>
 	</body>

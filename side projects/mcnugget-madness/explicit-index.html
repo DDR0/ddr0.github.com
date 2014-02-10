@@ -1,0 +1,48 @@
+<html>
+	<head>
+		<meta charset='utf-8' />
+		<title>McNugget Madness</title>
+		<link rel="stylesheet" type="text/css" href="red.css">
+		<script src="/socket.io/socket.io.js:8077"></script>
+		<script src="socket.js"></script>
+		<script src="table-update.js"></script>
+	</head>
+	<body>
+		<img src="banner.jpg">
+		<h1>GLOBAL LEADERBOARD</h1>
+		<p>Round 1 • Feb 9, 2014</p>
+		<table>
+			<tr><th>Contestant</th><th>McNugget Total</th></tr>
+			<tr><td>Luk</td><td>21</td>
+			<tr><td>Roberts</td><td>26</td>
+			<tr><td>Donnelly</td><td>20</td>
+			<tr><td>Maeda</td><td>40</td>
+			<tr><td>Betts</td><td>10</td>
+			<tr><td>Fudge</td><td>13</td>
+		</table>
+		<br>
+		<!-- <a href="dinger.html" target="_blank">Live Clicker</a>
+		<br> -->
+		<a href="https://www.facebook.com/events/473877882716756">View Facebook Event</a>
+		<!-- <script>
+			var cells = document.body.getElementsByTagName('td');
+			var names = [], name;
+			for (var i = 0; i < cells.length; i+=2) { names.push(cells[i].textContent); } //grab every even cell, the odd ones contain the counts
+			names.sort();
+			names = ['nobody'].concat(names);
+			var newHTML = "<p id='login'>Log In As: <select> ";
+			names.forEach(function(name) {
+				newHTML += 
+					'<option value="'+name+'"'+(name===localStorage.name?" selected":"")+'>'+
+						name+
+					'</option> ';
+			});
+			newHTML += "</select></p>"
+			document.body.innerHTML += newHTML;
+			
+			document.getElementById('login').onchange = function(event) {
+				localStorage.name = event.target.value;
+			};
+		</script> -->
+	</body>
+</html>

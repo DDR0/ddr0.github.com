@@ -1,0 +1,40 @@
+body {
+	background-color: #d80019;
+	text-align: center;
+	margin: 0;
+	font-family: sans-serif;
+	color: white;
+}
+h1 {
+	font-family: Impact, Charcoal, sans-serif;
+}
+table {
+	width: 300px;
+	margin-left: auto;
+	margin-right: auto;
+}
+img {
+	max-width: 100%;
+	
+}
+tr :first-child, td :first-child {
+	text-align: right;
+}
+th {
+	text-align: left;
+}
+td, th {
+	padding-left: 1ex;
+	padding-right: 1ex;
+	background-color: rgba(0,0,0,0.1);
+	/* border: 1px solid rgba(0,0,0,0.2); */
+}
+a:link, a:visited {
+	color: white;
+	font-family: Impact, Charcoal, sans-serif;
+}
+#login {
+	position: fixed;
+	left: 1ex;
+	bottom: -1ex;
+}

@@ -1,0 +1,9 @@
+{
+	"name": "sg",
+	"version": "0.1.1",
+	"dependencies": {
+		"mysql2": "~0.10.6",
+		"underscore": "~1.5.2",
+		"socket.io": "~0.9.16"
+	}
+}

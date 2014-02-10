@@ -1,0 +1,12 @@
+{ Luk: '21',
+  Roberts: '26',
+  Dove: 0,
+  Jackson: 0,
+  Donnelly: 20,
+  Maeda: '40',
+  Betts: 10,
+  Elizabeth: 0,
+  Mendgen: 0,
+  undefined: 0,
+  fudge: 0,
+  Fudge: 13 }

@@ -15,3 +15,4 @@
 *.odt#
 .*.swp
 dirs.txt
+*node_modules

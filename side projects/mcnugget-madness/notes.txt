@@ -1,0 +1,12 @@
+To change rounds:
+① Update the 'rounds' variable in dinger.html.
+② Make changes to front page. Uncomment login selector and clicker link.
+Register new people. Make new chart. Fix JS.
+Prize? Flyers?
+
+Server: In /var/www/mad/,
+node *.node.js | tee "log round 1.txt"
+
+To add a person:
+① Add them to 'contestants' in tally.node.js.
+② Add them to the HTML table in explicit-index.html.

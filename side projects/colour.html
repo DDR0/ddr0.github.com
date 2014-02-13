@@ -9,6 +9,9 @@
 				margin: 0;
 				height: 100%;
 				padding-bottom: 250px;
+				background-color: black;
+				color: white;
+				font-family: sans-serif;
 			}
 			table, button {
 				font-size: 100%;
@@ -160,7 +163,7 @@
 				toggleFullScreen(false);
 				document.getElementById('UI').style.height="";
 				cancelAnimationFrame(nextAnimationFrame);
-				document.body.style.backgroundColor = "white";
+				document.body.style.backgroundColor = "black";
 				document.body.style.overflow = "visible";
 				window.setTimeout("window.scrollTo(0, 0);", 10);
 				toggleTween = startTween;

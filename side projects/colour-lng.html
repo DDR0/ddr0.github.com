@@ -1,0 +1,132 @@
+<html>
+	<head> 
+		<meta charset="utf-8">
+		<title>Light Painter's Source</title> 
+		<style>
+			body {
+				/*height: 3000px;*/
+				font-size: 300%;
+				margin: 0;
+				height: 100%;
+			}
+			table, button {
+				font-size: 100%;
+			}
+			input {
+				font-size: 100%;
+				width: 8ex;
+			}
+			input[type="color"], button {
+				height: 100%;
+			}
+			
+			#UI {
+				margin: 1ex;
+			}
+		</style>
+		
+		<script type="text/javascript">
+			//From https://developer.mozilla.org/en-US/docs/Web/Guide/API/DOM/Using_full_screen_mode
+			function toggleFullScreen(on) {
+			  if (on) {
+			    if (document.documentElement.requestFullscreen) {
+			      document.documentElement.requestFullscreen();
+			    } else if (document.documentElement.msRequestFullscreen) {
+			      document.documentElement.msRequestFullscreen();
+			    } else if (document.documentElement.mozRequestFullScreen) {
+			      document.documentElement.mozRequestFullScreen();
+			    } else if (document.documentElement.webkitRequestFullscreen) {
+			      document.documentElement.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+			    }
+			  } else {
+			    if (document.exitFullscreen) {
+			      document.exitFullscreen();
+			    } else if (document.msExitFullscreen) {
+			      document.msExitFullscreen();
+			    } else if (document.mozCancelFullScreen) {
+			      document.mozCancelFullScreen();
+			    } else if (document.webkitExitFullscreen) {
+			      document.webkitExitFullscreen();
+			    }
+			  }
+			}
+		</script>
+		
+		<script type="text/javascript">
+			var  nextAnimationFrame;
+			function startTween() {
+				var rawStart = document.getElementById('colour1').value;
+				if(rawStart[0] === "#") {rawStart = rawStart.slice(1);}
+				var rawEnd = document.getElementById('colour2').value;
+				if(rawEnd[0] === "#") {rawEnd = rawEnd.slice(1);}
+				var time = document.getElementById('time').value*1000;
+				
+				var start = {
+					r: parseInt(rawStart.slice(0,2), 16),
+					g: parseInt(rawStart.slice(2,4), 16),
+					b: parseInt(rawStart.slice(4,6), 16),
+				};
+				var end = {
+					r: parseInt(rawEnd.slice(0,2), 16),
+					g: parseInt(rawEnd.slice(2,4), 16),
+					b: parseInt(rawEnd.slice(4,6), 16),
+				};
+				
+				var startTime = performance.now();
+				var endTime = performance.now() + time;
+				nextAnimationFrame = requestAnimationFrame(function setColour(runTime) {
+					if(runTime < endTime) {
+						nextAnimationFrame = requestAnimationFrame(setColour);
+					}
+					var startFac = Math.min(Math.max(0, (endTime-runTime)/time), 1);
+					var endFac = Math.min(Math.max(0, (runTime-startTime)/time), 1);
+					var tween = {
+						r: Math.round(start.r*startFac+end.r*endFac),
+						g: Math.round(start.g*startFac+end.g*endFac),
+						b: Math.round(start.b*startFac+end.b*endFac),
+					};
+					document.body.style.backgroundColor = "rgb("+tween.r+","+tween.g+","+tween.b+")";
+					window.scrollTo(0, 200); //Chrome keeps a little bar of white at the top when you fullscreen it. Since the timing and size of this is unpredictable, especially when interacting with Android, we will simply set the scroll each frame. This is a very brute-force solution.
+				});
+				
+				//Set Fullscreen.
+				toggleFullScreen(true);
+				document.getElementById('UI').style.height="0px";
+				
+				toggleTween = endTween;
+			}
+			
+			function endTween() {
+				toggleFullScreen(false);
+				document.getElementById('UI').style.height="";
+				cancelAnimationFrame(nextAnimationFrame);
+				document.body.style.backgroundColor = "white";
+				toggleTween = startTween;
+			}
+			
+			var toggle = false;
+		</script>
+	</head> 
+	<body onclick="(toggle=!toggle) ? startTween() : endTween()">
+		<div id="UI" style="overflow:hidden;">
+			Hex colour stops: 
+			<table>
+				<tr><td></td><th>Start</th><th>Stop</th><td><button>↵</button></td></tr>
+				<tr>
+					<td><button>×</button></td>
+					<td><input id="colour1" value="00FF00" type="color"></input></td>
+					<td><input id="colour2" value="FF8800" type="color"></input></td>
+					<td><button>↵</button></td>
+				</tr>
+			</table>
+			Delay between stops:
+			<input id="time" value="5" type="number"></input>
+			Tap below to start, again to stop.
+		</div>
+		<script>
+			document.getElementById('UI').addEventListener('click', function(event) {
+				event.stopPropagation();
+			});
+		</script>
+	</body>
+</html>

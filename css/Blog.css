@@ -5,6 +5,10 @@
   margin-right: auto;
   clear: both;
 }
+#content-pane img.emote {
+  display: inline;
+  clear: none;
+}
 #content-pane figure {
   margin: 0px;
   text-align: center;
@@ -50,4 +54,7 @@
 #content-pane hr {
   margin-top: 5em;
   margin-bottom: 5em;
+}
+#content-pane h3 {
+  clear: right;
 }

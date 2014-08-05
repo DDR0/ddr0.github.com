@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<title></title>
+
+	<script src="http://code.createjs.com/createjs-2013.12.12.min.js"></script>
+	<style>body {margin: 0;}</style>
+
+	<script>
+
+		var canvas, stage;
+		var tileContainer;
+		var horizontalBlueBar;
+		var verticalBlueBar;
+		var tiles;
+		var questionMarkTileBmp;
+		var tileBmp;
+		var barBmp;
+		var loadCount = 0;
+		var manifiest = [{path:"images/blank tile.png", id:'tileImage'}, 
+						   {path:"images/question mark tile.png", id:"questionMark"},
+						   {path:"images/bar gradient.png", id:"bar"}
+						   ];
+
+		function init() {
+			canvas = document.getElementById("testCanvas");
+			//check to see if we are running in a browser with touch support
+			stage = new createjs.Stage(canvas);
+			createjs.Ticker.setInterval(1000/50); //Results in a delay of 20 ms/frame for 50fps.
+			createjs.Ticker.addEventListener("tick", tick);
+			
+			//SD: If you are not wanting to use LoadQueue, make sure your images are all load before they are to be used;
+			var l = manifiest.length;
+			for(var i=0;i<l;i++) {
+				var image = new Image();
+				var data = manifiest[i];
+				image.id = data.id;
+				image.src = data.path;
+				image.onload = handleImageLoad;
+			}
+			
+			stage.addChild(tileContainer = new createjs.Container(), uiContainer = new createjs.Container());
+			tileContainer.addEventListener("mousedown", handleMouseDown);
+		}
+		
+		function handleImageLoad (event) {
+			switch(event.target.id) {
+				case "questionMark":
+					questionMarkTileBmp = new createjs.Bitmap(this);
+					loadCount++
+					break;
+				case "bar":
+					barBmp = new createjs.Bitmap(this); 
+					horizontalBlueBar = addGridTool(uiContainer, barBmp, -90);
+					verticalBlueBar = addGridTool(uiContainer, barBmp.clone(),0);
+					loadCount++;
+					break;
+				case "tileImage":
+					tileBmp= new createjs.Bitmap(this);
+					loadCount++;
+					break;
+			}
+			
+			if (loadCount == manifiest.length) {
+				loadCount = 0;
+				createTiles();
+			}
+		}
+		
+		function handleMouseDown (event) {
+			var tile = event.target;
+			tileContainer.removeChild(tile);
+			
+			var bmp = questionMarkTileBmp.clone();
+			bmp.x = tile.x;
+			bmp.y = tile.y;
+			bmp.scaleX = bmp.scaleY = tile.scaleX;
+			tileContainer.addChild(bmp);
+			tileContainer.updateCache()
+		}
+		
+		function createTiles() {
+			var cols = 40;
+			var row = 40;
+			var len = cols*row;
+			var space = 0;
+			var scale = 0.5;
+			
+			tileContainer.cache(0,0,320,320);
+			
+			var tile;
+			var w;
+			var h;
+			for(var i=0;i<len;i++) {
+				tile = tileBmp.clone();
+				tile.name = "tile_"+i;
+				w = tile.image.width;
+				h = tile.image.height;
+				tile.scaleX = tile.scaleY = scale;
+				tile.x = ((w*scale + space)*(i%cols));
+				tile.y = ((i/cols|0) * (h*scale + space));
+				tileContainer.addChild(tile);
+			}
+			tileContainer.updateCache();
+		}
+					
+		function addGridTool(container, bmp, rotation) {
+			var gridTool = bmp.set({regX:4, scaleY:320, rotation:rotation});
+			container.addChild(gridTool)
+			return gridTool;
+		}
+
+		function tick(event) {
+			if (horizontalBlueBar != null && verticalBlueBar != null) {
+				horizontalBlueBar.alpha = 0.3 + Math.random()/3;
+				verticalBlueBar.alpha = 0.3 + Math.random()/3;
+				verticalBlueBar.x = stage.mouseX;
+				horizontalBlueBar.y = stage.mouseY;
+			}
+			
+			
+			stage.update();
+		}
+	</script>
+
+</head>
+
+<body onload="init();">
+<canvas id="testCanvas" width="320" height="320"></canvas>
+</body>
+</html>

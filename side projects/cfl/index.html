@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>CFL 2.0.2 - by DDR</title>
+		<script async="true" src="cfl engine.js"></script>
+		<script async="true" src="cfl interface.js"></script>
+	</head>
+	<body>
+		<h2>CFL</h2>
+		<h3>CFL v2.0.2 - Web IDE</h3>
+		<p>Note: At this point, most errors are still logged to the javascript console. You'll want to open that up before trying anything fancy here, like typing. See the <a href="manual.html">manual</a> for a list of commands and examples.</p>
+		<div id="loader">Loading...</div>
+		program: <pre id="program"></pre>
+		opStack: <pre id="opStack"></pre>
+		stack:<pre id="stack"></pre>
+		program entry:<br>
+		<textarea id="input" rows="20" cols="80">10 $hello 
+20 +
+30 $world
+40 println</textarea>
+		<br><label>Execution Delay (seconds/step):
+			<input id="speedSlider" type="range" max="2" value="0.7" step="0.01">
+			<input id="speedInput" type="number" value="0.50" step="0.01" min="0" x-max="9.9" style="width:40px;">
+			<!--single-step mode:
+			<input id="stepMode" type="checkbox" value="false"> 
+			<input id="step" type="button" value="step"-->
+		</label>
+		<br>output:<pre id="output" style="word-wrap: break-word;"></pre>
+	</body>	
+</html>

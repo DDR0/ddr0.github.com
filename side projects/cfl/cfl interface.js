@@ -36,6 +36,7 @@ addEventListener('load', function() {
 
 		program.innerHTML = Array.prototype.concat.apply([], 
 			e.program.filter(function(e) {return e;}))
+			.sort(function(a,b) { return a.sourceIndex > b.sourceIndex; })
 			.map(function(instruction) {
 				var cflLine = '<span class="cflLineNumber">'+instruction.lineNumber+'</span> '
 					+ (typeof instruction.value === 'number' || instruction.value ? '<span class="cflValue">'+(typeof instruction.value === 'string'?'$':'')+(typeof instruction.value === 'number'?'#':'')+instruction.value.toString()+'</span> ' : '') //toString to work around nul symbols.

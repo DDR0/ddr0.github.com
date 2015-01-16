@@ -34,23 +34,33 @@ void function() {
 		//Add instructions to the program, but not if any fail to be parsed.
 		var newProgramFragments = [];
 		var char = 0;
+		var sourceExcludedChars = 0;
+		var sourceProcessedChars = 0;
 		while (text) { //Sod writing a regex for this. I can't figure out how lookbehind works with regards to split().
 			//Don't cause an instruction break on newline or comma, if escaped by a comma. Remove the escape comma.
 			if(text.slice(char,char+2) === ',,' || text.slice(char,char+2) === ',\n') {
 				text = text.slice(0,char) + text.slice(char+1); //This could be optimized, but I don't expect comefrom programs to get very large.
 				char++;
+				sourceExcludedChars++;
 				continue;
 			}
 			if(text.slice(char,char+2) === '\\n') {
 				text = text.slice(0,char) + '\n' + text.slice(char+2);
 				char++;
+				sourceExcludedChars++;
 				continue;
 			}
 			//Instruction break on newline or comma.
 			if(!text[char] || text[char] === '\n' || text[char] === ',') {
-				newProgramFragments.push(text.slice(0, char));
-				text = text.slice(char+1); //Step over the /n.
+				var line = {
+					text: text.slice(0, char),
+					sourceIndex: sourceProcessedChars + sourceExcludedChars,
+				};
+				newProgramFragments.push(line);
+				text = text.slice(char+1); //Step over the line seperator.
+				sourceProcessedChars += char;
 				char = 0;
+				sourceExcludedChars++;
 				continue;
 			}
 			char++;
@@ -81,7 +91,8 @@ void function() {
 
 	//Add an individual instruction. Be sure to call generateJumpTable() after!
 	var addInstruction = function(text) {
-		text = text.trimLeft();
+		var sourceIndex = text.sourceIndex;
+		text = text.text.trimLeft();
 		if(!text) {return undefined;}
 
 
@@ -145,6 +156,7 @@ void function() {
 			}
 		}
 
+		instruction.sourceIndex = sourceIndex;
 		return instruction;
 	}
 

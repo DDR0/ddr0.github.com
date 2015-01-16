@@ -2,12 +2,12 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title>Manual for CFL 2.0.1</title>
+		<title>Manual for CFL 2.0.3</title>
 	</head>
 	<body>
-		<h1>Manual for CFL 2.0.1</h1>
+		<h1>Manual for CFL 2.0.3</h1>
 		<h2>Introduction</h2>
-		<p>ComeFrom Language is an estoric programming language. It explores what is possible given only the most unwieldy of flow control operators, 'comefrom' and 'comefromif'. While the idea is <a href="http://en.wikipedia.org/wiki/COMEFROM">certainly not unique</a>, nor at <a href="http://c2.com/cgi/wiki?ComeFrom">40 years of age</a> <em>new</em>, it has previously lacked some accessibility. Any language implementing it, such as <a href="http://en.wikipedia.org/wiki/INTERCAL">INTERCAL</a>, has way too much cruft to let you focus on the problem of comefrom. CFL therefore features a minimal stack-based language which is easy to learn and read, and <a href="/">a nice web-based IDE</a> to program in.</p>
+		<p>ComeFrom Language is an estoric programming language. It explores what is possible given only the most unwieldy of flow control operators, 'comefrom' and 'comefromif'. While the idea is <a href="http://en.wikipedia.org/wiki/COMEFROM">certainly not unique</a>, nor at <a href="http://c2.com/cgi/wiki?ComeFrom">40 years of age</a> <em>new</em>, it has previously lacked some accessibility. Any language implementing it, such as <a href="http://en.wikipedia.org/wiki/INTERCAL">INTERCAL</a>, has way too much cruft to let you focus on the problem of comefrom. CFL therefore features a minimal stack-based language which is easy to learn and read, and <a href="..">a nice web-based IDE</a> to program in.</p>
 		<h2>Syntax</h2>
 		<p>Every command must have a line number, then a value or a command. CFL is a stack-based language, and values and commands all use the same first-in, last-out stack.</p>
 		<p>Values are pushed to the stack, from which commands will take them and process them. To put a string on the stack, preface it with a $. To put a number on the stack, preface it with a #. Example: The program <code>10 #3.14</code> puts the number 3.14 on the stack. Note: It is only customary for the lines to appear in order in the source code, not required.</p>
@@ -119,12 +119,10 @@
 				<td>Reverse the position of the top two values on the stack.</td>
 				<td><code>10 #1, 20 #2, 30 swap</code> → [#2, #1]</td>
 			</tr>
-
-
 		</table>
 
-		<h2>Remarks</h2>
-		<p>SUBROUTINES: First set a /return variable/. Then, comefrom the start of the subroutine. When the routine has ran, leaving whatever value on the stack, reach the return variable. Compare it with a possible return variable (you'll need a different var for each call site). Comefromif back to the call site, swap and drop the comparison value, and there you go?</p>
+		<!--<h2>Remarks</h2>
+		<p>SUBROUTINES: First set a /return variable/. Then, comefrom the start of the subroutine. When the routine has ran, leaving whatever value on the stack, reach the return variable. Compare it with a possible return variable (you'll need a different var for each call site). Comefromif back to the call site, swap and drop the comparison value, and there you go?</p>-->
 
 		<h2>Examples</h2>
 		<caption>Dividing Two Numbers</caption>

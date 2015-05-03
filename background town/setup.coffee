@@ -370,8 +370,8 @@ propertyGen = (roadTiles, exNihilo) ->
 			propertyLocations.push(relativeTile(roadTile, 7)) if !roadTile.connects[7] and Math.random() < 0.75
 			propertyLocations.push(relativeTile(roadTile, 9)) if !roadTile.connects[9] and Math.random() < 0.75
 			propertyLocations
-		).flatten(
-		).shuffle( #Shuffle now to avoid patterns related to road building order when we filter.
+		).flatten()
+		.shuffle( #Shuffle now to avoid patterns related to road building order when we filter.
 		).filter( #Might be able to remove this?
 			validPropertyLocation
 		).map( (prop, index) -> 
@@ -384,19 +384,19 @@ propertyGen = (roadTiles, exNihilo) ->
 			newProp.address = prop.address
 			newProp.priority = 2
 			[prop, newProp]
-		).flatten(
-		).map( (plot) -> #Third, expand the yards out to fill the corners.
+		).flatten()
+		.map( (plot) -> #Third, expand the yards out to fill the corners.
 			tilesToTheSide(plot).map( (newPlot) ->
 				newPlot.address = plot.address
 				newPlot.priority = 3
 				newPlot
 			).concat(plot)
-		).flatten(
-		).sortBy( 'priority'
+		).flatten()
+		.sortBy( 'priority'
 		).filter(
 			validPropertyLocation
-		).groupBy( 'address'
-		).values(
+		).groupBy( 'address')
+		.values(
 		).value()
 		
 	#c.log existingProperties

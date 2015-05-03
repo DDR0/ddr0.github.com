@@ -10,7 +10,8 @@ done
 	src: local("Fixedsys"), local("Fixedsys500c"), local("FSEX300"), url("../images/Fixedsys500c.woff");
 	font-smooth: never;
 	-webkit-font-smoothing : none;
-} *//*This was blurry, the browser insisted on scaling the font with interpolation.*/
+} */
+/*This was blurry, the browser insisted on scaling the font with interpolation.*/
 body {
   background-image: url('data:image/gif;base64,R0lGODlhJAASAKEAALG0uszMzLG0urG0uiH5BAEKAAIALAAAAAAkABIAAAJHTICpaHwLW5LxKbrwtUBn7kGOKIZkx52fOk7p6pKmN4Nv1aqmfp/GHkOxhEEczIgkymxD4HK4gSpZGGC1V0tGi76Hcyr9bgoAOw==');
   padding: 50px;
@@ -40,7 +41,6 @@ body {
   box-shadow: 0px 0px 50px rgba(0, 0, 0, 0.75);
   /*overflow:hidden;*/
   /*Enabling this prevents the h1 from eating the nav images on lower resolutions, and isn't needed at higher resolutions.*/
-
 }
 #content-pane {
   margin: 0px;
@@ -65,7 +65,6 @@ body {
   overflow: hidden;
   height: 135px;
   /*Set to 146 for ribbon transparency effect.*/
-
   pointer-events: none;
 }
 #badge img {
@@ -85,12 +84,10 @@ h1 {
   text-align: right;
   padding: 38px;
   /*33px*/
-
   padding-bottom: 21px;
   margin: 0px;
   border-bottom: 11px solid #3377ff;
   /*We only have alpha-over blending, so to simulate the full colour we have the solid blue strip here, which will be overlaid by the large symbol, which will be overlaid by a transparent version of the border.*/
-
 }
 h2 {
   margin: 0px;
@@ -116,19 +113,15 @@ a:hover {
 }
 #icon-bar img {
   /*These have a native resolution of 500x500. We want to be really sure that they don't get that big, because it's very big.*/
-
   width: 40px;
   height: 40px;
   padding: 5px;
   margin-right: -4px;
   /*Mystery value, else they are 53px across.*/
-
   margin-bottom: -4px;
   /*This line -4 for firefox, -5 for chrome for perfect tesselation.*/
-
   /*background-color: rgba(255,255,255,0.5)*/
   /*For testing.*/
-
 }
 #icon-bar div {
   clear: none;
@@ -156,7 +149,7 @@ a:hover {
     display: block;
     width: 50px;
     float: left;
-    color: #d3d3d3;
+    color: lightgrey;
   }
   #icon-bar div {
     width: 100%;
@@ -176,7 +169,7 @@ a:hover {
   }
   #icon-bar :hover {
     color: #ffffff;
-    text-shadow: 0px 0px 5px #000000;
+    text-shadow: 0px 0px 5px black;
     text-decoration: none;
   }
   #icon-bar a {
@@ -197,7 +190,6 @@ a:hover {
   body {
     padding-right: 151px;
     /*50px gutter, 100px icon-bar, 1 px blue border.*/
-  
   }
   #icon-bar {
     width: 100px;
@@ -220,7 +212,7 @@ a:hover {
     pointer-events: none;
   }
   #icon-bar a {
-    color: #d3d3d3;
+    color: lightgrey;
   }
   #icon-bar :nth-last-child(odd) img {
     background-color: #6c7175;

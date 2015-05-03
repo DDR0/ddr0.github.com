@@ -10,21 +10,21 @@
       <description>This is the start of the blog. That's all there is, there is no more.</description>
       <link>http://localhost/ddr0.github.com/blog.html#1</link>
       <guid isPermaLink='true'>http://localhost/ddr0.github.com/blog.html#1</guid>
-      <source url='http://localhost/ddr0.github.com/blog.html#1'></source>
+      <source url='http://localhost/ddr0.github.com/blog.html#1'>
     </item>
     <item>
       <title>Diagrams and Charts of Game Mechanics</title>
       <description>Computer games are, in broad terms, systems of exchange. The player can exchange gold coins for a fancy sword; time and attention for progress; or the player can sit back and watch the game exchange stuff with itself. By graphing interactions between the player and bits of the game, we can see what the focus of the play of the game will be. Lets start off by looking at the simplest example there is, Progress Quest.</description>
       <link>http://localhost/ddr0.github.com/blog.html#2</link>
       <guid isPermaLink='true'>http://localhost/ddr0.github.com/blog.html#2</guid>
-      <source url='http://localhost/ddr0.github.com/blog.html#2'></source>
+      <source url='http://localhost/ddr0.github.com/blog.html#2'>
     </item>
     <item>
       <title>Practical CreateJS Examples</title>
       <description>I have found it difficult to find nice, simple examples of how to lay out an EaselJS program. The documentation and examples generally do a good job of covering the nuts and bolts of the library, but I find that some additional assembly instructions would be helpful. So, in rough order of my progression through the library, here are 5 examples:</description>
       <link>http://localhost/ddr0.github.com/blog.html#3</link>
       <guid isPermaLink='true'>http://localhost/ddr0.github.com/blog.html#3</guid>
-      <source url='http://localhost/ddr0.github.com/blog.html#3'></source>
+      <source url='http://localhost/ddr0.github.com/blog.html#3'>
     </item>
   </channel>
 </rss>

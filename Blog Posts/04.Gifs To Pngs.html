@@ -1,0 +1,29 @@
+<h2>Batch Convert Gif Animations to Spritesheets</h2>
+
+<p>During some recent work on the <a href="http://www.pixeljoint.com/2015/01/21/4521/Open_Pixel_Platformer_is_back.htm">Open Pixel Platformer</a>, I had many finished .gif animations which I needed to make into spritesheets. To convert them all, I wrote a script to automate the task.</p>
+
+<div class="code-container">
+<code>gifs=`find . -iname '*.gif'`</code><br>
+<code>echo "Queuing $(echo "$gifs" | wc -l) gif animations to be converted to png spritesheets. Queued images may take a while to process in the background."</code><br>
+<code>echo "$gifs" | while read gif; do</code><br>
+<code>    png=${gif/.gif/.png} #convert *.gif filename to *.png filename.</code><br>
+<code>    #echo queued "$gif"</code><br>
+<code>    </code><br>
+<code>    # Explanation of montage command:</code><br>
+<code>    # "$gif" \</code><br>
+<code>    # -tile x1 -geometry +0+0 \ #Set up the tiles.</code><br>
+<code>    # -border 1 -bordercolor \#F9303D -compose src -define 'compose:outside-overlay=false' \ #Draw a 1-px red border around the image, so it's easier to find frames. -compose is needed to make the border not fill in the transparent pixels in the image, and -define is needed to make the -compose not erease the previous gif frames we're compositing as we draw each subsequent one.</code><br>
+<code>    # -background "rgba(0, 0, 0, 0.0)" \ #Set the background to stay transparent, as opposed to white. (-alpha On seems to have no effect)</code><br>
+<code>    # -quality 100 \ #The default quality is 92, but since we're dealing with pixel art we want the fidelity.</code><br>
+<code>    # "$png" & #Run all the conversions in parallel, let the OS figure out scheduling. Replace with something smarter if things start lagging too much.</code><br>
+<code>    </code><br>
+<code>    montage \</code><br>
+<code>        "$gif" \</code><br>
+<code>        -tile x1 -geometry +0+0 \</code><br>
+<code>        -border 1 -bordercolor \#F9303D -compose src -define 'compose:outside-overlay=false' \</code><br>
+<code>        -background "rgba(0, 0, 0, 0.0)" \</code><br>
+<code>        -quality 100 \</code><br>
+<code>        "$png" &</code><br>
+<code>done</code>
+</div>
+<span>View on <a href="https://github.com/DDR0/open_pixel_platformer/blob/d3b71ce7a5c8eea2fa43edeaef487bd870de1c29/images/google%20drive/animationToSpritesheet.zsh">Github</a></span>

@@ -58,3 +58,9 @@
 #content-pane h3 {
   clear: right;
 }
+#content-pane code {
+  white-space: pre;
+}
+#content-pane .code-container {
+  overflow-x: scroll;
+}

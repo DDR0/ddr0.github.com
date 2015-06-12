@@ -5,6 +5,8 @@
 		%title Gallery
 		%link{"rel"=>"stylesheet", "href"=>"css/Grey and Blue.css"}
 		%link{"rel"=>"stylesheet", "href"=>"css/Gallery.css"}
+		<link rel="alternate" type="application/rss+xml" title="RSS feed for ddr0.github.io" href="/rss.xml" />
+		<meta name="theme-color" content="#3377FF">
 	%body
 		%a{id:"skip-nav", href:"#content"}Skip navigation.
 		#badge<
@@ -55,21 +57,67 @@
 
 				%hr
 				
-				/// EDITABLED ///
+				/// OPEN PIXEL PLATFORMER ///
 				%div{style:"min-height:300px;"}
-					%iFrame{class:"cover left", id:"editabled", src:"https://dl.dropboxusercontent.com/u/138485812/editabled/fullscreen.html", width:400, height:300, onclick:"$('#editabled')[0].focus()"}
-					%h2 Editabled Pre-Alpha
-					%p An editable pixel editor. Eventually. You can draw sharp lines on it with your mouse and non-destructively move around with the arrow keys. (Hold alt and click on the example to grant it keyboard focus.) Infinite scroll in any direction. Features a custom multi-threaded compositing engine. You can <button onclick="var e = $('#editabled')[0]; e.src = e.src; //Basically, we're not allowed to reload the window content here because it's not of this domain. Perhaps we should, uh, make it so. Considering this is what it was meant for.">clear</button> the canvas if you've messed up, since there is no ereaser yet. There is a <a href="https://dl.dropboxusercontent.com/u/138485812/editabled/fullscreen.html">full-screen version</a>.
-
-				%hr
-				
-				/// CUBE TRAINS ///
-				%div{style:"min-height:300px;"}
-					<a href="https://github.com/DDR0/open_pixel_platformer"><img class="cover right" src="images/gallery/open platformer project jungle test level mod.png"></a>
+					<a href="https://github.com/DDR0/open_pixel_platformer"><img class="cover left" src="images/gallery/open platformer project jungle test level mod.png"></a>
 					%h2 Open Pixel Platformer
 					%p This project aims to make a free, open-source platformer for coders and artists to use as a resource. I lead the programming side of the project. Code on <a href="https://github.com/DDR0/open_pixel_platformer">Github</a>. Discussion is at a <a href="http://www.pixeljoint.com/forum/forum_topics.asp?FID=23">sub-forum on PixelJoint</a>.
 					
-				<hr>
+				%hr
+				
+				/// ComeFrom 2 ///
+				%div{style:"min-height:296px;"}
+					<a href="http://ddr0.github.io/side projects/cfl"><img class="cover right" style="width:126.5px" src="images/gallery/cfl.png" alt="
+					program:
+
+					10 #0 
+					20 comefrom 120 
+					30 + 
+					40 #1 
+					50 dup 
+					55 dup 
+					60 < 
+					70 #10 
+					80 drop 
+					100 comefromif 75 
+					120 drop 
+					130 comefrom 90 
+					145 drop 
+
+					opStack:
+
+					[]
+
+					stack:
+
+					[1,2,2,2]
+					"></a>
+					%h2 ComeFrom 2
+					%p ComeFrom 2 is an esoteric language which explores the implications of only being able to COMEFROM lines, not GOTO them. Since no stupid idea is any use if it's not accessible, an <a href="http://ddr0.github.io/side projects/cfl">online IDE</a> is available. Be sure to run the 'Counting Up to Ten' program! For a more detailed explanation and introduction, see the <a href="http://esolangs.org/wiki/ComeFrom2">esolangs.org page</a>.
+					%p ComeFrom's real coup de grâce, however, is the <em>conditional</em> comefrom. By examining the top variable on the stack, we eliminate the need for if-based conditionals and loops entirely.
+					
+				%hr
+				
+				/// EDITABLED ///
+				%div{style:"min-height:300px;"}
+					%iFrame{class:"cover left", id:"editabled", src:"https://dl.dropboxusercontent.com/u/138485812/editabled/fullscreen.html", width:400, height:300, onclick:"$('#editabled')[0].focus()"}
+					%h2 Editabled
+					%p A pixel editor demo. You can draw sharp lines on it with your mouse and move around with the arrow keys. (Hold alt and click on the example to grant it keyboard focus.) Infinite scroll in any direction. Features a multi-threaded compositing engine. You can <button onclick="var e = $('#editabled')[0]; e.src = e.src; //Basically, we're not allowed to reload the window content here because it's not of this domain. Perhaps we should, uh, make it so.">clear</button> the canvas if you've messed up, since there is no ereaser yet. There is a <a href="https://dl.dropboxusercontent.com/u/138485812/editabled/fullscreen.html">full-page version</a>.
+
+				%hr
+				
+				/// CANVASGAME ///
+				%div{style:"min-height:262.5px;"}
+					<a href="http://ddr0.github.io/side%20projects/canvasgame.html"><img class="cover right" style="width:176.5px;" src="images/gallery/html game.gif"></a>
+					%h2 canvasgame
+					%p <a href="http://ddr0.github.io/side%20projects/canvasgame.html">canvasgame</a> is a demo two-player game, written in Javascript. Controls: a/e to move and o to fire missile for player 1, numpad 4/6 to move and 5 to fire area bomb for player 2. I made the game in one day to learn.
+					
+				%hr
+				%p 
+					Minor Links:
+					%ol
+						%li money calculator: <a href="http://ddr0.github.io/side%20projects/%24%E2%8C%9A.html">http://ddr0.github.io/side projects/$⌚.html</a>
+						%li light painting tool: <a href="http://ddr0.github.io/side%20projects/colour.html">http://ddr0.github.io/side projects/colour.html</a>
 				%p Questions? Comments? I like <a href="contact.html">hearing</a> from people.
 				%p – David Roberts
 

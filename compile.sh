@@ -59,7 +59,7 @@ echo -n "  ${bold}$(find $coffee_directory -name "*.coffee" | wc -l)${norm} coff
 
 for target_name in $files
 do
-	compile_results=$(coffee -c -m "$target_name" 2>&1 >/dev/null)
+	compile_results=$(coffee -c "$target_name" 2>&1 >/dev/null)
 	if [[ $compile_results ]]; then
 		echo -e " ${red}✘${norm}\n\n${bold}$target_name${norm}:\n$compile_results\n"
 		exit 1;

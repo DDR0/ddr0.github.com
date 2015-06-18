@@ -4,41 +4,49 @@
     <title>David Roberts' website</title>
     <link>https://ddr0.github.com</link>
     <description>Updates to DDR's Website. Blog posts and such.</description>
-    <atom:link href='https://ddr0.github.com' rel='self' type='application/rss+xml'></atom:link>
+    <atom:link href='https://ddr0.github.io'></atom:link>
+    <atom:link href='https://ddr0.github.io/rss.xml' rel='self' type='application/rss+xml'></atom:link>
     <item>
       <title>The Start</title>
       <description>This is the start of the blog. That's all there is, there is no more.</description>
       <link>https://ddr0.github.io/blog.html#1</link>
       <guid isPermaLink='true'>https://ddr0.github.io/blog.html#1</guid>
-      <source url='https://ddr0.github.io/blog.html#1'>
+      <source url="https://ddr0.github.io/blog.html#1"></source>
     </item>
     <item>
       <title>Diagrams and Charts of Game Mechanics</title>
       <description>Computer games are, in broad terms, systems of exchange. The player can exchange gold coins for a fancy sword; time and attention for progress; or the player can sit back and watch the game exchange stuff with itself. By graphing interactions between the player and bits of the game, we can see what the focus of the play of the game will be. Lets start off by looking at the simplest example there is, Progress Quest.</description>
       <link>https://ddr0.github.io/blog.html#2</link>
       <guid isPermaLink='true'>https://ddr0.github.io/blog.html#2</guid>
-      <source url='https://ddr0.github.io/blog.html#2'>
+      <source url="https://ddr0.github.io/blog.html#2"></source>
     </item>
     <item>
       <title>Practical CreateJS Examples</title>
       <description>I have found it difficult to find nice, simple examples of how to lay out an EaselJS program. The documentation and examples generally do a good job of covering the nuts and bolts of the library, but I find that some additional assembly instructions would be helpful. So, in rough order of my progression through the library, here are 5 examples:</description>
       <link>https://ddr0.github.io/blog.html#3</link>
       <guid isPermaLink='true'>https://ddr0.github.io/blog.html#3</guid>
-      <source url='https://ddr0.github.io/blog.html#3'>
+      <source url="https://ddr0.github.io/blog.html#3"></source>
     </item>
     <item>
       <title>Gifs to Pngs</title>
       <description>An improved script to convert gif animations to spritesheet pngs.</description>
       <link>https://ddr0.github.io/blog.html#4</link>
       <guid isPermaLink='true'>https://ddr0.github.io/blog.html#4</guid>
-      <source url='https://ddr0.github.io/blog.html#4'>
+      <source url="https://ddr0.github.io/blog.html#4"></source>
     </item>
     <item>
       <title>Gallery Update</title>
       <description>Added ComeFrom 2 and canvasgame entries to gallery.</description>
       <link>https://ddr0.github.io/gallery.html</link>
       <guid isPermaLink='true'>https://ddr0.github.io/gallery.html</guid>
-      <source url='https://ddr0.github.io/gallery.html'>
+      <source url="https://ddr0.github.io/gallery.html"></source>
+    </item>
+    <item>
+      <title>Calculating a Bounce</title>
+      <description>Given a ball and a curved wall, how do we calculate the angle of the bounce of the ball?</description>
+      <link>https://ddr0.github.io/blog.html#5</link>
+      <guid isPermaLink='true'>https://ddr0.github.io/blog.html#5</guid>
+      <source url="https://ddr0.github.io/blog.html#5"></source>
     </item>
   </channel>
 </rss>

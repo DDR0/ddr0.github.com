@@ -2,7 +2,7 @@
 	# This post compiled by compile.sh.
 	# Next Steps: Make entries defined by machine, pulling from the actual files.
 	
-	# Programatically generated entries for Blog Posts.
+	# RSS Entries
 	@entries = [
 		{
 			title: "The Start",
@@ -20,15 +20,14 @@
 			title: "Gifs to Pngs",
 			text: "An improved script to convert gif animations to spritesheet pngs.",
 			url: "https://ddr0.github.io/blog.html#4",
-		}
-	]
-	
-	# Manual entries.
-	@entries += [
-		{
+		},{
 			title: "Gallery Update",
 			text: "Added ComeFrom 2 and canvasgame entries to gallery.",
 			url: "https://ddr0.github.io/gallery.html",
+		},{
+			title: "Calculating a Bounce",
+			text: "Given a ball and a curved wall, how do we calculate the angle of the bounce of the ball?",
+			url: "https://ddr0.github.io/blog.html#5",
 		}
 	]
 
@@ -38,12 +37,13 @@
 		%title David Roberts' website
 		%link https://ddr0.github.com
 		%description Updates to DDR's Website. Blog posts and such.
-		%atom:link{"href" => "https://ddr0.github.com", "rel" => "self", "type" => "application/rss+xml"}
+		%atom:link{"href" => "https://ddr0.github.io"}
+		%atom:link{"href" => "https://ddr0.github.io/rss.xml", "rel" => "self", "type" => "application/rss+xml"}
 		- @entries.each do |entry|
 			%item
 				%title #{entry[:title]}
 				%description #{entry[:text]}
 				%link #{entry[:url]}
 				%guid{"isPermaLink" => "true"} #{entry[:url]}
-				%source{"url" => entry[:url]}
+				<source url="#{entry[:url]}"></source>
 				

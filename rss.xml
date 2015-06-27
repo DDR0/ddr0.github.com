@@ -48,5 +48,12 @@
       <guid isPermaLink='true'>https://ddr0.github.io/blog.html#5</guid>
       <source url="https://ddr0.github.io/blog.html#5"></source>
     </item>
+    <item>
+      <title>A Case Against Text Templating</title>
+      <description>By throwing out valuable structural information, text templating makes you write bad code.</description>
+      <link>https://ddr0.github.io/blog.html#6</link>
+      <guid isPermaLink='true'>https://ddr0.github.io/blog.html#6</guid>
+      <source url="https://ddr0.github.io/blog.html#6"></source>
+    </item>
   </channel>
 </rss>

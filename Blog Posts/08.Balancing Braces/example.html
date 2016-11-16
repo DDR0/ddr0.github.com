@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Brace Balancing</title>
+	</head>
+	<body>
+		<script>
+			"use strict";
+			
+			function isBalanced(braces) {
+				do {
+					var matches = braces.split(/\(\)|{}|\[]/);
+					braces = matches.join('');
+				} while (matches.length > 1);
+				return !braces;
+			}
+			
+			//Tests
+			[
+				['()', true], 
+				['{}', true], 
+				['[]', true], 
+				['()[]{}', true], 
+				['([()]{})', true], 
+				['(', false], 
+				[')', false], 
+				['(]', false], 
+				['([)]', false], 
+			].forEach(test => {
+				const balanced = isBalanced(test[0]);
+				document.write(`<span style="color:${balanced===test[1]?'lime':'red'}">'${test[0]}' → ${balanced}, should be ${test[1]}</span><br>`);
+			});
+		</script>
+	</body>
+</html>

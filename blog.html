@@ -21,6 +21,107 @@
       <h1><img alt='blog' src='images/text-blog.png'></h1>
       <a name='content'></a>
       <div id='content-pane'>
+        <h2 id="CSP">Web Security: Should <a href="https://developer.mozilla.org/en/docs/Web/Security/CSP">CSP</a> be set for my HTML files only, or my HTML files and all my assets?</h2>
+        <p>Yes. "Some web framework automatically generate html on error pages and we found xss issues in those in the past, so setting CSP on everything is best." --ulfr from <a href="irc://irc.mozilla.org">Moznet</a></p>
+        
+        
+        
+        
+        
+        <hr>
+        
+        
+        
+        
+        
+        <h2 id="BalancingBraces">Balancing Braces</h2>
+        
+        <p>I chanced to read an article this morning on <a href="https://medium.com/@benastontweet/balancing-braces-a76e7b8e5f04">Ben Aston's blog</a>, which dealt with balancing braces. You should go read it now, since it's good and since I'm about to critique the heck out of his approach.</p>
+        
+        <p>The task Ben sets himself is simple: write a Javascript function, isBalanced, that returns true if a set of braces is balanced. Running his solution through <a href="http://jshint.com">jshint</a>, we find it has 13 statements with a <a href="https://en.wikipedia.org/wiki/Cyclomatic_complexity">cyclomatic</a> complexity score of 6. I think it is an inelegant solution for an elegant problem, as my solution came in at 4 statements with a complexity score of 2. (And mine doesn't repeat the characters to be matched either. <img class="emote" src="http://ddr0.github.io/images/wesnoth%20icons/icon_wink.gif"> )</p>
+        
+        <h3>Analysis</h3>
+        <p>This can be looked at not as a parsing problem, but as a pattern-matching problem instead. You have to think about it recursively.</p>
+        
+        <p>The key insight we will use is that <strong>this problem is as easy as repeatedly removing pairs of braces</strong>, such as <code>()</code> or <code>[]</code>. There is no case where the braces could be balanced without a pair of braces occurring in the string. By repeatedly removing all the paired braces, we will end up with either an empty string or the non-matching braces.</p>
+        
+        <p>Let's work this through. <code>'[{}]'</code> has one pair of braces we can spot - <code>{}</code>. Remove it and we are left with <code>'[]'</code> and another pair, <code>[]</code>, which we can also remove. Are there any characters left? No? Then the input was balanced. However, <code>'[{]}'</code> has no pairs of braces, and does have characters left, so it's unbalanced. <code>'()['</code> reduces to <code>'['</code>, which is likewise unbalanced.</p>
+        
+        <h3>Solution</h3>
+        <div class="code-container">
+        	<code>function isBalanced(braces) {</code>
+        	<code>	do {</code>
+        	<code>		var matches = braces.split(/\(\)|{}|\[]/);</code>
+        	<code>		braces = matches.join('');</code>
+        	<code>	} while (matches.length > 1);</code>
+        	<code>	return !braces;</code>
+        	<code>}</code>
+        </div>
+        
+        <br>
+        
+        <figure style="padding-top:1em">
+        	<iframe src="Blog Posts/08.Balancing Braces/example.html" style="height:24ex" scrolling="no"></iframe>
+        	<figcaption style="padding-top:1em"><strong>Live Example:</strong> All tests passing.</figcaption>
+        </figure>
+        
+        <p>Given this solution, Ben's statement that "to solve this problem we need to have a function that will return the opener corresponding to a closer" is proven false. We have no such function, and we have solved the problem.</p>
+        
+        <h3>Comparison</h3>
+        <p>In our code, <strong>there's a lot of things we don't have to worry about.</strong> We don't have to worry about inverting characters. We don't have to worry about queues. We don't have to worry about what the schema is, or even what <em>a</em> schema is. <strong>We just remove characters from a string.</strong></p>
+        
+        <p>This post is a lot shorter than Ben's, because my solution is a lot simpler. Often you do not have to think of the right data structure, but instead spend some time thinking of the right algorithm. My solution is simpler, but perhaps Ben's is constrained by an outside influence, not stated in the problem - say, the user of the function will want an error message pointing to the mismatched brace. While we should always strive for the clearest code, it's worth remembering that sometimes it was done that way for a reason.</p>
+        
+        
+        
+        
+        
+        <hr>
+        
+        
+        
+        
+        
+        <h2 id="WacomForHearthstone">Fixing Wacom Tablets for Hearthstone in Windows</h2>
+        
+        <p>As of 2016-10-29, there is some sort of bug with Hearthstone where it will ignore clicks coming from a tablet. A quick search turns up complaints, but no solution:</p>
+        
+        <ol>
+        	<li><a href="http://us.battle.net/forums/en/hearthstone/topic/19136283676">Wacom tablet pen support has been removed with patch 3.1.010357</a></li>
+        	<li><a href="http://eu.battle.net/forums/en/hearthstone/topic/16069796978">can't use mouse pen after update</a></li>
+        	<li><a href="https://www.reddit.com/r/hearthstone/comments/4843fc/wacom_tablet_not_working_on_hearthstone/">Wacom Tablet not working on Hearthstone</a></li>
+        </ol>
+        
+        <p><a href="http://ahkscript.org/">AutoHotKey</a> for Windows has no such issues. And it can send mouse inputs that hearthstone can read… <img class="emote" src="http://ddr0.github.io/images/wesnoth%20icons/icon_pensive.gif"> So, we'll make a new AutoHotKey script that clicks the left mouse button when the left mouse button is clicked. After installing AHK, make a new file with Notepad called wacom_echoer.ahk with the following contents:</p>
+        
+        <!-- Code tag on each line because each line gets padded later in the compiling process too. -->
+        <div class="code-container">
+        	<code>;Map the left mouse button to the left mouse button. This makes Hearthstone, among other</code>
+        	<code>;games, "see" it.</code>
+        	<code>#NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.</code>
+        	<code>SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.</code>
+        	<code>SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.</code>
+        	<code>return</code>
+        	<code></code>
+        	<code>LButton::LButton</code>
+        </div>
+        <small>Edit: Fixed initial comments.</small>
+        <small>Edit: It also fixes Cities: Skylines!</small>
+        
+        <p>Double-click to run. Hearthstone should now work as expected.</p>
+        
+        <p>I also followed <a href="http://www.volnapc.com/all-posts/how-to-get-rid-of-those-annoying-circles-from-your-wacom-cursor-in-windows-7">these instructions to disable the click rings in Windows</a>.</p>
+        
+        
+        
+        
+        
+        <hr>
+        
+        
+        
+        
+        
         <h2>A Case Against Text Templating</h2>
         
         <p>I recently had to deal with a mature PHP-based application. While quite well maintained, the code was suffering heavily from the effects of greedy serialization. Most templating languages, PHP included, work by going along and imperatively creating a long string of text. Echo this, buffer that, and concatenate the whole shebang into an outgoing HTML file. This is a powerful approach, beautiful in the simplicity of its method, and infinitely embeddable.</p>
@@ -87,12 +188,12 @@
         
         	<p>Now you can replace the x₁ and n with the variables of your program, and be on your way. For example, in Javascript:
         	<div class="code-container">
-        		<code>//Returns vector v mirrored around the normalized vector mir.</code><br>
-        		<code>function vReflectIn(v,mir) { </code><br>
-        		<code>	return [</code><br>
-        		<code>		-v[0] + 2*mir[0]*(v[0]*mir[0]+v[1]*mir[1]),</code><br>
-        		<code>		-v[1] + 2*mir[1]*(v[0]*mir[0]+v[1]*mir[1]),</code><br>
-        		<code>	]; </code><br>
+        		<code>//Returns vector v mirrored around the normalized vector mir.</code>
+        		<code>function vReflectIn(v,mir) { </code>
+        		<code>	return [</code>
+        		<code>		-v[0] + 2*mir[0]*(v[0]*mir[0]+v[1]*mir[1]),</code>
+        		<code>		-v[1] + 2*mir[1]*(v[0]*mir[0]+v[1]*mir[1]),</code>
+        		<code>	]; </code>
         		<code>}</code>
         	</div>
         </div>
@@ -113,27 +214,27 @@
         
         <!-- Code tag on each line because each line gets padded later in the compiling process too. -->
         <div class="code-container">
-        	<code>gifs=`find . -iname '*.gif'`</code><br>
-        	<code>echo "Queuing $(echo "$gifs" | wc -l) gif animations to be converted to png spritesheets. Queued images may take a while to process in the background."</code><br>
-        	<code>echo "$gifs" | while read gif; do</code><br>
-        	<code>    png=${gif/.gif/.png} #convert *.gif filename to *.png filename.</code><br>
-        	<code>    #echo queued "$gif"</code><br>
-        	<code>    </code><br>
-        	<code>    # Explanation of montage command:</code><br>
-        	<code>    # "$gif" \</code><br>
-        	<code>    # -tile x1 -geometry +0+0 \ #Set up the tiles.</code><br>
-        	<code>    # -border 1 -bordercolor \#F9303D -compose src -define 'compose:outside-overlay=false' \ #Draw a 1-px red border around the image, so it's easier to find frames. -compose is needed to make the border not fill in the transparent pixels in the image, and -define is needed to make the -compose not erease the previous gif frames we're compositing as we draw each subsequent one.</code><br>
-        	<code>    # -background "rgba(0, 0, 0, 0.0)" \ #Set the background to stay transparent, as opposed to white. (-alpha On seems to have no effect)</code><br>
-        	<code>    # -quality 100 \ #The default quality is 92, but since we're dealing with pixel art we want the fidelity.</code><br>
-        	<code>    # "$png" & #Run all the conversions in parallel, let the OS figure out scheduling. Replace with something smarter if things start lagging too much.</code><br>
-        	<code>    </code><br>
-        	<code>    montage \</code><br>
-        	<code>        "$gif" \</code><br>
-        	<code>        -tile x1 -geometry +0+0 \</code><br>
-        	<code>        -border 1 -bordercolor \#F9303D -compose src -define 'compose:outside-overlay=false' \</code><br>
-        	<code>        -background "rgba(0, 0, 0, 0.0)" \</code><br>
-        	<code>        -quality 100 \</code><br>
-        	<code>        "$png" &</code><br>
+        	<code>gifs=`find . -iname '*.gif'`</code>
+        	<code>echo "Queuing $(echo "$gifs" | wc -l) gif animations to be converted to png spritesheets. Queued images may take a while to process in the background."</code>
+        	<code>echo "$gifs" | while read gif; do</code>
+        	<code>    png=${gif/.gif/.png} #convert *.gif filename to *.png filename.</code>
+        	<code>    #echo queued "$gif"</code>
+        	<code>    </code>
+        	<code>    # Explanation of montage command:</code>
+        	<code>    # "$gif" \</code>
+        	<code>    # -tile x1 -geometry +0+0 \ #Set up the tiles.</code>
+        	<code>    # -border 1 -bordercolor \#F9303D -compose src -define 'compose:outside-overlay=false' \ #Draw a 1-px red border around the image, so it's easier to find frames. -compose is needed to make the border not fill in the transparent pixels in the image, and -define is needed to make the -compose not erease the previous gif frames we're compositing as we draw each subsequent one.</code>
+        	<code>    # -background "rgba(0, 0, 0, 0.0)" \ #Set the background to stay transparent, as opposed to white. (-alpha On seems to have no effect)</code>
+        	<code>    # -quality 100 \ #The default quality is 92, but since we're dealing with pixel art we want the fidelity.</code>
+        	<code>    # "$png" & #Run all the conversions in parallel, let the OS figure out scheduling. Replace with something smarter if things start lagging too much.</code>
+        	<code>    </code>
+        	<code>    montage \</code>
+        	<code>        "$gif" \</code>
+        	<code>        -tile x1 -geometry +0+0 \</code>
+        	<code>        -border 1 -bordercolor \#F9303D -compose src -define 'compose:outside-overlay=false' \</code>
+        	<code>        -background "rgba(0, 0, 0, 0.0)" \</code>
+        	<code>        -quality 100 \</code>
+        	<code>        "$png" &</code>
         	<code>done</code>
         </div>
         <span>View on <a href="https://github.com/DDR0/open_pixel_platformer/blob/d3b71ce7a5c8eea2fa43edeaef487bd870de1c29/images/google%20drive/animationToSpritesheet.zsh">Github</a></span><br>

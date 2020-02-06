@@ -22,9 +22,7 @@ html: $(HTML_DEST)
 
 
 #Compile recipes for the RSS XML files.
-blog-rss-feed.xml: blog-rss-feed.xml.js compile.node.js
-	@./compile.node.js $< > $@
-gallery-rss-feed.xml: gallery-rss-feed.xml.js compile.node.js
+%.xml: %.xml.js compile.node.js
 	@./compile.node.js $< > $@
 
 XML_SRC = $(shell find ./ -name "*.xml.js")
@@ -53,10 +51,9 @@ styles: $(CSS_DEST) #Can't be named "css" because that's a folder, and the folde
 all: html xml js styles
 
 
-#Remove all the built files.
+#Remove all the built files, and the generated .map files from coffee and lessc.
 clean:
-	rm -f $(HTML_DEST) $(XML_DEST) $(JS_DEST) $(CSS_DEST)
-	rm **/*.map #Clean up generated mapping files, from lessc and coffee.
+	rm -f $(HTML_DEST) $(XML_DEST) $(JS_DEST) $(CSS_DEST) **/*.map
 
 
 install-build-reqs:

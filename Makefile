@@ -11,6 +11,8 @@ blog.html: blog.html.js ./Blog\ Posts/*.html $(DEFAULT_HTML_SOURCES)
 	@./compile.node.js $< > $@
 gallery.html: gallery.html.js $(DEFAULT_HTML_SOURCES)
 	@./compile.node.js $< > $@
+background-town.html: background-town.html.js $(DEFAULT_HTML_SOURCES)
+	@./compile.node.js $< > $@
 contact.html: contact.html.js $(DEFAULT_HTML_SOURCES)
 	@./compile.node.js $< > $@
 
@@ -30,9 +32,35 @@ XML_DEST = $(patsubst %.xml.js,%.xml,$(XML_SRC))
 xml: $(XML_DEST)
 
 
-all: html xml
+background-town/%.js: background-town/%.coffee
+	coffee --map --compile $<
+
+COFFEE_SRC = $(shell find ./background-town/ -name "*.coffee")
+COFFEE_DEST = $(patsubst %.coffee,%.js,$(COFFEE_SRC))
+coffee: $(COFFEE_DEST)
+
+
+all: html xml coffee
 
 
 #Remove all the built files.
 clean:
 	rm -f $(HTML_DEST) $(XML_DEST)
+
+
+install-build-reqs:
+	sudo apt install nodejs npm node-less coffeescript
+
+
+debug:
+	@echo "HTML src/dest"
+	@echo $(HTML_SRC)
+	@echo $(HTML_DEST)
+	@echo
+	@echo "XML src/dest"
+	@echo $(XML_SRC)
+	@echo $(XML_DEST)
+	@echo
+	@echo "CoffeeScript src/dest"
+	@echo $(COFFEE_SRC)
+	@echo $(COFFEE_DEST)

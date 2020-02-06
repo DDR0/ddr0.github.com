@@ -1,4 +1,4 @@
-#compile: coffee -c -w -m \background\ town/setup.coffee 
+#compile: coffee -c -w -m \background-town/setup.coffee 
 
 #config
 tileWidth = 36
@@ -20,7 +20,7 @@ handleComplete = ->
 
 queue = new createjs.LoadQueue()
 queue.addEventListener("complete", handleComplete)
-queue.loadManifest do (path='background town/') -> [
+queue.loadManifest do (path='background-town/') -> [
 	{id: "_",     src: path + "underscore-min.js"}
 	{id: "easel", src: path + "easeljs-0.6.0.min.js"}
 	{id: "tiles", src: path + "tiles.png"}

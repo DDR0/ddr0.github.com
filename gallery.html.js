@@ -99,8 +99,8 @@ ${include('site shell intro.html.frag.js', {
 				<img src='images/easter-egg pull.svg'>
 			</a>
 			<canvas height='0' id='background-city' width='0'></canvas>
-			<script src='background town/setup.js'></script>
 			<script src='https://code.createjs.com/preloadjs-0.3.0.min.js'></script>
+			<script src='background-town/setup.js'></script>
 		</footer>
 	</body>
 </html>

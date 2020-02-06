@@ -7,6 +7,7 @@ ${include('site shell intro.html.frag.js', {
 		titleAlt: 'gallery',
 	},
 	additionalHeadFields: [
+		`<link href='css/gallery.css' rel='stylesheet'>`,
 		`<link rel="alternate" type="application/rss+xml" title="DDR's Blog" href="/gallery-rss-feed.xml" />`,
 	],
 })}${''/*Note: We have an easter egg in this footer, so just leave everything properly indented here.*/}

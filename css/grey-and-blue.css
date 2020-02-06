@@ -79,8 +79,8 @@ body {
 h1 {
   font-size: 63px;
   min-height: 76px;
-  color: #B7BECE;
-  background-color: #2E2F33;
+  color: #b7bece;
+  background-color: #2e2f33;
   text-align: right;
   padding: 38px;
   /*33px*/
@@ -149,7 +149,7 @@ a:hover {
     display: block;
     width: 50px;
     float: left;
-    color: lightgrey;
+    color: #d3d3d3;
   }
   #icon-bar div {
     width: 100%;
@@ -169,7 +169,7 @@ a:hover {
   }
   #icon-bar :hover {
     color: #ffffff;
-    text-shadow: 0px 0px 5px black;
+    text-shadow: 0px 0px 5px #000000;
     text-decoration: none;
   }
   #icon-bar a {
@@ -197,7 +197,7 @@ a:hover {
     position: fixed;
     top: 0px;
     right: 0px;
-    background-color: #484B50;
+    background-color: #484b50;
     border-left: 1px solid #3377ff;
     box-shadow: 0px 0px 10px #000000;
   }
@@ -212,10 +212,10 @@ a:hover {
     pointer-events: none;
   }
   #icon-bar a {
-    color: lightgrey;
+    color: #d3d3d3;
   }
   #icon-bar :nth-last-child(odd) img {
-    background-color: #6C7175;
+    background-color: #6c7175;
   }
   #icon-bar img {
     width: 70px;
@@ -251,3 +251,4 @@ footer {
   color: rgba(0, 0, 0, 0.3);
   text-shadow: rgba(0, 0, 0, 0.1) -1px 0, rgba(0, 0, 0, 0.1) 0 -1px, rgba(255, 255, 255, 0.1) 1px 0, rgba(255, 255, 255, 0.1) 0 1px, rgba(0, 0, 0, 0.1) -1px -1px, rgba(255, 255, 255, 0.1) 1px 1px;
 }
+/*# sourceMappingURL=grey-and-blue.css.map */

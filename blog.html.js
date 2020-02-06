@@ -9,7 +9,7 @@ ${include('site shell intro.html.frag.js', {
 		titleAlt: 'blog',
 	},
 	additionalHeadFields: [
-		`<link href='css/Blog.css' rel='stylesheet'>`,
+		`<link href='css/blog.css' rel='stylesheet'>`,
 		`<link rel="alternate" type="application/rss+xml" title="DDR's Blog" href="/blog-rss-feed.xml" />`,
 	],
 })}

@@ -32,20 +32,31 @@ XML_DEST = $(patsubst %.xml.js,%.xml,$(XML_SRC))
 xml: $(XML_DEST)
 
 
+#Compile recipes for Background Town's coffeescript.
 background-town/%.js: background-town/%.coffee
 	coffee --map --compile $<
 
-COFFEE_SRC = $(shell find ./background-town/ -name "*.coffee")
-COFFEE_DEST = $(patsubst %.coffee,%.js,$(COFFEE_SRC))
-coffee: $(COFFEE_DEST)
+JS_SRC = $(shell find ./background-town/ -name "*.coffee")
+JS_DEST = $(patsubst %.coffee,%.js,$(JS_SRC))
+js: $(JS_DEST)
 
 
-all: html xml coffee
+#Compile recipes for the LESS files.
+css/%.css: css/%.less
+	lessc --source-map --no-ie-compat $< $@
+
+CSS_SRC = $(shell find ./css/ -name "*.less")
+CSS_DEST = $(patsubst %.less,%.css,$(CSS_SRC))
+styles: $(CSS_DEST) #Can't be named "css" because that's a folder, and the folder is up to date. -_-
+
+
+all: html xml js styles
 
 
 #Remove all the built files.
 clean:
-	rm -f $(HTML_DEST) $(XML_DEST)
+	rm -f $(HTML_DEST) $(XML_DEST) $(JS_DEST) $(CSS_DEST)
+	rm **/*.map #Clean up generated mapping files, from lessc and coffee.
 
 
 install-build-reqs:
@@ -62,5 +73,9 @@ debug:
 	@echo $(XML_DEST)
 	@echo
 	@echo "CoffeeScript src/dest"
-	@echo $(COFFEE_SRC)
-	@echo $(COFFEE_DEST)
+	@echo $(JS_SRC)
+	@echo $(JS_DEST)
+	@echo
+	@echo "CoffeeScript src/dest"
+	@echo $(CSS_SRC)
+	@echo $(CSS_DEST)

@@ -587,9 +587,7 @@
 
   slideContentOut = function() {
     window.city.toggleVisibility = slideContentIn;
-    $('body').css({
-      'pointer-events': 'none'
-    }).animate({
+    $('body').animate({
       'margin-top': "-=" + (pane.height())
     }, pane.height() * 1.5);
     return setTimeout(function() {
@@ -599,9 +597,7 @@
 
   slideContentIn = function() {
     window.city.toggleVisibility = slideContentOut;
-    return $('body').css({
-      'pointer-events': 'auto'
-    }).animate({
+    return $('body').animate({
       'margin-top': "+=" + (pane.height())
     }, pane.height() * 1.5);
   };

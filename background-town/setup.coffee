@@ -444,9 +444,7 @@ expandRoadNetwork = ->
 # -- UI Events --
 slideContentOut = -> #Called alternately, by way of storing one or the other in toggleVisibility.
 	window.city.toggleVisibility = slideContentIn
-	$('body').css({
-		'pointer-events': 'none'
-	}).animate({
+	$('body').animate({
 		'margin-top': "-=#{pane.height()}"
 	}, pane.height()*1.5)
 	setTimeout(-> #We must wait a little bit, because something is setting the scroll to 0,0. This is bad, because it could produce a flicker.
@@ -454,9 +452,7 @@ slideContentOut = -> #Called alternately, by way of storing one or the other in 
 	10)
 slideContentIn = ->
 	window.city.toggleVisibility = slideContentOut
-	$('body').css({
-		'pointer-events': 'auto'
-	}).animate({
+	$('body').animate({
 		'margin-top': "+=#{pane.height()}"
 	}, pane.height()*1.5)	
 	

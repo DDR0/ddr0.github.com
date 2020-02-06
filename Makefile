@@ -2,7 +2,7 @@
 .POSIX:
 .SUFFIXES:
 .SECONDARY:
-.DEFAULT_GOAL := html
+.DEFAULT_GOAL := all
 
 
 #Compile recipes for the HTML files.
@@ -19,6 +19,20 @@ HTML_DEST = $(patsubst %.html.js,%.html,$(HTML_SRC))
 html: $(HTML_DEST)
 
 
+#Compile recipes for the RSS XML files.
+blog-rss-feed.xml: blog-rss-feed.xml.js compile.node.js
+	@./compile.node.js $< > $@
+gallery-rss-feed.xml: gallery-rss-feed.xml.js compile.node.js
+	@./compile.node.js $< > $@
+
+XML_SRC = $(shell find ./ -name "*.xml.js")
+XML_DEST = $(patsubst %.xml.js,%.xml,$(XML_SRC))
+xml: $(XML_DEST)
+
+
+all: html xml
+
+
 #Remove all the built files.
 clean:
-	rm -f $(HTML_DEST)
+	rm -f $(HTML_DEST) $(XML_DEST)

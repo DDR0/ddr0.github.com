@@ -1,3 +1,12 @@
+const entries = [
+	{
+		title: "-",
+		desc: "No feed available.",
+		url: "https://ddr0.github.io/gallery.html",
+	},
+]
+
+;`
 <?xml version="1.0"?>
 <rss version='2.0' xmlns:atom='http://www.w3.org/2005/Atom'>
 	<channel>
@@ -9,14 +18,15 @@
 			rel='self' type='application/rss+xml'></atom:link>
 		
 		
-		
+		${entries.map(entry => `
 		<item>
-			<title>-</title>
-			<description>No feed available.</description>
-			<link>https://ddr0.github.io/gallery.html</link>
-			<guid isPermaLink='true'>https://ddr0.github.io/gallery.html</guid>
-			<source url="https://ddr0.github.io/gallery.html"></source>
+			<title>${entry.title}</title>
+			<description>${entry.desc}</description>
+			<link>${entry.url}</link>
+			<guid isPermaLink='true'>${entry.url}</guid>
+			<source url="${entry.url}"></source>
 		</item>
-		
+		`).join('')}
 	</channel>
 </rss>
+`

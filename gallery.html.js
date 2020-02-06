@@ -1,25 +1,12 @@
-<!DOCTYPE html>
-<html lang='en'>
-	<head>
-		<meta charset='utf-8'>
-		<title>Gallery</title>
-		<link href='css/Grey and Blue.css' rel='stylesheet'>
-		<meta name="theme-color" content="#3377FF">
-		
-	</head>
-	<body>
-		<a href='#content' id='skip-nav'>Skip navigation.</a>
-		<div id='badge'><img alt='' src='images/icons/work.svg'></div>
-		<div id='icon-bar'>
-			<a href='blog.html'><img alt='' src='images/icons/page.svg'><div>blog</div></a>
-			<a href='gallery.html'><img alt='' src='images/icons/work.svg'><div>gallery</div></a>
-			<a href='contact.html'><img alt='' src='images/icons/chat2.svg'><div>contact</div></a>
-			<a href='rss.xml'><img alt='' src='images/icons/rss.svg'><div>rss</div></a>
-		</div>
-		<div id='content-holder'>
-			<h1><img alt='gallery' src='images/text-gallery.png'></h1>
-			<a name='content'></a>
-			<div id='content-pane'>
+`
+${include('site shell intro.html.frag.js', {
+	title: 'Gallery',
+	header: {
+		badge: 'images/icons/work.svg',
+		titleImg: 'images/text-gallery.png',
+		titleAlt: 'gallery',
+	},
+})}${''/*Note: We have an easter egg in this footer, so just leave everything properly indented here.*/}
 				<!-- // FROGATTO /// -->
 				<!-- Oh, wouldn't it be nice to be able to define a height variable here… but can't do that. -->
 				<div style='min-height:300px;'>
@@ -103,7 +90,7 @@
 				<p>– David Roberts</p>
 			</div>
 		</div>
-		<footer> 
+		<footer> ${''/*Note: We have an easter egg in this footer, so we can't just paste in the standard footer fragment.*/}
 			Site ©2020 David Roberts.
 			<a href='#' onclick='window.city.toggleVisibility()' style='float: right; margin-right: 20%;'>
 				<img src='images/easter-egg pull.svg'>
@@ -114,3 +101,4 @@
 		</footer>
 	</body>
 </html>
+`

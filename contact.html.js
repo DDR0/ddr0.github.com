@@ -8,7 +8,7 @@ ${include('site shell intro.html.frag.js', {
 	},
 })}
 ${indent(4, `
-	You can reach me at robertsdavidddr@gmail.com, on Github as DDR0, or on IRC as DDR on freenode.net.
+	You can reach me at d@ddr0.com, on Github as DDR0, or on Discord as DDR#0001.
 `)}
 ${paste('site shell outro.html.frag')}
 `

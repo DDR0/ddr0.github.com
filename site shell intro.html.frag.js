@@ -6,7 +6,7 @@
 		<title>${title}</title>
 		<link href='css/Grey and Blue.css' rel='stylesheet'>
 		<meta name="theme-color" content="#3377FF">
-		${(global.additionalHeadFields||[]).join('\t\t\n')}
+		${(global.additionalHeadFields||[]).join('\n\t\t')}
 	</head>
 	<body>
 		<a href='#content' id='skip-nav'>Skip navigation.</a>

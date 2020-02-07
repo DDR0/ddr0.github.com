@@ -1,3 +1,3 @@
 [submodule "editabled"]
 	path = editabled
-	url = git@github.com:DDR0/editabled.git
+	url = https://github.com/DDR0/editabled.git

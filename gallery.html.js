@@ -71,9 +71,9 @@ ${include('site shell intro.html.frag.js', {
 				<hr>
 				<!-- // EDITABLED /// -->
 				<div style='min-height:300px;'>
-					<iFrame class='cover left' height='300' id='editabled' onclick="$('#editabled')[0].focus()" src='https://dl.dropboxusercontent.com/u/138485812/editabled/fullscreen.html' width='400'></iFrame>
+					<iFrame class='cover left' height='300' id='editabled' onclick="$('#editabled')[0].focus()" src='editabled/fullscreen.html' width='400'></iFrame>
 					<h2>Editabled</h2>
-					<p>A pixel editor demo. You can draw sharp lines on it with your mouse and move around with the arrow keys. (Hold alt and click on the example to grant it keyboard focus.) Infinite scroll in any direction. Features a multi-threaded compositing engine. You can <button onclick="var e = $('#editabled')[0]; e.src = e.src; //Basically, we're not allowed to reload the window content here because it's not of this domain. Perhaps we should, uh, make it so.">clear</button> the canvas if you've messed up, since there is no ereaser yet. There is a <a href="https://dl.dropboxusercontent.com/u/138485812/editabled/fullscreen.html">full-page version</a>.</p>
+					<p>A pixel editor demo. You can draw sharp lines on it with your mouse and move around with the arrow keys. (Hold alt and click on the example to grant it keyboard focus.) Infinite scroll in any direction. Features a multi-threaded compositing engine. You can <button onclick="var e = $('#editabled')[0]; e.src = e.src; //Basically, we're not allowed to reload the window content here because it's not of this domain. Perhaps we should, uh, make it so.">clear</button> the canvas if you've messed up, since there is no ereaser yet. There is a <a href="editabled/fullscreen.html">full-page version</a>.</p>
 				</div>
 				<hr>
 				<!-- // CANVASGAME /// -->

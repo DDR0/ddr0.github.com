@@ -28,7 +28,7 @@ const render = (filename, constants={}) =>
 		}),
 		{
 			filename,
-			// timeout: 100,
+			timeout: 100,
 		}
 	).trim('\n')
 

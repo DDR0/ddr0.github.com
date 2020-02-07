@@ -80,7 +80,7 @@ ${include('site shell intro.html.frag.js', {
 				<div style='min-height:262.5px;'>
 					<a href="https://ddr0.github.io/side%20projects/canvasgame.html"><img class="cover right" style="width:176.5px;" src="images/gallery/html game.gif"></a>
 					<h2>canvasgame</h2>
-					<p><a href="https://ddr0.github.io/side%20projects/canvasgame.html">canvasgame</a> is a demo two-player game, written in Javascript. Controls: a/e to move and o to fire missile for player 1, numpad 4/6 to move and 5 to fire area bomb for player 2. I made the game in one day to learn.</p>
+					<p><a href="https://ddr0.github.io/side%20projects/canvasgame.html">canvasgame</a> is a demo two-player game, written in Javascript. It was written in one day to learn how to make an HTML5 game. Controls: a/e to move and o to fire missile for player 1, numpad 4/6 to move and 5 to fire area bomb for player 2.</p>
 				</div>
 				<hr>
 				<p>

@@ -1,4 +1,4 @@
-This is the website of DDR. Contributions, changes, and so on are welcomed. The site can be found live ddr0.github.io.
+This is the website of DDR. Contributions, changes, and so on are welcomed. The site can be found live [ddr0.ca](https://ddr0.ca) or [ddr0.github.io](https://ddr0.github.io/).
 
 Contributing:
-The main site is generated using Less and Haml in place of the standard CSS and HTML. Before editing a html file, make sure there isn't a haml file next to it. When the site is compiled, the haml file will overwrite the html file. To compile the site, run {{{./compile.sh}}}. You can install less and haml via {{{npm install -g less}}} and {{{sudo gem install haml}}}.
+To compile the site, run `make`. You can install the dependancies with `make install-build-reqs`.

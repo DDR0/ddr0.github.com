@@ -10,7 +10,6 @@
 	</head>
 	<body>
 		<a href='#content' id='skip-nav'>Skip navigation.</a>
-		<div id='badge'><img alt='' src='${header.badge}'></div>
 		<div id='icon-bar'>
 			<a href='blog.html'><img alt='' src='images/icons/page.svg'><div>blog</div></a>
 			<a href='gallery.html'><img alt='' src='images/icons/work.svg'><div>gallery</div></a>
@@ -18,7 +17,10 @@
 			<a href='rss.xml'><img alt='' src='images/icons/rss.svg'><div>rss</div></a>
 		</div>
 		<div id='content-holder'>
-			<h1><img alt='${header.titleAlt}' src='${header.titleImg}'></h1>
+			<h1>
+				<div id='badge'><img alt='' src='${header.badge}'></div>
+				<img alt='${header.titleAlt}' src='${header.titleImg}'>
+			</h1>
 			<a name='content'></a>
 			<div id='content-pane'>
 `

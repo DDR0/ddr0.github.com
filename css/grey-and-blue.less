@@ -102,10 +102,9 @@ body {
 	
 #badge {
 	display: none;
-	position: absolute;
-	overflow: hidden; 
 	height: 135px; /*Set to 146 for ribbon transparency effect.*/
 	pointer-events: none;
+	width: 0;
 }
 
 #badge img {
@@ -120,16 +119,19 @@ body {
 }
 
 h1 {
-	font-size: 63px; //Makes the header resize so the title image is beneath the nav icons on 'medium' size.
+	display: flex;
+	flex-direction: row;
+	align-content: center;
+	align-items: center;
+	justify-content: space-between;
 	min-height: 76px; //However, the calculation results in the right height for the section image in large only on Firefox, it's one pixel too short on Chrome. So, set the minimum height to the height of our image.
 	color: @cHeaderTextColor;
 	background-color: @cHeaderColor;
-	text-align: right;
-	padding: 38px; /*33px*/
-	padding-bottom: 21px;
+	padding-right: 38px; /*33px*/
 	margin: 0px;
 	border-bottom: 11px solid @cBlue; /*We only have alpha-over blending, so to simulate the full colour we have the solid blue strip here, which will be overlaid by the large symbol, which will be overlaid by a transparent version of the border.*/
 	//Xfont-family: "Monospace"; /*Disabled, this screws up alignment. (It seems stuff is calc'd to 4em.)*/
+	overflow: hidden;
 }
 
 h2 {
@@ -137,7 +139,6 @@ h2 {
 }
 
 h1 img {
-	max-width: 100%;
 	height: auto;
 }
 

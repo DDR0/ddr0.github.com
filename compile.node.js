@@ -18,11 +18,12 @@ const render = (filename, constants={}) =>
 		fs.readFileSync(filename, {encoding:'utf8'}), 
 		vm.createContext({
 			require,
-			print: console.error.bind(console),
+			dump: (...args) => (console.error.apply(console, args), args.slice(-1)[0]),
 			include: render,
 			paste: filename => fs.readFileSync(filename, {encoding:'utf8'}),
 			indent: (level, text) => 
 				'\t'.repeat(level)+text.trim('\n').split('\n').join('\n'+'\t'.repeat(level)),
+			page: process.argv[2],
 			global: constants, //Look up a constant in the script.
 			...constants, //Or just reference it, which is easier but may fail if missing.
 		}),

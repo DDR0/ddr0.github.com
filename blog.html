@@ -9,18 +9,18 @@
 		<link rel="alternate" type="application/rss+xml" title="DDR's Blog" href="/blog-rss-feed.xml" />
 	</head>
 	<body>
-		<a href='#content' id='skip-nav'>Skip navigation.</a>
-		<div id='icon-bar'>
-			<a href='blog.html'><img alt='' src='images/icons/page.svg'><div>blog</div></a>
-			<a href='gallery.html'><img alt='' src='images/icons/work.svg'><div>gallery</div></a>
-			<a href='contact.html'><img alt='' src='images/icons/chat2.svg'><div>contact</div></a>
-			<a href='rss.xml'><img alt='' src='images/icons/rss.svg'><div>rss</div></a>
-		</div>
+		<a href='#content' id='skip-nav'>skip nav</a>
 		<div id='content-holder'>
-			<h1>
+			<div id="content-header">
+				<div id='icon-bar'>
+					<a href='blog.html'    class='selected'><img src='images/icons/page.svg' ><span>blog</span></a>
+					<a href='gallery.html' ><img src='images/icons/work.svg' ><span>gallery</span></a>
+					<a href='contact.html' ><img src='images/icons/chat2.svg'><span>contact</span></a>
+					<a href='rss.xml'                                                               ><img src='images/icons/rss.svg'  ><span>rss</span></a>
+				</div>
 				<div id='badge'><img alt='' src='images/icons/page.svg'></div>
-				<img alt='blog' src='images/text-blog.png'>
-			</h1>
+				<h1><img alt='blog' src='images/text-blog.png'></h1>
+			</div>
 			<a name='content'></a>
 			<div id='content-pane'>
 				<h2 id="CSP">Web Security: Should <a href="https://developer.mozilla.org/en/docs/Web/Security/CSP">CSP</a> be set for my HTML files only, or my HTML files and all my assets?</h2>

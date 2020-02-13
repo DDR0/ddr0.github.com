@@ -41,7 +41,7 @@ js: $(JS_DEST)
 
 #Compile recipes for the LESS files.
 css/%.css: css/%.less
-	lessc --source-map --no-ie-compat $< $@
+	lessc --source-map --no-ie-compat --strict-math=on $< $@
 
 CSS_SRC = $(shell find ./css/ -name "*.less")
 CSS_DEST = $(patsubst %.less,%.css,$(CSS_SRC))

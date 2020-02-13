@@ -21,7 +21,7 @@ body {
 }
 @media (max-width: 480px) {
   body {
-    padding: calc(-146.2%);
+    padding: calc(53.8% - 200px);
   }
 }
 #skip-nav {
@@ -39,21 +39,22 @@ body {
 #content-holder {
   width: 100%;
   box-shadow: 0px 0px 50px rgba(0, 0, 0, 0.75);
-  /*overflow:hidden;*/
-  /*Enabling this prevents the h1 from eating the nav images on lower resolutions, and isn't needed at higher resolutions.*/
+}
+#content-header {
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  align-items: center;
+  justify-content: space-between;
+  overflow: hidden;
+  background-color: #2e2f33;
+  border-bottom: 11px solid #3377ff;
 }
 #content-pane {
   margin: 0px;
   padding: 3em;
   padding-top: 3em;
-  margin-top: -11px;
-  border-top: 11px solid rgba(51, 119, 255, 0.5);
-  background: -webkit-gradient(linear, 0 0, 100% 0, from(#d0d2d8), to(#c9c6cb));
-  background: -webkit-linear-gradient(#d0d2d8, #c9c6cb);
-  background: -moz-linear-gradient(#d0d2d8, #c9c6cb);
-  background: -o-linear-gradient(#d0d2d8, #c9c6cb);
   background: linear-gradient(#d0d2d8, #c9c6cb);
-  background-clip: padding-box;
 }
 #content-pane a {
   color: black;
@@ -62,34 +63,21 @@ body {
 #badge {
   display: none;
   height: 135px;
-  /*Set to 146 for ribbon transparency effect.*/
   pointer-events: none;
   width: 0;
 }
 #badge img {
   width: 325px;
   height: 325px;
-  -webkit-transform: translate(-25px, -25px) rotate(-20deg);
-  -moz-transform: translate(-25px, -25px) rotate(-20deg);
-  -o-transform: translate(-25px, -25px) rotate(-20deg);
   transform: translate(-25px, -25px) rotate(-20deg);
   transform-origin: 50% 50%;
 }
 h1 {
-  display: flex;
-  flex-direction: row;
-  align-content: center;
-  align-items: center;
-  justify-content: space-between;
-  min-height: 76px;
-  color: #b7bece;
-  background-color: #2e2f33;
-  padding-right: 38px;
-  /*33px*/
   margin: 0px;
-  border-bottom: 11px solid #3377ff;
-  /*We only have alpha-over blending, so to simulate the full colour we have the solid blue strip here, which will be overlaid by the large symbol, which will be overlaid by a transparent version of the border.*/
-  overflow: hidden;
+  padding-right: 50px;
+}
+h1 img {
+  vertical-align: middle;
 }
 h2 {
   margin: 0px;
@@ -109,29 +97,68 @@ a:hover {
 #icon-bar a {
   text-decoration: none;
 }
-#icon-bar :hover {
-  text-decoration: underline;
-}
 #icon-bar img {
-  /*These have a native resolution of 500x500. We want to be really sure that they don't get that big, because it's very big.*/
-  width: 40px;
-  height: 40px;
-  padding: 5px;
-  margin-right: -4px;
-  /*Mystery value, else they are 53px across.*/
-  margin-bottom: -4px;
-  /*This line -4 for firefox, -5 for chrome for perfect tesselation.*/
-  /*background-color: rgba(255,255,255,0.5)*/
-  /*For testing.*/
+  max-width: 70px;
+  max-height: 70px;
+  vertical-align: middle;
 }
-#icon-bar div {
-  clear: none;
-  font-size: 12px;
-  margin: 0;
-  padding-bottom: 11px;
-  height: 9px;
-  width: 100px;
-  text-align: center;
+@media (min-width: 751px) {
+  body {
+    padding-right: 151px;
+  }
+  #icon-bar {
+    width: 100px;
+    height: 100%;
+    position: fixed;
+    top: 0px;
+    right: 0px;
+    background-color: #484b50;
+    box-shadow: -1px 0 0 0 #3377ff, 0 0 18px #000000;
+  }
+  #icon-bar a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    height: 100px;
+    color: #d3d3d3;
+  }
+  #icon-bar a:hover,
+  #icon-bar a.selected {
+    /*Originally, this worked by setting a white border of 2 and a margin of -2.
+			This works out in Chrome, which can do math. However, Firefox calculates the
+			element width as 100+2-2=99.97, which causes the icons to shift by one pixel
+			as the rounding math changes where their centerpoint is. (This seems to be
+			caused by a common browser workaround interpreting 1px borders "hairline".)
+			To work around this, we make use of a box-shadow instead of a border, which
+			doesn't affect the size of the element.*/
+    box-shadow: -2px 0px 0px 0px #ffffff;
+  }
+  #icon-bar a:nth-last-child(odd) {
+    background-color: #6c7175;
+  }
+  #icon-bar a.selected {
+    pointer-events: none;
+  }
+  #icon-bar a:nth-last-child(even):hover {
+    background-color: #4c4f54;
+  }
+  #icon-bar a:nth-last-child(odd):hover {
+    background-color: #707579;
+  }
+  #icon-bar img {
+    margin-bottom: -5px;
+  }
+  #icon-bar a:nth-child(1) img {
+    margin-bottom: -1px;
+  }
+  #icon-bar a:nth-child(3) img {
+    margin-bottom: -6px;
+  }
+  #badge {
+    display: block;
+  }
 }
 @media (max-width: 590px) {
   /*590 is the minimum width "gallery" will fit into the header.*/
@@ -185,49 +212,6 @@ a:hover {
     float: left;
     margin-left: -50px;
     text-align: right;
-  }
-}
-@media (min-width: 751px) {
-  body {
-    padding-right: 151px;
-    /*50px gutter, 100px icon-bar, 1 px blue border.*/
-  }
-  #icon-bar {
-    width: 100px;
-    height: 100%;
-    position: fixed;
-    top: 0px;
-    right: 0px;
-    background-color: #484b50;
-    border-left: 1px solid #3377ff;
-    box-shadow: 0px 0px 10px #000000;
-  }
-  #icon-bar :hover {
-    text-decoration: none;
-  }
-  #icon-bar a :hover {
-    border-left: 2px solid #ffffff;
-    margin-left: -2px;
-  }
-  #icon-bar div {
-    pointer-events: none;
-  }
-  #icon-bar a {
-    color: #d3d3d3;
-  }
-  #icon-bar :nth-last-child(odd) img {
-    background-color: #6c7175;
-  }
-  #icon-bar img {
-    width: 70px;
-    height: 70px;
-    padding: 15px;
-    margin-bottom: -25px;
-    padding-top: 10px;
-    padding-bottom: 20px;
-  }
-  #badge {
-    display: block;
   }
 }
 @media (max-width: 260px) {

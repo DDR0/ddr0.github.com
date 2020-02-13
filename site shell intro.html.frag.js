@@ -9,18 +9,18 @@
 		${(global.additionalHeadFields||[]).join('\n\t\t')}
 	</head>
 	<body>
-		<a href='#content' id='skip-nav'>Skip navigation.</a>
-		<div id='icon-bar'>
-			<a href='blog.html'><img alt='' src='images/icons/page.svg'><div>blog</div></a>
-			<a href='gallery.html'><img alt='' src='images/icons/work.svg'><div>gallery</div></a>
-			<a href='contact.html'><img alt='' src='images/icons/chat2.svg'><div>contact</div></a>
-			<a href='rss.xml'><img alt='' src='images/icons/rss.svg'><div>rss</div></a>
-		</div>
+		<a href='#content' id='skip-nav'>skip nav</a>
 		<div id='content-holder'>
-			<h1>
+			<div id="content-header">
+				<div id='icon-bar'>
+					<a href='blog.html'    ${page === 'blog.html.js'    ? 'class=\'selected\'' : ''}><img src='images/icons/page.svg' ><span>blog</span></a>
+					<a href='gallery.html' ${page === 'gallery.html.js' ? 'class=\'selected\'' : ''}><img src='images/icons/work.svg' ><span>gallery</span></a>
+					<a href='contact.html' ${page === 'contact.html.js' ? 'class=\'selected\'' : ''}><img src='images/icons/chat2.svg'><span>contact</span></a>
+					<a href='rss.xml'                                                               ><img src='images/icons/rss.svg'  ><span>rss</span></a>
+				</div>
 				<div id='badge'><img alt='' src='${header.badge}'></div>
-				<img alt='${header.titleAlt}' src='${header.titleImg}'>
-			</h1>
+				<h1><img alt='${header.titleAlt}' src='${header.titleImg}'></h1>
+			</div>
 			<a name='content'></a>
 			<div id='content-pane'>
 `

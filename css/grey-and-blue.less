@@ -17,7 +17,7 @@ done
 //Colours
 //general
 @cBlue:            rgba(51,119,255,1.0);
-@cBlueTransparent: rgba(51,119,255,0.5);
+// @cBlueTransparent: rgba(51,119,255,0.5);
 @cContentBackgroundShadow: rgba(0,0,0,0.75);
 @cSidebarBackgroundShadow: rgba(0,0,0,1.00);
 
@@ -77,22 +77,25 @@ body {
 #content-holder {
 	width: 100%;
 	box-shadow: 0px 0px 50px @cContentBackgroundShadow;
-	/*overflow:hidden;*/ /*Enabling this prevents the h1 from eating the nav images on lower resolutions, and isn't needed at higher resolutions.*/
-	//opacity: 0.25; //TODO: Disable later.
+}
+
+#content-header {
+	display: flex;
+	flex-direction: row;
+	align-content: center;
+	align-items: center;
+	justify-content: space-between;
+	overflow: hidden;
+	
+	background-color: @cHeaderColor;
+	border-bottom: 11px solid @cBlue;
 }
 
 #content-pane {
 	margin: 0px;
 	padding: 3em;
 	padding-top: 3em;
-	margin-top: -11px;
-	border-top: 11px solid @cBlueTransparent;
-	background: -webkit-gradient(linear, 0 0, 100% 0, from(@cContentTopGrey), to(@cContentBottomGrey));
-	background: -webkit-linear-gradient(@cContentTopGrey, @cContentBottomGrey);
-	background: -moz-linear-gradient(@cContentTopGrey, @cContentBottomGrey);
-	background: -o-linear-gradient(@cContentTopGrey, @cContentBottomGrey);
 	background: linear-gradient(@cContentTopGrey, @cContentBottomGrey);
-	background-clip: padding-box;
 }
 
 #content-pane a {
@@ -102,7 +105,7 @@ body {
 	
 #badge {
 	display: none;
-	height: 135px; /*Set to 146 for ribbon transparency effect.*/
+	height: 135px;
 	pointer-events: none;
 	width: 0;
 }
@@ -110,28 +113,16 @@ body {
 #badge img {
 	width: 325px;
 	height: 325px;
-	-webkit-transform: @gMove;
-	-moz-transform: @gMove;
-	-o-transform: @gMove;
-	transform: @gMove;
+	transform: translate(-25px, -25px) rotate(-20deg);
 	transform-origin: 50% 50%;
-	@gMove: translate(-25px, -25px) rotate(-20deg);
 }
 
 h1 {
-	display: flex;
-	flex-direction: row;
-	align-content: center;
-	align-items: center;
-	justify-content: space-between;
-	min-height: 76px; //However, the calculation results in the right height for the section image in large only on Firefox, it's one pixel too short on Chrome. So, set the minimum height to the height of our image.
-	color: @cHeaderTextColor;
-	background-color: @cHeaderColor;
-	padding-right: 38px; /*33px*/
 	margin: 0px;
-	border-bottom: 11px solid @cBlue; /*We only have alpha-over blending, so to simulate the full colour we have the solid blue strip here, which will be overlaid by the large symbol, which will be overlaid by a transparent version of the border.*/
-	//Xfont-family: "Monospace"; /*Disabled, this screws up alignment. (It seems stuff is calc'd to 4em.)*/
-	overflow: hidden;
+	padding-right: 50px;
+	img {
+		vertical-align: middle;
+	}
 }
 
 h2 {
@@ -158,28 +149,86 @@ a:hover {
 	text-decoration: none;
 }
 
-#icon-bar :hover {
-	text-decoration: underline;
+#icon-bar img { //These have a native resolution of 500x500. We want to be really sure that they don't get that big, because it's very big.
+	max-width: 70px;
+	max-height: 70px;
+	vertical-align: middle; //Remove descender area for text, we don't need it.
 }
 
-#icon-bar img { /*These have a native resolution of 500x500. We want to be really sure that they don't get that big, because it's very big.*/
-	width: 40px;
-	height: 40px;
-	padding: 5px;
-	margin-right: -4px; /*Mystery value, else they are 53px across.*/
-	margin-bottom: -4px; /*This line -4 for firefox, -5 for chrome for perfect tesselation.*/
-	/*background-color: rgba(255,255,255,0.5)*/ /*For testing.*/
+
+//Widest layout, bar to side.
+@media (min-width: 751px) {
+	@icon-bar-width: 100px;
+	body {
+		padding-right: 151px; //50px gutter, 100px icon-bar, 1 px blue border.
+	}
+	
+	#icon-bar {
+		width: @icon-bar-width;
+		height: 100%;
+		position: fixed;
+		top: 0px;
+		right: 0px;
+		background-color: @cIconBarBackground;
+		box-shadow: -1px 0 0 0 @cBlue,
+		            0 0 18px @cSidebarBackgroundShadow;
+	}
+	
+	#icon-bar a {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		overflow: hidden;
+		
+		height: @icon-bar-width;
+		color: @cIconGrey;
+	
+		&:hover, &.selected {
+			/*Originally, this worked by setting a white border of 2 and a margin of -2.
+			This works out in Chrome, which can do math. However, Firefox calculates the
+			element width as 100+2-2=99.97, which causes the icons to shift by one pixel
+			as the rounding math changes where their centerpoint is. (This seems to be
+			caused by a common browser workaround interpreting 1px borders "hairline".)
+			To work around this, we make use of a box-shadow instead of a border, which
+			doesn't affect the size of the element.*/
+			box-shadow: -2px 0px 0px 0px @cIconWhite;
+		}
+	
+		&:nth-last-child(odd) {
+			background-color: @cIconBarAlternateBackground;
+		}
+		
+		&.selected {
+			pointer-events: none;
+		}
+	
+		//Darken effect for selected sidebar items. Left out because I didn't like it.
+		&:nth-last-child(even):hover {
+			background-color: lighten(@cIconBarBackground, 1.5%);
+		}
+		&:nth-last-child(odd):hover {
+			background-color: lighten(@cIconBarAlternateBackground, 1.5%);
+		}
+	}
+
+	#icon-bar img {
+		margin-bottom: -5px;
+	}
+	
+	#icon-bar a:nth-child(1) img {
+		margin-bottom: -1px;
+	}
+	
+	#icon-bar a:nth-child(3) img {
+		margin-bottom: -6px;
+	}
+	
+	#badge {
+		display: block;
+	}
 }
 
-#icon-bar div {
-	clear: none;
-	font-size: 12px;
-	margin: 0;
-	padding-bottom: 11px;
-	height: 9px;
-	width: 100px;
-	text-align: center;
-}
 
 @media (max-width: 590px) { /*590 is the minimum width "gallery" will fit into the header.*/
 	#icon-bar {
@@ -242,65 +291,6 @@ a:hover {
 		float: left;
 		margin-left: -50px;
 		text-align: right;
-	}
-}
-
-@media (min-width: 751px) {
-	body {
-		padding-right: 151px; /*50px gutter, 100px icon-bar, 1 px blue border.*/
-	}
-	
-	#icon-bar {
-		width: 100px;
-		height: 100%;
-		position: fixed;
-		top: 0px;
-		right: 0px;
-		background-color: @cIconBarBackground;
-		border-left: 1px solid @cBlue;
-		box-shadow: 0px 0px 10px @cSidebarBackgroundShadow;
-	}
-	
-	#icon-bar :hover {
-		text-decoration: none;
-	}
-	
-	#icon-bar a :hover {
-		//box-shadow: inset 0px 0px 3px @cIconWhite;
-		border-left: 2px solid @cIconWhite;
-		margin-left: -2px;
-	}
-	
-	#icon-bar div {
-		pointer-events: none;
-	}
-	
-	#icon-bar a {
-		color: @cIconGrey;
-	}
-	
-	#icon-bar :nth-last-child(odd) img {
-		background-color: @cIconBarAlternateBackground;
-	}
-	
-	// #icon-bar :nth-last-child(even) :hover {
-	// 	background-image: linear-gradient(90deg, @cIconBarBackground, lighten(@cIconBarBackground, 10%));
-	// }
-	// #icon-bar :nth-last-child(odd) :hover {
-	// 	background-image: linear-gradient(90deg, @cIconBarAlternateBackground, lighten(@cIconBarAlternateBackground, 10%));
-	// }
-
-	#icon-bar img {
-		width: 70px;
-		height: 70px;
-		padding: 15px;
-		margin-bottom: -25px;
-		padding-top: 10px;
-		padding-bottom: 20px;
-	}
-	
-	#badge {
-		display: block;
 	}
 }
 

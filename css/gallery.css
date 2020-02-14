@@ -8,7 +8,7 @@ h2 {
   text-align: center;
 }
 .cover {
-  max-width: 100%;
+  max-width: 66.66%;
 }
 .left {
   float: left;
@@ -20,5 +20,8 @@ h2 {
 }
 iframe {
   border: 0 solid transparent;
+}
+section {
+  overflow: hidden;
 }
 /*# sourceMappingURL=gallery.css.map */

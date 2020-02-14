@@ -12,50 +12,50 @@
 		<a href='#content' id='skip-nav'>skip nav</a>
 		<div id='content-holder'>
 			<div id="content-header">
+				<div id='badge'><img alt='' src='images/icons/work.svg'></div>
+				<h1><img alt='gallery' src='images/text-gallery.png'></h1>
 				<div id='icon-bar'>
 					<a href='blog.html'    ><img src='images/icons/page.svg' ><span>blog</span></a>
 					<a href='gallery.html' class='selected'><img src='images/icons/work.svg' ><span>gallery</span></a>
 					<a href='contact.html' ><img src='images/icons/chat2.svg'><span>contact</span></a>
 					<a href='rss.xml'                                                               ><img src='images/icons/rss.svg'  ><span>rss</span></a>
 				</div>
-				<div id='badge'><img alt='' src='images/icons/work.svg'></div>
-				<h1><img alt='gallery' src='images/text-gallery.png'></h1>
 			</div>
 			<a name='content'></a>
 			<div id='content-pane'>
 				<!-- // FROGATTO /// -->
 				<!-- Oh, wouldn't it be nice to be able to define a height variable here… but can't do that. -->
-				<div style='min-height:300px;'>
+				<section>
 					<a href="https://www.frogatto.com/"><img class="cover right" src="images/gallery/frogatto forest-crossroads (small).png"></a>
 					<h2>Frogatto &&nbsp;Friends</h2>
 					<p>This is a beautiful 2D platformer which I have been working on since 2009. You can buy it on <a href="https://www.frogatto.com/">Frogatto.com</a> for $9.99. <a href="https://en.wikipedia.org/wiki/Digital_rights_management">DRM</a>-free. 10+ hours of gameplay. No internet connection required. Hand-pixelled artwork. Family-friendly. Source available on <a href="https://github.com/frogatto/frogatto/">github</a>.</p>
-				</div>
+				</section>
 				<hr>
 				<!-- // CANDY CRUNCH /// -->
 				<script src='https://code.jquery.com/jquery-2.0.0.min.js'></script>
-				<div style='min-height:322px;'>
+				<section>
 					<!-- Measured width/height is 641, 643. Half that is 320, 321. We have two margins, so half that is 160/161. Margin right is +2ex. -->
 					<iFrame class='cover left' height='643' id='candy-crush' src='Candy Crunch/minimal.html' style='-webkit-transform:scale(0.5,0.5); transform:scale(0.5,0.5); margin-left:-161px; margin-right:-150px; margin-top:-161px; margin-bottom:-161px; max-width:200%;' width='641'></iFrame>
 					<h2>Candy Crunch</h2>
 					<p>Over the course of two weeks in the spring of 2013, I was commissioned by a company called <a href="https://ayogo.com">Ayogo</a> to program a match-3 game. Candy Crunch was the outcome. Match more than three candies together to score a bonus. There is also a <a href="Candy Crunch/index.html">double-sized version</a>. You can <button onclick="$('#candy-crush')[0].contentWindow.location.reload()">restart</button> the game.</p>
-				</div>
+				</section>
 				<hr>
 				<!-- // CUBE TRAINS /// -->
-				<div style='min-height:300px;'>
+				<section>
 					<a href="cube trains/index.html"><img class="cover right" src="images/gallery/cube trains.jpeg"></a>
 					<h2>Cube Trains</h2>
 					<p>A 3D puzzle game with a train theme, which I made over the course of 2011. It features roughly a dozen puzzles of varying difficulty, and has an expansion pack which grants 11 more. While I considered it rather nice, it was a commercial failure. Comes with editor & player. Code on <a href="https://github.com/DDR0/Cube_Trains">Github</a>. No digital rights management software included.</p>
-				</div>
+				</section>
 				<hr>
 				<!-- // OPEN PIXEL PLATFORMER /// -->
-				<div style='min-height:300px;'>
+				<section>
 					<a href="https://github.com/DDR0/open_pixel_platformer"><img class="cover left" src="images/gallery/open platformer project jungle test level mod.png"></a>
 					<h2>Open Pixel Platformer</h2>
 					<p>This project aims to make a free, open-source platformer for coders and artists to use as a resource. I lead the programming side of the project. Code on <a href="https://github.com/DDR0/open_pixel_platformer">Github</a>. Discussion is at a <a href="https://www.pixeljoint.com/forum/forum_topics.asp?FID=23">sub-forum on PixelJoint</a>.</p>
-				</div>
+				</section>
 				<hr>
 				<!-- // ComeFrom 2 /// -->
-				<div style='min-height:296px;'>
+				<section>
 					<a href="https://ddr0.github.io/side projects/cfl"><img class="cover right" style="width:126.5px" src="images/gallery/cfl.png" alt="
 					program:
 					10 #0
@@ -79,21 +79,21 @@
 					<h2>ComeFrom 2</h2>
 					<p>ComeFrom 2 is an esoteric language which explores the implications of only being able to COMEFROM lines, not GOTO them. Since no stupid idea is any use if it's not accessible, an <a href="https://ddr0.github.io/side projects/cfl">online IDE</a> is available. Be sure to run the 'Counting Up to Ten' program! For a more detailed explanation and introduction, see the <a href="https://esolangs.org/wiki/ComeFrom2">esolangs.org page</a>.</p>
 					<p>ComeFrom's real coup de grâce, however, is the <em>conditional</em> comefrom. By examining the top variable on the stack, we eliminate the need for if-based conditionals and loops entirely.</p>
-				</div>
+				</section>
 				<hr>
 				<!-- // EDITABLED /// -->
-				<div style='min-height:300px;'>
+				<section>
 					<iFrame class='cover left' height='300' id='editabled' onclick="$('#editabled')[0].focus()" src='editabled/fullscreen.html' width='400'></iFrame>
 					<h2>Editabled</h2>
 					<p>A pixel editor demo. You can draw sharp lines on it with your mouse and move around with the arrow keys. (Hold alt and click on the example to grant it keyboard focus.) Infinite scroll in any direction. Features a multi-threaded compositing engine. You can <button onclick="var e = $('#editabled')[0]; e.src = e.src; //Basically, we're not allowed to reload the window content here because it's not of this domain. Perhaps we should, uh, make it so.">clear</button> the canvas if you've messed up, since there is no ereaser yet. There is a <a href="editabled/fullscreen.html">full-page version</a>.</p>
-				</div>
+				</section>
 				<hr>
 				<!-- // CANVASGAME /// -->
-				<div style='min-height:262.5px;'>
+				<section>
 					<a href="https://ddr0.github.io/side%20projects/canvasgame.html"><img class="cover right" style="width:176.5px;" src="images/gallery/html game.gif"></a>
 					<h2>canvasgame</h2>
 					<p><a href="https://ddr0.github.io/side%20projects/canvasgame.html">canvasgame</a> is a demo two-player game, written in Javascript. It was written in one day to learn how to make an HTML5 game. Controls: a/e to move and o to fire missile for player 1, numpad 4/6 to move and 5 to fire area bomb for player 2.</p>
-				</div>
+				</section>
 				<hr>
 				<p>
 					Minor Links:
@@ -103,7 +103,6 @@
 					</ol>
 				</p>
 				<p>Questions? Comments? I like <a href="contact.html">hearing</a> from people.</p>
-				<p>– David Roberts</p>
 			</div>
 		</div>
 		<footer> 

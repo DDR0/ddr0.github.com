@@ -48,15 +48,14 @@ done
 body {
 	background-image: url('data:image/gif;base64,R0lGODlhJAASAKEAALG0uszMzLG0urG0uiH5BAEKAAIALAAAAAAkABIAAAJHTICpaHwLW5LxKbrwtUBn7kGOKIZkx52fOk7p6pKmN4Nv1aqmfp/GHkOxhEEczIgkymxD4HK4gSpZGGC1V0tGi76Hcyr9bgoAOw==');
 	padding: 50px;
-	min-width: 150px;
-	max-width: 1000px;
+	max-width: 850px;
 	margin: auto;
 	//font-size: large;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 650px) {
 	body {
-		padding: calc(53.8% - 200px);
+		padding: 0;
 	}
 }
 
@@ -100,7 +99,6 @@ body {
 
 #content-pane a {
 	color: black;
-	text-decoration: underline;
 }
 	
 #badge {
@@ -119,7 +117,6 @@ body {
 
 h1 {
 	margin: 0px;
-	padding-right: 50px;
 	img {
 		vertical-align: middle;
 	}
@@ -136,17 +133,14 @@ h1 img {
 p {
 	font-family: sans-serif;
 }
-	
-a:focus {
-	outline: none;
-}
-	
-a:hover {
-	text-decoration: underline;
-}
 
 #icon-bar a {
+	color: @cIconGrey;
 	text-decoration: none;
+	
+	&:hover {
+		text-decoration: underline;
+	}
 }
 
 #icon-bar img { //These have a native resolution of 500x500. We want to be really sure that they don't get that big, because it's very big.
@@ -163,6 +157,10 @@ a:hover {
 		padding-right: 151px; //50px gutter, 100px icon-bar, 1 px blue border.
 	}
 	
+	h1 {
+		padding-right: 50px;
+	}
+	
 	#icon-bar {
 		width: @icon-bar-width;
 		height: 100%;
@@ -172,56 +170,56 @@ a:hover {
 		background-color: @cIconBarBackground;
 		box-shadow: -1px 0 0 0 @cBlue,
 		            0 0 18px @cSidebarBackgroundShadow;
-	}
-	
-	#icon-bar a {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		overflow: hidden;
 		
-		height: @icon-bar-width;
-		color: @cIconGrey;
-	
-		&:hover, &.selected {
-			/*Originally, this worked by setting a white border of 2 and a margin of -2.
-			This works out in Chrome, which can do math. However, Firefox calculates the
-			element width as 100+2-2=99.97, which causes the icons to shift by one pixel
-			as the rounding math changes where their centerpoint is. (This seems to be
-			caused by a common browser workaround interpreting 1px borders "hairline".)
-			To work around this, we make use of a box-shadow instead of a border, which
-			doesn't affect the size of the element.*/
-			box-shadow: -2px 0px 0px 0px @cIconWhite;
-		}
-	
-		&:nth-last-child(odd) {
-			background-color: @cIconBarAlternateBackground;
-		}
+		a {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			overflow: hidden;
+			text-decoration: none;
+			
+			height: @icon-bar-width;
 		
-		&.selected {
-			pointer-events: none;
+			&:hover, &.selected {
+				/*Originally, this worked by setting a white border of 2 and a margin of -2.
+				This works out in Chrome, which can do math. However, Firefox calculates the
+				element width as 100+2-2=99.97, which causes the icons to shift by one pixel
+				as the rounding math changes where their centerpoint is. (This seems to be
+				caused by a common browser workaround interpreting 1px borders "hairline".)
+				To work around this, we make use of a box-shadow instead of a border, which
+				doesn't affect the size of the element.*/
+				box-shadow: -2px 0px 0px 0px @cIconWhite;
+			}
+		
+			&:nth-last-child(odd) {
+				background-color: @cIconBarAlternateBackground;
+			}
+			
+			&.selected {
+				pointer-events: none;
+			}
+		
+			//Darken effect for selected sidebar items. Left out because I didn't like it.
+			&:nth-last-child(even):hover {
+				background-color: lighten(@cIconBarBackground, 1.5%);
+			}
+			&:nth-last-child(odd):hover {
+				background-color: lighten(@cIconBarAlternateBackground, 1.5%);
+			}
 		}
-	
-		//Darken effect for selected sidebar items. Left out because I didn't like it.
-		&:nth-last-child(even):hover {
-			background-color: lighten(@cIconBarBackground, 1.5%);
-		}
-		&:nth-last-child(odd):hover {
-			background-color: lighten(@cIconBarAlternateBackground, 1.5%);
-		}
-	}
 
-	#icon-bar img {
-		margin-bottom: -5px;
-	}
-	
-	#icon-bar a:nth-child(1) img {
-		margin-bottom: -1px;
-	}
-	
-	#icon-bar a:nth-child(3) img {
-		margin-bottom: -6px;
+		img {
+			margin-bottom: -5px;
+		}
+		
+		a:nth-child(1) img {
+			margin-bottom: -1px;
+		}
+		
+		a:nth-child(3) img {
+			margin-bottom: -6px;
+		}
 	}
 	
 	#badge {
@@ -230,90 +228,44 @@ a:hover {
 }
 
 
-@media (max-width: 590px) { /*590 is the minimum width "gallery" will fit into the header.*/
-	#icon-bar {
-		float: left;
-		margin: 18px;
-		width: 250px;
-	}
+@media (max-width: 750px) { /*590 is the minimum width "gallery" will fit into the header.*/
+	@header-padding: 40px;
 	
-	h1 {
-		font-size: 1em;
-	}
-	
-	#icon-bar img {
-		float: left;
-	}
-	
-	#icon-bar a {
+	#content-header {
 		display: block;
-		width: 50px;
-		float: left;
-		color: @cIconGrey;
+		h1 {
+			display: inline-block;
+			margin: @header-padding 0 0 @header-padding;
+		}
 	}
 	
-	#icon-bar div {
-		width: 100%;
-		clear: both;
-	}
-}
-
-@media (min-width: 591px) and (max-width: 750px) {
 	#icon-bar {
-		float: left;
-		clear: none;
-		width: 100px;
-		margin: 18px;
-	}
-	
-	#icon-bar div {
-		padding-top: 15px;
-		width: 50px;
-	}
-	
-	#icon-bar :hover {
-		color: @cIconWhite;
-		text-shadow: @sIconText;
-		text-decoration: none;
-	}
-
-	#icon-bar a {
-		color: @cIconWhiteInvisible;
-	}
-	
-	#icon-bar :nth-child(even) div {
+		display: inline-flex;
 		float: right;
-		margin-right: -50px;
-		text-align: left;
-	}
-	
-	#icon-bar :nth-child(odd) div {
-		float: left;
-		margin-left: -50px;
-		text-align: right;
+		margin: (@header-padding * 3/4);
+		
+		img {
+			width: 40px;
+			height: 40px;
+		}
+		
+		a {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			padding: (@header-padding * 1/4);
+			
+			&:hover {
+				// background-color: rgba(255, 255, 255, 0.1);
+			}
+		}
+		
+		a.selected {
+			display: none;
+		}
 	}
 }
 
-@media (max-width: 260px) {
-	#icon-bar {
-		width: 100%;
-	}
-	
-	#icon-bar img {
-		width: 80%;
-		height: auto;
-		padding: 15%;
-		padding-bottom: 5px;
-	}
-	
-	#icon-bar a {
-		width: 20%;
-	}
-	
-	#icon-bar div {
-		display: none;
-	}
-}	
 
 footer {
 	margin-bottom: -19px;

@@ -21,7 +21,17 @@ const parsePostContent = RegExp.prototype.exec.bind(/^`?\s*?<!--(?<metadata>(?:.
 const dump = (...args) => (console.error.apply(console, args), args.slice(-1)[0])
 
 const tags = new Proxy(new Map(), {
-	get: (target, name) => name in target ? target.get(name) : target.set(name, []).get(name)
+	get: (target, name) => {
+		if(name in target) {
+			if(target[name].bind) {
+				return target[name].bind(target)
+			}
+		} else if (target.has(name)) {
+			return target.get(name)
+		} else {
+			return target.set(name, []).get(name)
+		}
+	}
 })
 
 

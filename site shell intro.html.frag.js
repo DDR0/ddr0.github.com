@@ -12,7 +12,7 @@
 		<a href='#content' id='skip-nav'>skip nav</a>
 		<div id='content-holder'>
 			<div id="content-header">
-				<div id='badge'>${page === 'single-post.html.template.js'
+				<div id='badge'>${page === 'single-post.html.template.js' || page === 'tags.html.template.js'
 					? `<a href="/blog.html"><img alt='' src='${header.badge}'></a>`
 					: `<img alt='' src='${header.badge}'>`
 				}</div>

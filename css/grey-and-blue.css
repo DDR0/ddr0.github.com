@@ -61,7 +61,6 @@ body {
 #badge {
   display: none;
   height: 135px;
-  pointer-events: none;
   width: 0;
 }
 #badge img {

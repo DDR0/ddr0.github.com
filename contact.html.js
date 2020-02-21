@@ -2,8 +2,8 @@
 ${include('site shell intro.html.frag.js', {
 	title: 'Contact',
 	header: {
-		badge: 'images/icons/chat2.svg',
-		titleImg: 'images/text-contact.png',
+		badge: '/images/icons/chat2.svg',
+		titleImg: '/images/text-contact.png',
 		titleAlt: 'contact',
 	},
 })}

@@ -13,6 +13,7 @@
 const vm = require('vm')
 const fs = require('fs')
 
+
 const render = (filename, constants={}) =>
 	vm.runInContext(
 		fs.readFileSync(filename, {encoding:'utf8'}), 
@@ -33,7 +34,5 @@ const render = (filename, constants={}) =>
 		}
 	).trim('\n')
 
-const start = process.hrtime.bigint()
-process.stdout.write(render(process.argv[2]))
-const end = process.hrtime.bigint()
-console.error(`Rendered ${process.argv[2].replace('.html.js', '.html')} in ${Math.round(Number(end - start)/1e6)}ms.`)
+
+module.exports = render

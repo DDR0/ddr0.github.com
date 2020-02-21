@@ -25,17 +25,17 @@
 		background-color: white;
 	}
 	
-	.external:after {
+	.external::after {
 		content: url("../images/icons/external link.svg");
 		margin-right: 2px;
 		margin-left: 2px;
 	}
-	.lp:after, .video:after {
+	.lp::after, .video:after {
 		content: url("../images/icons/lets play.svg");
 		margin-right: 2px;
 		margin-left: 2px;
 	}
-	.new-window:after {
+	.new-window::after {
 		content: url("../images/icons/new window.svg");
 		margin-right: 2px;
 		margin-left: 2px;
@@ -66,6 +66,23 @@
 	hr {
 		margin-top:    5em;
 		margin-bottom: 5em;
+	}
+	
+	//Make linked headers look like headers. (The links go to the blog post page.)
+	h2 > a {
+		text-decoration: none;
+		&::after {
+			font-size: 80%; //The emoji is larger than the text, and bumps everything after it down.
+			content: " 🔗";
+			opacity: 0;
+			transition: 0.2s;
+		}
+		&:hover {
+			background-color: transparent;
+			&::after {
+				opacity: 1;
+			}
+		}
 	}
 	
 	h3 {

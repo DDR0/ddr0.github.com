@@ -1,5 +1,5 @@
 			</div>
 		</div>
 	</body>
-	<footer>Site ©2020 David Roberts.</footer>
+	<footer>Site ©2020 DDR.</footer>
 </html>

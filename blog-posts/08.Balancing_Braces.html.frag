@@ -1,4 +1,6 @@
-<h2 id="BalancingBraces">Balancing Braces</h2>
+<!--published: 2016-11-16,
+	tags: code-golf response-->
+<h2 id="BalancingBraces"><a href="~&">Balancing Braces</a></h2>
 
 <p>I chanced to read an article this morning on <a href="https://medium.com/@benastontweet/balancing-braces-a76e7b8e5f04">Ben Aston's blog</a>, which dealt with balancing braces. You should go read it now, since it's good and since I'm about to critique the heck out of his approach.</p>
 
@@ -25,7 +27,7 @@
 <br>
 
 <figure style="padding-top:1em">
-	<iframe src="Blog Posts/08.Balancing Braces/example.html" style="height:24ex" scrolling="no"></iframe>
+	<iframe src="~/example.html" style="height:24ex" scrolling="no"></iframe>
 	<figcaption style="padding-top:1em"><strong>Live Example:</strong> All tests passing.</figcaption>
 </figure>
 

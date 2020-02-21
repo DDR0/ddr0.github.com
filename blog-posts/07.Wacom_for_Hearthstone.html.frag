@@ -1,4 +1,6 @@
-<h2 id="WacomForHearthstone">Fixing Wacom Tablets for Hearthstone in Windows</h2>
+<!--published: 2016-10-29, modified: 2016-11-16,
+	tags: wacom tech-support hearthstone hack workaround ahk-->
+<h2 id="WacomForHearthstone"><a href="~&">Fixing Wacom Tablets for Hearthstone in Windows</a></h2>
 
 <p>As of 2016-10-29, there is some sort of bug with Hearthstone where it will ignore clicks coming from a tablet. A quick search turns up complaints, but no solution:</p>
 

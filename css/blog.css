@@ -21,18 +21,18 @@
 #content-pane a:hover {
   background-color: white;
 }
-#content-pane .external:after {
+#content-pane .external::after {
   content: url("../images/icons/external link.svg");
   margin-right: 2px;
   margin-left: 2px;
 }
-#content-pane .lp:after,
+#content-pane .lp::after,
 #content-pane .video:after {
   content: url("../images/icons/lets play.svg");
   margin-right: 2px;
   margin-left: 2px;
 }
-#content-pane .new-window:after {
+#content-pane .new-window::after {
   content: url("../images/icons/new window.svg");
   margin-right: 2px;
   margin-left: 2px;
@@ -59,6 +59,21 @@
 #content-pane hr {
   margin-top: 5em;
   margin-bottom: 5em;
+}
+#content-pane h2 > a {
+  text-decoration: none;
+}
+#content-pane h2 > a::after {
+  font-size: 80%;
+  content: " 🔗";
+  opacity: 0;
+  transition: 0.2s;
+}
+#content-pane h2 > a:hover {
+  background-color: transparent;
+}
+#content-pane h2 > a:hover::after {
+  opacity: 1;
 }
 #content-pane h3 {
   clear: right;

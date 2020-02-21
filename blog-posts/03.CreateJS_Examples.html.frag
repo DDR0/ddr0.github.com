@@ -1,123 +1,125 @@
-<h2 class='start-code-viewer-scan'>Practical CreateJS Examples</h2>
+<!--published: 2013-11-26, modified: 2014-08-04,
+	tags: demo interactive CreateJS article example web-dev html5-->
+<h2 class='start-code-viewer-scan'><a href="~&">Practical CreateJS Examples</a></h2>
 <!-- /This is a trigger to start looking for elements with data-code-sources. The script pans through the entire page looking for it, because I don't know to to 'get elements after this element'. We break at the <hr> -->
 <script>
-  "use strict";
-  var createjsExamples = {
-  	play: function play(iframe, url) {document.getElementById(iframe).src = url;},
-  	stop: function stop(iframe) {document.getElementById(iframe).src = ""},
-  	show: function show(iframe, url) {
-  		var codeWindow = window.open("Blog Posts/03.CreateJS Examples/code viewer.html", '_blank');
-  		codeWindow.blur();
-  		
-  		function sendURL(event) {
-  			if(event.data === "need-url") {
-  				console.log('sending url');
-  				codeWindow.postMessage({url:url, iframe:iframe}, window.location.origin);
-  				codeWindow.removeEventListener("message", sendURL, false);
-  				
-  				var listenForSelect = function(event) {
-  					if(event.data && event.data.type) {
-  						console.log('got event ' + event.data.type, event);
-  						//if("event-type" === event.data.type) {}
-  					}
-  				};
-  				//codeWindow.addEventListener("message", listenForSelect, false);
-  				codeWindow.addEventListener("beforeunload", function() {
-  					configureEvents(iframe, codeWindow, true);
-  				});
-  				
-  				configureEvents(iframe, codeWindow, false);
-  			}
-  		};
-  		codeWindow.addEventListener("message", sendURL, false);
-  	},
-  };
-  
-  (function scopeForConfigEvents() {
-  	var enable = false;
-  	var noop = function(){};
-  	var light  = "#f7ff59" //Link colours.
-  	var medium = "#e4ed3f"
-  	var dark   = "#a8a433"
-  	
-  	window.configureEvents = function configureEvents(target, display, disable) {//takes id of one of the code examples and a boolean.
-  		if(typeof(target) === 'undefined' || typeof(disable) === 'undefined') {throw new Error('target ('+target+') and disable ('+disable+') must be defined.')}
-  		enable = typeof(disable)==='boolean' ? !disable : !enable;
-  		var triggerTag = 'data-code-viewer-scan';
-  		var codeTag = 'data-code-source';
-  		var context = "«none»";
-  		var mode;
-  		
-  		var searchForStart = function(child) {
-  			//Scans forward for data attr start. This triggers the rest of the code.
-  			var trigger = child.getAttribute(triggerTag);
-  			if("start" === trigger) {mode = processData;}
-  			else if(trigger) {throw new Error("Found "+trigger+" attr before finding start attr of "+triggerTag+". ("+child+")");}
-  		};
-  		
-  		var processData = function(child) {
-  			//This scans forward until we hit the end data attr.
-  			var trigger = child.getAttribute(triggerTag);
-  			var code = child.getAttribute(codeTag);
-  			var classes = child.classList;
-  			var depressed = false;
-  			
-  			if(code) {context = child.getAttribute('id');}
-  			
-  			if(context === target) {
-  			
-  				if([].indexOf.call(classes, "cjs-line") > -1) {
-  					//console.log('found one', classes, child);
-  					
-  					child.style.backgroundColor = enable?medium:"transparent";
-  					child.style.cursor = enable?"pointer":"auto";
-  					
-  					[[//Events for the highlighted code.
-  					'click', function(code, lines, event) {
-  							event.preventDefault(); //If we happen to have a highlighted /link/, we don't want it to open up on us when we click for code.
-  					}],[
-  					'mousedown', function(code, lines, event){
-  							child.style.backgroundColor = !depressed ? dark : medium;
-  							display.postMessage({'type': "mousedown", 'lines':lines, depressed:!depressed}, window.location.origin);
-  							event.preventDefault();
-  					}],[
-  					'mouseup', function(code, lines, event){
-  							child.style.backgroundColor = (depressed = !depressed) ? dark : medium;
-  							display.focus(); //Iffy. But worth a shot.
-  							display.postMessage({'type': "mouseup", 'lines':lines, depressed:!depressed}, window.location.origin);
-  					}],[
-  					'mouseover', function(code, lines, event){
-  							child.style.backgroundColor = light;
-  							display.postMessage({'type': "mouseover", 'lines':lines, depressed:depressed}, window.location.origin);
-  					}],[
-  					'mouseout', function(code, lines, event){
-  							child.style.backgroundColor = depressed?dark:medium;
-  							display.postMessage({'type': "mouseout", 'lines':lines, depressed:depressed}, window.location.origin);
-  					}]].forEach(function(eventPair) {
-  						(function(eventName, callback) {
-  							child['on'+eventName] = (enable?callback:noop
-  								).bind(this, context, [].filter.call(classes, function(x) { //This binds the numeric classes to the 'lines' arg.
-  									return !isNaN(x);
-  								}));
-  						}).apply(this, eventPair);
-  					});
-  				}
-  			}
-  			
-  			if("end" === trigger) {
-  				mode = searchForStart;
-  			} else if("start" === trigger) {
-  				throw new Error("Found start attr before finding end attr of "+triggerTag+". ("+child+")");
-  			}
-  		};
-  		
-  		mode = searchForStart;
-  		[].forEach.call(document.getElementById('content-pane').children, function processElement(elem) {
-  			mode(elem);
-  			[].forEach.call(elem.children, processElement); //I have a feeling this may play hell with slower devices.
-  		});
-  	};
-  })();
+	"use strict";
+	var createjsExamples = {
+		play: function play(iframe, url) {document.getElementById(iframe).src = url;},
+		stop: function stop(iframe) {document.getElementById(iframe).src = ""},
+		show: function show(iframe, url) {
+			var codeWindow = window.open("~/code viewer.html", '_blank');
+			codeWindow.blur();
+			
+			function sendURL(event) {
+				if(event.data === "need-url") {
+					console.log('sending url');
+					codeWindow.postMessage({url:url, iframe:iframe}, window.location.origin);
+					codeWindow.removeEventListener("message", sendURL, false);
+					
+					var listenForSelect = function(event) {
+						if(event.data && event.data.type) {
+							console.log('got event ' + event.data.type, event);
+							//if("event-type" === event.data.type) {}
+						}
+					};
+					//codeWindow.addEventListener("message", listenForSelect, false);
+					codeWindow.addEventListener("beforeunload", function() {
+						configureEvents(iframe, codeWindow, true);
+					});
+					
+					configureEvents(iframe, codeWindow, false);
+				}
+			};
+			codeWindow.addEventListener("message", sendURL, false);
+		},
+	};
+	
+	(function scopeForConfigEvents() {
+		var enable = false;
+		var noop = function(){};
+		var light  = "#f7ff59" //Link colours.
+		var medium = "#e4ed3f"
+		var dark   = "#a8a433"
+		
+		window.configureEvents = function configureEvents(target, display, disable) {//takes id of one of the code examples and a boolean.
+			if(typeof(target) === 'undefined' || typeof(disable) === 'undefined') {throw new Error('target ('+target+') and disable ('+disable+') must be defined.')}
+			enable = typeof(disable)==='boolean' ? !disable : !enable;
+			var triggerTag = 'data-code-viewer-scan';
+			var codeTag = 'data-code-source';
+			var context = "«none»";
+			var mode;
+			
+			var searchForStart = function(child) {
+				//Scans forward for data attr start. This triggers the rest of the code.
+				var trigger = child.getAttribute(triggerTag);
+				if("start" === trigger) {mode = processData;}
+				else if(trigger) {throw new Error("Found "+trigger+" attr before finding start attr of "+triggerTag+". ("+child+")");}
+			};
+			
+			var processData = function(child) {
+				//This scans forward until we hit the end data attr.
+				var trigger = child.getAttribute(triggerTag);
+				var code = child.getAttribute(codeTag);
+				var classes = child.classList;
+				var depressed = false;
+				
+				if(code) {context = child.getAttribute('id');}
+				
+				if(context === target) {
+				
+					if([].indexOf.call(classes, "cjs-line") > -1) {
+						//console.log('found one', classes, child);
+						
+						child.style.backgroundColor = enable?medium:"transparent";
+						child.style.cursor = enable?"pointer":"auto";
+						
+						[[//Events for the highlighted code.
+						'click', function(code, lines, event) {
+								event.preventDefault(); //If we happen to have a highlighted /link/, we don't want it to open up on us when we click for code.
+						}],[
+						'mousedown', function(code, lines, event){
+								child.style.backgroundColor = !depressed ? dark : medium;
+								display.postMessage({'type': "mousedown", 'lines':lines, depressed:!depressed}, window.location.origin);
+								event.preventDefault();
+						}],[
+						'mouseup', function(code, lines, event){
+								child.style.backgroundColor = (depressed = !depressed) ? dark : medium;
+								display.focus(); //Iffy. But worth a shot.
+								display.postMessage({'type': "mouseup", 'lines':lines, depressed:!depressed}, window.location.origin);
+						}],[
+						'mouseover', function(code, lines, event){
+								child.style.backgroundColor = light;
+								display.postMessage({'type': "mouseover", 'lines':lines, depressed:depressed}, window.location.origin);
+						}],[
+						'mouseout', function(code, lines, event){
+								child.style.backgroundColor = depressed?dark:medium;
+								display.postMessage({'type': "mouseout", 'lines':lines, depressed:depressed}, window.location.origin);
+						}]].forEach(function(eventPair) {
+							(function(eventName, callback) {
+								child['on'+eventName] = (enable?callback:noop
+									).bind(this, context, [].filter.call(classes, function(x) { //This binds the numeric classes to the 'lines' arg.
+										return !isNaN(x);
+									}));
+							}).apply(this, eventPair);
+						});
+					}
+				}
+				
+				if("end" === trigger) {
+					mode = searchForStart;
+				} else if("start" === trigger) {
+					throw new Error("Found start attr before finding end attr of "+triggerTag+". ("+child+")");
+				}
+			};
+			
+			mode = searchForStart;
+			[].forEach.call(document.getElementById('content-pane').children, function processElement(elem) {
+				mode(elem);
+				[].forEach.call(elem.children, processElement); //I have a feeling this may play hell with slower devices.
+			});
+		};
+	})();
 </script>
 <p style='font-size: 10px;'>Note: Some examples were previously discussed in the October 2013 issue of the <a href="https://sdjournal.org/">Software Developer's Journal</a>. Some updates were made as of August 2014.</p>
 <span data-code-viewer-scan='start'></span>
@@ -129,10 +131,10 @@
 		<button onclick="createjsExamples.stop('clouds-1');">stop</button>
 		<button onclick="createjsExamples.show('clouds-1', '~/1-0 Clouds.html');">code</button>
 	</div>
-<script>createjsExamples.play('clouds-1', 'Blog Posts/03.CreateJS Examples/1-0 Clouds.html'); //A sort of 'hook' for the post, perhaps? Ideally, would only be enabled if this were the first post on the page.</script>
+<script>createjsExamples.play('clouds-1', '~/1-0 Clouds.html'); //A sort of 'hook' for the post, perhaps? Ideally, would only be enabled if this were the first post on the page.</script>
 <p>We'll start with a small platformer mockup, very basic. In it, we want to have some clouds float behind the player. We'll create a new HTML file, <span class="cjs-line 5">import our library</span>, and write a simple scene. (You can grab the library I used from <a class="external" href="https://code.createjs.com/createjs-2013.05.14.min.js">https://code.createjs.com/createjs-2013.05.14.min.js</a>. Other versions are available on the <a href="https://code.createjs.com/">CDN page</a>.)</p>
 <p>As a first attempt, we add the <span class="cjs-line 25">ground</span>, <span class="cjs-line 30">a cloud</span>, and <span class="cjs-line 41">an actor</span>. Since we're planning to add more clouds later, we've made that code a function. And – what do you know, it works! Our little cloud wafts gently across the sky, behind our actor.</p>
-<p>(Aside: To view the code for the example, I recommend moving the tab the 'code' button opens to a new window… the popup code can be a bit flaky. When you mouse over the highlights here, they'll highlight there as well. A more reliable way to view the code might be to play the example, and then select 'view frame source' from the right-click menu. The code is also available on <a href="https://github.com/DDR0/ddr0.github.com/tree/master/Blog%20Posts/03.CreateJS%20Examples">Github</a>.)</p>
+<p>(Aside: To view the code for the example, I recommend moving the tab the 'code' button opens to a new window… the popup code can be a bit flaky. When you mouse over the highlights here, they'll highlight there as well. A more reliable way to view the code might be to play the example, and then select 'view frame source' from the right-click menu. The code is also available on <a href="https://github.com/DDR0/ddr0.github.com/tree/master/blog-posts/03.CreateJS_Examples">Github</a>.)</p>
 <iframe id="clouds-2" class="iframe-player" data-code-source="~/1-1 Clouds.html" width="300" height="150" scrolling="no"></iframe>
 	<div class="iframe-player-buttons">
 		<button onclick="createjsExamples.play('clouds-2', '~/1-1 Clouds.html');">play</button>

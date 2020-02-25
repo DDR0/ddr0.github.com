@@ -81,7 +81,8 @@ watch:
 
 
 install-build-reqs:
-	sudo apt install nodejs npm node-less coffeescript
+	#graphvis for dot, for debugging, not strictly needed.
+	sudo apt install nodejs npm node-less coffeescript graphviz
 
 
 debug:

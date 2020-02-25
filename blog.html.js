@@ -1,6 +1,4 @@
-fs = require('fs')
-
-;`
+`
 ${include('site shell intro.html.frag.js', {
 	title: 'Blog',
 	header: {
@@ -15,7 +13,7 @@ ${include('site shell intro.html.frag.js', {
 })}
 ${
 	indent(4,
-		fs.readdirSync('blog-posts')
+		require('fs').readdirSync('blog-posts')
 			.filter(file=>file.endsWith('.html.frag'))
 			.sort().reverse()
 			.map(file =>

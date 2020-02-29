@@ -98,6 +98,8 @@ const findTasks = allFiles => {
 		filter(/^\.\/compile-blog\.node\.js$/),
 		filter(/^\.\/blog-posts\/single-post\.html\.template\.js$/),
 		filter(/^\.\/blog-posts\/tags\.html\.template\.js$/),
+		filter(/^\.\/site shell intro\.html\.frag\.js$/),
+		filter(/^\.\/site shell outro\.html\.frag$/),
 	)
 	input = filter(/^\.\/blog-posts\/[^/]*?\.html\.frag(?:\.js)?$/)
 	output = replace(input, /\.html\.frag(?:\.js)?$/, '.html')
@@ -137,7 +139,7 @@ const findTasks = allFiles => {
 		addTask({
 			name: 'css',
 			input: [input].concat(deps), output,
-			command: `lessc --source-map --no-ie-compat --strict-math=on ${input.name} ${output[0].name}`,
+			command: `lessc --source-map --math=strict ${input.name} ${output[0].name}`,
 		})
 	}
 	

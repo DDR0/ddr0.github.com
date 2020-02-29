@@ -46,7 +46,7 @@ body {
   align-items: center;
   justify-content: space-between;
   overflow: hidden;
-  background-color: #2e2f33;
+  background-color: #2E2F33;
   border-bottom: 11px solid #3377ff;
 }
 #content-pane {
@@ -85,7 +85,7 @@ p {
   font-family: sans-serif;
 }
 #icon-bar a {
-  color: #d3d3d3;
+  color: lightgrey;
   text-decoration: none;
 }
 #icon-bar a:hover {
@@ -109,7 +109,7 @@ p {
     position: fixed;
     top: 0px;
     right: 0px;
-    background-color: #484b50;
+    background-color: #484B50;
     box-shadow: -1px 0 0 0 #3377ff, 0 0 18px #000000;
   }
   #icon-bar a {
@@ -133,7 +133,7 @@ p {
     box-shadow: -2px 0px 0px 0px #ffffff;
   }
   #icon-bar a:nth-last-child(odd) {
-    background-color: #6c7175;
+    background-color: #6C7175;
   }
   #icon-bar a.selected {
     pointer-events: none;

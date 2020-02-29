@@ -27,7 +27,7 @@
 <br>
 
 <figure style="padding-top:1em">
-	<iframe src="~/example.html" style="height:24ex" scrolling="no"></iframe>
+	<iframe src="~/example.html" style="height:26ex" scrolling="no"></iframe>
 	<figcaption style="padding-top:1em"><strong>Live Example:</strong> All tests passing.</figcaption>
 </figure>
 

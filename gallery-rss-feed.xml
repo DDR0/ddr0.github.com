@@ -2,17 +2,19 @@
 <rss version='2.0' xmlns:atom='http://www.w3.org/2005/Atom'>
 	<channel>
 		<title>DDR's Gallery</title>
-		<link>https://ddr0.github.com/gallery</link>
+		<atom:id>https://ddr0.ca/gallery</atom:id>
+		<link>https://ddr0.ca/gallery</link>
 		<description>Updates to DDR's gallery. Get notified of new projects!</description>
-		<atom:link href='https://ddr0.github.io'></atom:link>
-		<atom:link href='https://ddr0.github.io/gallery-rss-feed.xml'
+		<atom:updated>2020-02-29T07:22:14.446Z</atom:updated>
+		<atom:link href='https://ddr0.ca/gallery'></atom:link>
+		<atom:link href='https://ddr0.ca/gallery-rss-feed.xml'
 			rel='self' type='application/rss+xml'></atom:link>
 		
 		
 		
 		<item>
-			<title>-</title>
-			<description>No feed available.</description>
+			<title>Fixed easter egg not responding to clicks.</title>
+			<description>Some CSS had disabled input for the easter egg.</description>
 			<link>https://ddr0.github.io/gallery.html</link>
 			<guid isPermaLink='true'>https://ddr0.github.io/gallery.html</guid>
 			<source url="https://ddr0.github.io/gallery.html"></source>

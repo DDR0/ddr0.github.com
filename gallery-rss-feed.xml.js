@@ -1,8 +1,9 @@
 const entries = [
 	{
-		title: "-",
-		desc: "No feed available.",
+		title: "Fixed easter egg not responding to clicks.",
+		desc: "Some CSS had disabled input for the easter egg.",
 		url: "https://ddr0.github.io/gallery.html",
+		date: "2020-02-28",
 	},
 ]
 
@@ -11,10 +12,12 @@ const entries = [
 <rss version='2.0' xmlns:atom='http://www.w3.org/2005/Atom'>
 	<channel>
 		<title>DDR's Gallery</title>
-		<link>https://ddr0.github.com/gallery</link>
+		<atom:id>https://ddr0.ca/gallery</atom:id>
+		<link>https://ddr0.ca/gallery</link>
 		<description>Updates to DDR's gallery. Get notified of new projects!</description>
-		<atom:link href='https://ddr0.github.io'></atom:link>
-		<atom:link href='https://ddr0.github.io/gallery-rss-feed.xml'
+		<atom:updated>${new Date().toISOString()}</atom:updated>
+		<atom:link href='https://ddr0.ca/gallery'></atom:link>
+		<atom:link href='https://ddr0.ca/gallery-rss-feed.xml'
 			rel='self' type='application/rss+xml'></atom:link>
 		
 		

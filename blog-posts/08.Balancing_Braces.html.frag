@@ -4,7 +4,7 @@
 
 <p>I chanced to read an article this morning on <a href="https://medium.com/@benastontweet/balancing-braces-a76e7b8e5f04">Ben Aston's blog</a>, which dealt with balancing braces. You should go read it now, since it's good and since I'm about to critique the heck out of his approach.</p>
 
-<p>The task Ben sets himself is simple: write a Javascript function, isBalanced, that returns true if a set of braces is balanced. Running his solution through <a href="https://jshint.com">jshint</a>, we find it has 13 statements with a <a href="https://en.wikipedia.org/wiki/Cyclomatic_complexity">cyclomatic</a> complexity score of 6. I think it is an inelegant solution for an elegant problem, as my solution came in at 4 statements with a complexity score of 2. (And mine doesn't repeat the characters to be matched either. <img class="emote" src="https://ddr0.github.io/images/wesnoth%20icons/icon_wink.gif"> )</p>
+<p>The task Ben sets himself is simple: write a Javascript function, isBalanced, that returns true if a set of braces is balanced. Running his solution through <a href="https://jshint.com">jshint</a>, we find it has 13 statements with a <a href="https://en.wikipedia.org/wiki/Cyclomatic_complexity">cyclomatic</a> complexity score of 6. I think it is an inelegant solution for an elegant problem, as my solution came in at 4 statements with a complexity score of 2. (And mine doesn't repeat the characters to be matched either. <img class="emote" src="/images/wesnoth%20icons/icon_wink.gif"> )</p>
 
 <h3>Analysis</h3>
 <p>This can be looked at not as a parsing problem, but as a pattern-matching problem instead. You have to think about it recursively.</p>

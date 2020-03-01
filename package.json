@@ -1,0 +1,28 @@
+{
+  "name": "ddr0.github.com",
+  "version": "2.0.0",
+  "description": "DDR's personal website!",
+  "main": "build.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DDR0/ddr0.github.com.git"
+  },
+  "keywords": [
+    "website",
+    "html",
+    "js",
+    "personal"
+  ],
+  "author": "DDR",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DDR0/ddr0.github.com/issues"
+  },
+  "homepage": "https://github.com/DDR0/ddr0.github.com#readme",
+  "dependencies": {
+    "less": "^3.11.1"
+  }
+}

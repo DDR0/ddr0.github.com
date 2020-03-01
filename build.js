@@ -139,7 +139,7 @@ const findTasks = allFiles => {
 		addTask({
 			name: 'css',
 			input: [input].concat(deps), output,
-			command: `lessc --source-map --math=strict ${input.name} ${output[0].name}`,
+			command: `node_modules/less/bin/lessc --source-map --math=strict ${input.name} ${output[0].name}`,
 		})
 	}
 	

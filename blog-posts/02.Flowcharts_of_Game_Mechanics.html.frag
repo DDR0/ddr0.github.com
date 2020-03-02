@@ -1,5 +1,8 @@
-<!--published: 2013-04-04, modified: 2013-11-26, 
-	tags: game-design open-ttd sim-city a-dark-room game-theory theory-->
+<!--
+	published: 2013-04-04, modified: 2013-11-26, 
+	tags: game-design open-ttd sim-city a-dark-room game-theory theory,
+	desc: Computer games are\, in broad terms\, systems of exchange…,
+-->
 <h2><a href="~&">Diagrams and Charts of Game Mechanics</a></h2>
 <p>
 	Computer games are, in broad terms, systems of exchange. The player can exchange gold coins for a fancy sword; time and attention for progress; or the player can sit back and watch the game exchange stuff with itself. By graphing interactions between the player and bits of the game, we can see what the focus of the play of the game will be. Lets start off by looking at the simplest example there is, <a class="external" href="http://progressquest.com/">Progress Quest</a><a class="lp" href="https://www.youtube.com/watch?v=0W2DyOWPbAA"></a>.

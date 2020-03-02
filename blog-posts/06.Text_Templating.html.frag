@@ -1,4 +1,8 @@
-<!--published: 2015-06-27, tags: rant html templating php web-dev-->
+<!--
+	published: 2015-06-27,
+	tags: rant html templating php web-dev,
+	desc: By throwing out valuable structural information\, text templating makes you write bad code.
+-->
 <h2><a href="~&">A Case Against Text Templating</a></h2>
 
 <p>I recently had to deal with a mature PHP-based application. While quite well maintained, the code was suffering heavily from the effects of greedy serialization. Most templating languages, PHP included, work by going along and imperatively creating a long string of text. Echo this, buffer that, and concatenate the whole shebang into an outgoing HTML file. This is a powerful approach, beautiful in the simplicity of its method, and infinitely embeddable.</p>

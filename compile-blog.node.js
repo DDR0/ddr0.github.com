@@ -18,6 +18,7 @@ const render = require('./render-file.node.js')
 
 const parseFileName = RegExp.prototype.exec.bind(/(?<number>\d*)\.(?<title>[\w-]*)\.(?<ext>html\.frag(?:.js)?)/)
 const parsePostContent = RegExp.prototype.exec.bind(/^`?\s*?<!--(?<metadata>(?:.|\n)*?)-->\n?(?<content>(?:.|\n)*)/) //Look for leading comment. This is where metadata lives. xattrs was another plausible home for it, but sych issues were brutal there.
+const extractHeaderText = RegExp.prototype.exec.bind(/<h2.*?><a.*?>(?<text>.*?)<\/a><\/h2>/)
 const dump = (...args) => (console.error.apply(console, args), args.slice(-1)[0])
 
 const tags = new Proxy(new Map(), {
@@ -34,6 +35,8 @@ const tags = new Proxy(new Map(), {
 	}
 })
 
+
+const metadataEntries = []
 
 fs.readdirSync('blog-posts')
 	.sort()
@@ -60,7 +63,13 @@ fs.readdirSync('blog-posts')
 		if(!postContent) {
 			throw new Error(`Could not find metadata block in ${match.input}.`)
 		}
-		const metadata = new Map(postContent.groups.metadata.split(',').map(s=>s.split(':').map(s=>s.trim())))
+		const metadata = new Map(
+			postContent.groups.metadata
+				.replace(/\\,/g, '\uF000').replace(/\\:/g, '\uF001') //Backslash escapes for structural characters. (Use private-range characters for this, since we shouldn't be publishing those anyway.) Shoulda just used JSON. :p
+				.split(',').map(s=>s.split(':').map(s=>s
+					.replace(/\uF000/g, ',').replace(/\uF001/g, ':')
+					.trim() ))
+		)
 		if(!metadata.get('published')) {
 			console.error('metadata:', metadata)
 			throw new Error(`Could not find published date metadata in ${match.input}.`)
@@ -69,6 +78,11 @@ fs.readdirSync('blog-posts')
 		metadata.set('title', match.groups.title)
 		
 		const outfile = `${match.groups.number}.${match.groups.title}.html`
+		metadata.set('file', outfile)
+		
+		const header = extractHeaderText(postContent.input)
+		if (!header) { throw new Error(`Could not find header in ${match.input}.`) }
+		metadata.set('header', header.groups.text)
 		
 		fs.writeFileSync(
 			`blog-posts/${outfile}`,
@@ -80,6 +94,7 @@ fs.readdirSync('blog-posts')
 			})
 		)
 		
+		metadataEntries.push(metadata)
 		metadata.get('tags') && metadata.get('tags').split(' ')
 			.map(s=>s.trim())
 			.filter(tag=>tag)
@@ -89,4 +104,9 @@ fs.readdirSync('blog-posts')
 fs.writeFileSync(
 	'blog-posts/tags.html',
 	render('blog-posts/tags.html.template.js', {tags, page:'tags.html.template.js'})
+)
+
+fs.writeFileSync(
+	'blog-rss-feed.xml',
+	render('blog-rss-feed.xml.js', {entries: metadataEntries})
 )

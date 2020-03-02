@@ -5,7 +5,7 @@
 		<atom:id>https://ddr0.ca</atom:id>
 		<link>https://ddr0.ca/blog.html</link>
 		<description>Updates to DDR's Blog. Get notified of new posts!</description>
-		<atom:updated>2020-03-01T08:41:09.883Z</atom:updated>
+		<atom:updated>2020-03-02T22:47:28.878Z</atom:updated>
 		<atom:link href='https://ddr0.ca/blog.html'></atom:link>
 		<atom:link href='https://ddr0.ca/blog-rss-feed.xml'
 			rel='self' type='application/rss+xml'></atom:link>
@@ -22,7 +22,7 @@
 		
 		<item>
 			<title>Diagrams and Charts of Game Mechanics</title>
-			<description>Computer games are, in broad terms, systems of exchange. The player can exchange gold coins for a fancy sword; time and attention for progress; or the player can sit back and watch the game exchange stuff with itself. By graphing interactions between the player and bits of the game, we can see what the focus of the play of the game will be. Lets start off by looking at the simplest example there is, Progress Quest.</description>
+			<description>Computer games are, in broad terms, systems of exchange…</description>
 			<link>https://ddr0.ca/blog-posts/02.Flowcharts_of_Game_Mechanics.html</link>
 			<guid isPermaLink='true'>https://ddr0.ca/blog-posts/02.Flowcharts_of_Game_Mechanics.html</guid>
 			<source url="https://ddr0.ca/blog-posts/02.Flowcharts_of_Game_Mechanics.html"></source>
@@ -30,26 +30,18 @@
 		
 		<item>
 			<title>Practical CreateJS Examples</title>
-			<description>I have found it difficult to find nice, simple examples of how to lay out an EaselJS program. The documentation and examples generally do a good job of covering the nuts and bolts of the library, but I find that some additional assembly instructions would be helpful. So, in rough order of my progression through the library, here are 5 examples:</description>
+			<description>I have found it difficult to find nice, simple examples of how to lay out an EaselJS program. Here are five.</description>
 			<link>https://ddr0.ca/blog-posts/03.CreateJS_Examples.html</link>
 			<guid isPermaLink='true'>https://ddr0.ca/blog-posts/03.CreateJS_Examples.html</guid>
 			<source url="https://ddr0.ca/blog-posts/03.CreateJS_Examples.html"></source>
 		</item>
 		
 		<item>
-			<title>Gifs to Pngs</title>
+			<title>Batch Converting Gif Animations to Spritesheets with ImageMagick</title>
 			<description>An improved script to convert gif animations to spritesheet pngs.</description>
 			<link>https://ddr0.ca/blog-posts/04.GIFs_To_PNGs.html</link>
 			<guid isPermaLink='true'>https://ddr0.ca/blog-posts/04.GIFs_To_PNGs.html</guid>
 			<source url="https://ddr0.ca/blog-posts/04.GIFs_To_PNGs.html"></source>
-		</item>
-		
-		<item>
-			<title>Gallery Update</title>
-			<description>Added ComeFrom 2 and canvasgame entries to gallery.</description>
-			<link>https://ddr0.ca/gallery.html</link>
-			<guid isPermaLink='true'>https://ddr0.ca/gallery.html</guid>
-			<source url="https://ddr0.ca/gallery.html"></source>
 		</item>
 		
 		<item>
@@ -82,6 +74,14 @@
 			<link>https://ddr0.ca/blog-posts/08.Balancing_Braces.html</link>
 			<guid isPermaLink='true'>https://ddr0.ca/blog-posts/08.Balancing_Braces.html</guid>
 			<source url="https://ddr0.ca/blog-posts/08.Balancing_Braces.html"></source>
+		</item>
+		
+		<item>
+			<title>Web Security: Should CSP be set for my HTML files only, or my HTML files and all my assets?</title>
+			<description>Should a Content Security Policy be set on all website content?</description>
+			<link>https://ddr0.ca/blog-posts/09.CSP_on_HTML_Assets.html</link>
+			<guid isPermaLink='true'>https://ddr0.ca/blog-posts/09.CSP_on_HTML_Assets.html</guid>
+			<source url="https://ddr0.ca/blog-posts/09.CSP_on_HTML_Assets.html"></source>
 		</item>
 		
 	</channel>

@@ -101,20 +101,24 @@ const findTasks = allFiles => {
 		filter(/^\.\/site shell intro\.html\.frag\.js$/),
 		filter(/^\.\/site shell outro\.html\.frag$/),
 	)
-	input = filter(/^\.\/blog-posts\/[^/]*?\.html\.frag(?:\.js)?$/)
+	input = [].concat(
+		filter(/^\.\/blog-posts\/[^/]*?\.html\.frag(?:\.js)?$/),
+		filter(/^\.\/blog-rss-feed\.xml\.js$/),
+	)
 	output = replace(input, /\.html\.frag(?:\.js)?$/, '.html')
+	output = replace(output, /\.xml\.js$/, '.xml')
 	input && addTask({
 		name: 'blog html',
 		input: input.concat(deps), output,
 		command: `./compile-blog.node.js`,
 	})
 	
-	//RSS XML Files
+	//Gallery RSS XML File (Blog RSS is compiled separately.)
 	deps = [].concat(
-		filter(/^\.\/compile-template.node.js$/),
-		filter(/^\.\/render-file.node.js$/),
+		filter(/^\.\/compile-template\.node\.js$/),
+		filter(/^\.\/render-file\.node\.js$/),
 	)
-	for(input of filter(/^\.\/[^/]*\/?[^/]*?\.xml\.js$/)) {
+	for(input of filter(/^\.\/gallery-rss-feed\.xml\.js$/)) {
 		output = replace([input], '.xml.js', '.xml')
 		addTask({
 			name: 'rss xml',

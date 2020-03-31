@@ -1,0 +1,34 @@
+# Fragment for NGINX "default" server, which serves the bulk of the website.
+# Some stuff gets proxied to Node scripts, some stuff doesn't get served at all.
+
+# Use like `include /etc/nginx/default/ddr0` in the default block of the server.
+
+#root /var/www/html;
+index index.html;
+
+# Allow access for letsencrypt/certbot.
+location ~ /\.well-known { 
+	allow all;
+}
+
+#Otherwise, don't serve hidden files. (Not that there should be any.)
+location ~ /\. { 
+    deny all;
+}
+
+location / {
+	# First attempt to serve request as file, then
+	# as directory, then fall back to displaying a 404.
+	try_files $uri $uri/index.html $uri/ =404;
+}
+
+location /🎲/rolls {
+	proxy_pass http://localhost:8301;
+	proxy_http_version 1.1;
+	proxy_set_header Upgrade $http_upgrade;
+	proxy_set_header Connection 'upgrade';
+	proxy_set_header Host $host;
+	proxy_cache_bypass $http_upgrade;
+	proxy_set_header X-Real-IP $remote_addr;
+	proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+}

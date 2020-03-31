@@ -1,0 +1,14 @@
+[Unit]
+Description=DnD dice roller server
+Documentation=https://ddr0.ca/%F0%9F%8E%B2
+After=network.target
+
+[Service]
+Type=simple
+User=www-data
+WorkingDirectory=/opt/ddr0.ca
+ExecStart=/usr/bin/node /opt/ddr0.ca/🎲/dice.node.js 
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

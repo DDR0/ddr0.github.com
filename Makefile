@@ -82,7 +82,11 @@ watch:
 
 install-build-reqs:
 	#graphvis for dot, for debugging, not strictly needed.
-	sudo apt install nodejs npm node-less coffeescript graphviz
+	sudo apt install nginx nodejs npm node-less coffeescript graphviz
+
+
+install-deploy-reqs:
+	ssh -t cac2 "apt install nginx nodejs"
 
 
 debug:

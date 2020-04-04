@@ -8,7 +8,7 @@ const app = express()
 app.use(express.json({ limit:'1kb' }));
 //app.use(express.urlencoded({limit: '0b', extended: false}));
 
-const channel = new SSEChannel({pingInterval: false, historySize: 4, rewind: 10})
+const channel = new SSEChannel({pingInterval: false, historySize: 0, rewind: 0}) //Needs to be merged to retain identity, so things don't get read twice.
 
 console.info('starting dice server v1')
 

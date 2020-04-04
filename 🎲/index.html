@@ -5,6 +5,7 @@
 		<title>Dice Roller</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
 		<meta name="theme-color" content="#614c35">
+		<script src="/🎲/yaffle-eventsource-shim.min.js">☺</script>
 		<script>
 			const $ = document.querySelector.bind(document)
 			
@@ -38,7 +39,16 @@
 						}${
 							data.result.rolls.length>1 ? `; ${data.result.rolls.join(', ')}` : ''
 						})`
-					$('#app output ul').prepend(li)
+					const outputList = $('#app output ul')
+					outputList.prepend(li)
+					
+					if (outputList.children.length > 1) {
+						outputList.children[1].setAttribute('aria-hidden', true)
+					}
+					
+					if (outputList.children.length > 10) {
+						outputList.children[10].remove()
+					}
 				});
 				
 				
@@ -251,11 +261,11 @@
 			</label>
 			<form id=roll-entry>
 				<label for=name>Character Name:</label> <input id=name>
-				<label for=roll>Roll:</label> <input id=roll disabled>
+				<label for=roll>Roll:</label> <input id=roll disabled autocomplete=off>
 				<button disabled>roll</button>
 				<p>(eg.; <code>2d10 + 1 to hit</code>)</p>
 			</form>
-			<output for=roll-entry role="log" aria-relevant="additions">
+			<output for=roll-entry role=log aria-relevant=additions aria-live=polite>
 				<ul>
 					<!-- rolls go here -->
 				</ul>

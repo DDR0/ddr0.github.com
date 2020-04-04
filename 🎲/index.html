@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html lang="en-IE">
 	<head>
 		<meta charset='utf-8'>
 		<title>Dice Roller</title>
@@ -182,7 +182,7 @@
 				<label for=roll>Roll:</label> <input id=roll placeholder="1d20+2 to hit" disabled>
 				<button disabled>roll</button>
 			</form>
-			<output for=roll-entry>
+			<output for=roll-entry role="log" aria-relevant="additions">
 				<ul>
 					<!-- rolls go here -->
 				</ul>
@@ -191,7 +191,7 @@
 		</div>
 		<div id=status>
 			<div>Status: <span>loading…</span></div>
-			<p>Based on <a href="https://www.npmjs.com/~edloidas">edloidas</a>' <a href="https://www.npmjs.com/package/roll-parser">roll parser</a>. ♥</p>
+			<p>Based on <a href="https://www.npmjs.com/~edloidas">edloidas</a>' <a href="https://www.npmjs.com/package/roll-parser">roll parser</a>. ❤</p>
 		</div>
 	</body>
 </html>

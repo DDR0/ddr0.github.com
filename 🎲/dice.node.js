@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 const express = require('express')
 const SSEChannel = require('sse-pubsub')
 const roll = require('roll-parser').parseAndRoll

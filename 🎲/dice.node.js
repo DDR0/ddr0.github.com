@@ -8,7 +8,7 @@ const app = express()
 app.use(express.json({ limit:'1kb' }));
 //app.use(express.urlencoded({limit: '0b', extended: false}));
 
-const channel = new SSEChannel({pingInterval: false, historySize: 10, rewind: 10})
+const channel = new SSEChannel({pingInterval: false, historySize: 4, rewind: 10})
 
 console.info('starting dice server v1')
 
@@ -70,7 +70,8 @@ app.post(`/${encodeURIComponent('🎲')}/rolls`, (req, res) => {
 		result: roll(rollParserComponent),
 		comment: comment.trim(),
 		modifier: modifierTotal,
-		//id: Math.random().toString(36).slice(2),
+		id: Math.random().toString(36).slice(2),
+		time: Date.now(),
 	})
 	
 	

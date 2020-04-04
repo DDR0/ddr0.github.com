@@ -10,18 +10,18 @@
 			
 			document.addEventListener("DOMContentLoaded", ()=>{
 				//Set up server-sent events, so we can see our friends.
-				const es = new EventSource("/🎲/rolls");
-				es.addEventListener('open', ev => {
+				const events = new EventSource("/🎲/rolls");
+				events.addEventListener('open', ev => {
 					$('#status span').textContent = "Connected"
 					for (let elem of document.querySelectorAll('#roll-entry input, #roll-entry button')) {
 						elem.disabled = false
 					}
 				});
-				es.addEventListener('error', ev => {
+				events.addEventListener('error', ev => {
 					connected = false
 					$('#status span').textContent = "Not Connected; Offline"
 				});
-				es.addEventListener('roll', ev => {
+				events.addEventListener('roll', ev => {
 					const data = JSON.parse(ev.data)
 					console.info(data);
 					const li = document.createElement('li')
@@ -78,6 +78,68 @@
 					$('#roll').value = ''
 					$('#roll').focus()
 				})
+				
+				if (!window['speechSynthesis']) {
+					$('#speak').parentNode.remove()
+					console.warn('speechSynthesis API unavailable')
+				} else {
+					const scoreVoice = voice => {
+						let score = 0
+						score += voice.localService * 1000
+						score += voice.lang.includes('en') * 100
+						if (voice.name.includes('Ireland'))
+							score += 9
+						else if (voice.name.includes('Scotland'))
+							score += 8
+						else if (voice.default)
+							score += 7
+						score += voice.name.includes('Female') * 0.1
+						return score
+					}
+					let chosenVoice
+					const chooseVoice = ()=>{
+						chosenVoice = speechSynthesis.getVoices().sort(
+							(a,b) => scoreVoice(b) - scoreVoice(a)
+						)[0]
+						console.log('selected voice', chosenVoice, chosenVoice&&scoreVoice(chosenVoice))
+					}
+					chooseVoice()
+					speechSynthesis.addEventListener('voiceschanged', chooseVoice)
+					
+					
+					let cue;
+					const cueAnnouncer = ()=>{
+						const startAnnouncer = ()=>{
+							console.info('announcer started; clearing', cue, cueAnnouncer)
+							clearTimeout(cue)
+							events.removeEventListener('roll', cueAnnouncer)
+							events.addEventListener('roll', ev => {
+								if (!$('#speak').checked) { return }
+								const data = JSON.parse(ev.data)
+								const line = new SpeechSynthesisUtterance(
+									`${
+										data.name
+									} rolled ${
+										data.result.rolls.length>1 ? '' : 'a '
+									}${
+										data.result.value
+									}${
+										data.comment ? ` ${data.comment}` : ''
+									}`
+								)
+								chosenVoice && (line.voice = chosenVoice)
+								line.rate = 1.5
+								line.volume = 0.8
+								speechSynthesis.speak(line)
+							})
+						}
+						console.info('announcer queued; clearing', cue)
+						clearTimeout(cue)
+						cue = setTimeout(startAnnouncer, 100)
+					}
+					console.info('cueing announcer')
+					events.addEventListener('roll', cueAnnouncer)
+				}
 			})
 		</script>
 		<style>
@@ -183,6 +245,10 @@
 			<sub>Multiplayer DnD Dice Simulator</sub>
 		</div>
 		<div id=app>
+			<label>
+				<input id=speak type=checkbox>
+				Speak Roll Results
+			</label>
 			<form id=roll-entry>
 				<label for=name>Character Name:</label> <input id=name>
 				<label for=roll>Roll:</label> <input id=roll disabled>

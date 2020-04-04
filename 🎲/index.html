@@ -114,8 +114,6 @@
 						console.log('selected voice', chosenVoice, chosenVoice&&scoreVoice(chosenVoice))
 					}
 					chooseVoice()
-					speechSynthesis.addEventListener('voiceschanged', chooseVoice)
-					
 					
 					let cue;
 					const cueAnnouncer = ()=>{
@@ -148,7 +146,8 @@
 						cue = setTimeout(startAnnouncer, 100)
 					}
 					console.info('cueing announcer')
-					events.addEventListener('roll', cueAnnouncer)
+					events.addEventListener('roll', cueAnnouncer) //Oh, right, we're not getting these passed from the back-end any more on startup.
+					cueAnnouncer() //Work-around for no initial roll events, just start announcing.
 				}
 			})
 		</script>

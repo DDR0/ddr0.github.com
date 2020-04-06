@@ -24,7 +24,14 @@
 				});
 				events.addEventListener('roll', ev => {
 					const data = JSON.parse(ev.data)
-					console.info(data);
+					console.info('roll', data);
+					const outputList = $('#app output ul')
+					
+					if (outputList.querySelector(`[roll-id="${data.id}"]`)) {
+						console.info('ignoring dup roll', data.id)
+						return
+					}
+					
 					const li = document.createElement('li')
 					li.textContent = `${
 							data.name
@@ -39,7 +46,7 @@
 						}${
 							data.result.rolls.length>1 ? `; ${data.result.rolls.join(', ')}` : ''
 						})`
-					const outputList = $('#app output ul')
+					li.setAttribute('roll-id', data.id)
 					outputList.prepend(li)
 					
 					if (outputList.children.length > 1) {
@@ -121,9 +128,15 @@
 							console.info('announcer started; clearing', cue, cueAnnouncer)
 							clearTimeout(cue)
 							events.removeEventListener('roll', cueAnnouncer)
+							
+							const spokenRolls = new Set()
 							events.addEventListener('roll', ev => {
 								if (!$('#speak').checked) { return }
 								const data = JSON.parse(ev.data)
+								
+								if (spokenRolls.has(data.id)) { return }
+								spokenRolls.add(data.id)
+								
 								const line = new SpeechSynthesisUtterance(
 									`${
 										data.name
@@ -146,8 +159,7 @@
 						cue = setTimeout(startAnnouncer, 100)
 					}
 					console.info('cueing announcer')
-					events.addEventListener('roll', cueAnnouncer) //Oh, right, we're not getting these passed from the back-end any more on startup.
-					cueAnnouncer() //Work-around for no initial roll events, just start announcing.
+					events.addEventListener('roll', cueAnnouncer)
 				}
 			})
 		</script>

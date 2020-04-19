@@ -5,13 +5,13 @@
 		<title>Dice Roller</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
 		<meta name="theme-color" content="#614c35">
-		<script src="/🎲/yaffle-eventsource-shim.min.js">☺</script>
+		<script src="/⚀/yaffle-eventsource-shim.min.js">☺</script>
 		<script>
 			const $ = document.querySelector.bind(document)
 			
 			document.addEventListener("DOMContentLoaded", ()=>{
 				//Set up server-sent events, so we can see our friends.
-				const events = new EventSource("/🎲/rolls");
+				const events = new EventSource("/⚀/rolls");
 				events.addEventListener('open', ev => {
 					$('#status span').textContent = "Connected"
 					for (let elem of document.querySelectorAll('#roll-entry input, #roll-entry button')) {
@@ -70,7 +70,7 @@
 					
 					try {
 						const result = await (
-							await fetch('/🎲/rolls', {
+							await fetch('/⚀/rolls', {
 								method:'POST', 
 								body: JSON.stringify(action),
 								redirect:'error',
@@ -177,7 +177,7 @@
 				justify-content: space-between;
 				align-items: center;
 				text-size-adjust: 100%;
-				background-image: url('/🎲/Seamless_Brown_Leather_Texture.jpg'); /* From http://www.texturise.club/2014/02/seamless-brown-leather-texture-maps.html */
+				background-image: url('/⚀/Seamless_Brown_Leather_Texture.jpg'); /* From http://www.texturise.club/2014/02/seamless-brown-leather-texture-maps.html */
 				background-size: 50%;
 			}
 			
@@ -232,7 +232,7 @@
 			#app {
 				max-width: 30em;
 				margin: 2em;
-				border-image: url('/🎲/hiclipart.com scroll 1.png') 25% fill;
+				border-image: url('/⚀/hiclipart.com scroll 1.png') 25% fill;
 				border-style: solid;
 				border-width: 50px;
 				filter: drop-shadow(-2px 4px 10px rgba(0,0,0,0.6));

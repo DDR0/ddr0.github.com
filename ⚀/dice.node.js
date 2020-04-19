@@ -17,13 +17,13 @@ const setResponseHeader = (req, res) => {
 	res.header('Vary', 'Origin')
 }
 
-app.get(`/${encodeURIComponent('🎲')}/rolls`, (req, res) => {
+app.get(`/${encodeURIComponent('⚀')}/rolls`, (req, res) => {
 	setResponseHeader(req, res)
 	channel.subscribe(req, res)
 })
 
 const rollRegex = /(?<baseRoll>[0-9]*?\s?d\s?[0-9]+)\s*(?<modifiers>[\+\-][0-9\+\-\s]*)?(?<comment>.*)/
-app.post(`/${encodeURIComponent('🎲')}/rolls`, (req, res) => {
+app.post(`/${encodeURIComponent('⚀')}/rolls`, (req, res) => {
 	setResponseHeader(req, res)
 	
 	if (!req.body) {
@@ -81,7 +81,7 @@ app.post(`/${encodeURIComponent('🎲')}/rolls`, (req, res) => {
 	res.send(results)
 })
 
-app.options(`/${encodeURIComponent('🎲')}/rolls`, (req, res) => {
+app.options(`/${encodeURIComponent('⚀')}/rolls`, (req, res) => {
 	setResponseHeader(req, res)
 	res.header('Allow', 'GET, POST, OPTIONS')
 	res.send('')

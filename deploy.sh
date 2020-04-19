@@ -15,7 +15,11 @@ rsync --recursive --links --times --itemize-changes \
 	&
 
 rsync --recursive --links --times --itemize-changes \
-	🎲/dice.node.js cac2:/opt/ddr0.ca/🎲/ \
+	⚀/dice.node.js cac2:/opt/ddr0.ca/⚀/ \
+	&
+
+rsync --recursive --links --times --itemize-changes \
+	⚁/dice.node.js cac2:/opt/ddr0.ca/⚁/ \
 	&
 
 rsync --recursive --links --times --itemize-changes \

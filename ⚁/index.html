@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="en-IE">
+	<head>
+		<meta charset='utf-8'>
+		<title>Dice Roller</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+		<meta name="theme-color" content="#614c35">
+		<!-- <script src="/⚁/ws/socket.io/socket.io.js"></script> -->
+		<script src="/⚁/ws/socket.io.js"></script>
+		<script>
+			"use strict"
+			const $ = document.querySelector.bind(document)
+			
+			const socket = io.connect('', { path:'/⚁/ws' });
+			socket.on('news', (data) => {
+				console.log(data);
+				//socket.emit('my other event', { my: 'data' });
+			});
+			
+			document.addEventListener("DOMContentLoaded", ()=>{
+				//Set up server-sent events, so we can see our friends.
+				const events = new EventSource("/⚁/rolls");
+				events.addEventListener('open', ev => {
+					$('#status span').textContent = "Connected"
+					for (let elem of document.querySelectorAll('#roll-entry input, #roll-entry button')) {
+						elem.disabled = false
+					}
+				});
+				events.addEventListener('error', ev => {
+					$('#status span').textContent = "Not Connected; Offline"
+				});
+				events.addEventListener('roll', ev => {
+					const data = JSON.parse(ev.data)
+					console.info('roll', data);
+					const outputList = $('#app output ul')
+					
+					if (outputList.querySelector(`[roll-id="${data.id}"]`)) {
+						console.info('ignoring dup roll', data.id)
+						return
+					}
+					
+					const li = document.createElement('li')
+					li.textContent = `${
+							data.name
+						} rolled ${
+							data.result.rolls.length>1 ? '' : 'a '
+						}${
+							data.result.value
+						}${
+							data.comment ? ` ${data.comment}` : ''
+						} (${
+							data.result.notation
+						}${
+							data.result.rolls.length>1 ? `; ${data.result.rolls.join(', ')}` : ''
+						})`
+					li.setAttribute('roll-id', data.id)
+					outputList.prepend(li)
+					
+					if (outputList.children.length > 1) {
+						outputList.children[1].setAttribute('aria-hidden', true)
+					}
+					
+					if (outputList.children.length > 10) {
+						outputList.children[10].remove()
+					}
+				});
+				
+				
+				
+				$('#roll-entry').addEventListener('submit', async evt=>{
+					evt.preventDefault()
+					
+					const action = {
+						name: $('#name').value,
+						roll: $('#roll').value,
+					}
+					
+					try {
+						const result = await (
+							await fetch('/⚁/rolls', {
+								method:'POST', 
+								body: JSON.stringify(action),
+								redirect:'error',
+								headers: { 
+									'Accept': 'application/json',
+									'Content-Type': 'application/json',
+								},
+							})
+						).json()
+						
+						if (!result) {
+							throw new Error('Server did not provide a response.')
+						}
+						if (result.error) {
+							throw new Error(result.error)
+						}
+					} catch (err) {
+						console.error(err)
+					}
+					
+					//Good, the roll appears to have worked. Clear the input and focus for next roll.
+					$('#roll').value = ''
+					$('#roll').focus()
+				})
+				
+				if (!window['speechSynthesis']) {
+					$('#speak').parentNode.remove()
+					console.warn('speechSynthesis API unavailable')
+				} else {
+					const scoreVoice = voice => {
+						let score = 0
+						score += voice.localService * 1000
+						score += voice.lang.includes('en') * 100
+						if (voice.name.includes('Ireland'))
+							score += 9
+						else if (voice.name.includes('Scotland'))
+							score += 8
+						else if (voice.default)
+							score += 7
+						score += voice.name.includes('Female') * 0.1
+						return score
+					}
+					let chosenVoice
+					const chooseVoice = ()=>{
+						chosenVoice = speechSynthesis.getVoices().sort(
+							(a,b) => scoreVoice(b) - scoreVoice(a)
+						)[0]
+						console.log('selected voice', chosenVoice, chosenVoice&&scoreVoice(chosenVoice))
+					}
+					chooseVoice()
+					
+					let cue;
+					const cueAnnouncer = ()=>{
+						const startAnnouncer = ()=>{
+							console.info('announcer started; clearing', cue, cueAnnouncer)
+							clearTimeout(cue)
+							events.removeEventListener('roll', cueAnnouncer)
+							
+							const spokenRolls = new Set()
+							events.addEventListener('roll', ev => {
+								if (!$('#speak').checked) { return }
+								const data = JSON.parse(ev.data)
+								
+								if (spokenRolls.has(data.id)) { return }
+								spokenRolls.add(data.id)
+								
+								const line = new SpeechSynthesisUtterance(
+									`${
+										data.name
+									} rolled ${
+										data.result.rolls.length>1 ? '' : 'a '
+									}${
+										data.result.value
+									}${
+										data.comment ? ` ${data.comment}` : ''
+									}`
+								)
+								chosenVoice && (line.voice = chosenVoice)
+								line.rate = 1.5
+								line.volume = 0.8
+								speechSynthesis.speak(line)
+							})
+						}
+						console.info('announcer queued; clearing', cue)
+						clearTimeout(cue)
+						cue = setTimeout(startAnnouncer, 100)
+					}
+					console.info('cueing announcer')
+					events.addEventListener('roll', cueAnnouncer)
+				}
+			})
+		</script>
+		<style>
+			html {
+				overflow-x: hidden;
+			}
+			
+			body {
+				font-family: sans-serif;
+				min-height: 100vh;
+				margin: 0;
+				display: flex;
+				flex-direction: column;
+				justify-content: space-between;
+				align-items: center;
+				text-size-adjust: 100%;
+				background-image: url('/⚁/Seamless_Brown_Leather_Texture.jpg'); /* From http://www.texturise.club/2014/02/seamless-brown-leather-texture-maps.html */
+				background-size: 50%;
+			}
+			
+			#header {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				background: rgba(255,255,255,0.8);
+				border: 2px dashed grey;
+				border-radius: 1ch;
+				padding: 2ch;
+				margin-top: 50px;
+			}
+			
+			a {
+				color: black;
+			}
+			
+			h1 {
+				margin: 0 0 0.3ch 0;
+			}
+			
+			form {
+				display: grid;
+				grid-template-columns: repeat(3, max-content);
+			}
+			
+			form > *:nth-child(1) { grid-row: 1; grid-column: 1; }
+			form > *:nth-child(2) { grid-row: 1; grid-column: 2; }
+			form > *:nth-child(3) { grid-row: 2; grid-column: 1; }
+			form > *:nth-child(4) { grid-row: 2; grid-column: 2; }
+			form > *:nth-child(5) { grid-row: 2; grid-column: 3; }
+			form > *:nth-child(6) { grid-row: 3; grid-column: 2; }
+			
+			form label {
+				text-align: right;
+			}
+			form > * {
+				margin: 3px;
+			}
+			form > input {
+				width: 10em;
+			}
+			form > button {
+				width: 8ch;
+			}
+			form > p {
+				margin-top: -3px;
+				font-size: 80%;
+			}
+			
+			#app {
+				max-width: 30em;
+				margin: 2em;
+				border-image: url('/⚁/hiclipart.com scroll 1.png') 25% fill;
+				border-style: solid;
+				border-width: 50px;
+				filter: drop-shadow(-2px 4px 10px rgba(0,0,0,0.6));
+			}
+			
+			output {
+				font-family: cursive;
+			}
+			
+			#status {
+				--status-padding: 1ex;
+				align-self: flex-end;
+				width: calc(100% - var(--status-padding)*2);
+				padding: var(--status-padding);
+				display: flex;
+				justify-content: space-between;
+				background: rgba(255,255,255,0.2);
+				border: 0px ridge grey;
+				border-top-width: 2px;
+			}
+			
+			#status > * {
+				margin: 0;
+			}
+		</style>
+	</head>
+	
+	<body>
+		<div id=header>
+			<h1>Dice Roller</h1>
+			<sub>Multiplayer DnD Dice Simulator</sub>
+		</div>
+		<div id=app>
+			<label>
+				<input id=speak type=checkbox>
+				Speak Roll Results
+			</label>
+			<form id=roll-entry>
+				<label for=name>Character Name:</label> <input id=name>
+				<label for=roll>Roll:</label> <input id=roll disabled autocomplete=off>
+				<button disabled>roll</button>
+				<p>(eg.; <code>2d10 + 1 to hit</code>)</p>
+			</form>
+			<output for=roll-entry role=log aria-relevant=additions aria-live=polite>
+				<ul>
+					<!-- rolls go here -->
+				</ul>
+			</output>
+		</div>
+		<div id=status>
+			<div>Status: <span>loading…</span></div>
+			<p>Based on <a href="https://www.npmjs.com/~edloidas">edloidas</a>' <a href="https://www.npmjs.com/package/roll-parser">roll parser</a>. ❤</p>
+		</div>
+	</body>
+</html>

@@ -36,11 +36,13 @@
 						return console.info('ignoring dup roll', data.id)
 					}
 					
+					debugger
+					
 					const li = document.createElement('li')
 					li.textContent = `${
 							data.name
 						} rolled ${
-							data.rolls.length>1 ? '' : 'a '
+							data.rolls.flat().length > 1 ? '' : 'a '
 						}${
 							data.result
 						}${
@@ -48,7 +50,7 @@
 						} (${
 							data.notation
 						}${
-							data.rolls.length>1 ? `; ${data.rolls.join(', ')}` : ''
+							data.rolls.flat().length > 1 ? `: ${data.rolls.map(rolls=>rolls.join(', ')).join('; ')}` : ''
 						})`
 					li.setAttribute('roll-id', data.id)
 					outputList.prepend(li)
@@ -128,7 +130,7 @@
 									`${
 										data.name
 									} rolled ${
-										data.rolls.length>1 ? '' : 'a '
+										data.rolls.flat().length>1 ? '' : 'a '
 									}${
 										data.result
 									}${
@@ -171,21 +173,17 @@
 				$('#roll-entry').addEventListener('submit', evt=>{
 					evt.preventDefault()
 					
-					socket.emit('roll', {
-						name: $('#name').value,
+					const roll = {
+						name: $('#name').value || 'Anon',
 						input: $('#roll').value,
 						id: Math.random().toString(32).slice(2),
-					})
+					}
+					socket.emit('roll', roll)
+					console.log('roll', roll)
 					
 					//Good, the roll appears to have worked. Clear the input and focus for next roll.
 					$('#roll').value = ''
 					$('#roll').focus()
-					
-					console.log('emitting role', {
-						name: $('#name').value,
-						input: $('#roll').value,
-						id: Math.random().toString(32).slice(2),
-					})
 				})
 			})
 		</script>

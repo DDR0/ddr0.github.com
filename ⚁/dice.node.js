@@ -66,13 +66,13 @@ io.on('connection', socket => {
 		const roll =  rollParts.groups.roll.trim().replace(/\s/gu, '') //Remove whitespace from the roll, they confuse the roll parser.
 		const comment = (rollParts.groups.comment||'').trim()
 		if (!roll) {
-			socket.emit('roll_error', { type:'parse', id, input:roll })
+			socket.emit('roll_error', { type:'parse', id, input:roll||input })
 			return console.log(`roll for ${name} failed to parse "${input}" (${id})`)
 		}
 		
 		const rollResult = roller.roll(roll)
 		if (!rollResult.rolls[0]) {
-			socket.emit('roll_error', { type:'parse', id, input:roll })
+			socket.emit('roll_error', { type:'parse', id, input:roll||input })
 			return console.log(`roll for ${name} failed to parse "${input}" (${id})`)
 		}
 		

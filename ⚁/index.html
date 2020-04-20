@@ -5,32 +5,30 @@
 		<title>Dice Roller</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
 		<meta name="theme-color" content="#614c35">
-		<!-- <script src="/⚁/ws/socket.io/socket.io.js"></script> -->
 		<script src="/⚁/ws/socket.io.js"></script>
 		<script>
 			"use strict"
 			const $ = document.querySelector.bind(document)
 			
-			const socket = io.connect('', { path:'/⚁/ws' });
-			socket.on('news', (data) => {
-				console.log(data);
-				//socket.emit('my other event', { my: 'data' });
-			});
-			
+			const socket = io.connect('', { path:'/⚁/ws' })
 			document.addEventListener("DOMContentLoaded", ()=>{
-				//Set up server-sent events, so we can see our friends.
-				const events = new EventSource("/⚁/rolls");
-				events.addEventListener('open', ev => {
+				function connected() {
 					$('#status span').textContent = "Connected"
 					for (let elem of document.querySelectorAll('#roll-entry input, #roll-entry button')) {
 						elem.disabled = false
 					}
-				});
-				events.addEventListener('error', ev => {
+				}
+				function disconnected() {
 					$('#status span').textContent = "Not Connected; Offline"
-				});
-				events.addEventListener('roll', ev => {
-					const data = JSON.parse(ev.data)
+					for (let elem of document.querySelectorAll('#roll-entry input, #roll-entry button')) {
+						elem.disabled = true
+					}
+				}
+				socket.on('connect', connected)
+				socket.on('reconnect', connected)
+				socket.on('connect_error', disconnected)
+				socket.on('reconnect_error', disconnected)
+				socket.on('roll', data => {
 					console.info('roll', data);
 					const outputList = $('#app output ul')
 					
@@ -43,15 +41,15 @@
 					li.textContent = `${
 							data.name
 						} rolled ${
-							data.result.rolls.length>1 ? '' : 'a '
+							data.rolls.length>1 ? '' : 'a '
 						}${
-							data.result.value
+							data.result
 						}${
 							data.comment ? ` ${data.comment}` : ''
 						} (${
-							data.result.notation
+							data.notation
 						}${
-							data.result.rolls.length>1 ? `; ${data.result.rolls.join(', ')}` : ''
+							data.rolls.length>1 ? `; ${data.rolls.join(', ')}` : ''
 						})`
 					li.setAttribute('roll-id', data.id)
 					outputList.prepend(li)
@@ -65,43 +63,6 @@
 					}
 				});
 				
-				
-				
-				$('#roll-entry').addEventListener('submit', async evt=>{
-					evt.preventDefault()
-					
-					const action = {
-						name: $('#name').value,
-						roll: $('#roll').value,
-					}
-					
-					try {
-						const result = await (
-							await fetch('/⚁/rolls', {
-								method:'POST', 
-								body: JSON.stringify(action),
-								redirect:'error',
-								headers: { 
-									'Accept': 'application/json',
-									'Content-Type': 'application/json',
-								},
-							})
-						).json()
-						
-						if (!result) {
-							throw new Error('Server did not provide a response.')
-						}
-						if (result.error) {
-							throw new Error(result.error)
-						}
-					} catch (err) {
-						console.error(err)
-					}
-					
-					//Good, the roll appears to have worked. Clear the input and focus for next roll.
-					$('#roll').value = ''
-					$('#roll').focus()
-				})
 				
 				if (!window['speechSynthesis']) {
 					$('#speak').parentNode.remove()
@@ -134,12 +95,11 @@
 						const startAnnouncer = ()=>{
 							console.info('announcer started; clearing', cue, cueAnnouncer)
 							clearTimeout(cue)
-							events.removeEventListener('roll', cueAnnouncer)
+							socket.off('roll', cueAnnouncer)
 							
 							const spokenRolls = new Set()
-							events.addEventListener('roll', ev => {
+							socket.on('roll', data => {
 								if (!$('#speak').checked) { return }
-								const data = JSON.parse(ev.data)
 								
 								if (spokenRolls.has(data.id)) { return }
 								spokenRolls.add(data.id)
@@ -148,9 +108,9 @@
 									`${
 										data.name
 									} rolled ${
-										data.result.rolls.length>1 ? '' : 'a '
+										data.rolls.length>1 ? '' : 'a '
 									}${
-										data.result.value
+										data.result
 									}${
 										data.comment ? ` ${data.comment}` : ''
 									}`
@@ -166,8 +126,32 @@
 						cue = setTimeout(startAnnouncer, 100)
 					}
 					console.info('cueing announcer')
-					events.addEventListener('roll', cueAnnouncer)
+					socket.on('roll', cueAnnouncer)
 				}
+				
+				socket.emit('ready')
+				
+				
+				
+				$('#roll-entry').addEventListener('submit', evt=>{
+					evt.preventDefault()
+					
+					socket.emit('roll', {
+						name: $('#name').value,
+						input: $('#roll').value,
+						id: Math.random().toString(32).slice(2),
+					})
+					
+					//Good, the roll appears to have worked. Clear the input and focus for next roll.
+					$('#roll').value = ''
+					$('#roll').focus()
+					
+					console.log('emitting role', {
+						name: $('#name').value,
+						input: $('#roll').value,
+						id: Math.random().toString(32).slice(2),
+					})
+				})
 			})
 		</script>
 		<style>
@@ -252,8 +236,8 @@
 			#status {
 				--status-padding: 1ex;
 				align-self: flex-end;
-				width: calc(100% - var(--status-padding)*2);
-				padding: var(--status-padding);
+				width: calc(100% - var(--status-padding)*3);
+				padding: var(--status-padding) calc(var(--status-padding)*1.5);
 				display: flex;
 				justify-content: space-between;
 				background: rgba(255,255,255,0.2);
@@ -291,7 +275,7 @@
 		</div>
 		<div id=status>
 			<div>Status: <span>loading…</span></div>
-			<p>Based on <a href="https://www.npmjs.com/~edloidas">edloidas</a>' <a href="https://www.npmjs.com/package/roll-parser">roll parser</a>. ❤</p>
+			<p>Based on <a href="https://github.com/GreenImp">GreenImp's</a> <a href="https://www.npmjs.com/package/roll-parser">roll parser</a>. ❤</p>
 		</div>
 	</body>
 </html>

@@ -1,6 +1,6 @@
 [Unit]
 Description=DnD dice roller server 2
-Documentation=https://ddr0.ca/%E2%9A%81
+Documentation=https://ddr0.ca/%%E2%%9A%%81
 After=network.target
 
 [Service]

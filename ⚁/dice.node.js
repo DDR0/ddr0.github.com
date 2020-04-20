@@ -35,18 +35,21 @@ io.on('connection', socket => {
 	})
 	
 	socket.on('roll', ({id, name, input}) => {
-		name = name || 'Anon'
-		
-		console.log(id, name, input) //reach
+		console.log(id, name, input)
 		
 		if (!id || typeof id !== 'string') {
 			socket.emit('roll_error', { type:'missing_id', id: '' })
 			return console.log(`no id given`)
 		}
 		
-		if (!input || typeof id !== 'string') {
+		if (history.find(r=>id===r.id)) {
+			socket.emit('roll_error', { type:'duplicate_id', id})
+			return console.log(`roll already submitted; dropping ${id}`)
+		}
+		
+		if (!input || typeof input !== 'string') {
 			socket.emit('roll_error', { type:'missing_roll', id })
-			return console.log(`no roll given (${id})`)
+			return console.log(`no input roll given (${id})`)
 		}
 		
 		if (!name || typeof name !== 'string') {
@@ -56,20 +59,20 @@ io.on('connection', socket => {
 		
 		const rollParts = rollRegex.exec(input)
 		if (!rollParts) {
-			socket.emit('roll_error', { type:'parse_error', id })
+			socket.emit('roll_error', { type:'parse', id, input })
 			return console.log(`roll for ${name} failed to parse "${input}" (${id})`)
 		}
 		
 		const roll =  rollParts.groups.roll.trim()
 		const comment = (rollParts.groups.comment||'').trim()
 		if (!roll) {
-			socket.emit('roll_error', { type:'parse_error', id })
+			socket.emit('roll_error', { type:'parse', id, input:roll })
 			return console.log(`roll for ${name} failed to parse "${input}" (${id})`)
 		}
 		
 		const rollResult = roller.roll(roll)
 		if (!rollResult.rolls[0]) {
-			socket.emit('roll_error', { type:'parse_error', id })
+			socket.emit('roll_error', { type:'parse', id, input:roll })
 			return console.log(`roll for ${name} failed to parse "${input}" (${id})`)
 		}
 		

@@ -33,8 +33,7 @@
 					const outputList = $('#app output ul')
 					
 					if (outputList.querySelector(`[roll-id="${data.id}"]`)) {
-						console.info('ignoring dup roll', data.id)
-						return
+						return console.info('ignoring dup roll', data.id)
 					}
 					
 					const li = document.createElement('li')
@@ -52,6 +51,27 @@
 							data.rolls.length>1 ? `; ${data.rolls.join(', ')}` : ''
 						})`
 					li.setAttribute('roll-id', data.id)
+					outputList.prepend(li)
+					
+					if (outputList.children.length > 1) {
+						outputList.children[1].setAttribute('aria-hidden', true)
+					}
+					
+					if (outputList.children.length > 10) {
+						outputList.children[10].remove()
+					}
+				});
+				socket.on('roll_error', data => {
+					console.info('roll error', data);
+					const outputList = $('#app output ul')
+					
+					const li = document.createElement('li')
+					if (data.type == 'parse') {
+						li.textContent = `Couldn't understand "${data.input}".`
+					} else {
+						li.textContent = `Systems error; not your fault, bug DDR.`
+					}
+					li.setAttribute('class', 'roll-error')
 					outputList.prepend(li)
 					
 					if (outputList.children.length > 1) {
@@ -115,6 +135,21 @@
 										data.comment ? ` ${data.comment}` : ''
 									}`
 								)
+								chosenVoice && (line.voice = chosenVoice)
+								line.rate = 1.5
+								line.volume = 0.8
+								speechSynthesis.speak(line)
+							})
+							
+							socket.on('roll_error', data => {
+								if (!$('#speak').checked) { return }
+								
+								const line = new SpeechSynthesisUtterance(
+									data.type == 'parse'
+										? `Couldn't understand "${data.input}".`
+										: `Systems error; not your fault, bug DDR.`
+								)
+								
 								chosenVoice && (line.voice = chosenVoice)
 								line.rate = 1.5
 								line.volume = 0.8
@@ -248,6 +283,11 @@
 			#status > * {
 				margin: 0;
 			}
+			
+			.roll-error {
+				color: #555;
+				font-style: italic;
+			}
 		</style>
 	</head>
 	
@@ -275,7 +315,7 @@
 		</div>
 		<div id=status>
 			<div>Status: <span>loading…</span></div>
-			<p>Based on <a href="https://github.com/GreenImp">GreenImp's</a> <a href="https://www.npmjs.com/package/roll-parser">roll parser</a>. ❤</p>
+			<p>Based on <a href="https://github.com/GreenImp">GreenImp's</a> <a href="https://github.com/GreenImp/rpg-dice-roller">RPG Dice Roller</a>. ❤</p>
 		</div>
 	</body>
 </html>

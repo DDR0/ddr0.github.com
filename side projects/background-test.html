@@ -12,6 +12,10 @@
 				background-image: repeating-linear-gradient(45deg, #388F99 25%, transparent 25%, transparent 75%, #388F99 75%, #388F99), repeating-linear-gradient(45deg, #388F99 25%, transparent 25%, transparent 75%, #388F99 75%, #388F99);
 				background-position: 0 0, 25px 25px;
 				background-size: calc(2 * 25px) calc(2 * 25px);
+				
+				background-image: radial-gradient(#388F99 1px, transparent 1px), radial-gradient(#388F99 1px, transparent 1px);
+				background-size: calc(20 * 1px) calc(20 * 1px);
+				background-position: 0 0, calc(10 * 1px) calc(10 * 1px);
 			}
 			
 			body {
@@ -27,15 +31,17 @@
 			
 			body > * {
 				color: black;
-				filter: drop-shadow(10px 10px 2px #95D1D9)
-				        drop-shadow(-10px 10px 2px #95D1D9)
-				        drop-shadow(-10px -10px 2px #95D1D9)
-				        drop-shadow(10px -10px 2px #95D1D9)
+				filter: drop-shadow(15px 15px 2px #95D1D9)
+				        drop-shadow(-15px 15px 2px #95D1D9)
+				        drop-shadow(-15px -15px 2px #95D1D9)
+				        drop-shadow(15px -15px 2px #95D1D9)
 				        
-				        drop-shadow(4px 4px 2px #95D1D9)
-				        drop-shadow(-4px 4px 2px #95D1D9)
-				        drop-shadow(-4px -4px 2px #95D1D9)
-				        drop-shadow(4px -4px 2px #95D1D9)
+				        drop-shadow(2px 2px 0px #95D1D9)
+				        drop-shadow(-2px 2px 0px #95D1D9)
+				        drop-shadow(-2px -2px 0px #95D1D9)
+				        drop-shadow(2px -2px 0px #95D1D9)
+				        
+				        opacity(10)
 				        ;
 				max-width: 50vw;
 			}

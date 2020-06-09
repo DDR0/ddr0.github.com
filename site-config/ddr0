@@ -5,7 +5,14 @@
 
 #root /var/www/html;
 index index.html;
-gzip_types text/plain text/css image/svg+xml application/xml application/javascript image/gif ;
+gzip_types text/plain text/css image/svg+xml application/xml application/javascript image/gif;
+
+#Set up CSP for use later.
+set $CSP_BASE   "default-src 'self'; object-src 'none'";
+set $CSP_SCRIPT "script-src 'self' 'unsafe-inline' 'unsafe-eval'";
+set $CSP_IMG    "img-src 'self' data:";
+set $CSP_STYLE  "style-src 'self' 'unsafe-inline'";
+
 
 # Allow access for letsencrypt/certbot.
 location ~ /\.well-known { 
@@ -17,23 +24,8 @@ location ~ /\. {
     deny all;
 }
 
-location / {
-	# First attempt to serve request as file, then
-	# as directory, then fall back to displaying a 404.
-	try_files $uri $uri/index.html $uri/ =404;
-	
-	#We should switch to a better cache-control scheme, where content gets hashed.
-	add_header Cache-Control "max-age=900";
-	
-	set $CSP         "default-src 'self'; object-src 'none'";
-	set $CSP "${CSP}; script-src 'self' 'unsafe-inline'";
-	set $CSP "${CSP}; img-src 'self' data:";
-	set $CSP "${CSP}; style-src 'self' 'unsafe-inline'";
-	add_header Content-Security-Policy "${CSP}";
-}
 
-
-location /⚀/rolls {
+location ~ /⚀/rolls {
 	proxy_pass http://localhost:8301;
 	proxy_http_version 1.1;
 	proxy_set_header Upgrade $http_upgrade;
@@ -44,7 +36,7 @@ location /⚀/rolls {
 	proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 }
 
-location /⚁/ws {
+location ~ /⚁/ws {
 	rewrite ^/⚁/ws/(.*) /socket.io/$1 break;
 	proxy_pass http://localhost:8302;
 	proxy_http_version 1.1;
@@ -54,4 +46,44 @@ location /⚁/ws {
 	proxy_cache_bypass $http_upgrade;
 	proxy_set_header X-Real-IP $remote_addr;
 	proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+}
+
+
+location = /gallery.html {
+	set $SCRIPTS "https://code.jquery.com/jquery-2.0.0.min.js https://code.createjs.com/preloadjs-0.3.0.min.js";
+	add_header Content-Security-Policy "${CSP_BASE}; ${CSP_SCRIPT} ${SCRIPTS}; ${CSP_IMG}; ${CSP_STYLE}";
+}
+
+location ~ "^/cube trains/.*\.html$" {
+	set $PAYPAL_IMG "https://www.paypalobjects.com";
+	set $MIXPANEL_SCRIPTS "https://api.mixpanel.com";
+	set $CSP_FRAME "frame-src https://www.youtube.com https://w.soundcloud.com";
+	set $CSP_CONNECT "connect-src ${MIXPANEL_SCRIPTS}";
+	add_header Content-Security-Policy "${CSP_BASE}; ${CSP_SCRIPT} ${MIXPANEL_SCRIPTS}; ${CSP_IMG} ${PAYPAL_IMG}; ${CSP_STYLE}; ${CSP_FRAME}; ${CSP_CONNECT}";
+}
+
+location / {
+	# First attempt to serve request as file, then
+	# as directory, then fall back to displaying a 404.
+	try_files $uri $uri/index.html $uri/ =404;
+	
+	#We should switch to a better cache-control scheme, where content gets hashed.
+	add_header Cache-Control "max-age=900";
+	add_header Content-Security-Policy "${CSP_BASE}; ${CSP_SCRIPT}; ${CSP_IMG}; ${CSP_STYLE}";
+}
+
+location ~ "^/.*\.html$" {
+	add_header Cache-Control "max-age=900";
+	add_header Content-Security-Policy "${CSP_BASE}; ${CSP_SCRIPT}; ${CSP_IMG}; ${CSP_STYLE}";
+}
+
+#Fix web worker imports in https://ddr0.ca/editabled/fullscreen.html not working because CSP is being applied relative to them.
+location ~ "^/.*\.js$" {
+	add_header Cache-Control "max-age=900";
+	add_header Content-Security-Policy "default-src 'none'; script-src 'self'";
+}
+
+location ~ "^/.*\.*$" {
+	add_header Cache-Control "max-age=900";
+	add_header Content-Security-Policy "default-src 'none'";
 }

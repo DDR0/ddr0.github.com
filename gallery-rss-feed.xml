@@ -5,7 +5,7 @@
 		<atom:id>https://ddr0.ca/gallery</atom:id>
 		<link>https://ddr0.ca/gallery</link>
 		<description>Updates to DDR's gallery. Get notified of new projects!</description>
-		<atom:updated>2020-02-29T07:22:14.446Z</atom:updated>
+		<atom:updated>2020-08-05T01:23:45.301Z</atom:updated>
 		<atom:link href='https://ddr0.ca/gallery'></atom:link>
 		<atom:link href='https://ddr0.ca/gallery-rss-feed.xml'
 			rel='self' type='application/rss+xml'></atom:link>
@@ -15,6 +15,14 @@
 		<item>
 			<title>Fixed easter egg not responding to clicks.</title>
 			<description>Some CSS had disabled input for the easter egg.</description>
+			<link>https://ddr0.github.io/gallery.html</link>
+			<guid isPermaLink='true'>https://ddr0.github.io/gallery.html</guid>
+			<source url="https://ddr0.github.io/gallery.html"></source>
+		</item>
+		
+		<item>
+			<title>Added two projects to gallery.</title>
+			<description>Added two projects to gallery, the Chronos Camera UI and old Cityecho. This brings the gallery fully up to date again.</description>
 			<link>https://ddr0.github.io/gallery.html</link>
 			<guid isPermaLink='true'>https://ddr0.github.io/gallery.html</guid>
 			<source url="https://ddr0.github.io/gallery.html"></source>

@@ -65,22 +65,37 @@ location ~ "^/cube trains/.*\.html$" {
 location / {
 	# First attempt to serve request as file, then
 	# as directory, then fall back to displaying a 404.
-	try_files $uri $uri/index.html $uri/ =404;
+	try_files $uri $uri/index.html $uri/ $uri.html =404;
 	
 	#We should switch to a better cache-control scheme, where content gets hashed.
 	add_header Cache-Control "max-age=900";
 	add_header Content-Security-Policy "${CSP_BASE}; ${CSP_SCRIPT}; ${CSP_IMG}; ${CSP_STYLE}";
+	add_header Content-Type "text/html; charset=utf-8";
 }
 
 location ~ "^/.*\.html$" {
 	add_header Cache-Control "max-age=900";
 	add_header Content-Security-Policy "${CSP_BASE}; ${CSP_SCRIPT}; ${CSP_IMG}; ${CSP_STYLE}";
+	add_header Content-Type "text/html; charset=utf-8";
 }
 
 #Fix web worker imports in https://ddr0.ca/editabled/fullscreen.html not working because CSP is being applied relative to them.
 location ~ "^/.*\.js$" {
 	add_header Cache-Control "max-age=900";
 	add_header Content-Security-Policy "default-src 'none'; script-src 'self'";
+}
+
+#Fix web worker imports in https://ddr0.ca/editabled/fullscreen.html not working because CSP is being applied relative to them.
+location ~ "^/.*\.svg$" {
+	add_header Cache-Control "max-age=900";
+	add_header Content-Security-Policy "default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'";
+}
+
+#RSS feeds are the only XML we have on site.
+location ~ "^/.*\.xml$" {
+	add_header Cache-Control "max-age=900";
+	add_header Content-Security-Policy "${CSP_BASE}; ${CSP_SCRIPT}; ${CSP_IMG}; ${CSP_STYLE}";
+	types { } default_type "application/rss+xml; charset=utf-8";
 }
 
 location ~ "^/.*\.*$" {

@@ -9,7 +9,7 @@
 		<atom:updated>${new Date().toISOString()}</atom:updated>
 		<atom:link href='https://ddr0.ca/blog.html'></atom:link>
 		<atom:link href='https://ddr0.ca/blog-rss-feed.xml'
-			rel='self' type='application/rss+xml'></atom:link>
+			rel='self'></atom:link>
 		
 		
 		${entries.map(entry => `

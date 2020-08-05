@@ -4,6 +4,11 @@ const entries = [
 		desc: "Some CSS had disabled input for the easter egg.",
 		url: "https://ddr0.github.io/gallery.html",
 		date: "2020-02-28",
+	},{
+		title: "Added two projects to gallery.",
+		desc: "Added two projects to gallery, the Chronos Camera UI and old Cityecho. This brings the gallery fully up to date again.",
+		url: "https://ddr0.github.io/gallery.html",
+		date: "2020-08-04",
 	},
 ]
 

@@ -5,10 +5,10 @@
 		<atom:id>https://ddr0.ca</atom:id>
 		<link>https://ddr0.ca/blog.html</link>
 		<description>Updates to DDR's Blog. Get notified of new posts!</description>
-		<atom:updated>2020-03-02T22:47:28.878Z</atom:updated>
+		<atom:updated>2020-08-04T23:51:10.679Z</atom:updated>
 		<atom:link href='https://ddr0.ca/blog.html'></atom:link>
 		<atom:link href='https://ddr0.ca/blog-rss-feed.xml'
-			rel='self' type='application/rss+xml'></atom:link>
+			rel='self'></atom:link>
 		
 		
 		

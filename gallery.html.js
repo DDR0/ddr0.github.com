@@ -111,8 +111,9 @@ ${include('site shell intro.html.frag.js', {
 				<p>
 					Minor Links:
 					<ol>
-						<li>money calculator: <a href="https://ddr0.github.io/side%20projects/%24%E2%8C%9A.html">https://ddr0.github.io/side projects/$⌚.html</a></li>
-						<li>light painting tool: <a href="https://ddr0.github.io/side%20projects/colour.html">https://ddr0.github.io/side projects/colour.html</a></li>
+						<li>money calculator: <a href="/side%20projects/%24%E2%8C%9A.html">$⌚.html</a></li>
+						<li>light painting tool: <a href="/side%20projects/colour.html">colour.html</a></li>
+						<li>accessible D&D dice roller: <a href="/d">d</a> or <a href="/🎲">🎲</a>. (Version history: <a href="/⚀">⚀</a>, <a href="/⚁">⚁</a>.)</li>
 					</ol>
 				</p>
 				<p>Questions? Comments? I like <a href="contact.html">hearing</a> from people.</p>

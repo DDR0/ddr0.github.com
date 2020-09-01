@@ -115,6 +115,8 @@ ${include('site shell intro.html.frag.js', {
 						<li>light painting tool: <a href="/side%20projects/colour.html">colour.html</a></li>
 						<li>accessible D&D dice roller: <a href="/d">d</a> or <a href="/🎲">🎲</a>. (Version history: <a href="/⚀">⚀</a>, <a href="/⚁">⚁</a>.)</li>
 					</ol>
+					
+					See also: <a href="/files/personal/resume.pdf">my resume</a>.
 				</p>
 				<p>Questions? Comments? I like <a href="contact.html">hearing</a> from people.</p>
 			</div>

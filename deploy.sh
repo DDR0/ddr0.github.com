@@ -19,11 +19,19 @@ rsync --recursive --links --times --itemize-changes \
 	&
 
 rsync --recursive --links --times --itemize-changes \
+	site-config/dice3.service cac2:/lib/systemd/system/ \
+	&
+
+rsync --recursive --links --times --itemize-changes \
 	⚀/dice.node.js cac2:/opt/ddr0.ca/⚀/ \
 	&
 
 rsync --recursive --links --times --itemize-changes \
 	⚁/dice.node.js cac2:/opt/ddr0.ca/⚁/ \
+	&
+
+rsync --recursive --links --times --itemize-changes \
+	⚂/dice.node.js cac2:/opt/ddr0.ca/⚂/ \
 	&
 
 rsync --recursive --links --times --itemize-changes \

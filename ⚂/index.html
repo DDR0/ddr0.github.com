@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en-IE">
+	<head>
+		<meta charset='utf-8'>
+		<title>Dice Roller</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+		<meta name="theme-color" content="#614c35">
+		<script src="/⚂/ws/socket.io.js"></script>
+		<script src="/⚂/index.js"></script>
+		<link href="/⚂/index.css" rel="stylesheet">
+	</head>
+	
+	<body>
+		<div id=content>
+			<div id=header>
+				<h1>Dice Roller</h1>
+				<sub>Multiplayer DnD Dice Simulator</sub>
+			</div>
+			<div id=app>
+				<label>
+					<input id=speak type=checkbox>
+					Speak Roll Results
+				</label>
+				<form id=roll-entry>
+					<label for=game>Game Name:</label> <input id=game>
+					<label for=name>Character Name:</label> <input id=name>
+					<label for=roll>Roll:</label> <input id=roll disabled autocomplete=off>
+					<button disabled title="Disabled; can not contact roll server.">roll</button>
+					<p>(eg.; <code>2d10 + 1 to hit</code>)</p>
+				</form>
+				<output for=roll-entry role=log aria-relevant=additions aria-live=polite>
+					<ul>
+						<!-- rolls go here -->
+						<li id=initial-connecting-message>Connecting to roll server…</li>
+					</ul>
+				</output>
+			</div>
+		</div>
+		<div id=status>
+			<div>Status: <span>loading…</span></div>
+			<p>Based on <a href="https://github.com/GreenImp">GreenImp's</a> <a href="https://github.com/GreenImp/rpg-dice-roller">RPG Dice Roller</a>. ❤</p>
+		</div>
+	</body>
+</html>

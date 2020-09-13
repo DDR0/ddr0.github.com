@@ -1,0 +1,118 @@
+html {
+	overflow-x: hidden;
+}
+
+body {
+	font-family: sans-serif;
+	min-height: 100vh;
+	margin: 0;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
+	text-size-adjust: 100%;
+	background-color: #795A33;
+	background-image: url('/⚁/Seamless_Brown_Leather_Texture.jpg'); /* From http://www.texturise.club/2014/02/seamless-brown-leather-texture-maps.html */
+	background-size: 50%;
+}
+
+#content {
+	flex-grow: 1;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+	align-items: center;
+}
+
+#header {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	background: rgba(255,255,255,0.8);
+	border: 2px dashed grey;
+	border-radius: 1ch;
+	padding: 2ch;
+	margin-top: 2em;
+}
+
+a {
+	color: black;
+}
+
+h1 {
+	margin: 0 0 0.3ch 0;
+}
+
+form {
+	display: grid;
+	grid-template-columns: repeat(3, max-content);
+}
+
+form > *:nth-child(1) { grid-row: 1; grid-column: 1; }
+form > *:nth-child(2) { grid-row: 1; grid-column: 2; }
+form > *:nth-child(3) { grid-row: 2; grid-column: 1; }
+form > *:nth-child(4) { grid-row: 2; grid-column: 2; }
+form > *:nth-child(5) { grid-row: 3; grid-column: 1; }
+form > *:nth-child(6) { grid-row: 3; grid-column: 2; }
+form > *:nth-child(7) { grid-row: 3; grid-column: 3; }
+form > *:nth-child(8) { grid-row: 4; grid-column: 2; }
+
+form label {
+	text-align: right;
+}
+form > * {
+	margin: 3px;
+}
+form > input {
+	width: 10em;
+}
+form > button {
+	width: 8ch;
+}
+form > p {
+	margin-top: -3px;
+	font-size: 80%;
+}
+
+#app {
+	max-width: 30em;
+	margin: 2em;
+	
+	/*We can set border and background-color to #FEE0A0, so that if the image
+	doesn't load we still have a nice box to put our text on. ~However~, if the
+	background is solid, then the border-image scroll has the same solid
+	background - even if we specify the border-color to be transparent, because
+	the border-image sets the border-color width to 0 when it loads. Basically —
+	ha ha, CSS says no, so just set them to both transparent so it's not an ugly
+	white-on-black affair.*/
+	border: 50px solid transparent;
+	background-color: transparent;
+	border-image: url('/⚁/hiclipart.com scroll 1.png') 25% fill;
+	
+	filter: drop-shadow(-2px 4px 10px rgba(0,0,0,0.6));
+}
+
+output {
+	font-family: cursive;
+}
+
+#status {
+	--status-padding: 1ex;
+	align-self: flex-end;
+	width: calc(100% - var(--status-padding)*3);
+	padding: var(--status-padding) calc(var(--status-padding)*1.5);
+	display: flex;
+	justify-content: space-between;
+	background: rgba(255,255,255,0.2);
+	border: 0px ridge grey;
+	border-top-width: 2px;
+}
+
+#status > * {
+	margin: 0;
+}
+
+.roll-error {
+	color: #555;
+	font-style: italic;
+}

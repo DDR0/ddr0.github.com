@@ -33,6 +33,8 @@ io.on('connection', socket => {
 	socket.join(room)
 	
 	socket.on('ready', () => {
+		if (!room) { return }
+		
 		for (const results of history[room]) {
 			socket.emit('roll', {data:results, isHistorical:true})
 		}

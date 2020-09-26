@@ -172,7 +172,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
 	}
 	
 	//If the game changes, 
-	game.addEventListener('change', evt=>{
+	game.addEventListener('keyup', evt=>{
 		console.log('entered', evt.target.value)
 		socket.emit('room', evt.target.value)
 		

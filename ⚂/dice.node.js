@@ -30,6 +30,7 @@ const setResponseHeader = (req, res) => {
 const commentRegex = /[^\d!?})\] ][^\d]*$/ //Comments are everything after the numbers. Must not start with a symbol.
 io.on('connection', socket => {
 	let room = '' //The room we are in.
+	socket.join(room)
 	
 	socket.on('ready', () => {
 		for (const results of history[room]) {
@@ -45,6 +46,8 @@ io.on('connection', socket => {
 		socket.leave(room)
 		socket.join(nextRoom)
 		room = nextRoom
+		
+		if (!room) { return }
 		
 		for (const results of history[room]) {
 			socket.emit('roll', {data:results, isHistorical:true})

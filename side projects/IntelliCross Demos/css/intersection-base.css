@@ -1,0 +1,290 @@
+@font-face {
+	font-family: "Roboto";
+	src: local('Roboto'),
+	     local('Roboto.ttf'),
+	     url("../fonts/Roboto/Roboto-Regular.ttf") format("truetype");
+}
+
+html {
+	overflow-x: hidden;
+	font-family: 'Roboto', sans-serif;
+	
+	/*Disable font boosting.*/
+	text-size-adjust: none;
+	-ms-text-size-adjust: none;
+	-webkit-text-size-adjust: none;
+	-moz-text-size-adjust: none;
+}
+
+body {
+	margin: 0;
+}
+
+h1, h2, h3, label>h2, label>h3 {
+	color: #333;
+	font-family: sans-serif;
+	margin-top: 0;
+}
+h1, label>h1 { font-size: 2rem; }
+h2, label>h2 { font-size: 1.5rem; }
+h3, label>h3 { font-size: 1.25rem; }
+
+div[row] {
+	display: flex;
+	flex-direction: row;
+}
+div[column] {
+	display: flex;
+	flex-direction: column;
+}
+
+#skip-nav {
+	position: absolute;
+	top: 0;
+	left: -10000px;
+}
+
+
+
+/****************\
+⎸   Header Bar   ⎹
+\****************/
+
+#content-header {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	width: 100%;
+	align-items: center;
+	border-bottom: 1px solid black;
+	z-index: 3;
+	background: white;
+}
+
+#content-header img {
+	height: 2em;
+}
+
+#content-header img,
+#content-header button {
+	margin: 5px;
+}
+
+
+/*Menu for menu button.*/
+#header-menu {
+	display: flex;
+	flex-direction: column;
+	position: absolute;
+	top: 2.9rem; right: 5px; /*Fill these in later.*/
+	border: 1px solid black;
+	background: white;
+	transition: transform 0.15s cubic-bezier(0.33, 1, 0.68, 1);
+	width: 150px;
+	background: white;
+	z-index: 2;
+}
+
+#header-menu > * {
+	padding: 0.5rem;
+	color: black;
+	text-decoration: none;
+}
+
+/*Menu for menu button.*/
+#header-menu[hidden] {
+	/*transform: translateX(160px);*/
+	transform: translateY(-310px);
+}
+
+#header-menu > *:hover {
+	background-color: #CCC;
+}
+
+
+
+/********************\
+⎸   Content Panels   ⎹
+\********************/
+
+#content-holder {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+#content-pane {
+	display: flex;
+	justify-content: center;
+}
+
+#content-pane > * > div {
+	display: flex;
+	flex-direction: column;
+	flex-wrap: wrap;
+}
+
+#push-settings {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+}
+
+section {
+	display: flex;
+	flex-direction: column;
+	margin: calc(5mm + 1vw);
+	background: white;
+	padding: 1rem;
+}
+
+section > * {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+}
+
+section > div {
+	margin: 1mm 0;
+}
+
+/*Single-column mode for slender screens.*/
+@media all and (max-width: 6.5in) {
+	#content-pane {
+		flex-direction: column;
+	}
+	
+	section,
+	#push-settings,
+	#push-settings > section {
+		width: calc(100vw - 2in);
+		max-width: 3.2in;
+	}
+	
+	#push-settings {
+		flex-direction: column;
+	}
+	
+	content-pane > div {
+		align-items: center;
+	}
+	
+}
+
+#intersection-buttons {
+	display: none;
+}
+
+#sound-settings, #push-settings {
+	align-items: flex-start;
+}
+
+#button-selection {
+	position: sticky;
+	top: -0.9in;
+}
+@media all and (max-height: 5in) {
+	#button-selection {
+		position: static;
+	}
+}
+
+#button-selection a {
+	height: 0.5ex;
+	align-self: flex-end;
+	z-index: 1;
+}
+
+#intersection-button-group-selection {
+	width: 15em;
+}
+#intersection-button-group-selection input { display: none; }
+#intersection-button-group-selection label {
+	cursor: pointer;
+	background: transparent;
+	user-select: none;
+	border-radius: 1ex;
+	transform: scale(1.00);
+}
+#intersection-button-group-selection label.selected {
+	background: rgba(0,20,255, 0.23170734);
+	transform: scale(1.05);
+	transition: transform 0.15s cubic-bezier(0.175, 0.885, 0.32, 2);
+}
+
+
+
+/*********************\
+⎸   Labels & Inputs   ⎹
+\*********************/
+
+label {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	color: #444;
+	font-size: 0.9rem;
+	padding: 0.5mm 1mm;
+}
+
+label.inline {
+	flex-direction: row;
+	align-items: center;
+}
+
+label > * {
+	color: black;
+	font-size: 1rem;
+}
+
+input {
+	font-size: 1rem;
+}
+
+input:not([type]) { /*ie, text*/
+	max-width: 7.5em;
+}
+
+input[type=number] {
+	max-width: 3em;
+}
+
+select[multiple] {
+	overflow-y: auto;
+}
+
+
+#playlist-script {
+	width: 17em;
+}
+
+#playlist-script button {
+	border-radius: 50%;
+	border: 1px solid black;
+	background: white;
+	width: 4ex;
+	height: 4ex;
+	cursor: pointer;
+	padding: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	transition: background 0.5s cubic-bezier(0.25, 1, 0.5, 1),
+	            transform 0.1s;
+}
+
+#playlist-script button:focus {
+	transform: scale(1.05);
+}
+
+#playlist-script button:hover {
+	background: #EEE;
+	transform: scale(1.05);
+}
+
+#playlist-script button:active {
+	background: rgba(0,20,255, 0.23170734);
+	color: inherit;
+	transform: scale(0.95);
+	transition: all 0s;
+}

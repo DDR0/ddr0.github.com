@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang='en'>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+		<title>4-Way Intersection - IntelliCross - DEMO</title>
+		<link href="css/intersection-base.css" rel="stylesheet">
+		<link href="css/flying-rectangles.css" rel="stylesheet">
+		<!-- <link href="css/novax.css" rel="stylesheet"> -->
+		<script async defer src="js/intersection.js"></script>
+		<!-- <meta name="theme-color" content="#00677D"> -->
+	</head>
+	<body>
+		<a href="#content" id="skip-nav">skip nav</a>
+		<div id="content-holder">
+			<div id="content-header" aria-hidden="true">
+				<img alt='IntelliCross' src='Novax-black.webp'>
+				Status: Logged In
+				<button class="menu-button">Menu ≡</button>
+			</div>
+			<div id="header-menu" hidden>
+				<a href="/file.html">File</a>
+				<a href="/connect.html">Connect</a>
+				<a href="/id.html">ID Buttons</a>
+				<a href="/fw.html">FW Version</a>
+				<a href="/save.html">Save To Device</a>
+				<a href="/read.html">Read From Device</a>
+				<a href="/tools.html">Tools</a>
+				<a href="/help.html">Help</a>
+			</div>
+			
+			<a name="content"></a>
+			<div id="content-pane">
+				<div column>
+					<div id="button-selection">
+						<section>
+							<h2>Buttons To Edit</h2>
+							<a href="intersection-edit.html">edit</a>
+							<label for="intersection-buttons">
+								<!-- Include svg as iframe'd document because we need JS execution for the buttons and it's too long to import wholesale right now. (The actual product will have it inline.) -->
+								<iframe src="intersection-diagram.svg" width=208 height=220 frameborder=0></iframe>
+								<select multiple id="intersection-buttons">
+								  <option value=1>1</option>
+								  <option value=2>2</option>
+								  <option value=3>3</option>
+								  <option value=4>4</option>
+								  <option value=5>5</option>
+								  <option value=6>6</option>
+								  <option value=7>7</option>
+								  <option value=8>8</option>
+								</select>
+							</label>
+							<div id="intersection-button-group-selection">
+								<label>
+									<input type="radio" name="intersection-button-group" value="all">
+									All Buttons
+								</label>
+								<label class=selected>
+									<input checked type="radio" name="intersection-button-group" value="north-south">
+									North-South
+								</label>
+								<label>
+									<input type="radio" name="intersection-button-group" value="east-west">
+									East-West
+								</label>
+							</div>
+							<label id="phase-select">
+								<h2>Phase To Edit</h2>
+								<select>
+								  <option value="walk">walk</option>
+								  <option value="ped clear">ped clear</option>
+								  <option value="short push">short push</option>
+								  <option value="long push">long push</option>
+								  <option value="don't walk">don't walk</option>
+								</select>
+							</label>
+						</section>
+					</div>
+				</div>
+				
+				<div column>
+					<div id="phase-audio">
+						<section>
+							<h2>Button Audio</h2>
+							<label>Playlist
+								<select multiple id="sound">
+								  <option value="/foo/bar/howard.mp3" selected>Howard (1s)</option>
+								  <option value="/foo/bar/walk-sign-on.mp3">Walk Sign Is On To Cross (1.2s)</option>
+								  <option value="D://percussive-tone.mp3">Percussive Tone (0.5s)</option>
+								</select>
+							</label>
+							<div row>
+								<button class="add">➕</button>
+								<button class="remove">➖</button>
+							</div>
+							<div row id="playlist-script">
+								<label class=inline>Audio Script:&nbsp <input list="audio-script-components"></label>
+								<datalist id="audio-script-components">
+									<option value="1">
+									<option value="2">
+									<option value="3">
+									<option value="4">
+									<option value=", ">
+									<option value="(">
+									<option value=")x">
+								</datalist>
+								<button>?</button>
+							</div>
+						</section>
+					</div>
+					
+					
+					<div id="sound-settings">
+						<section id="sound-clip">
+							<h3>Sound Settings</h3>
+							
+							<div>
+								<label>Audio Clip <input type=file></label>
+								<label>Output Device
+									<select>
+										<option value="button">Button</option>
+										<option value="overhead">Overhead</option>
+										<option value="both">Both</option>
+									</select>
+								</label>
+							</div>
+							
+							<div>
+								<label>Period <span><input type=number min=0 step=0.1>s</span></label>
+								<label>Duration <span><input type=number min=0 step=0.1>s</span></label>
+							</div>
+						</section>
+						
+						<div id="push-settings">
+							<section id="short-push">
+								<h3>Short&nbspPush&nbspSettings</h3>
+								
+								<div>
+									<label class="max">Max Volume <span><input type=number min=0 max=100 step=5 value=100>%</span></label>
+									<label class="min">Min Volume <span><input type=number min=0 max=100 step=5 value=50>%</span></label>
+									<label class="evening-max">Evening Max <span><input type=number min=0 max=100 step=5 value=90>%</span></label>
+								</div>
+								
+								<div>
+									<label>Gain <span><input type=number min=0 max=20 step=0.1 value=0>%</span></label>
+								</div>
+							</section>
+							
+							<section id="long-push">
+								<h3>Long&nbspPush&nbspSettings</h3>
+								
+								<div>
+									<label class="max">Max Volume <span><input type=number min=0 max=100 step=5 value=100>%</span></label>
+									<label class="min">Min Volume <span><input type=number min=0 max=100 step=5 value=50>%</span></label>
+									<label class="evening-max">Evening Max <span><input type=number min=0 max=100 step=5 value=90>%</span></label>
+								</div>
+								
+								<div>
+									<label>Gain <span><input type=number min=0 max=20 step=0.1 value=5>%</span></label>
+								</div>
+							</section>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

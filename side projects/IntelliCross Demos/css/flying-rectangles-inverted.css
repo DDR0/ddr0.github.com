@@ -1,0 +1,41 @@
+@font-face {
+	font-family: "robotesqa";
+	src: local('robotesqa-4f'),
+	     local('robotesqa-4f.ttf'),
+	     url("../fonts/robotesqa-4f.ttf") format("truetype");
+}
+
+html {
+	filter: invert();
+	background: black; /*Firefox has lag when scrolling, with the filter, so we paint the background black so it's less noticable.*/
+}
+
+#content-header {
+	border-bottom: 1px solid #0c6aa2;
+}
+
+#content-holder {
+	background-image: url('../line-bg.svg');
+	background-attachment: fixed;
+	background-size: cover;
+	background-position: center;
+}
+
+section {
+	border: 1px solid #0c6aa2;
+}
+
+h1, h2, h3, label>h2, label>h3 {
+	color: #009fff;
+	font-family: robotesqa;
+	margin-top: 0;
+	text-shadow: 0px 0px 5px rgba(62, 255, 175, 0.7);
+}
+
+#intersection-button-group-selection label.selected {
+    background: rgba(61, 145, 234, 0.77);
+}
+
+#phase-select h2 {
+	margin-top: 1rem;
+}

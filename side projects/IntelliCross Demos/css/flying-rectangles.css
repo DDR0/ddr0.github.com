@@ -1,0 +1,10 @@
+body {
+	background-image: url('../line-bg.svg');
+	background-attachment: fixed;
+	background-size: cover;
+	background-position: center;
+}
+
+section {
+	border: 1px solid grey;
+}

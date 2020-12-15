@@ -1,7 +1,7 @@
 # Fragment for NGINX "default" server, which serves the bulk of the website.
 # Some stuff gets proxied to Node scripts, some stuff doesn't get served at all.
 
-# Use like `include /etc/nginx/default/ddr0` in the default block of the server.
+# Use like `include /etc/nginx/site-fragments/ddr0;` in the default block of the server.
 
 #root /var/www/html;
 index index.html;

@@ -7,7 +7,7 @@ rsync --recursive --links --times --itemize-changes \
 	&
 
 rsync --recursive --links --times --itemize-changes \
-	site-config/ddr0 cac2:/etc/nginx/default/ddr0 \
+	site-config/ddr0 cac2:/etc/nginx/site-fragments/ddr0 \
 	&
 
 rsync --recursive --links --times --itemize-changes \

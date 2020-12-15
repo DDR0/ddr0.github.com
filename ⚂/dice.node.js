@@ -93,12 +93,12 @@ io.on('connection', socket => {
 		try {
 			rollResult = new DiceRoll(input.replace(/\s/gu, ''))
 		} catch (err) {
-			notation = rollResult ? rollResult.notation : input+comment
+			const notation = rollResult ? rollResult.notation : input+comment
 			socket.emit('roll_error', { type:'parse', id, input: notation })
 			return console.log(`roll for ${name} failed to parse "${input+comment}" (${id})`)
 		}
 		if (!rollResult.rolls[0]) {
-			notation = rollResult ? rollResult.notation : input+comment
+			const notation = rollResult ? rollResult.notation : input+comment
 			socket.emit('roll_error', { type:'parse', id, input: notation })
 			return console.log(`roll for ${name} failed to parse "${input+comment}" (${id})`)
 		}

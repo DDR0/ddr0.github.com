@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
 		$('#status span').textContent = "Connected"
 		for (let elem of document.querySelectorAll('#roll-entry input, #roll-entry button')) {
 			elem.disabled = false
+			elem.removeAttribute('placeholder')
 		}
 		$('#roll-entry button').removeAttribute('title')
 		
@@ -26,6 +27,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
 		$('#status span').textContent = "Not Connected; Offline"
 		for (let elem of document.querySelectorAll('#roll-entry input, #roll-entry button')) {
 			elem.disabled = true
+			elem.removeAttribute('placeholder')
 		}
 		$('#roll-entry button').setAttribute('title',
 			"Disabled; can not contact roll server.")

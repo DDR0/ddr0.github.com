@@ -24,8 +24,9 @@ ${include('site shell intro.html.frag.js', {
 				<section>
 					<a href="https://www.krontech.ca/"><img width=300 height=300 class="cover right" src="images/gallery/chronos-2.png"></a>
 					<h2>Chronos UI & Web API</h2>
-					<p>I was responsible for the Chronos UI and accompanying web API between 2018 and 2020. During my employment at Krontech, I redesigned the UI and reimplemented it so as to accept arbitrary updates from the web API. The update was generally well-received, and can be applied to your camera by following the instructions on <a href="http://forum.krontech.ca/index.php?topic=531.msg2999#msg2999">the forum release thread</a>.</p>
-					<p>A picture of <a href="images/gallery/chronos-1.png">the new UI</a> is also available. Compare with this screen from <a href="images/gallery/chronos-3.png">the original one</a>.</p>
+					<p>Between 2018 and 2020 I worked on the Chronos High-Speed Camera, from <a href="https://krontech.ca">Kron Technologies</a>. Among other jobs, I redesigned the camera's UI and added a remote-control web API to it. The update was generally well-received, and can be applied to your camera by following the instructions on <a href="http://forum.krontech.ca/index.php?topic=531.msg2999#msg2999">the forum release thread</a>.</p>
+					<p>A picture of <a href="images/gallery/chronos-1.png">the new UI</a> is also available. (Compare with this screen from <a href="images/gallery/chronos-3.png">the original one</a>.)</p>
+					<p>I also worked on the Chronos Ring, a loop of 100 cameras, as seen on <a href="https://www.youtube.com/watch?v=qPvpl91jIvc">Beyond the Press</a>.
 				</section>
 				<hr>
 				

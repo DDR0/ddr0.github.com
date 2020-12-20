@@ -32,6 +32,7 @@ body {
 	border: 0.4mm dashed #e6a280;
 	border-radius: 1ch;
 	padding: 2ch;
+	padding-top: 1.25ch;
 	margin-top: 2em;
 	color: #d9beae;
 	box-shadow: 0px 0px 1px 1px rgba(0,0,0,0.5);

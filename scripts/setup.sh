@@ -1,6 +1,7 @@
 #!/bin/bash
 
 #First, update DNS if needed. We will need it for certs, but we can use ip for everything else.
+#(Also make sure the packages and everything are up to date.)
 
 #after ssh-copy-id «target», run on target:
 apt update
@@ -31,6 +32,8 @@ snap install core; snap refresh core
 snap install --classic certbot
 ln -s /snap/bin/certbot /usr/bin/certbot
 certbot --nginx
+
+#Add `http2` to the lines specifying to listen on port 443 to /etc/nginx/sites-available/default
 
 systemctl enable dice.service
 systemctl enable dice2.service

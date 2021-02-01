@@ -26,9 +26,8 @@
     "express": "^4.17.1",
     "math-expression-evaluator": "^1.2.22",
     "roll-parser": "^2.3.2",
-    "rpg-dice-roller": "Anything newer needs node >= 11, and we have 10 on Ubuntu stable.",
     "rpg-dice-roller": "~3.0.1",
-    "socket.io": "^2.3.0",
+    "socket.io": "^2.4.0",
     "sse-pubsub": "^1.3.0"
   },
   "devDependencies": {

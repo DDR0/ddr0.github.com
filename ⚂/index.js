@@ -163,22 +163,27 @@ document.addEventListener("DOMContentLoaded", ()=>{
 	
 	//Read game name in from URL if it's there. Otherwise use the autofilled value.
 	const game = $('#game')
+	let gameSwitchFinalised = true //Gets set to false when game name is being edited, so we can replace the most recent browser history rather than appending a new entry as we type.
 	syncGameName()
 	addEventListener('popstate', syncGameName)
 	socket.on('reconnect', syncGameName)
 	function syncGameName() {
-		game.value = new URLSearchParams(window.location.search).get('room') || game.value
+		game.value = new URLSearchParams(location.search).get('room') || game.value
 		console.log('entered', game.value)
 		socket.emit('room', game.value)
 		document.title = `Dice Roller${game.value?' – ':''}${game.value}`
 	}
 	
-	//If the game changes, 
+	//When the game name changes, update:
+	//	- the game we're subscribed to via websockets
+	//	- the window title
+	//	- the window's history, so back/forward navigation works
+	game.addEventListener('change', ()=>{gameSwitchFinalised = true})
 	game.addEventListener('keyup', evt=>{
 		console.log('entered', evt.target.value)
 		socket.emit('room', evt.target.value)
 		
-		const newUrl = new URL(window.location)
+		const newUrl = new URL(location)
 		const newSearch = new URLSearchParams(newUrl.search)
 		if (evt.target.value != newSearch.get('room')) {
 			document.title = `Dice Roller${evt.target.value?' – ':''}${evt.target.value}`
@@ -187,13 +192,20 @@ document.addEventListener("DOMContentLoaded", ()=>{
 				? newSearch.set('room', evt.target.value)
 				: newSearch.delete('room')
 			newUrl.search = newSearch
-			window.history.pushState({}, document.title, newUrl.toString())
+			if(gameSwitchFinalised) {
+				window.history.pushState({}, document.title, newUrl.toString())
+				gameSwitchFinalised = false
+			} else {
+				window.history.replaceState({}, document.title, newUrl.toString())
+			}
 			
 			$('#app output ul').innerHTML='' //Clear results from old room.
 		} else {
-			console.log('Already in room.')
+			console.info('Already in room.')
 		}
 	})
+	
+	
 	
 	$('#roll').addEventListener('keydown', evt => {
 		if (event.key === "ArrowUp") {

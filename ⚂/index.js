@@ -170,7 +170,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
 		game.value = new URLSearchParams(window.location.search).get('room') || game.value
 		console.log('entered', game.value)
 		socket.emit('room', game.value)
-		document.title = `Dice Roller - ${game.value}`
+		document.title = `Dice Roller${game.value?' – ':''}${game.value}`
 	}
 	
 	//If the game changes, 
@@ -181,7 +181,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
 		const newUrl = new URL(window.location)
 		const newSearch = new URLSearchParams(newUrl.search)
 		if (evt.target.value != newSearch.get('room')) {
-			document.title = `Dice Roller - ${evt.target.value}`
+			document.title = `Dice Roller${evt.target.value?' – ':''}${evt.target.value}`
 			
 			evt.target.value
 				? newSearch.set('room', evt.target.value)
@@ -190,7 +190,6 @@ document.addEventListener("DOMContentLoaded", ()=>{
 			window.history.pushState({}, document.title, newUrl.toString())
 			
 			$('#app output ul').innerHTML='' //Clear results from old room.
-			
 		} else {
 			console.log('Already in room.')
 		}

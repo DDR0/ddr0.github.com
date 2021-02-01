@@ -7,12 +7,15 @@
 index index.html;
 gzip_types text/plain text/css image/svg+xml application/xml application/javascript image/gif;
 
-#Set up CSP for use later.
+#Set up CSP for use later. Use CSP_REPORT in conjunction with REPORT_TO and NEL.
 set $CSP_BASE   "default-src 'self'; object-src 'none'";
+set $CSP_REPORT "report-uri https://ddr0.report-uri.com/r/d/csp/enforce; report-to default";
 set $CSP_SCRIPT "script-src 'self' 'unsafe-inline' 'unsafe-eval'";
 set $CSP_IMG    "img-src 'self' data:";
 set $CSP_STYLE  "style-src 'self' 'unsafe-inline'";
-
+#Use https://report-uri.com to, well, gather reports. (NEL, network logging, is experimental.)
+set $REPORT_TO  '{"group":"default","max_age":2628000,"endpoints":[{"url":"https://ddr0.report-uri.com/a/d/g"}],"include_subdomains":true}';
+set $NEL        '{"report_to":"default","max_age":31536000,"include_subdomains":true}';
 
 # Allow access for letsencrypt/certbot.
 location ~ /\.well-known { 
@@ -63,7 +66,9 @@ location ~ /⚂/ws {
 
 location = /gallery.html {
 	set $SCRIPTS "https://code.jquery.com/jquery-2.0.0.min.js https://code.createjs.com/preloadjs-0.3.0.min.js";
-	add_header Content-Security-Policy "${CSP_BASE}; ${CSP_SCRIPT} ${SCRIPTS}; ${CSP_IMG}; ${CSP_STYLE}";
+	add_header Content-Security-Policy "${CSP_BASE}; ${CSP_REPORT}; ${CSP_SCRIPT} ${SCRIPTS}; ${CSP_IMG}; ${CSP_STYLE}";
+	add_header Report-To "${REPORT_TO}";
+	add_header NEL "${NEL}";
 }
 
 location ~ "^/cube trains/.*\.html$" {
@@ -71,7 +76,9 @@ location ~ "^/cube trains/.*\.html$" {
 	set $MIXPANEL_SCRIPTS "https://api.mixpanel.com";
 	set $CSP_FRAME "frame-src https://www.youtube.com https://w.soundcloud.com";
 	set $CSP_CONNECT "connect-src ${MIXPANEL_SCRIPTS}";
-	add_header Content-Security-Policy "${CSP_BASE}; ${CSP_SCRIPT} ${MIXPANEL_SCRIPTS}; ${CSP_IMG} ${PAYPAL_IMG}; ${CSP_STYLE}; ${CSP_FRAME}; ${CSP_CONNECT}";
+	add_header Content-Security-Policy "${CSP_BASE}; ${CSP_REPORT}; ${CSP_SCRIPT} ${MIXPANEL_SCRIPTS}; ${CSP_IMG} ${PAYPAL_IMG}; ${CSP_STYLE}; ${CSP_FRAME}; ${CSP_CONNECT}";
+	add_header Report-To "${REPORT_TO}";
+	add_header NEL "${NEL}";
 }
 
 location / {
@@ -81,36 +88,48 @@ location / {
 	
 	#We should switch to a better cache-control scheme, where content gets hashed.
 	add_header Cache-Control "max-age=900";
-	add_header Content-Security-Policy "${CSP_BASE}; ${CSP_SCRIPT}; ${CSP_IMG}; ${CSP_STYLE}";
+	add_header Content-Security-Policy "${CSP_BASE}; ${CSP_REPORT}; ${CSP_SCRIPT}; ${CSP_IMG}; ${CSP_STYLE}";
 	add_header Content-Type "text/html; charset=utf-8";
+	add_header Report-To "${REPORT_TO}";
+	add_header NEL "${NEL}";
 }
 
 location ~ "^/.*\.html$" {
 	add_header Cache-Control "max-age=900";
-	add_header Content-Security-Policy "${CSP_BASE}; ${CSP_SCRIPT}; ${CSP_IMG}; ${CSP_STYLE}";
+	add_header Content-Security-Policy "${CSP_BASE}; ${CSP_REPORT}; ${CSP_SCRIPT}; ${CSP_IMG}; ${CSP_STYLE}";
 	add_header Content-Type "text/html; charset=utf-8";
+	add_header Report-To "${REPORT_TO}";
+	add_header NEL "${NEL}";
 }
 
 #Fix web worker imports in https://ddr0.ca/editabled/fullscreen.html not working because CSP is being applied relative to them.
 location ~ "^/.*\.js$" {
 	add_header Cache-Control "max-age=900";
-	add_header Content-Security-Policy "default-src 'none'; script-src 'self'";
+	add_header Content-Security-Policy "default-src 'none'; script-src 'self'; ${CSP_REPORT}";
+	add_header Report-To "${REPORT_TO}";
+	add_header NEL "${NEL}";
 }
 
 #Fix web worker imports in https://ddr0.ca/editabled/fullscreen.html not working because CSP is being applied relative to them.
 location ~ "^/.*\.svg$" {
 	add_header Cache-Control "max-age=900";
-	add_header Content-Security-Policy "default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'";
+	add_header Content-Security-Policy "default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; ${CSP_REPORT}";
+	add_header Report-To "${REPORT_TO}";
+	add_header NEL "${NEL}";
 }
 
 #RSS feeds are the only XML we have on site.
 location ~ "^/.*\.xml$" {
-	add_header Cache-Control "max-age=900";
-	add_header Content-Security-Policy "${CSP_BASE}; ${CSP_SCRIPT}; ${CSP_IMG}; ${CSP_STYLE}";
 	types { } default_type "application/rss+xml; charset=utf-8";
+	add_header Cache-Control "max-age=900";
+	add_header Content-Security-Policy "${CSP_BASE}; ${CSP_REPORT}; ${CSP_SCRIPT}; ${CSP_IMG}; ${CSP_STYLE}";
+	add_header Report-To "${REPORT_TO}";
+	add_header NEL "${NEL}";
 }
 
 location ~ "^/.*\.*$" {
 	add_header Cache-Control "max-age=900";
-	add_header Content-Security-Policy "default-src 'none'";
+	add_header Content-Security-Policy "default-src 'none'; ${CSP_REPORT}";
+	add_header Report-To "${REPORT_TO}";
+	add_header NEL "${NEL}";
 }

@@ -41,18 +41,19 @@ io.on('connection', socket => {
 	})
 	
 	socket.on('room', nextRoom => {
-		nextRoom = nextRoom.trim().toLowerCase()
+		nextRoom = nextRoom.trim().toLocaleLowerCase()
 		console.info('game room', room, '→', nextRoom)
 		if (nextRoom == room) { return }
+		socket.emit('room change', {from: room, to: nextRoom})
 		
 		socket.leave(room)
 		socket.join(nextRoom)
 		room = nextRoom
 		
-		if (!room) { return }
-		
-		for (const results of history[room]) {
-			socket.emit('roll', {data:results, isHistorical:true})
+		if (room) { //Don't send history for the main page, to prevent abuse.
+			for (const results of history[room]) {
+				socket.emit('roll', {data:results, isHistorical:true})
+			}
 		}
 	})
 	

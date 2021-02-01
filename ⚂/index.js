@@ -90,6 +90,11 @@ document.addEventListener("DOMContentLoaded", ()=>{
 		}
 	});
 	
+	//Clear stale roles when the room is changed.
+	socket.on('room change', ()=>{
+		$('#app output ul').textContent = ''
+	})
+	
 	
 	if (!window['speechSynthesis']) {
 		$('#speak').parentNode.remove()

@@ -28,7 +28,6 @@ const setResponseHeader = (req, res) => {
 	res.header('Vary', 'Origin')
 }
 
-const commentRegex = /[^\d!?})\] ][^\d]*$/ //Comments are everything after the numbers. Must not start with a symbol.
 io.on('connection', socket => {
 	let room = '' //The room we are in.
 	socket.join(room)
@@ -81,13 +80,46 @@ io.on('connection', socket => {
 			return console.log(`no name given (${id})`)
 		}
 		
-		//Slice comment off input.
-		const commentMatch = commentRegex.exec(input);
-		let comment = ''
-		if (commentMatch) {
-			comment = input.slice(commentMatch.index)
-			input = input.slice(0, commentMatch.index)
+		//Split the comment off the roll notation.
+		comment_start:
+		for (var comment_start = 0; comment_start < input.length; comment_start++) {
+			console.log('a', {
+				l: input[comment_start],
+				comment_start, 
+				icca: input.charCodeAt(comment_start), 
+				ws: /\s/u.test(input[comment_start]),
+			})
+			
+			//Roll formulas can *only* contain basic ASCII characters.
+			//If we've got anything else, we must have hit a comment.
+			if (input.charCodeAt(comment_start) >= 128) { break }
+			
+			//There must be whitespace separating the formula from the comment.
+			//If this character isn't whitespace, it isn't a comment.
+			if (!/\s/u.test(input[comment_start])) { continue }
+			
+			//So, after the whitespace, if two letters occur before another number,
+			//or a closing bracket of some sort, then we have hit a comment.
+			//(Ignore further whitespace and punctuation in this calculation.)
+			//Consider `{4d6 + 4}sd` vs `{4d6 + 4} sd`.
+			for (let char = comment_start+1, letters = 0; char < input.length; char++) {
+				console.log(' b', {
+					l: input[char],
+					char,
+					isanum: /\d|\}|\)|\]/u.test(input[char]),
+					isalet: /\w/u.test(input[char]),
+					letters,
+				})
+				if (input.charCodeAt(comment_start) >= 128) { break comment_start }
+				if (/\d|\}|\)|\]/u.test(input[char])) { break }
+				if (/\w/u.test(input[char])) {
+					if (++letters == 2) { break comment_start }
+				}
+			}
 		}
+		const comment = input.slice(comment_start).trim()
+		input = input.slice(0, comment_start).trim()
+		console.log({comment, input})
 		
 		let rollResult = null
 		try {

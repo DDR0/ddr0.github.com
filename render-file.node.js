@@ -14,8 +14,8 @@ const vm = require('vm')
 const fs = require('fs')
 
 
-const render = (filename, constants={}) =>
-	vm.runInContext(
+const render = (filename, constants={}) => {
+	const results = vm.runInContext(
 		fs.readFileSync(filename, {encoding:'utf8'}), 
 		vm.createContext({
 			require,
@@ -32,7 +32,12 @@ const render = (filename, constants={}) =>
 			filename,
 			timeout: 200,
 		}
-	).trim('\n')
-
+	)
+	if (typeof results === 'string') {
+		return results.trim('\n')
+	} else {
+		throw new Error(`Compilation failed, expected string got ${typeof results}`)
+	}
+}
 
 module.exports = render

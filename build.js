@@ -67,9 +67,12 @@ const findTasks = allFiles => {
 	const tasks = []
 	const addTask = task => {
 		if(task.input.length < 1) throw new Error('Task missing input file.')
-		else if(task.output.length < 1) throw new Error('Task missing output file.')
-		else if(!task.command instanceof Function) throw new Error('Task missing run command.')
-		else if(!task.name) throw new Error('Task missing name.')
+		if(task.output.length < 1) throw new Error('Task missing output file.')
+		if(!task.command instanceof Function) throw new Error('Task missing run command.')
+		if(!task.name) throw new Error('Task missing name.')
+		for (let file of task.input) {
+			if(task.output.includes(file)) throw new Error(`Task input in output. ("${file.name}" found in both.)`)
+		}
 		
 		tasks.push(task)
 	}
@@ -89,7 +92,7 @@ const findTasks = allFiles => {
 		addTask({
 			name: 'main html',
 			input: [input].concat(deps), output,
-			command: `./compile-template.node.js ${input.name} > ${output[0].name}`,
+			command: `./compile-template.node.js "${input.name}" > "${output[0].name}"`,
 		})
 	}
 	
@@ -123,7 +126,7 @@ const findTasks = allFiles => {
 		addTask({
 			name: 'rss xml',
 			input: [input].concat(deps), output,
-			command: `./compile-template.node.js ${input.name} > ${output[0].name}`,
+			command: `./compile-template.node.js "${input.name}" > "${output[0].name}"`,
 		})
 	}
 	
@@ -133,7 +136,7 @@ const findTasks = allFiles => {
 		addTask({
 			name: 'coffeescript',
 			input: [input].concat(deps), output,
-			command: `coffee --map --compile ${input.name}`,
+			command: `coffee --map --compile "${input.name}"`,
 		})
 	}
 	
@@ -143,7 +146,7 @@ const findTasks = allFiles => {
 		addTask({
 			name: 'css',
 			input: [input].concat(deps), output,
-			command: `node_modules/less/bin/lessc --source-map --math=strict ${input.name} ${output[0].name}`,
+			command: `node_modules/less/bin/lessc --source-map --math=strict "${input.name}" "${output[0].name}"`,
 		})
 	}
 	
@@ -170,7 +173,6 @@ const calculateRequirements = tasks => {
 		for (const prereq of task.prereqs) {
 			prereq.postreqs.push(task)
 		}
-		
 	}
 }
 
@@ -312,7 +314,7 @@ const watchForChanges = async (allFiles, tasks)=>{
 	
 	const watchers = Array.from(folders).map(folder =>
 		watch(folder, (event, file) => {
-			process.argv.includes('--print-events') && console.log(folder, event, file)
+			process.argv.includes('--print-events') && console.log({event, folder, file})
 			
 			if (event==='change' && file) {
 				fileChanged |= true

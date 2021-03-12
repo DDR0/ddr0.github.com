@@ -31,10 +31,13 @@ const entries = [
 			<title>${entry.title}</title>
 			<description>${entry.desc}</description>
 			<link>${entry.url}</link>
-			<guid isPermaLink='true'>${entry.url}</guid>
 			<source url="${entry.url}"></source>
+			<pubDate>${new Date(entry.date).toUTCString()}</pubDate>
 		</item>
 		`).join('')}
 	</channel>
 </rss>
 `
+
+//Note: removed <guid isPermaLink='true'>${entry.url}</guid> from
+//	<items>, gallery items are not currently uniquely referencable.

@@ -16,6 +16,10 @@ const {exit} = require('process')
 const MAX_SUBPROCESS_RUN_TIME_MS = 2000
 const REPEAT_BUILD_DEBOUNCE_MS = 10
 
+const HELP_MESSAGE = `build.js: Compile ddr0.ca.\n\nOptions:
+	--help: Show this message and exit.
+	--show-task[s][=task-name]: Print information and status of build steps.
+	--watch: Watch for changes. (Will [1mnot[0m reload the build script.)`
 
 const dump = (...args) => 
 	(console.error.apply(console, args), args.slice(-1)[0])
@@ -51,8 +55,12 @@ const scanTree = path => fs.readdir(path)
 
 
 const findTasks = allFiles => {
-	const filter = regex =>
-		allFiles.filter(file => regex.test(file.name))
+	const filter = pattern =>
+		allFiles.filter(
+			pattern instanceof RegExp
+				? (file => pattern.test(file.name))
+				: (file => pattern === file.name)
+		)
 	
 	const replace = (files, target, replacement) =>
 		files.map(file =>
@@ -282,10 +290,28 @@ const runAllTasks = async tasks => {
 	calculateRequirements(tasks) //Calculate the relations between the nodes of the dependancy tree.
 	markOutOfDate(tasks) //Re-marks tasks clean/dirty, useful when re-runnning.
 	
-	if (process.argv.includes('--show-tasks')) {
+	if (process.argv.find(a => a.match(/^-?-?help$/))) {
+		console.log(HELP_MESSAGE)
+		exit(0)
+	}
+	
+	let taskToShow = ''
+	let shownTasks = 0
+	if (process.argv.find(a => taskToShow=a.match(/^--show-tasks?(?:=(?<name>.+))?$/))) {
 		for (const task of tasks) {
-			console.log(task)
+			if(!taskToShow || task.name === taskToShow.groups.name) {
+				console.log(task)
+				shownTasks++
+			}
 		}
+	}
+	if (taskToShow && !shownTasks) {
+		console.log(`No task named ${
+			taskToShow.groups.name
+		} found. Available tasks:\n\t${
+			Array.from(tasks.reduce((a,b)=>a.add(b.name), new Set()).keys()).sort().join('\n\t')
+		}`)
+		exit(-2)
 	}
 	
 	if (!process.argv.includes('--watch')) {

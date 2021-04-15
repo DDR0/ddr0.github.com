@@ -1,5 +1,11 @@
+#!/bin/bash
+set -euo pipefail
+IFS=$'\n\t'
+
+REMOTE=media
+
 rsync --recursive --links --times --itemize-changes \
-	./ "cac2:/var/www/html/" \
+	./                    $REMOTE:/var/www/ddr0.ca/ \
 	--exclude=".*" \
 	--exclude="site-config" \
 	--exclude="*.node.js" \
@@ -7,35 +13,29 @@ rsync --recursive --links --times --itemize-changes \
 	&
 
 rsync --recursive --links --times --itemize-changes \
-	site-config/ddr0 cac2:/etc/nginx/site-fragments/ddr0 \
+	site-config/ddr0      $REMOTE:/etc/nginx/site-fragments/ddr0 \
+	&
+
+#The system folder isn't writable, can't create temp files so --inplace.
+rsync --recursive --links --times --itemize-changes \
+	--inplace \
+	site-config/*.service $REMOTE:/lib/systemd/system/ \
 	&
 
 rsync --recursive --links --times --itemize-changes \
-	site-config/dice.service cac2:/lib/systemd/system/ \
+	⚀/dice.node.js        $REMOTE:/opt/ddr0.ca/⚀/ \
 	&
 
 rsync --recursive --links --times --itemize-changes \
-	site-config/dice2.service cac2:/lib/systemd/system/ \
+	⚁/dice.node.js        $REMOTE:/opt/ddr0.ca/⚁/ \
 	&
 
 rsync --recursive --links --times --itemize-changes \
-	site-config/dice3.service cac2:/lib/systemd/system/ \
+	⚂/dice.node.js        $REMOTE:/opt/ddr0.ca/⚂/ \
 	&
 
 rsync --recursive --links --times --itemize-changes \
-	⚀/dice.node.js cac2:/opt/ddr0.ca/⚀/ \
-	&
-
-rsync --recursive --links --times --itemize-changes \
-	⚁/dice.node.js cac2:/opt/ddr0.ca/⚁/ \
-	&
-
-rsync --recursive --links --times --itemize-changes \
-	⚂/dice.node.js cac2:/opt/ddr0.ca/⚂/ \
-	&
-
-rsync --recursive --links --times --itemize-changes \
-	node_modules cac2:/opt/ddr0.ca/ \
+	node_modules           $REMOTE:/opt/ddr0.ca/ \
 	&
 
 wait

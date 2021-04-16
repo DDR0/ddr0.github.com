@@ -1,9 +1,8 @@
-ddr0.ca
-=======
+DDR0.ca Redirect Shell
+======================
 
-This is the website of DDR. Contributions, changes, and so on are welcomed. The site can be found live [ddr0.ca](https://ddr0.ca) or [ddr0.github.io](https://ddr0.github.io/).
+This branch contains redirects for Github Pages, maintained so existing links pointing to [ddr0.github.io](https://ddr0.github.io) get pointed to the live site which is on the main branch. That site can be found at [ddr0.ca](https://ddr0.ca).
 
-Building:
----------
+Github Pages was an important tool for me early on, since it made it easy to get started publishing my personal website. While I may have outgrown it, I am grateful to Github Pages for hosting me, my games, and my writing for over a decade.
 
-To compile the site, run `./build.js`, or `./build.js --watch`. You can install the dependancies with `make install-build-reqs`. Although the site can be served any way, I like to use `python3 -m http.server 8080`. (See [localhost:8080](http://localhost:8080).)
+Thank you.

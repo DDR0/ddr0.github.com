@@ -9,7 +9,7 @@
 
 <h3>The Code</h3>
 
-<script>
+<script>{
 	const getGPU = () => {
 		const ctx = document.createElement('canvas').getContext('webgl') 
 		const ext = ctx.getExtension('WEBGL_debug_renderer_info')
@@ -26,7 +26,7 @@
 	} catch (e) {
 		console.info("Graphics card test failed.", e)
 	}
-</script>
+}</script>
 
 <div class="code-container"
 >	<code>//Function to grab GPU data.</code>

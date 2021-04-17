@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang='en'>
+	<head>
+		<meta charset='utf-8'>
+		<title>Graphics_Card_Test</title>
+		<link href='/css/grey-and-blue.css' rel='stylesheet'>
+		<meta name="theme-color" content="#3377FF">
+		<link href='/css/blog.css' rel='stylesheet'>
+		<link rel="alternate" type="application/rss+xml" title="DDR's Blog" href="/blog-rss-feed.xml" />
+	</head>
+	<body>
+		<a href='#content' id='skip-nav'>skip nav</a>
+		<div id='content-holder'>
+			<div id="content-header">
+				<div id='badge'><a href="/blog.html"><img alt='' src='/images/icons/page.svg'></a></div>
+				<h1><img alt='blog' src='/images/text-blog.png'></h1>
+				<div id='icon-bar'>
+					<a href='/blog.html'    ><img src='/images/icons/page.svg' ><span>blog</span></a>
+					<a href='/gallery.html' ><img src='/images/icons/work.svg' ><span>gallery</span></a>
+					<a href='/contact.html' ><img src='/images/icons/chat2.svg'><span>contact</span></a>
+					<a href='/rss.xml'                                                               ><img src='/images/icons/rss.svg'  ><span>rss</span></a>
+				</div>
+			</div>
+			<a name='content'></a>
+			<div id='content-pane'>
+				<h2 id="Graphics-Card-Test"><a href="11.Graphics_Card_Test.html">Graphics Card Exposure Test</a></h2>
+				
+				<p>Sometimes, your graphics card's details are exposed to the web. <span id="graphics-card-test-output">Yours are not right now, though, which is good.</span> Try opening this page in different browsers – I found Chrome had much more information than Firefox, for example.</p>
+				
+				<h3>The Code</h3>
+				
+				<script>
+					const getGPU = () => {
+						const ctx = document.createElement('canvas').getContext('webgl') 
+						const ext = ctx.getExtension('WEBGL_debug_renderer_info')
+						return {
+							card: ctx.getParameter(ext.UNMASKED_RENDERER_WEBGL),
+							vendor: ctx.getParameter(ext.UNMASKED_VENDOR_WEBGL),
+						}
+					}
+					
+					try {
+						const gpu = getGPU()
+						document.getElementById('graphics-card-test-output')
+							.textContent = `For example, you are running ${gpu.vendor}'s ${gpu.card}.`
+					} catch (e) {
+						console.info("Graphics card test failed.", e)
+					}
+				</script>
+				
+				<div class="code-container"
+				>	<code>//Function to grab GPU data.</code>
+					<code>const getGPU = () => {</code>
+					<code>	const ctx = document.createElement('canvas').getContext('webgl') </code>
+					<code>	const ext = ctx.getExtension('WEBGL_debug_renderer_info')</code>
+					<code>	return {</code>
+					<code>		card: ctx.getParameter(ext.UNMASKED_RENDERER_WEBGL),</code>
+					<code>		vendor: ctx.getParameter(ext.UNMASKED_VENDOR_WEBGL),</code>
+					<code>	}</code>
+					<code>}</code>
+					<code></code>
+					<code>//Put the GPU data into the web page.</code>
+					<code>const gpu = getGPU()</code>
+					<code>document.getElementById('graphics-card-test-output')</code>
+					<code>	.textContent = `Yours is ${gpu.vendor}'s ${gpu.card}.`</code>
+				</div>
+			</div>
+		</div>
+	</body>
+	<footer>Site ©2021 DDR.</footer>
+</html>

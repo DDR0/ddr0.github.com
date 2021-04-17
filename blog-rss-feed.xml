@@ -5,7 +5,7 @@
 		<atom:id>https://ddr0.ca</atom:id>
 		<link>https://ddr0.ca/blog.html</link>
 		<description>Updates to DDR's Blog. Get notified of new posts!</description>
-		<atom:updated>2021-03-01T06:48:22.605Z</atom:updated>
+		<atom:updated>2021-04-17T18:50:24.567Z</atom:updated>
 		<atom:link href='https://ddr0.ca/blog.html'></atom:link>
 		<atom:link href='https://ddr0.ca/blog-rss-feed.xml' rel='self'></atom:link>
 		
@@ -90,6 +90,24 @@
 			<guid isPermaLink='true'>https://ddr0.ca/blog-posts/09.CSP_on_HTML_Assets.html</guid>
 			<source url="https://ddr0.ca/blog-posts/09.CSP_on_HTML_Assets.html"></source>
 			<pubDate>Mon, 21 Nov 2016 00:00:00 GMT</pubDate>
+		</item>
+		
+		<item>
+			<title>Moving Domains</title>
+			<description>Properly moving to DDR0.ca from Github Pages.</description>
+			<link>https://ddr0.ca/blog-posts/10.Moving_Domains.html</link>
+			<guid isPermaLink='true'>https://ddr0.ca/blog-posts/10.Moving_Domains.html</guid>
+			<source url="https://ddr0.ca/blog-posts/10.Moving_Domains.html"></source>
+			<pubDate>Thu, 15 Apr 2021 00:00:00 GMT</pubDate>
+		</item>
+		
+		<item>
+			<title>Graphics Card Exposure Test</title>
+			<description>Is your graphics card exposed to the web? Find out here.</description>
+			<link>https://ddr0.ca/blog-posts/11.Graphics_Card_Test.html</link>
+			<guid isPermaLink='true'>https://ddr0.ca/blog-posts/11.Graphics_Card_Test.html</guid>
+			<source url="https://ddr0.ca/blog-posts/11.Graphics_Card_Test.html"></source>
+			<pubDate>Sat, 17 Apr 2021 00:00:00 GMT</pubDate>
 		</item>
 		
 	</channel>

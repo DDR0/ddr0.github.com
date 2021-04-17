@@ -24,6 +24,90 @@
 			<a name='content'></a>
 			<div id='content-pane'>
 				<!--
+					published: 2021-04-17,
+					tags: webgl privacy demo,
+					desc: Is your graphics card exposed to the web? Find out here.,
+				-->
+				<h2 id="Graphics-Card-Test"><a href="blog-posts/11.Graphics_Card_Test.html">Graphics Card Exposure Test</a></h2>
+				
+				<p>Sometimes, your graphics card's details are exposed to the web. <span id="graphics-card-test-output">Yours are not right now, though, which is good.</span> Try opening this page in different browsers – I found Chrome had much more information than Firefox, for example.</p>
+				
+				<h3>The Code</h3>
+				
+				<script>
+					const getGPU = () => {
+						const ctx = document.createElement('canvas').getContext('webgl') 
+						const ext = ctx.getExtension('WEBGL_debug_renderer_info')
+						return {
+							card: ctx.getParameter(ext.UNMASKED_RENDERER_WEBGL),
+							vendor: ctx.getParameter(ext.UNMASKED_VENDOR_WEBGL),
+						}
+					}
+					
+					try {
+						const gpu = getGPU()
+						document.getElementById('graphics-card-test-output')
+							.textContent = `For example, you are running ${gpu.vendor}'s ${gpu.card}.`
+					} catch (e) {
+						console.info("Graphics card test failed.", e)
+					}
+				</script>
+				
+				<div class="code-container"
+				>	<code>//Function to grab GPU data.</code>
+					<code>const getGPU = () => {</code>
+					<code>	const ctx = document.createElement('canvas').getContext('webgl') </code>
+					<code>	const ext = ctx.getExtension('WEBGL_debug_renderer_info')</code>
+					<code>	return {</code>
+					<code>		card: ctx.getParameter(ext.UNMASKED_RENDERER_WEBGL),</code>
+					<code>		vendor: ctx.getParameter(ext.UNMASKED_VENDOR_WEBGL),</code>
+					<code>	}</code>
+					<code>}</code>
+					<code></code>
+					<code>//Put the GPU data into the web page.</code>
+					<code>const gpu = getGPU()</code>
+					<code>document.getElementById('graphics-card-test-output')</code>
+					<code>	.textContent = `Yours is ${gpu.vendor}'s ${gpu.card}.`</code>
+				</div>
+				
+				
+				
+				
+				
+				<hr>
+				
+				
+				
+				
+				
+				<!--
+					published: 2021-04-15,
+					tags: meta web-dev github,
+					desc: Properly moving to DDR0.ca from Github Pages.,
+				-->
+				<h2 id="Moving-Domains"><a href="blog-posts/10.Moving_Domains.html">Moving Domains</a></h2>
+				
+				<p>On Feb 23, 2012, I added a test page to my personal website at http://ddr0.github.com, using <a href="https://pages.github.com/">Github Pages</a>. Three years later, I purchased ddr0.ca and started redirecting the domain name to http://ddr0.github.io, which Github had migrated Pages to after <a href="https://github.blog/2013-04-05-new-github-pages-domain-github-io/">some security issues</a> arising from having them on a subdomain of the main site. A few years after that, I started hosting my website myself on a VPS at <a href="https://cloudatcost.com">Cloud at Cost</a>. I kept the Github Pages in case anything went wrong. Ultimately, it did - the VPS service slowly died of oversubscription a few months ago. (It was an excellent service for many years—and for less than a dollar a month!)</p>
+				
+				<p>As my web server slowly fell out from under me, taking upwards of half a minute to run <code>ls</code>, I retreated to my living room where this site is hosted now. I had deployed a highly-accessible DnD-style dice roller, <a href="https://ddr0.ca/%F0%9F%8E%B2/">🎲</a>, but it required a <a href="https://nodejs.org/en/">Node</a>-based service running on the back-end to perform the rolls.</p>
+				
+				<p>While I'd known it for some time, this really drove home that ddr0.ca is no longer hostable entirely on Github Pages. I need to maintain a server running it, so there's no reason to keep ddr0.github.io around. The <a href="https://github.com/DDR0/ddr0.github.com">code for ddr0.ca</a> will remain happily on Github itself, but starting today any requests to a web page on Github Pages will redirect to the equivalent page on ddr0.ca.</p>
+				
+				<p>As I don't have a whole lot of control over how Github Pages serves my content, I've <a href="https://github.com/DDR0/ddr0.github.com/tree/github-pages-shell">replaced the content</a> of each HTML file with a <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meta#examples">meta redirect</a> and deleted most of the other files. This means that, as far as I can manage, the URLs that have been linked around the web should still work. <a href="https://www.w3.org/Provider/Style/URI">Cool URLs don't change.</a></p>
+				
+				<p>Moving forward, I should get the releases for my old projects (River Run, Cube Trains, and the Open Pixel Platformer demo) out of this repo. Github has the concept of releases now, and I would like to use that instead of the repo for my website. The files will still be hosted on this website as insurance against something going missing, of course, <em>since you only own something if it's on your computer.</em> And, of course, I'd like to update this blog a little more. I need a reason to implement pagination!</p>
+				
+				
+				
+				
+				
+				<hr>
+				
+				
+				
+				
+				
+				<!--
 					published: 2016-11-21,
 					tags: csp web-dev xss,
 					desc: Should a Content Security Policy be set on all website content?,
@@ -622,5 +706,5 @@
 			</div>
 		</div>
 	</body>
-	<footer>Site ©2020 DDR.</footer>
+	<footer>Site ©2021 DDR.</footer>
 </html>

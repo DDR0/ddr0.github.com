@@ -5,7 +5,7 @@
 		<atom:id>https://ddr0.ca</atom:id>
 		<link>https://ddr0.ca/blog.html</link>
 		<description>Updates to DDR's Blog. Get notified of new posts!</description>
-		<atom:updated>2021-04-21T04:59:01.804Z</atom:updated>
+		<atom:updated>2021-04-21T06:18:09.440Z</atom:updated>
 		<atom:link href='https://ddr0.ca/blog.html'></atom:link>
 		<atom:link href='https://ddr0.ca/blog-rss-feed.xml' rel='self'></atom:link>
 		
@@ -118,5 +118,6 @@
 			<source url="https://ddr0.ca/blog-posts/12.Same_Script_Multiple_Tags.html"></source>
 			<pubDate>Tue, 20 Apr 2021 00:00:00 GMT</pubDate>
 		</item>
+		
 	</channel>
 </rss>

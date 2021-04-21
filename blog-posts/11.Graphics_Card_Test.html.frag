@@ -1,11 +1,11 @@
 <!--
 	published: 2021-04-17,
-	tags: webgl privacy demo,
+	tags: webgl privacy demo web-dev,
 	desc: Is your graphics card exposed to the web? Find out here.,
 -->
 <h2 id="Graphics-Card-Test"><a href="~&">Graphics Card Exposure Test</a></h2>
 
-<p>Sometimes, your graphics card's details are exposed to the web. <span id="graphics-card-test-output">Yours are not right now, though, which is good.</span> Try opening this page in different browsers – I found Chrome had much more information than Firefox, for example.</p>
+<p>Sometimes, your graphics card's details are exposed to the web. <b id="graphics-card-test-output">Yours are not right now, though, which is good.</b> Try opening this page in different browsers – I found Chrome had much more information than Firefox, for example.</p>
 
 <h3>The Code</h3>
 

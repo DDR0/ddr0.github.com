@@ -40,6 +40,9 @@
 #content-pane > p {
   text-indent: 2em;
 }
+#content-pane > p.noindent {
+  text-indent: 0;
+}
 #content-pane iframe {
   overflow: hidden;
   background-color: #6C7175;
@@ -85,7 +88,7 @@
   white-space: pre;
 }
 #content-pane .code-container {
-  overflow-x: scroll;
+  overflow-x: auto;
   white-space: pre-line;
 }
 /*# sourceMappingURL=blog.css.map */

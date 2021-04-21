@@ -1,6 +1,6 @@
 <!--
 	published: 2016-11-21,
-	tags: csp web-dev xss,
+	tags: csp web-dev xss microblog,
 	desc: Should a Content Security Policy be set on all website content?,
 -->
 <h2 id="CSP"><a href="~&">Web Security: Should CSP be set for my HTML files only, or my HTML files and all my assets?</a></h2>

@@ -82,6 +82,8 @@ location = /gallery.html {
 	add_header Content-Security-Policy "${CSP_BASE}; ${CSP_REPORT}; ${CSP_SCRIPT} ${SCRIPTS}; ${CSP_IMG}; ${CSP_STYLE}";
 	add_header Report-To "${REPORT_TO}";
 	add_header NEL "${NEL}";
+	add_header Cross-Origin-Opener-Policy "same-origin";
+	add_header Cross-Origin-Embedder-Policy "require-corp";
 }
 
 location ~ "^/cube trains/.*\.html$" {
@@ -105,6 +107,19 @@ location / {
 	add_header Content-Type "text/html; charset=utf-8";
 	add_header Report-To "${REPORT_TO}";
 	add_header NEL "${NEL}";
+	add_header Cross-Origin-Opener-Policy "same-origin";
+	add_header Cross-Origin-Embedder-Policy "require-corp";
+}
+
+location ~ "^/editabled/.*\.html$" {
+	add_header Cache-Control "max-age=900";
+	add_header Content-Security-Policy "${CSP_BASE}; ${CSP_REPORT}; ${CSP_SCRIPT}; ${CSP_IMG}; ${CSP_STYLE}";
+	add_header Content-Type "text/html; charset=utf-8";
+	add_header Report-To "${REPORT_TO}";
+	add_header NEL "${NEL}";
+	#Somehow, crossOriginIsolated being true breaks editabled, probably involving SharedArrayBuffers.
+	#add_header Cross-Origin-Opener-Policy "same-origin";
+	#add_header Cross-Origin-Embedder-Policy "require-corp";
 }
 
 location ~ "^/.*\.html$" {
@@ -113,6 +128,8 @@ location ~ "^/.*\.html$" {
 	add_header Content-Type "text/html; charset=utf-8";
 	add_header Report-To "${REPORT_TO}";
 	add_header NEL "${NEL}";
+	add_header Cross-Origin-Opener-Policy "same-origin";
+	add_header Cross-Origin-Embedder-Policy "require-corp";
 }
 
 #Fix web worker imports in https://ddr0.ca/editabled/fullscreen.html not working because CSP is being applied relative to them.
@@ -129,6 +146,8 @@ location ~ "^/.*\.svg$" {
 	add_header Content-Security-Policy "default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; ${CSP_REPORT}";
 	add_header Report-To "${REPORT_TO}";
 	add_header NEL "${NEL}";
+	add_header Cross-Origin-Opener-Policy "same-origin";
+	add_header Cross-Origin-Embedder-Policy "require-corp";
 }
 
 #RSS feeds are the only XML we have on site.
@@ -138,6 +157,8 @@ location ~ "^/.*\.xml$" {
 	add_header Content-Security-Policy "${CSP_BASE}; ${CSP_REPORT}; ${CSP_SCRIPT}; ${CSP_IMG}; ${CSP_STYLE}";
 	add_header Report-To "${REPORT_TO}";
 	add_header NEL "${NEL}";
+	add_header Cross-Origin-Opener-Policy "same-origin";
+	add_header Cross-Origin-Embedder-Policy "require-corp";
 }
 
 location ~ "^/.*\.*$" {
@@ -145,4 +166,5 @@ location ~ "^/.*\.*$" {
 	add_header Content-Security-Policy "default-src 'none'; ${CSP_REPORT}";
 	add_header Report-To "${REPORT_TO}";
 	add_header NEL "${NEL}";
+	add_header Cross-Origin-Embedder-Policy "require-corp";
 }

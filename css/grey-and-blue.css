@@ -17,6 +17,7 @@ body {
   padding: 50px;
   max-width: 850px;
   margin: auto;
+  tab-size: 4;
 }
 @media (max-width: 650px) {
   body {

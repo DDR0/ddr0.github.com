@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang='en'>
+	<head>
+		<meta charset='utf-8'>
+		<title>Same_Script_Multiple_Tags</title>
+		<link href='/css/grey-and-blue.css' rel='stylesheet'>
+		<meta name="theme-color" content="#3377FF">
+		<link href='/css/blog.css' rel='stylesheet'>
+		<link rel="alternate" type="application/rss+xml" title="DDR's Blog" href="/blog-rss-feed.xml" />
+	</head>
+	<body>
+		<a href='#content' id='skip-nav'>skip nav</a>
+		<div id='content-holder'>
+			<div id="content-header">
+				<div id='badge'><a href="/blog.html"><img alt='' src='/images/icons/page.svg'></a></div>
+				<h1><img alt='blog' src='/images/text-blog.png'></h1>
+				<div id='icon-bar'>
+					<a href='/blog.html'    ><img src='/images/icons/page.svg' ><span>blog</span></a>
+					<a href='/gallery.html' ><img src='/images/icons/work.svg' ><span>gallery</span></a>
+					<a href='/contact.html' ><img src='/images/icons/chat2.svg'><span>contact</span></a>
+					<a href='/rss.xml'                                                               ><img src='/images/icons/rss.svg'  ><span>rss</span></a>
+				</div>
+			</div>
+			<a name='content'></a>
+			<div id='content-pane'>
+				<h2 id="SSMT"><a href="12.Same_Script_Multiple_Tags.html">Same Script, Multiple Tags</a></h2>
+				
+				<p>Today, I happened on a fun quirk of web-dev. What happens if you include the same script twice, say like this:</p>
+				
+				<div class="code-container"
+				>	<code>&lt;!DOCTYPE html&gt;</code>
+					<code>&lt;html lang="en"&gt;</code>
+					<code>	&lt;head&gt;</code>
+					<code>		&lt;script src="test.js" type="module"&gt;&lt;/script&gt;</code>
+					<code>		&lt;script src="test.js" type="module"&gt;&lt;/script&gt;</code>
+				</div>
+				
+				<p><code>test.js</code> only runs once, despite being included twice. It seems modules have a specific trait where they're only ever evaluated once, I believe specified in <a href="https://262.ecma-international.org/6.0/#sec-moduleevaluation">steps 4 and 5 of ECMAScript 6.0 section 15.2.1.16.5</a>.</p>
+				
+				<p>Nothing good ever comes of running scripts multiple times. I'm glad it's out.</p>
+				
+				<p class=noindent>P.S.: Fun fact: You can still <a href="https://developer.mozilla.org/en-US/docs/Web/API/Document/open"><code>document.write(…)</code></a> in an ECMAScript module, which just feels… <em>wrong.</em> (At least the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/with">with</a> statement is history there, as modules are always in strict mode.)</p>
+			</div>
+		</div>
+	</body>
+	<footer>Site ©2021 DDR.</footer>
+</html>

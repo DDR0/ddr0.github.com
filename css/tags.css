@@ -1,0 +1,20 @@
+#content-pane h2 > a,
+#content-pane h3 > a {
+  text-decoration: none;
+}
+#content-pane h2 > a::after,
+#content-pane h3 > a::after {
+  font-size: 80%;
+  content: " 🔗";
+  opacity: 0;
+  transition: 0.2s;
+}
+#content-pane h2 > a:hover,
+#content-pane h3 > a:hover {
+  background-color: transparent;
+}
+#content-pane h2 > a:hover::after,
+#content-pane h3 > a:hover::after {
+  opacity: 1;
+}
+/*# sourceMappingURL=tags.css.map */

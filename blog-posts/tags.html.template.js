@@ -8,14 +8,15 @@ ${include('site shell intro.html.frag.js', {
 	},
 	additionalHeadFields: [
 		`<link href='/css/blog.css' rel='stylesheet'>`,
+		`<link href='/css/tags.css' rel='stylesheet'>`,
 	],
 	...global,
 })}
 \t${indent(3, `
-	<h2>Tags</h2>
+	<h2><a href="${page.split('.template.js')[0]}">Tags</a></h2>
 	${Array.from(tags.entries()).sort().map(([name,posts])=>`
 	<section>
-		<h3>${name.replace(/-/g, ' ')}</h3>
+		<h3 id="${name}"><a href="#${name}">${name.replace(/-/g, ' ')}</a></h3>
 		${
 			posts.map(post=>`<a href=${post}>${
 				post.split('.')[1].replace(/_/g, ' ')

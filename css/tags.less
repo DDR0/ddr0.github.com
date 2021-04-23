@@ -1,0 +1,18 @@
+#content-pane {
+	//Make linked headers look like headers. (The links go to the blog post page.)
+	h2 > a, h3 > a {
+		text-decoration: none;
+		&::after {
+			font-size: 80%; //The emoji is larger than the text, and bumps everything after it down.
+			content: " 🔗";
+			opacity: 0;
+			transition: 0.2s;
+		}
+		&:hover {
+			background-color: transparent;
+			&::after {
+				opacity: 1;
+			}
+		}
+	}
+}

@@ -54,7 +54,10 @@ fs.readdirSync('blog-posts')
 	.forEach(match => {
 		const postContent = parsePostContent(
 			match.groups.ext.endsWith('.js')
-				? render(`blog-posts/${match.input}`, {page: match.input})
+				? render(`blog-posts/${match.input}`, {
+					page: match.input.slice(0,-8), 
+					postFolder: `/blog-posts/${match.input.slice(0,-13)}`, //-13: Get rid of ".html.frag.js".
+				})
 				: fs.readFileSync(`blog-posts/${match.input}`, {encoding:'utf8'})
 					.replace(/~&/g, `${match.input.slice(0,-5)}`) //~& is "this file", used to reference the blog post from the blog main page.
 					.replace(/~\//g, `${match.input.slice(0,-10)}/`) //Get rid of ".html.frag".

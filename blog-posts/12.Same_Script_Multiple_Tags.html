@@ -7,6 +7,8 @@
 		<meta name="theme-color" content="#3377FF">
 		<link href='/css/blog.css' rel='stylesheet'>
 		<link rel="alternate" type="application/rss+xml" title="DDR's Blog" href="/blog-rss-feed.xml" />
+		<link href='/css/prism-okaidia.css' rel='stylesheet'>
+		<script async defer src='/scripts/unindent-code-blocks.js'></script>
 	</head>
 	<body>
 		<a href='#content' id='skip-nav'>skip nav</a>
@@ -27,13 +29,13 @@
 				
 				<p>Today, I happened on a fun quirk of web-dev. What happens if you include the same script twice, say like this:</p>
 				
-				<div class="code-container"
-				>	<code>&lt;!DOCTYPE html&gt;</code>
-					<code>&lt;html lang="en"&gt;</code>
-					<code>	&lt;head&gt;</code>
-					<code>		&lt;script src="test.js" type="module"&gt;&lt;/script&gt;</code>
-					<code>		&lt;script src="test.js" type="module"&gt;&lt;/script&gt;</code>
-				</div>
+				<code class="prism-block language-html">
+					<span class="token doctype"><span class="token punctuation">&lt;!</span><span class="token doctype-tag">DOCTYPE</span> <span class="token name">html</span><span class="token punctuation">></span></span>
+					<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>html</span> <span class="token attr-name">lang</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>en<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+						<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>head</span><span class="token punctuation">></span></span>
+							<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>test.js<span class="token punctuation">"</span></span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>module<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span>
+							<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>test.js<span class="token punctuation">"</span></span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>module<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span>
+				</code>
 				
 				<p><code>test.js</code> only runs once, despite being included twice. It seems modules have a specific trait where they're only ever evaluated once, I believe specified in <a href="https://262.ecma-international.org/6.0/#sec-moduleevaluation">steps 4 and 5 of ECMAScript 6.0 section 15.2.1.16.5</a>.</p>
 				

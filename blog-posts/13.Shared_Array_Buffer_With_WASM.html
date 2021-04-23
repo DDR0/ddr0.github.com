@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang='en'>
+	<head>
+		<meta charset='utf-8'>
+		<title>Shared_Array_Buffer_With_WASM</title>
+		<link href='/css/grey-and-blue.css' rel='stylesheet'>
+		<meta name="theme-color" content="#3377FF">
+		<link href='/css/blog.css' rel='stylesheet'>
+		<link rel="alternate" type="application/rss+xml" title="DDR's Blog" href="/blog-rss-feed.xml" />
+		<link href='/css/prism-okaidia.css' rel='stylesheet'>
+		<script async defer src='/scripts/unindent-code-blocks.js'></script>
+	</head>
+	<body>
+		<a href='#content' id='skip-nav'>skip nav</a>
+		<div id='content-holder'>
+			<div id="content-header">
+				<div id='badge'><a href="/blog.html"><img alt='' src='/images/icons/page.svg'></a></div>
+				<h1><img alt='blog' src='/images/text-blog.png'></h1>
+				<div id='icon-bar'>
+					<a href='/blog.html'    ><img src='/images/icons/page.svg' ><span>blog</span></a>
+					<a href='/gallery.html' ><img src='/images/icons/work.svg' ><span>gallery</span></a>
+					<a href='/contact.html' ><img src='/images/icons/chat2.svg'><span>contact</span></a>
+					<a href='/rss.xml'                                                               ><img src='/images/icons/rss.svg'  ><span>rss</span></a>
+				</div>
+			</div>
+			<a name='content'></a>
+			<div id='content-pane'>
+				<h2 id="shared-wasm-buffer"><a href="13.Shared_Array_Buffer_With_WASM.html">Shared Array Buffers With WASM</a></h2>
+				
+				<p>Yesterday, I solved a long-standing question I'd had - how do you get data out of a  WebAssembly program without having to copy it back? Ideally, in such a way that a web worker wouldn't have to copy it back to the main thread either. I've been able to find some information on this around the web, but much of it seems to be rather outdated or does not address the issue. I decided to have a crack at it myself and figure out the state of the art by writing a small proof-of-concept.</p>
+				
+				<h3>Version 1</h3>
+				
+				<p>My first approach was to try to create the web worker using a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/SharedArrayBuffer">SharedArrayBuffer</a> backing its code. As a bonus, we should be able to redefine bytecode on the fly then which will be fun.</p>
+				
+				<p>Copying from <a href="https://depth-first.com/articles/2020/01/13/first-steps-in-webassembly-hello-world/">Depth-First's excellent guide</a>, we arrive at something like this:</p>
+				
+				<code class="prism-block language-js">
+					<span class="token punctuation">(</span><span class="token keyword">async</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+						<span class="token keyword">const</span> memory <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">WebAssembly<span class="token punctuation">.</span>Memory</span><span class="token punctuation">(</span><span class="token punctuation">{</span> initial<span class="token operator">:</span> <span class="token number">1</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+						
+						<span class="token keyword">const</span> <span class="token function-variable function">log</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter">offset<span class="token punctuation">,</span> length</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+							<span class="token keyword">const</span> bytes <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Uint8Array</span><span class="token punctuation">(</span>memory<span class="token punctuation">.</span>buffer<span class="token punctuation">,</span> offset<span class="token punctuation">,</span> length<span class="token punctuation">)</span>
+							<span class="token keyword">const</span> string <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">TextDecoder</span><span class="token punctuation">(</span><span class="token string">'utf8'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">decode</span><span class="token punctuation">(</span>bytes<span class="token punctuation">)</span><span class="token punctuation">;</span>
+							console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>string<span class="token punctuation">)</span>
+						<span class="token punctuation">}</span><span class="token punctuation">;</span>
+						
+						<span class="token comment">//Blob generated with compile with `wat2wasm hello.1.wat --enable-threads --out /dev/stdout | base64 --wrap 0`</span>
+						<span class="token keyword">const</span> unsharedData <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">TextEncoder</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">encode</span><span class="token punctuation">(</span><span class="token function">atob</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">
+							AGFzbQEAAAABCQJgAn9/AGAAAAIZAgNlbnYGbWVtb3J5AgABA2VudgNsb2cAAAMCAQEHCQE
+							FaGVsbG8AAQoKAQgAQQBBDRAACwsTAQBBAAsNSGVsbG8sIFdvcmxkIQ==
+						</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+						<span class="token keyword">const</span> sharedData <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Uint8Array</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">SharedArrayBuffer</span><span class="token punctuation">(</span>unsharedData<span class="token punctuation">.</span>length<span class="token punctuation">)</span><span class="token punctuation">)</span>
+						sharedData<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span>unsharedData<span class="token punctuation">)</span>
+						
+						sharedData<span class="token punctuation">[</span>sharedData<span class="token punctuation">.</span>length <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">'?'</span><span class="token punctuation">.</span><span class="token function">charCodeAt</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+						
+						<span class="token keyword">const</span> <span class="token punctuation">{</span> instance <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token keyword">await</span> WebAssembly<span class="token punctuation">.</span><span class="token function">instantiate</span><span class="token punctuation">(</span>sharedData<span class="token punctuation">,</span> <span class="token punctuation">{</span>
+							env<span class="token operator">:</span> <span class="token punctuation">{</span> log<span class="token punctuation">,</span> memory <span class="token punctuation">}</span>
+						<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+						
+						instance<span class="token punctuation">.</span>exports<span class="token punctuation">.</span><span class="token function">hello</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+						sharedData<span class="token punctuation">[</span>sharedData<span class="token punctuation">.</span>length <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">'.'</span><span class="token punctuation">.</span><span class="token function">charCodeAt</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+						instance<span class="token punctuation">.</span>exports<span class="token punctuation">.</span><span class="token function">hello</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+					<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+				</code>
+				
+				<p>Here, we start by defining some <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WebAssembly/Memory/Memory">WebAssembly memory</a> to pass args around with. (The <code>initial</code> value is in number of 64-KiB pages to allocate.) We then define a function, <code>log</code>, which will take this memory and print the contents using <code>console.log(…)</code>. We'll call this from our WASM code, which we've serialised in this case as a base64 string. (The source of which is <a href="/blog-posts/13.Shared_Array_Buffer_With_WASM/hello.1.wat">hello.1.wat</a>, compiled using <a href="https://webassembly.github.io/wabt/doc/wat2wasm.1.html">wat2wasm</a> from <a href="https://github.com/WebAssembly/wabt">WABT</a>.)</p>
+				
+				<p>To get our shared memory, we create a new array backed by a <code>SharedArrayBuffer</code>. In JS, all the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray"><em>typed</em> arrays</a> have a backing buffer. Usually, by default, it's an <code>ArrayBuffer</code>. Amusingly enough, an <code>ArrayBuffer</code> <em>can</em> be shared between multiple typed arrays, even of different types. The <code>SharedArrayBuffer</code> is called so because it can be passed between web workers without copying as well, which a regular <code>ArrayBuffer</code> can't do. This is the behaviour we're after.</p>
+				
+				<p>So, let's test it! First, we'll set the final byte of our WASM program to <code>?</code>, from it's original value of <code>!</code>, to prove we're loading the right memory and can manipulate it. Then, we start the WebAssembly program and call the <code>hello()</code> function of the <code>instance</code> we created. This in turn calls our <code>log()</code>, which prints "Hello, world?".</p>
+				
+				<p class="noindent"><em>(Note: <code>WebAssembly.instantiate(…)</code> will also let you pass in an <code>ArrayBuffer</code>/<code>TypedArrayBuffer</code>, in addition to the <code>Uint8Array</code> we have here… in Firefox and not in Chrome.)</em></p>
+				
+				<p>Now we modify our memory again, this time changing the final byte to <code>.</code>. However, calling into <code>hello</code> again, we find we get the same output, "Hello, world?". We can't just poke the memory of a running WASM program, it would seem - probably for the best. So, what do we do now?</p>
+				
+				<h3>Version 2</h3>
+				
+				<p>We have one other memory-buffer-ish object we can tweak. Let's see if we can't get that initial <code>const memory = …</code> declaration to be a shared buffer, instead of an unshared buffer. Some brief searching later, and we find that <code>WebAssembly.Memory</code> can indeed take a <code>shared</code> flag. It's not very well supported, but let's rework our code to try to test it anyway. (I believe the <code>shared</code> flag is part of the <a href="https://developers.google.com/web/updates/2018/10/wasm-threads">WebAssembly Threads</a> system, which seems to just be referring to using shared memory to communicate between workers VS message passing.)</p>
+				
+				<code class="prism-block language-js">
+					<span class="token punctuation">(</span><span class="token keyword">async</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+						<span class="token keyword">const</span> memory <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">WebAssembly<span class="token punctuation">.</span>Memory</span><span class="token punctuation">(</span><span class="token punctuation">{</span> initial<span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span> maximum<span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span> shared<span class="token operator">:</span><span class="token boolean">true</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+						
+						<span class="token keyword">let</span> globalBytes <span class="token operator">=</span> <span class="token keyword">null</span>
+						<span class="token keyword">const</span> <span class="token function-variable function">log</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter">offset<span class="token punctuation">,</span> length</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+							<span class="token keyword">const</span> bytes <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Uint8Array</span><span class="token punctuation">(</span>memory<span class="token punctuation">.</span>buffer<span class="token punctuation">,</span> offset<span class="token punctuation">,</span> length<span class="token punctuation">)</span>
+							globalBytes <span class="token operator">=</span> bytes
+							
+							<span class="token comment">//Can't use TextDecoder because it doesn't handle shared array buffers as of 2021-04-20.</span>
+							<span class="token comment">//const string = new TextDecoder('utf8').decode(bytes);</span>
+							<span class="token keyword">const</span> string <span class="token operator">=</span> bytes<span class="token punctuation">.</span><span class="token function">reduce</span><span class="token punctuation">(</span>
+								<span class="token punctuation">(</span><span class="token parameter">accum<span class="token punctuation">,</span>byte</span><span class="token punctuation">)</span><span class="token operator">=></span>accum<span class="token operator">+</span>String<span class="token punctuation">.</span><span class="token function">fromCharCode</span><span class="token punctuation">(</span>byte<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">''</span><span class="token punctuation">)</span>
+							
+							console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>string<span class="token punctuation">)</span>
+						<span class="token punctuation">}</span><span class="token punctuation">;</span>
+						
+						<span class="token comment">//Blob generated with compile with `wat2wasm hello.2.wat --enable-threads --out /dev/stdout | base64 --wrap 0`</span>
+						<span class="token keyword">const</span> wasm <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">TextEncoder</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">encode</span><span class="token punctuation">(</span><span class="token function">atob</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">
+							AGFzbQEAAAABCQJgAn9/AGAAAAIaAgNlbnYGbWVtb3J5AgMBAQNlbnYDbG9nAAADAgEBBwk
+							BBWhlbGxvAAEKCgEIAEEAQQ0QAAsLEwEAQQALDUhlbGxvLCBXb3JsZCE=
+						</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+						<span class="token keyword">const</span> <span class="token punctuation">{</span> instance <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token keyword">await</span> WebAssembly<span class="token punctuation">.</span><span class="token function">instantiate</span><span class="token punctuation">(</span>wasm<span class="token punctuation">,</span> <span class="token punctuation">{</span>
+							env<span class="token operator">:</span> <span class="token punctuation">{</span> log<span class="token punctuation">,</span> memory <span class="token punctuation">}</span>
+						<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+						
+						instance<span class="token punctuation">.</span>exports<span class="token punctuation">.</span><span class="token function">hello</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+						globalBytes<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">'\''</span><span class="token punctuation">.</span><span class="token function">charCodeAt</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+						instance<span class="token punctuation">.</span>exports<span class="token punctuation">.</span><span class="token function">hello</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+					<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+				</code>
+				
+				<p>With our new memory declaration returning a shared buffer… on most non-Apple desktop browsers… 😬 we can now test this method of memory manipulation. We immediately find three things:
+				<ol>
+					<li>Our WASM program needs to have it's memory declaration updated too, yielding <a href="/blog-posts/13.Shared_Array_Buffer_With_WASM/hello.2.wat">hello.2.wat</a> and a new base64 blob.</li>
+					<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/TextDecoder"><code>TextDecoder</code></a> doesn't accept a SharedArrayBuffer, so we have to write our own little routine here. I guess this is because, as the bytes could change at any time, we could potentially output invalid utf-8 as our data shifted under us. We don't care for this single-threaded demo, but it would be an issue normally.</li>
+					<li>We must capture the newly-shared text buffer in the callback (as <code>globalBytes</code>), so we won't bother manipulating it before we instantiate our WebAssembly program.</li>
+				</ol>
+				<p>To test this, we call <code>hello()</code> again, which sets <code>globalBytes</code> to our "Hello, world!" message. We now set the first character to an apostrophe, and call in to our function again to test if we were able to set data visible to WASM. It prints "'ello, world!", thus demonstrating we are! Since we're working with a <code>SharedArrayBuffer</code> here, we can share this reference across threads to get fast, efficient data transfer.</p>
+			</div>
+		</div>
+	</body>
+	<footer>Site ©2021 DDR.</footer>
+</html>

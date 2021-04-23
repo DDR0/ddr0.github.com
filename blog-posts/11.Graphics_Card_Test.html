@@ -7,6 +7,8 @@
 		<meta name="theme-color" content="#3377FF">
 		<link href='/css/blog.css' rel='stylesheet'>
 		<link rel="alternate" type="application/rss+xml" title="DDR's Blog" href="/blog-rss-feed.xml" />
+		<link href='/css/prism-okaidia.css' rel='stylesheet'>
+		<script async defer src='/scripts/unindent-code-blocks.js'></script>
 	</head>
 	<body>
 		<a href='#content' id='skip-nav'>skip nav</a>
@@ -48,22 +50,22 @@
 					}
 				}</script>
 				
-				<div class="code-container"
-				>	<code>//Function to grab GPU data.</code>
-					<code>const getGPU = () => {</code>
-					<code>	const ctx = document.createElement('canvas').getContext('webgl') </code>
-					<code>	const ext = ctx.getExtension('WEBGL_debug_renderer_info')</code>
-					<code>	return {</code>
-					<code>		card: ctx.getParameter(ext.UNMASKED_RENDERER_WEBGL),</code>
-					<code>		vendor: ctx.getParameter(ext.UNMASKED_VENDOR_WEBGL),</code>
-					<code>	}</code>
-					<code>}</code>
-					<code></code>
-					<code>//Put the GPU data into the web page.</code>
-					<code>const gpu = getGPU()</code>
-					<code>document.getElementById('graphics-card-test-output')</code>
-					<code>	.textContent = `Yours is ${gpu.vendor}'s ${gpu.card}.`</code>
-				</div>
+				<code class="prism-block language-js">
+					<span class="token comment">//Function to grab GPU data.</span>
+					<span class="token keyword">const</span> <span class="token function-variable function">getGPU</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+						<span class="token keyword">const</span> ctx <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">'canvas'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getContext</span><span class="token punctuation">(</span><span class="token string">'webgl'</span><span class="token punctuation">)</span> 
+						<span class="token keyword">const</span> ext <span class="token operator">=</span> ctx<span class="token punctuation">.</span><span class="token function">getExtension</span><span class="token punctuation">(</span><span class="token string">'WEBGL_debug_renderer_info'</span><span class="token punctuation">)</span>
+						<span class="token keyword">return</span> <span class="token punctuation">{</span>
+							card<span class="token operator">:</span> ctx<span class="token punctuation">.</span><span class="token function">getParameter</span><span class="token punctuation">(</span>ext<span class="token punctuation">.</span><span class="token constant">UNMASKED_RENDERER_WEBGL</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+							vendor<span class="token operator">:</span> ctx<span class="token punctuation">.</span><span class="token function">getParameter</span><span class="token punctuation">(</span>ext<span class="token punctuation">.</span><span class="token constant">UNMASKED_VENDOR_WEBGL</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+						<span class="token punctuation">}</span>
+					<span class="token punctuation">}</span>
+					
+					<span class="token comment">//Put the GPU data into the web page.</span>
+					<span class="token keyword">const</span> gpu <span class="token operator">=</span> <span class="token function">getGPU</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+					document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'graphics-card-test-output'</span><span class="token punctuation">)</span>
+						<span class="token punctuation">.</span>textContent <span class="token operator">=</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">Yours is </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>gpu<span class="token punctuation">.</span>vendor<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">'s </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>gpu<span class="token punctuation">.</span>card<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">.</span><span class="token template-punctuation string">`</span></span>
+				</code>
 			</div>
 		</div>
 	</body>

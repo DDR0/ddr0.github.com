@@ -18,12 +18,14 @@ const render = (filename, constants={}) => {
 	const results = vm.runInContext(
 		fs.readFileSync(filename, {encoding:'utf8'}), 
 		vm.createContext({
-			require,
-			dump: (...args) => (console.error.apply(console, args), args.slice(-1)[0]),
+			require, render,
 			include: render,
+			dump: (...args) => (console.error.apply(console, args), args.slice(-1)[0]),
 			paste: filename => fs.readFileSync(filename, {encoding:'utf8'}),
 			indent: (level, text) => 
-				'\t'.repeat(level)+text.trim('\n').split('\n').join('\n'+'\t'.repeat(level)),
+				level > 0
+					? '\t'.repeat(level)+text.trim('\n').split('\n').join('\n'+'\t'.repeat(level))
+					: text.split('\n').map(line => line.slice(-level)).join('\n'),
 			page: process.argv[2],
 			global: constants, //Look up a constant in the script.
 			...constants, //Or just reference it, which is easier but may fail if missing.
@@ -36,7 +38,7 @@ const render = (filename, constants={}) => {
 	if (typeof results === 'string') {
 		return results.trim('\n')
 	} else {
-		throw new Error(`Compilation failed, expected string got ${typeof results}`)
+		throw new Error(`Compilation failed, expected string got ${typeof results}.`)
 	}
 }
 

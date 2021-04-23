@@ -1,4 +1,6 @@
-`
+const capreq = (metadata.get('capreq')||'').split(',').map(e=>e.trim())
+
+;`
 ${include('site shell intro.html.frag.js', {
 	title: metadata.get('title'),
 	header: {
@@ -9,6 +11,10 @@ ${include('site shell intro.html.frag.js', {
 	additionalHeadFields: [
 		`<link href='/css/blog.css' rel='stylesheet'>`,
 		`<link rel="alternate" type="application/rss+xml" title="DDR's Blog" href="/blog-rss-feed.xml" />`,
+		... !capreq.includes('prism') ? [] : [
+			`<link href='/css/prism-okaidia.css' rel='stylesheet'>`,
+			`<script async defer src='/scripts/unindent-code-blocks.js'></script>`,
+		],
 	],
 	...global,
 })}

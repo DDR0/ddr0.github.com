@@ -3,10 +3,13 @@
 
 # Use like `include /etc/nginx/site-fragments/ddr0;` in the default block of the server.
 
+# TODO: We should switch to a better caching scheme, where content gets ID'd by hash.
+
 #root /var/www/html;
 index index.html;
 gzip_types text/plain text/css image/svg+xml application/xml application/javascript image/gif;
 server_tokens off;
+charset utf-8;
 
 #Set up CSP for use later. Use CSP_REPORT in conjunction with REPORT_TO and NEL.
 set $CSP_BASE   "default-src 'self'; object-src 'none'; frame-ancestors 'self'";
@@ -42,6 +45,8 @@ location ~ /⚀/rolls {
 	add_header Content-Security-Policy "${CSP_BASE}; ${CSP_REPORT}; ${CSP_SCRIPT} ${SCRIPTS}; ${CSP_IMG}; ${CSP_STYLE}";
 	add_header Report-To "${REPORT_TO}";
 	add_header NEL "${NEL}";
+	
+	#add_header X-Debug 10;
 }
 
 location ~ /⚁/ws {
@@ -58,6 +63,8 @@ location ~ /⚁/ws {
 	add_header Content-Security-Policy "${CSP_BASE}; ${CSP_REPORT}; ${CSP_SCRIPT} ${SCRIPTS}; ${CSP_IMG}; ${CSP_STYLE}";
 	add_header Report-To "${REPORT_TO}";
 	add_header NEL "${NEL}";
+	
+	#add_header X-Debug 11;
 }
 
 location ~ /⚂/ws {
@@ -74,62 +81,8 @@ location ~ /⚂/ws {
 	add_header Content-Security-Policy "${CSP_BASE}; ${CSP_REPORT}; ${CSP_SCRIPT} ${SCRIPTS}; ${CSP_IMG}; ${CSP_STYLE}";
 	add_header Report-To "${REPORT_TO}";
 	add_header NEL "${NEL}";
-}
-
-
-location = /gallery.html {
-	set $SCRIPTS "https://code.jquery.com/jquery-2.0.0.min.js https://code.createjs.com/preloadjs-0.3.0.min.js";
-	add_header Content-Security-Policy "${CSP_BASE}; ${CSP_REPORT}; ${CSP_SCRIPT} ${SCRIPTS}; ${CSP_IMG}; ${CSP_STYLE}";
-	add_header Report-To "${REPORT_TO}";
-	add_header NEL "${NEL}";
-	add_header Cross-Origin-Opener-Policy "same-origin";
-	add_header Cross-Origin-Embedder-Policy "require-corp";
-}
-
-location ~ "^/cube trains/.*\.html$" {
-	set $PAYPAL_IMG "https://www.paypalobjects.com";
-	set $MIXPANEL_SCRIPTS "https://api.mixpanel.com";
-	set $CSP_FRAME "frame-src https://www.youtube.com https://w.soundcloud.com";
-	set $CSP_CONNECT "connect-src ${MIXPANEL_SCRIPTS}";
-	add_header Content-Security-Policy "${CSP_BASE}; ${CSP_REPORT}; ${CSP_SCRIPT} ${MIXPANEL_SCRIPTS}; ${CSP_IMG} ${PAYPAL_IMG}; ${CSP_STYLE}; ${CSP_FRAME}; ${CSP_CONNECT}";
-	add_header Report-To "${REPORT_TO}";
-	add_header NEL "${NEL}";
-}
-
-location / {
-	# First attempt to serve request as file, then
-	# as directory, then fall back to displaying a 404.
-	try_files $uri $uri/index.html $uri/ $uri.html =404;
 	
-	#We should switch to a better cache-control scheme, where content gets hashed.
-	add_header Cache-Control "max-age=900";
-	add_header Content-Security-Policy "${CSP_BASE}; ${CSP_REPORT}; ${CSP_SCRIPT}; ${CSP_IMG}; ${CSP_STYLE}";
-	add_header Content-Type "text/html; charset=utf-8";
-	add_header Report-To "${REPORT_TO}";
-	add_header NEL "${NEL}";
-	add_header Cross-Origin-Opener-Policy "same-origin";
-	add_header Cross-Origin-Embedder-Policy "require-corp";
-}
-
-location ~ "^/editabled/.*\.html$" {
-	add_header Cache-Control "max-age=900";
-	add_header Content-Security-Policy "${CSP_BASE}; ${CSP_REPORT}; ${CSP_SCRIPT}; ${CSP_IMG}; ${CSP_STYLE}";
-	add_header Content-Type "text/html; charset=utf-8";
-	add_header Report-To "${REPORT_TO}";
-	add_header NEL "${NEL}";
-	#Somehow, crossOriginIsolated being true breaks editabled, probably involving SharedArrayBuffers.
-	#add_header Cross-Origin-Opener-Policy "same-origin";
-	#add_header Cross-Origin-Embedder-Policy "require-corp";
-}
-
-location ~ "^/.*\.html$" {
-	add_header Cache-Control "max-age=900";
-	add_header Content-Security-Policy "${CSP_BASE}; ${CSP_REPORT}; ${CSP_SCRIPT}; ${CSP_IMG}; ${CSP_STYLE}";
-	add_header Content-Type "text/html; charset=utf-8";
-	add_header Report-To "${REPORT_TO}";
-	add_header NEL "${NEL}";
-	add_header Cross-Origin-Opener-Policy "same-origin";
-	add_header Cross-Origin-Embedder-Policy "require-corp";
+	#add_header X-Debug 12;
 }
 
 #Fix web worker imports in https://ddr0.ca/editabled/fullscreen.html not working because CSP is being applied relative to them.
@@ -138,6 +91,10 @@ location ~ "^/.*\.js$" {
 	add_header Content-Security-Policy "default-src 'none'; script-src 'self'; ${CSP_REPORT}";
 	add_header Report-To "${REPORT_TO}";
 	add_header NEL "${NEL}";
+	add_header Cross-Origin-Opener-Policy "same-origin";
+	add_header Cross-Origin-Embedder-Policy "require-corp";
+	
+	#add_header X-Debug 19;
 }
 
 #Fix web worker imports in https://ddr0.ca/editabled/fullscreen.html not working because CSP is being applied relative to them.
@@ -148,6 +105,8 @@ location ~ "^/.*\.svg$" {
 	add_header NEL "${NEL}";
 	add_header Cross-Origin-Opener-Policy "same-origin";
 	add_header Cross-Origin-Embedder-Policy "require-corp";
+	
+	#add_header X-Debug 20;
 }
 
 #RSS feeds are the only XML we have on site.
@@ -159,12 +118,65 @@ location ~ "^/.*\.xml$" {
 	add_header NEL "${NEL}";
 	add_header Cross-Origin-Opener-Policy "same-origin";
 	add_header Cross-Origin-Embedder-Policy "require-corp";
+	
+	#add_header X-Debug 21;
 }
 
-location ~ "^/.*\.*$" {
-	add_header Cache-Control "max-age=900";
-	add_header Content-Security-Policy "default-src 'none'; ${CSP_REPORT}";
+location ~ "^/gallery(:?\.html)?$" {
+	try_files $uri $uri.html =404;
+	
+	set $SCRIPTS "https://code.jquery.com/jquery-2.0.0.min.js https://code.createjs.com/preloadjs-0.3.0.min.js";
+	add_header Content-Security-Policy "${CSP_BASE}; ${CSP_REPORT}; ${CSP_SCRIPT} ${SCRIPTS}; ${CSP_IMG}; ${CSP_STYLE}";
 	add_header Report-To "${REPORT_TO}";
 	add_header NEL "${NEL}";
+	add_header Cross-Origin-Opener-Policy "unsafe-none";
+	add_header Cross-Origin-Embedder-Policy "unsafe-none";
+	
+	#add_header X-Debug 13;
+}
+
+#Must make request from project folder, because of relative URLs.
+location ~ "^/(?:cube trains|editabled)$" {
+	return 301 $request_uri/;
+}
+
+location ~ "^/cube trains/[^\.]*(?:\.html)?$" {
+	try_files $uri $uri.html $uri/index.html =404;
+	
+	set $PAYPAL_IMG "https://www.paypalobjects.com";
+	set $MIXPANEL_SCRIPTS "https://api.mixpanel.com";
+	set $CSP_FRAME "frame-src https://www.youtube.com https://w.soundcloud.com";
+	set $CSP_CONNECT "connect-src ${MIXPANEL_SCRIPTS}";
+	add_header Content-Security-Policy "${CSP_BASE}; ${CSP_REPORT}; ${CSP_SCRIPT} ${MIXPANEL_SCRIPTS}; ${CSP_IMG} ${PAYPAL_IMG}; ${CSP_STYLE}; ${CSP_FRAME}; ${CSP_CONNECT}";
+	add_header Report-To "${REPORT_TO}";
+	add_header NEL "${NEL}";
+	
+	#add_header X-Debug 14;
+}
+
+location ~ "^/(?:blog-posts/\d+\.)?[^\.]*(?:\.html)?$" {
+	try_files $uri $uri.html $uri/index.html =404;
+	
+	add_header Cache-Control "max-age=900";
+	add_header Content-Security-Policy "${CSP_BASE}; ${CSP_REPORT}; ${CSP_SCRIPT}; ${CSP_IMG}; ${CSP_STYLE}";
+	add_header Report-To "${REPORT_TO}";
+	add_header NEL "${NEL}";
+	add_header Cross-Origin-Opener-Policy "same-origin";
 	add_header Cross-Origin-Embedder-Policy "require-corp";
+	
+	#add_header X-Debug 16;
+}
+
+#Note: The default location probably isn't going to be hit by anything any more, given everything either has an extension and is at least caught by the catchall block above, or doesn't have an extension and fails in the html block.
+location / {
+	set $DENY_ALL "default-src 'none'; object-src 'none'; frame-ancestors 'none'";
+	set $BUT_ALLOW_THE_FAVICON "img-src https://ddr0.ca/favicon.ico"; #Doesn't work in development mode.
+	add_header Cache-Control "max-age=900";
+	add_header Content-Security-Policy "${DENY_ALL}; ${BUT_ALLOW_THE_FAVICON}; ${CSP_REPORT}";
+	add_header Report-To "${REPORT_TO}";
+	add_header NEL "${NEL}";
+	add_header Cross-Origin-Opener-Policy "same-origin";
+	add_header Cross-Origin-Embedder-Policy "require-corp";
+	
+	#add_header X-Debug 17;
 }

@@ -97,9 +97,15 @@ const findTasks = allFiles => {
 	)
 	for(input of filter(/^\.\/[^/]*?\.html\.js$/)) {
 		output = replace([input], 'html.js', 'html')
+		
+		//Blog is assembled from more parts.
+		const blogPosts = input.name === './blog.html.js'
+			? filter(/^\.\/blog-posts\/[^/]*?\.html\.frag(?:\.js)?$/)
+			: []
+		
 		addTask({
 			name: 'main html',
-			input: [input].concat(deps), output,
+			input: [input].concat(deps, blogPosts), output,
 			command: `./compile-template.node.js "${input.name}" > "${output[0].name}"`,
 		})
 	}
@@ -299,7 +305,7 @@ const runAllTasks = async tasks => {
 	let shownTasks = 0
 	if (process.argv.find(a => taskToShow=a.match(/^--show-tasks?(?:=(?<name>.+))?$/))) {
 		for (const task of tasks) {
-			if(!taskToShow || task.name === taskToShow.groups.name) {
+			if(!taskToShow.groups.name || task.name === taskToShow.groups.name) {
 				console.log(task)
 				shownTasks++
 			}

@@ -6,6 +6,7 @@
 		<title>${title}</title>
 		<link href='/css/grey-and-blue.css' rel='stylesheet'>
 		<meta name="theme-color" content="#3377FF">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5.0, minimum-scale=1">
 		${(global.additionalHeadFields||[]).join('\n\t\t')}
 	</head>
 	<body>

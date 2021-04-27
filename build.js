@@ -11,15 +11,21 @@ const fs = require('fs').promises
 const {watch} = require('fs')
 const util = require('util')
 const exec = util.promisify(require('child_process').exec)
-const {exit} = require('process')
+const {exit, stdout} = require('process')
 
 const MAX_SUBPROCESS_RUN_TIME_MS = 2000
 const REPEAT_BUILD_DEBOUNCE_MS = 10
 
-const HELP_MESSAGE = `build.js: Compile ddr0.ca.\n\nOptions:
+const HELP_MESSAGE = `build.js: Compile ddr0.ca.
+
+Options:
+	--dot: Don't build, but output a graph of what would be built on stdout.
+	       Useful with imagemagick as ./build.js -dot | dot -Tsvg | display
 	--help: Show this message and exit.
+	--print-events: Debug file events detected by --watch.
 	--show-task[s][=task-name]: Print information and status of build steps.
-	--watch: Watch for changes. (Will [1mnot[0m reload the build script.)`
+	--watch: Watch for task changes. (Will [1mnot[0m reload the build script.)
+`
 
 const dump = (...args) => 
 	(console.error.apply(console, args), args.slice(-1)[0])
@@ -291,15 +297,15 @@ const runAllTasks = async tasks => {
 
 
 (async ()=>{
-	let allFiles = await scanTree('.') //Can't do anything until we have our tree.
-	let tasks = findTasks(allFiles) //Generates the list of files we work on. These are the nodes of our dependancy tree.
-	calculateRequirements(tasks) //Calculate the relations between the nodes of the dependancy tree.
-	markOutOfDate(tasks) //Re-marks tasks clean/dirty, useful when re-runnning.
-	
 	if (process.argv.find(a => a.match(/^-?-?help$/))) {
 		console.log(HELP_MESSAGE)
 		exit(0)
 	}
+	
+	let allFiles = await scanTree('.') //Can't do anything until we have our tree.
+	let tasks = findTasks(allFiles) //Generates the list of files we work on. These are the nodes of our dependancy tree.
+	calculateRequirements(tasks) //Calculate the relations between the nodes of the dependancy tree.
+	markOutOfDate(tasks) //Re-marks tasks clean/dirty, useful when re-runnning.
 	
 	let taskToShow = ''
 	let shownTasks = 0
@@ -318,6 +324,12 @@ const runAllTasks = async tasks => {
 			Array.from(tasks.reduce((a,b)=>a.add(b.name), new Set()).keys()).sort().join('\n\t')
 		}`)
 		exit(-2)
+	}
+	
+	if(process.argv.includes('--dot')) {
+		stdout.write(dotify(tasks))
+		stdout.once('drain', () => process.exit(0)) //Needed or else graph gets corrupted.
+		return
 	}
 	
 	if (!process.argv.includes('--watch')) {
@@ -392,3 +404,94 @@ const watchForChanges = async (allFiles, tasks)=>{
 		building = false
 	}
 }
+
+
+const dotify = tasks => {
+	const commonBuildFiles = ['./render-file.node.js', './compile-template.node.js']
+	let out = ''
+	
+	out += `digraph G {
+		label="Dependencies"
+		labelloc = t
+		labelfontsize = 24
+		graph [rankdir=“LR”]
+		#layout="sfdp"
+		layout="neato"
+		concentrate=true
+		splines=true
+		labelfloat=true
+		ratio="compress"
+		overlap=prism
+		overlap_scaling=5
+		ratio=0.7
+  	`
+	//style=filled, color=red
+	for (let [taskNum, task] of tasks.entries()) {
+		
+		for (let input of task.input) {
+			if (commonBuildFiles.includes(input.name)) { continue; }
+			for (let output of task.output) {
+				if (prereqIsDirty(task)) {
+					if (isRunnable(task)) {
+						out += `\tedge [color=goldenrod]\n`
+					} else {
+						out += `\tedge [color=red]\n`
+					}
+				} else {
+					out += `\tedge [color=black]\n`
+				}
+				out += `\t"${input.name}" -> "${task.command.replace(/\"/g, '\\"')}" -> "${output.name}";\n`
+			}
+		}
+		
+		for (let file of [...task.input, ...task.output]) {
+			if (commonBuildFiles.includes(file.name)) { continue; }
+			out += `	subgraph cluster${taskNum} {
+				label = "${task.name}";
+				"${file.name}" [
+					label="${file.name.split('/').slice(-1)}",
+					tooltip="${file.name}",
+					style=filled, fillcolor=white,
+				];
+				"${task.command.replace(/\"/g, '\\"')}" [
+					shape=box,
+					style=filled, fillcolor=lightgrey,
+					label="${task.command.split(' ')[0].split('/').slice(-1)}",
+					tooltip="${task.command.replace(/\"/g, '\\"')}",
+				];
+			}\n`
+		}
+	}
+	
+	out += `}`
+	
+	return out
+}
+
+/*
+digraph G {
+	subgraph cluster0 {
+		node [style=filled,color=white];
+		style=filled;color=lightgrey;
+		a0 -> a1 -> a2 -> a3;
+		label = "process #1";
+	}
+	
+	subgraph cluster1 {
+		node [style=filled];
+		b0 -> b1 -> b2 -> b3;
+		label = "process #2";
+		color=blue
+	}
+	start -> a0;
+	start -> b0;
+	a1 -> b3;
+	b2 -> a3;
+	a3 -> a0;
+	a3 -> end;
+	b3 -> end;
+	start [shape=Mdiamond];
+	
+	end [shape=Msquare];
+}
+*/

@@ -53,7 +53,7 @@ body {
 #content-pane {
   margin: 0px;
   padding: 3em;
-  padding-top: 3em;
+  padding: clamp(1em, 10vw, 3em);
   background: linear-gradient(#d0d2d8, #c9c6cb);
 }
 #content-pane a {

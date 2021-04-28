@@ -122,6 +122,10 @@ location ~ "^/.*\.xml$" {
 	#add_header X-Debug 21;
 }
 
+location ~ "\.html$" {
+	rewrite ^(.*?)\.html$ $1 permanent;
+}
+
 location ~ "^/gallery(:?\.html)?$" {
 	try_files $uri $uri.html =404;
 	

@@ -32,6 +32,10 @@ location ~ /\. {
 }
 
 
+
+# --- Dice Roller Roll Server Redirects --- #
+
+
 location ~ /⚀/rolls {
 	proxy_pass http://localhost:8301;
 	proxy_http_version 1.1;
@@ -85,6 +89,11 @@ location ~ /⚂/ws {
 	#add_header X-Debug 12;
 }
 
+
+
+# --- Non-HTML Resources --- #
+
+
 #Fix web worker imports in https://ddr0.ca/editabled/fullscreen.html not working because CSP is being applied relative to them.
 location ~ "^/.*\.js$" {
 	add_header Cache-Control "max-age=900";
@@ -122,6 +131,10 @@ location ~ "^/.*\.xml$" {
 	#add_header X-Debug 21;
 }
 
+
+# --- HTML Files --- #
+
+#Moved `/file.html` URLs to `/file`. (I think it looks sleeker.)
 location ~ "\.html$" {
 	rewrite ^(.*?)\.html$ $1 permanent;
 }
@@ -150,6 +163,7 @@ location ~ "^/(?:cube trains|editabled)$" {
 	return 301 $request_uri/;
 }
 
+#Allow some external resources for Cube Trains.
 location ~ "^/cube trains/[^\.]*(?:\.html)?$" {
 	try_files $uri $uri.html $uri/index.html =404;
 	
@@ -169,24 +183,30 @@ location ~ "^/(?:blog-posts/\d+\.)?[^\.]*(?:\.html)?$" {
 	
 	add_header Cache-Control "max-age=900";
 	add_header Content-Security-Policy "${CSP_BASE}; ${CSP_REPORT}; ${CSP_SCRIPT}; ${CSP_IMG}; ${CSP_STYLE}";
+	
 	add_header Report-To "${REPORT_TO}";
 	add_header NEL "${NEL}";
+	
 	add_header Cross-Origin-Opener-Policy "same-origin";
 	add_header Cross-Origin-Embedder-Policy "require-corp";
+	add_header Cross-Origin-Resource-Policy "same-origin";
 	
 	#add_header X-Debug 16;
 }
 
-#Note: The default location probably isn't going to be hit by anything any more, given everything either has an extension and is at least caught by the catchall block above, or doesn't have an extension and fails in the html block.
+#Catchall for text files and such.
 location / {
 	set $DENY_ALL "default-src 'none'; object-src 'none'; frame-ancestors 'none'";
 	set $BUT_ALLOW_THE_FAVICON "img-src https://ddr0.ca/favicon.ico"; #Doesn't work in development mode.
 	add_header Cache-Control "max-age=900";
 	add_header Content-Security-Policy "${DENY_ALL}; ${BUT_ALLOW_THE_FAVICON}; ${CSP_REPORT}";
+	
 	add_header Report-To "${REPORT_TO}";
 	add_header NEL "${NEL}";
+	
 	add_header Cross-Origin-Opener-Policy "same-origin";
 	add_header Cross-Origin-Embedder-Policy "require-corp";
+	add_header Cross-Origin-Resource-Policy "same-origin";
 	
 	#add_header X-Debug 17;
 }

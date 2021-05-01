@@ -5,7 +5,7 @@
 		<atom:id>https://ddr0.ca</atom:id>
 		<link>https://ddr0.ca/blog.html</link>
 		<description>Updates to DDR's Blog. Get notified of new posts!</description>
-		<atom:updated>2021-04-28T19:40:40.616Z</atom:updated>
+		<atom:updated>2021-05-01T03:02:31.832Z</atom:updated>
 		<atom:link href='https://ddr0.ca/blog.html'></atom:link>
 		<atom:link href='https://ddr0.ca/blog-rss-feed.xml' rel='self'></atom:link>
 		
@@ -122,9 +122,9 @@
 		<item>
 			<title>Shared Array Buffers With WASM</title>
 			<description>What happens when you use a SharedArrayBuffer as a WASM source?</description>
-			<link>https://ddr0.ca/blog-posts/13.Shared_Array_Buffer_With_WASM.html</link>
-			<guid isPermaLink='true'>https://ddr0.ca/blog-posts/13.Shared_Array_Buffer_With_WASM.html</guid>
-			<source url="https://ddr0.ca/blog-posts/13.Shared_Array_Buffer_With_WASM.html"></source>
+			<link>https://ddr0.ca/blog-posts/13.Shared_Array_Buffers_With_WASM.html</link>
+			<guid isPermaLink='true'>https://ddr0.ca/blog-posts/13.Shared_Array_Buffers_With_WASM.html</guid>
+			<source url="https://ddr0.ca/blog-posts/13.Shared_Array_Buffers_With_WASM.html"></source>
 			<pubDate>Tue, 20 Apr 2021 00:00:00 GMT</pubDate>
 		</item>
 		

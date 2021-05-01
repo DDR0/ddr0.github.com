@@ -3,7 +3,6 @@
 	tags: code-golf response,
 	desc: Let's write a Javascript function\, isBalanced\, that returns true if a set of braces is balanced.,
 	-->
-<h2 id="BalancingBraces"><a href="~&">Balancing Braces</a></h2>
 
 <p>I chanced to read an article this morning on <a href="https://medium.com/@benastontweet/balancing-braces-a76e7b8e5f04">Ben Aston's blog</a>, which dealt with balancing braces. You should go read it now, since it's good and since I'm about to critique the heck out of his approach.</p>
 

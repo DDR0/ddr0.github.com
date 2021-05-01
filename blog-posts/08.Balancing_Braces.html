@@ -25,8 +25,8 @@
 			</div>
 			<a name='content'></a>
 			<div id='content-pane'>
-				<h2 id="BalancingBraces"><a href="08.Balancing_Braces.html">Balancing Braces</a></h2>
-				
+				<h2><a href="/blog-posts/08.Balancing_Braces">Balancing Braces</a></h2>
+
 				<p>I chanced to read an article this morning on <a href="https://medium.com/@benastontweet/balancing-braces-a76e7b8e5f04">Ben Aston's blog</a>, which dealt with balancing braces. You should go read it now, since it's good and since I'm about to critique the heck out of his approach.</p>
 				
 				<p>The task Ben sets himself is simple: write a Javascript function, isBalanced, that returns true if a set of braces is balanced. Running his solution through <a href="https://jshint.com">jshint</a>, we find it has 13 statements with a <a href="https://en.wikipedia.org/wiki/Cyclomatic_complexity">cyclomatic</a> complexity score of 6. I think it is an inelegant solution for an elegant problem, as my solution came in at 4 statements with a complexity score of 2. (And mine doesn't repeat the characters to be matched either. <img class="emote" src="/images/wesnoth%20icons/icon_wink.gif"> )</p>
@@ -62,6 +62,9 @@
 				<p>In our code, <strong>there's a lot of things we don't have to worry about.</strong> We don't have to worry about inverting characters. We don't have to worry about queues. We don't have to worry about what the schema is, or even what <em>a</em> schema is. <strong>We just remove characters from a string.</strong></p>
 				
 				<p>This post is a lot shorter than Ben's, because my solution is a lot simpler. Often you do not have to think of the right data structure, but instead spend some time thinking of the right algorithm. My solution is simpler, but perhaps Ben's is constrained by an outside influence, not stated in the problem - say, the user of the function will want an error message pointing to the mismatched brace. While we should always strive for the clearest code, it's worth remembering that sometimes it was done that way for a reason.</p>
+
+				<span class="tags">tags: <a href="/blog-posts/tags#code-golf">code golf</a>, <a href="/blog-posts/tags#response">response</a></span>
+
 			</div>
 		</div>
 	</body>

@@ -7,7 +7,6 @@ const Prism = require('prismjs')
 	desc: What happens when you use a SharedArrayBuffer as a WASM source?,
 	capreq: prism,
 -->
-<h2 id="shared-wasm-buffer"><a href="${page}">Shared Array Buffers With WASM</a></h2>
 
 <p>Yesterday, I solved a long-standing question I'd had - how do you get data out of a  WebAssembly program without having to copy it back? Ideally, in such a way that a web worker wouldn't have to copy it back to the main thread either. I've been able to find some information on this around the web, but much of it seems to be rather outdated or does not address the issue. I decided to have a crack at it myself and figure out the state of the art by writing a small proof-of-concept.</p>
 

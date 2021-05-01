@@ -27,8 +27,8 @@
 			</div>
 			<a name='content'></a>
 			<div id='content-pane'>
-				<h2 id="shared-wasm-buffer"><a href="13.Shared_Array_Buffers_With_WASM.html">Shared Array Buffers With WASM</a></h2>
-				
+				<h2><a href="/blog-posts/13.Shared_Array_Buffers_With_WASM">Shared Array Buffers With WASM</a></h2>
+
 				<p>Yesterday, I solved a long-standing question I'd had - how do you get data out of a  WebAssembly program without having to copy it back? Ideally, in such a way that a web worker wouldn't have to copy it back to the main thread either. I've been able to find some information on this around the web, but much of it seems to be rather outdated or does not address the issue. I decided to have a crack at it myself and figure out the state of the art by writing a small proof-of-concept.</p>
 				
 				<h3>Version 1</h3>
@@ -120,6 +120,9 @@
 					<li>We must capture the newly-shared text buffer in the callback (as <code>globalBytes</code>), so we won't bother manipulating it before we instantiate our WebAssembly program.</li>
 				</ol>
 				<p>To test this, we call <code>hello()</code> again, which sets <code>globalBytes</code> to our "Hello, world!" message. We now set the first character to an apostrophe, and call in to our function again to test if we were able to set data visible to WASM. It prints "'ello, world!", thus demonstrating we are! Since we're working with a <code>SharedArrayBuffer</code> here, we can share this reference across threads to get fast, efficient data transfer.</p>
+
+				<span class="tags">tags: <a href="/blog-posts/tags#wasm">wasm</a>, <a href="/blog-posts/tags#js">js</a>, <a href="/blog-posts/tags#web-dev">web dev</a></span>
+
 			</div>
 		</div>
 	</body>

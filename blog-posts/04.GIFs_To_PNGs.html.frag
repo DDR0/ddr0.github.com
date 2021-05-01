@@ -2,8 +2,8 @@
 	published: 2015-05-07, modified: 2015-05-14,
 	tags: command-line example imagemagick gif png conversion,
 	desc: An improved script to convert gif animations to spritesheet pngs.,
+	title: Batch Converting Gif Animations to Spritesheets with ImageMagick,
 -->
-<h2><a href="~&">Batch Converting Gif Animations to Spritesheets with ImageMagick</a></h2>
 
 <p>During some recent work on the <a href="http://www.pixeljoint.com/2015/01/21/4521/Open_Pixel_Platformer_is_back.htm">Open Pixel Platformer</a>, I had many .gif animations which I needed to make into spritesheets. To convert them all, I wrote a Bash script to automate the task.</p>
 

@@ -2,7 +2,7 @@
 <html lang='en'>
 	<head>
 		<meta charset=utf-8>
-		<title>Text Templating</title>
+		<title>A Case Against Text Templating</title>
 		<link href="/css/grey-and-blue.css" rel=stylesheet>
 		<meta name="theme-color" content="#3377FF">
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5.0, minimum-scale=1">
@@ -25,8 +25,8 @@
 			</div>
 			<a name='content'></a>
 			<div id='content-pane'>
-				<h2><a href="06.Text_Templating.html">A Case Against Text Templating</a></h2>
-				
+				<h2><a href="/blog-posts/06.Text_Templating">A Case Against Text Templating</a></h2>
+
 				<p>I recently had to deal with a mature PHP-based application. While quite well maintained, the code was suffering heavily from the effects of greedy serialization. Most templating languages, PHP included, work by going along and imperatively creating a long string of text. Echo this, buffer that, and concatenate the whole shebang into an outgoing HTML file. This is a powerful approach, beautiful in the simplicity of its method, and infinitely embeddable.</p>
 				
 				<p>It is also a a trap.</p>
@@ -48,6 +48,9 @@
 				<p>The bug report about one of the list items being incorrect is similarly solved by modifying the offending item in place, as a one-off change.</p>
 				
 				<p>Now the getBreadcrumb(context[, extraListItems]) call is manageable. Special cases are handled locally, and the arguments list is not polluted with redundant behaviour. By discarding the structural information of our HTML document only after we're done creating all of it, we are free to manipulate it as we need to. Because we don't have to write a function to generate the perfect breadcrumb trail every time, we are able to write a simple one that just generates a good default breadcrumb trail.</p>
+
+				<span class="tags">tags: <a href="/blog-posts/tags#rant">rant</a>, <a href="/blog-posts/tags#html">html</a>, <a href="/blog-posts/tags#templating">templating</a>, <a href="/blog-posts/tags#php">php</a>, <a href="/blog-posts/tags#web-dev">web dev</a></span>
+
 			</div>
 		</div>
 	</body>

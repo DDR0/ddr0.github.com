@@ -1,10 +1,11 @@
 <!--
 	published: 2013-11-26, modified: 2014-08-04,
 	tags: demo interactive createjs article example web-dev html5,
-	desc: I have found it difficult to find nice\, simple examples of how to lay out an EaselJS program. Here are five.
+	desc: I have found it difficult to find nice\, simple examples of how to lay out an EaselJS program. Here are five.,
+	title: Practical CreateJS Examples,
 -->
-<h2><a href="~&">Practical CreateJS Examples</a></h2>
-<!-- /This is a trigger to start looking for elements with data-code-sources. The script pans through the entire page looking for it, because I don't know to to 'get elements after this element'. We break at the <hr> -->
+
+<!-- This class is a trigger to start looking for elements with data-code-sources. The script pans through the entire page looking for it, because I don't know to to 'get elements after this element'. We break at the <hr> -->
 <script class='start-code-viewer-scan'>
 	"use strict";
 	var createjsExamples = {

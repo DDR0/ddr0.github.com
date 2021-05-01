@@ -2,7 +2,7 @@
 <html lang='en'>
 	<head>
 		<meta charset=utf-8>
-		<title>GIFs To PNGs</title>
+		<title>Batch Converting Gif Animations to Spritesheets with ImageMagick</title>
 		<link href="/css/grey-and-blue.css" rel=stylesheet>
 		<meta name="theme-color" content="#3377FF">
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5.0, minimum-scale=1">
@@ -25,8 +25,8 @@
 			</div>
 			<a name='content'></a>
 			<div id='content-pane'>
-				<h2><a href="04.GIFs_To_PNGs.html">Batch Converting Gif Animations to Spritesheets with ImageMagick</a></h2>
-				
+				<h2><a href="/blog-posts/04.GIFs_To_PNGs">Batch Converting Gif Animations to Spritesheets with ImageMagick</a></h2>
+
 				<p>During some recent work on the <a href="http://www.pixeljoint.com/2015/01/21/4521/Open_Pixel_Platformer_is_back.htm">Open Pixel Platformer</a>, I had many .gif animations which I needed to make into spritesheets. To convert them all, I wrote a Bash script to automate the task.</p>
 				
 				<!-- Code tag on each line because each line gets padded later in the compiling process too. -->
@@ -56,6 +56,9 @@
 				</div>
 				<span>View on <a href="https://github.com/DDR0/open_pixel_platformer/blob/d3b71ce7a5c8eea2fa43edeaef487bd870de1c29/images/google%20drive/animationToSpritesheet.zsh">Github</a></span><br>
 				<p>The script loops over any gifs found, and runs ImageMagick's <code>montage</code> on them to convert them to a png spritesheet. The output takes into account transparency of the original image and draws a border around each frame so you can easily find the right dimensions. To use the script, run it in the root folder containing everything you want to convert. The script should work in Bash on Mac or Linux if Imagemagick is installed, but it will not work on Windows.</p>
+
+				<span class="tags">tags: <a href="/blog-posts/tags#command-line">command line</a>, <a href="/blog-posts/tags#example">example</a>, <a href="/blog-posts/tags#imagemagick">imagemagick</a>, <a href="/blog-posts/tags#gif">gif</a>, <a href="/blog-posts/tags#png">png</a>, <a href="/blog-posts/tags#conversion">conversion</a></span>
+
 			</div>
 		</div>
 	</body>

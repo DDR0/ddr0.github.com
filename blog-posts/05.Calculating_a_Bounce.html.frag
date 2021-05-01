@@ -3,7 +3,7 @@
 	tags: math bounce physics,
 	desc: Given a ball and a curved wall\, how do we calculate the angle of the bounce of the ball?,
 -->
-<h2><a href="~&">Calculating a Bounce</a></h2>
+
 <div class="no-p-indent">
 	<p>Problem: Given a ball and a curved wall, how do we calculate the angle of the bounce of the ball? Assuming we have the normal of the wall at the bounce location, our problem becomes:</p>
 	<p>Problem: Given two vectors, x₁ and n, how do we mirror vector x₁ around vector n to get x′? (x₁ is the ball velocity and n is the normal of the wall.)</p>

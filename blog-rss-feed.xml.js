@@ -14,7 +14,7 @@
 		
 		${entries.map(entry => `
 		<item>
-			<title>${entry.get('header')}</title>
+			<title>${entry.get('title')}</title>
 			<description>${entry.get('desc')}</description>
 			<link>https://ddr0.ca/blog-posts/${entry.get('file')}</link>
 			<guid isPermaLink='true'>https://ddr0.ca/blog-posts/${entry.get('file')}</guid>

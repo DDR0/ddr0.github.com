@@ -3,7 +3,6 @@
 	tags: meta web-dev github,
 	desc: Properly moving to DDR0.ca from Github Pages.,
 -->
-<h2 id="Moving-Domains"><a href="~&">Moving Domains</a></h2>
 
 <p>On Feb 23, 2012, I added a test page to my personal website at http://ddr0.github.com, using <a href="https://pages.github.com/">Github Pages</a>. Three years later, I purchased ddr0.ca and started redirecting the domain name to http://ddr0.github.io, which Github had migrated Pages to after <a href="https://github.blog/2013-04-05-new-github-pages-domain-github-io/">some security issues</a> arising from having them on a subdomain of the main site. A few years after that, I started hosting my website myself on a VPS at <a href="https://cloudatcost.com">Cloud at Cost</a>. I kept the Github Pages in case anything went wrong. Ultimately, it did - the VPS service slowly died of oversubscription a few months ago. (It was an excellent service for many years—and for less than a dollar a month!)</p>
 

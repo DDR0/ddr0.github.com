@@ -27,14 +27,12 @@
 			</div>
 			<a name='content'></a>
 			<div id='content-pane'>
-				<!--
-					published: 2021-04-20,
-					tags: wasm js web-dev,
-					desc: What happens when you use a SharedArrayBuffer as a WASM source?,
-					capreq: prism,
-				-->
-				<h2 id="shared-wasm-buffer"><a href="/blog-posts/13.Shared_Array_Buffers_With_WASM.html">Shared Array Buffers With WASM</a></h2>
+
+				<h2 id="shared-array-buffers-with-wasm">
+											<a href="/blog-posts/13.Shared_Array_Buffers_With_WASM">Shared Array Buffers With WASM</a>
+										</h2>
 				
+						
 				<p>Yesterday, I solved a long-standing question I'd had - how do you get data out of a  WebAssembly program without having to copy it back? Ideally, in such a way that a web worker wouldn't have to copy it back to the main thread either. I've been able to find some information on this around the web, but much of it seems to be rather outdated or does not address the issue. I decided to have a crack at it myself and figure out the state of the art by writing a small proof-of-concept.</p>
 				
 				<h3>Version 1</h3>
@@ -126,6 +124,9 @@
 					<li>We must capture the newly-shared text buffer in the callback (as <code>globalBytes</code>), so we won't bother manipulating it before we instantiate our WebAssembly program.</li>
 				</ol>
 				<p>To test this, we call <code>hello()</code> again, which sets <code>globalBytes</code> to our "Hello, world!" message. We now set the first character to an apostrophe, and call in to our function again to test if we were able to set data visible to WASM. It prints "'ello, world!", thus demonstrating we are! Since we're working with a <code>SharedArrayBuffer</code> here, we can share this reference across threads to get fast, efficient data transfer.</p>
+						
+										<span class="tags">tags: 				<a href="/blog-posts/tags#wasm">wasm</a>, <a href="/blog-posts/tags#js">js</a>, <a href="/blog-posts/tags#web-dev">web dev</a></span>
+					
 				
 				
 				
@@ -137,14 +138,12 @@
 				
 				
 				
-				<!--
-					published: 2021-04-20,
-					tags: js quirk microblog web-dev,
-					desc: Same script, multiple tags. What happens?,
-					capreq: prism,
-				-->
-				<h2 id="SSMT"><a href="/blog-posts/12.Same_Script_Multiple_Tags.html">Same Script, Multiple Tags</a></h2>
 				
+										<h2 id="same-script-multiple-tags">
+											<a href="/blog-posts/12.Same_Script_Multiple_Tags">Same Script, Multiple Tags</a>
+										</h2>
+				
+						
 				<p>Today, I happened on a fun quirk of web-dev. What happens if you include the same script twice, say like this:</p>
 				
 				<code class="prism-block language-html">
@@ -160,6 +159,9 @@
 				<p class=noindent>Nothing good ever comes of running scripts multiple times. I'm glad it's out.</p>
 				
 				<p class=noindent>P.S.: Fun fact: You can still <a href="https://developer.mozilla.org/en-US/docs/Web/API/Document/open"><code>document.write(…)</code></a> in an ECMAScript module, which just feels… <em>wrong.</em> (At least the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/with">with</a> statement is history there, as modules are always in strict mode.)</p>
+						
+										<span class="tags">tags: 				<a href="/blog-posts/tags#js">js</a>, <a href="/blog-posts/tags#quirk">quirk</a>, <a href="/blog-posts/tags#microblog">microblog</a>, <a href="/blog-posts/tags#web-dev">web dev</a></span>
+					
 				
 				
 				
@@ -171,14 +173,12 @@
 				
 				
 				
-				<!--
-					published: 2021-04-17,
-					tags: webgl privacy demo web-dev,
-					desc: Is your graphics card exposed to the web? Find out here.,
-					capreq: prism,
-				-->
-				<h2 id="Graphics-Card-Test"><a href="/blog-posts/11.Graphics_Card_Test.html">Graphics Card Exposure Test</a></h2>
 				
+										<h2 id="graphics-card-test">
+											<a href="/blog-posts/11.Graphics_Card_Test">Graphics Card Exposure Test</a>
+										</h2>
+				
+						
 				<p>Sometimes, your graphics card's details are exposed to the web. <b id="graphics-card-test-output">Yours are not right now, though, which is good.</b> Try opening this page in different browsers – I found Chrome had much more information than Firefox, for example.</p>
 				
 				<h3>The Code</h3>
@@ -218,6 +218,9 @@
 					document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'graphics-card-test-output'</span><span class="token punctuation">)</span>
 						<span class="token punctuation">.</span>textContent <span class="token operator">=</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">Yours is </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>gpu<span class="token punctuation">.</span>vendor<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">'s </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>gpu<span class="token punctuation">.</span>card<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">.</span><span class="token template-punctuation string">`</span></span>
 				</code>
+						
+										<span class="tags">tags: 				<a href="/blog-posts/tags#webgl">webgl</a>, <a href="/blog-posts/tags#privacy">privacy</a>, <a href="/blog-posts/tags#demo">demo</a>, <a href="/blog-posts/tags#web-dev">web dev</a></span>
+					
 				
 				
 				
@@ -229,13 +232,12 @@
 				
 				
 				
-				<!--
-					published: 2021-04-15,
-					tags: meta web-dev github,
-					desc: Properly moving to DDR0.ca from Github Pages.,
-				-->
-				<h2 id="Moving-Domains"><a href="blog-posts/10.Moving_Domains.html">Moving Domains</a></h2>
 				
+										<h2 id="moving-domains">
+											<a href="/blog-posts/10.Moving_Domains">Moving Domains</a>
+										</h2>
+				
+						
 				<p>On Feb 23, 2012, I added a test page to my personal website at http://ddr0.github.com, using <a href="https://pages.github.com/">Github Pages</a>. Three years later, I purchased ddr0.ca and started redirecting the domain name to http://ddr0.github.io, which Github had migrated Pages to after <a href="https://github.blog/2013-04-05-new-github-pages-domain-github-io/">some security issues</a> arising from having them on a subdomain of the main site. A few years after that, I started hosting my website myself on a VPS at <a href="https://cloudatcost.com">Cloud at Cost</a>. I kept the Github Pages in case anything went wrong. Ultimately, it did - the VPS service slowly died of oversubscription a few months ago. (It was an excellent service for many years—and for less than a dollar a month!)</p>
 				
 				<p>As my web server slowly fell out from under me, taking upwards of half a minute to run <code>ls</code>, I retreated to my living room where this site is hosted now. I had deployed a highly-accessible DnD-style dice roller, <a href="https://ddr0.ca/%F0%9F%8E%B2/">🎲</a>, but it required a <a href="https://nodejs.org/en/">Node</a>-based service running on the back-end to perform the rolls.</p>
@@ -245,6 +247,9 @@
 				<p>As I don't have a whole lot of control over how Github Pages serves my content, I've <a href="https://github.com/DDR0/ddr0.github.com/tree/github-pages-shell">replaced the content</a> of each HTML file with a <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meta#examples">meta redirect</a> and deleted most of the other files. This means that, as far as I can manage, the URLs that have been linked around the web should still work. <a href="https://www.w3.org/Provider/Style/URI">Cool URLs don't change.</a></p>
 				
 				<p>Moving forward, I should get the releases for my old projects (River Run, Cube Trains, and the Open Pixel Platformer demo) out of this repo. Github has the concept of releases now, and I would like to use that instead of the repo for my website. The files will still be hosted on this website as insurance against something going missing, of course, <em>since you only own something if it's on your computer.</em> And, of course, I'd like to update this blog a little more. I need a reason to implement pagination!</p>
+						
+										<span class="tags">tags: 				<a href="/blog-posts/tags#meta">meta</a>, <a href="/blog-posts/tags#web-dev">web dev</a>, <a href="/blog-posts/tags#github">github</a></span>
+					
 				
 				
 				
@@ -256,13 +261,15 @@
 				
 				
 				
-				<!--
-					published: 2016-11-21,
-					tags: csp web-dev xss microblog,
-					desc: Should a Content Security Policy be set on all website content?,
-				-->
-				<h2 id="CSP"><a href="blog-posts/09.CSP_on_HTML_Assets.html">Web Security: Should CSP be set for my HTML files only, or my HTML files and all my assets?</a></h2>
-				<p>Yes. "Some web framework automatically generate html on error pages and we found xss issues in those in the past, so setting <a href="https://developer.mozilla.org/en/docs/Web/Security/CSP">CSP</a> on everything is best." --ulfr from <a href="irc://irc.mozilla.org">Moznet</a></p>
+				
+										<h2 id="csp-on-html-assets">
+											<a href="/blog-posts/09.CSP_on_HTML_Assets">Web Security: Should CSP be set for my HTML files only, or my HTML files and all my assets?</a>
+										</h2>
+				
+						<p>Yes. "Some web framework automatically generate html on error pages and we found xss issues in those in the past, so setting <a href="https://developer.mozilla.org/en/docs/Web/Security/CSP">CSP</a> on everything is best." --ulfr from <a href="irc://irc.mozilla.org">Moznet</a></p>
+						
+										<span class="tags">tags: 				<a href="/blog-posts/tags#csp">csp</a>, <a href="/blog-posts/tags#web-dev">web dev</a>, <a href="/blog-posts/tags#xss">xss</a>, <a href="/blog-posts/tags#microblog">microblog</a></span>
+					
 				
 				
 				
@@ -274,13 +281,12 @@
 				
 				
 				
-				<!--
-					published: 2016-11-16,
-					tags: code-golf response,
-					desc: Let's write a Javascript function\, isBalanced\, that returns true if a set of braces is balanced.,
-					-->
-				<h2 id="BalancingBraces"><a href="blog-posts/08.Balancing_Braces.html">Balancing Braces</a></h2>
 				
+										<h2 id="balancing-braces">
+											<a href="/blog-posts/08.Balancing_Braces">Balancing Braces</a>
+										</h2>
+				
+						
 				<p>I chanced to read an article this morning on <a href="https://medium.com/@benastontweet/balancing-braces-a76e7b8e5f04">Ben Aston's blog</a>, which dealt with balancing braces. You should go read it now, since it's good and since I'm about to critique the heck out of his approach.</p>
 				
 				<p>The task Ben sets himself is simple: write a Javascript function, isBalanced, that returns true if a set of braces is balanced. Running his solution through <a href="https://jshint.com">jshint</a>, we find it has 13 statements with a <a href="https://en.wikipedia.org/wiki/Cyclomatic_complexity">cyclomatic</a> complexity score of 6. I think it is an inelegant solution for an elegant problem, as my solution came in at 4 statements with a complexity score of 2. (And mine doesn't repeat the characters to be matched either. <img class="emote" src="/images/wesnoth%20icons/icon_wink.gif"> )</p>
@@ -316,6 +322,9 @@
 				<p>In our code, <strong>there's a lot of things we don't have to worry about.</strong> We don't have to worry about inverting characters. We don't have to worry about queues. We don't have to worry about what the schema is, or even what <em>a</em> schema is. <strong>We just remove characters from a string.</strong></p>
 				
 				<p>This post is a lot shorter than Ben's, because my solution is a lot simpler. Often you do not have to think of the right data structure, but instead spend some time thinking of the right algorithm. My solution is simpler, but perhaps Ben's is constrained by an outside influence, not stated in the problem - say, the user of the function will want an error message pointing to the mismatched brace. While we should always strive for the clearest code, it's worth remembering that sometimes it was done that way for a reason.</p>
+						
+										<span class="tags">tags: 				<a href="/blog-posts/tags#code-golf">code golf</a>, <a href="/blog-posts/tags#response">response</a></span>
+					
 				
 				
 				
@@ -327,12 +336,12 @@
 				
 				
 				
-				<!--
-					published: 2016-10-29, modified: 2016-11-16,
-					tags: wacom tech-support hearthstone hack workaround ahk,
-					desc: As of 2016-10-29\, there is some sort of bug with Hearthstone where it will ignore clicks coming from a tablet. AHK can work around this.,
-				-->
-				<h2 id="WacomForHearthstone"><a href="blog-posts/07.Wacom_for_Hearthstone.html">Fixing Wacom Tablets for Hearthstone in Windows</a></h2>
+				
+										<h2 id="wacom-for-hearthstone">
+											<a href="/blog-posts/07.Wacom_for_Hearthstone">Fixing Wacom Tablets for Hearthstone in Windows</a>
+										</h2>
+				
+						<a id="WacomForHearthstone"></a> <!-- anchor to link to this post, from before we had individual post pages -->
 				
 				<p>As of 2016-10-29, there is some sort of bug with Hearthstone where it will ignore clicks coming from a tablet. A quick search turns up complaints, but no solution:</p>
 				
@@ -361,6 +370,9 @@
 				<p>Double-click to run. Hearthstone should now work as expected.</p>
 				
 				<p>I also followed <a href="https://www.volnapc.com/all-posts/how-to-get-rid-of-those-annoying-circles-from-your-wacom-cursor-in-windows-7">these instructions to disable the click rings in Windows</a>.</p>
+						
+										<span class="tags">tags: 				<a href="/blog-posts/tags#wacom">wacom</a>, <a href="/blog-posts/tags#tech-support">tech support</a>, <a href="/blog-posts/tags#hearthstone">hearthstone</a>, <a href="/blog-posts/tags#hack">hack</a>, <a href="/blog-posts/tags#workaround">workaround</a>, <a href="/blog-posts/tags#ahk">ahk</a></span>
+					
 				
 				
 				
@@ -372,13 +384,12 @@
 				
 				
 				
-				<!--
-					published: 2015-06-27,
-					tags: rant html templating php web-dev,
-					desc: By throwing out valuable structural information\, text templating makes you write bad code.
-				-->
-				<h2><a href="blog-posts/06.Text_Templating.html">A Case Against Text Templating</a></h2>
 				
+										<h2 id="text-templating">
+											<a href="/blog-posts/06.Text_Templating">A Case Against Text Templating</a>
+										</h2>
+				
+						
 				<p>I recently had to deal with a mature PHP-based application. While quite well maintained, the code was suffering heavily from the effects of greedy serialization. Most templating languages, PHP included, work by going along and imperatively creating a long string of text. Echo this, buffer that, and concatenate the whole shebang into an outgoing HTML file. This is a powerful approach, beautiful in the simplicity of its method, and infinitely embeddable.</p>
 				
 				<p>It is also a a trap.</p>
@@ -400,6 +411,9 @@
 				<p>The bug report about one of the list items being incorrect is similarly solved by modifying the offending item in place, as a one-off change.</p>
 				
 				<p>Now the getBreadcrumb(context[, extraListItems]) call is manageable. Special cases are handled locally, and the arguments list is not polluted with redundant behaviour. By discarding the structural information of our HTML document only after we're done creating all of it, we are free to manipulate it as we need to. Because we don't have to write a function to generate the perfect breadcrumb trail every time, we are able to write a simple one that just generates a good default breadcrumb trail.</p>
+						
+										<span class="tags">tags: 				<a href="/blog-posts/tags#rant">rant</a>, <a href="/blog-posts/tags#html">html</a>, <a href="/blog-posts/tags#templating">templating</a>, <a href="/blog-posts/tags#php">php</a>, <a href="/blog-posts/tags#web-dev">web dev</a></span>
+					
 				
 				
 				
@@ -411,12 +425,12 @@
 				
 				
 				
-				<!--
-					published: 2015-06-18, modified: 2016-11-16,
-					tags: math bounce physics,
-					desc: Given a ball and a curved wall\, how do we calculate the angle of the bounce of the ball?,
-				-->
-				<h2><a href="blog-posts/05.Calculating_a_Bounce.html">Calculating a Bounce</a></h2>
+				
+										<h2 id="calculating-a-bounce">
+											<a href="/blog-posts/05.Calculating_a_Bounce">Calculating a Bounce</a>
+										</h2>
+				
+						
 				<div class="no-p-indent">
 					<p>Problem: Given a ball and a curved wall, how do we calculate the angle of the bounce of the ball? Assuming we have the normal of the wall at the bounce location, our problem becomes:</p>
 					<p>Problem: Given two vectors, x₁ and n, how do we mirror vector x₁ around vector n to get x′? (x₁ is the ball velocity and n is the normal of the wall.)</p>
@@ -457,6 +471,9 @@
 						<code>}</code>
 					</div>
 				</div>
+						
+										<span class="tags">tags: 				<a href="/blog-posts/tags#math">math</a>, <a href="/blog-posts/tags#bounce">bounce</a>, <a href="/blog-posts/tags#physics">physics</a></span>
+					
 				
 				
 				
@@ -468,13 +485,12 @@
 				
 				
 				
-				<!--
-					published: 2015-05-07, modified: 2015-05-14,
-					tags: command-line example imagemagick gif png conversion,
-					desc: An improved script to convert gif animations to spritesheet pngs.,
-				-->
-				<h2><a href="blog-posts/04.GIFs_To_PNGs.html">Batch Converting Gif Animations to Spritesheets with ImageMagick</a></h2>
 				
+										<h2 id="gifs-to-pngs">
+											<a href="/blog-posts/04.GIFs_To_PNGs">Batch Converting Gif Animations to Spritesheets with ImageMagick</a>
+										</h2>
+				
+						
 				<p>During some recent work on the <a href="http://www.pixeljoint.com/2015/01/21/4521/Open_Pixel_Platformer_is_back.htm">Open Pixel Platformer</a>, I had many .gif animations which I needed to make into spritesheets. To convert them all, I wrote a Bash script to automate the task.</p>
 				
 				<!-- Code tag on each line because each line gets padded later in the compiling process too. -->
@@ -504,6 +520,9 @@
 				</div>
 				<span>View on <a href="https://github.com/DDR0/open_pixel_platformer/blob/d3b71ce7a5c8eea2fa43edeaef487bd870de1c29/images/google%20drive/animationToSpritesheet.zsh">Github</a></span><br>
 				<p>The script loops over any gifs found, and runs ImageMagick's <code>montage</code> on them to convert them to a png spritesheet. The output takes into account transparency of the original image and draws a border around each frame so you can easily find the right dimensions. To use the script, run it in the root folder containing everything you want to convert. The script should work in Bash on Mac or Linux if Imagemagick is installed, but it will not work on Windows.</p>
+						
+										<span class="tags">tags: 				<a href="/blog-posts/tags#command-line">command line</a>, <a href="/blog-posts/tags#example">example</a>, <a href="/blog-posts/tags#imagemagick">imagemagick</a>, <a href="/blog-posts/tags#gif">gif</a>, <a href="/blog-posts/tags#png">png</a>, <a href="/blog-posts/tags#conversion">conversion</a></span>
+					
 				
 				
 				
@@ -515,13 +534,13 @@
 				
 				
 				
-				<!--
-					published: 2013-11-26, modified: 2014-08-04,
-					tags: demo interactive createjs article example web-dev html5,
-					desc: I have found it difficult to find nice\, simple examples of how to lay out an EaselJS program. Here are five.
-				-->
-				<h2><a href="blog-posts/03.CreateJS_Examples.html">Practical CreateJS Examples</a></h2>
-				<!-- /This is a trigger to start looking for elements with data-code-sources. The script pans through the entire page looking for it, because I don't know to to 'get elements after this element'. We break at the <hr> -->
+				
+										<h2 id="createjs-examples">
+											<a href="/blog-posts/03.CreateJS_Examples">Practical CreateJS Examples</a>
+										</h2>
+				
+						
+				<!-- This class is a trigger to start looking for elements with data-code-sources. The script pans through the entire page looking for it, because I don't know to to 'get elements after this element'. We break at the <hr> -->
 				<script class='start-code-viewer-scan'>
 					"use strict";
 					var createjsExamples = {
@@ -752,6 +771,9 @@
 				<!-- /Replace this with the last element in the article, when we've written it. -->
 				<span data-code-viewer-scan='end'></span>
 				
+						
+										<span class="tags">tags: 				<a href="/blog-posts/tags#demo">demo</a>, <a href="/blog-posts/tags#interactive">interactive</a>, <a href="/blog-posts/tags#createjs">createjs</a>, <a href="/blog-posts/tags#article">article</a>, <a href="/blog-posts/tags#example">example</a>, <a href="/blog-posts/tags#web-dev">web dev</a>, <a href="/blog-posts/tags#html5">html5</a></span>
+					
 				
 				
 				
@@ -763,12 +785,12 @@
 				
 				
 				
-				<!--
-					published: 2013-04-04, modified: 2013-11-26, 
-					tags: game-design open-ttd sim-city a-dark-room game-theory theory,
-					desc: Computer games are\, in broad terms\, systems of exchange…,
-				-->
-				<h2><a href="blog-posts/02.Flowcharts_of_Game_Mechanics.html">Diagrams and Charts of Game Mechanics</a></h2>
+				
+										<h2 id="flowcharts-of-game-mechanics">
+											<a href="/blog-posts/02.Flowcharts_of_Game_Mechanics">Diagrams and Charts of Game Mechanics</a>
+										</h2>
+				
+						
 				<p>
 					Computer games are, in broad terms, systems of exchange. The player can exchange gold coins for a fancy sword; time and attention for progress; or the player can sit back and watch the game exchange stuff with itself. By graphing interactions between the player and bits of the game, we can see what the focus of the play of the game will be. Lets start off by looking at the simplest example there is, <a class="external" href="http://progressquest.com/">Progress Quest</a><a class="lp" href="https://www.youtube.com/watch?v=0W2DyOWPbAA"></a>.
 				</p>
@@ -835,6 +857,9 @@
 					And that – that is powerful stuff. <a class="external" href="https://www.valvesoftware.com/games/portal.html">Portal</a><a class='lp' href="https://www.youtube.com/watch?v=urlwUpCDLW4&list=SP28A9E697FB499C82&index=1"></a> (the first version, at least) played the same game, to great effect, and enjoyed great success. <em>Progress</em> is a powerful thing!
 				</p>
 				
+						
+										<span class="tags">tags: 				<a href="/blog-posts/tags#game-design">game design</a>, <a href="/blog-posts/tags#open-ttd">open ttd</a>, <a href="/blog-posts/tags#sim-city">sim city</a>, <a href="/blog-posts/tags#a-dark-room">a dark room</a>, <a href="/blog-posts/tags#game-theory">game theory</a>, <a href="/blog-posts/tags#theory">theory</a></span>
+					
 				
 				
 				
@@ -846,12 +871,16 @@
 				
 				
 				
-				<!--
-					published: 2013-04-04,
-					desc: This is the start of the blog. That's all there is\, there is no more.,
-				-->
-				<h2><a href="blog-posts/01.The_Start_at_the_End.html">The Start</a></h2>
+				
+										<h2 id="the-start-at-the-end">
+											<a href="/blog-posts/01.The_Start_at_the_End">The Start</a>
+										</h2>
+				
+						
 				<p>This is the start of the blog. That's all there is, there is no more.</p>
+				
+						
+										<!-- this post is untagged -->
 			</div>
 		</div>
 	</body>

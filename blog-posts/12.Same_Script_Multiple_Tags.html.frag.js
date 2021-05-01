@@ -4,10 +4,10 @@ const Prism = require('prismjs')
 <!--
 	published: 2021-04-20,
 	tags: js quirk microblog web-dev,
-	desc: Same script\, multiple tags. What happens?,
+	desc: Same script\\, multiple tags. What happens?,
 	capreq: prism,
+	title: Same Script\\, Multiple Tags,
 -->
-<h2 id="SSMT"><a href="${page}">Same Script, Multiple Tags</a></h2>
 
 <p>Today, I happened on a fun quirk of web-dev. What happens if you include the same script twice, say like this:</p>
 

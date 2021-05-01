@@ -18,7 +18,6 @@ const render = require('./render-file.node.js')
 
 const parseFileName = RegExp.prototype.exec.bind(/(?<number>\d*)\.(?<title>[\w-]*)\.(?<ext>html\.frag(?:.js)?)/)
 const parsePostContent = RegExp.prototype.exec.bind(/^`?\s*?<!--(?<metadata>(?:.|\n)*?)-->\n?(?<content>(?:.|\n)*)/) //Look for leading comment. This is where metadata lives. xattrs was another plausible home for it, but sych issues were brutal there.
-const extractHeaderText = RegExp.prototype.exec.bind(/<h2.*?><a.*?>(?<text>.*?)<\/a><\/h2>/)
 const dump = (...args) => (console.error.apply(console, args), args.slice(-1)[0])
 
 const tags = new Proxy(new Map(), {
@@ -78,14 +77,12 @@ fs.readdirSync('blog-posts')
 			throw new Error(`Could not find published date metadata in ${match.input}.`)
 		}
 		metadata.set('number', match.groups.number)
-		metadata.set('title', match.groups.title.replace(/_/g, ' '))
+		if(!metadata.get('title')) {
+			metadata.set('title', match.groups.title.replace(/_/g, ' '))
+		}
 		
 		const outfile = `${match.groups.number}.${match.groups.title}.html`
 		metadata.set('file', outfile)
-		
-		const header = extractHeaderText(postContent.input)
-		if (!header) { throw new Error(`Could not find header in ${match.input}.`) }
-		metadata.set('header', header.groups.text)
 		
 		fs.writeFileSync(
 			`blog-posts/${outfile}`,

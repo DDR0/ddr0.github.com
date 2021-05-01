@@ -196,4 +196,9 @@ footer {
   color: rgba(0, 0, 0, 0.3);
   text-shadow: rgba(0, 0, 0, 0.1) -1px 0, rgba(0, 0, 0, 0.1) 0 -1px, rgba(255, 255, 255, 0.1) 1px 0, rgba(255, 255, 255, 0.1) 0 1px, rgba(0, 0, 0, 0.1) -1px -1px, rgba(255, 255, 255, 0.1) 1px 1px;
 }
+.tags {
+  font-size: 85%;
+  opacity: 0.8;
+  margin-top: 0.5rem;
+}
 /*# sourceMappingURL=grey-and-blue.css.map */

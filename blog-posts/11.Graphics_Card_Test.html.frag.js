@@ -6,8 +6,8 @@ const Prism = require('prismjs')
 	tags: webgl privacy demo web-dev,
 	desc: Is your graphics card exposed to the web? Find out here.,
 	capreq: prism,
+	title: Graphics Card Exposure Test,
 -->
-<h2 id="Graphics-Card-Test"><a href="${page}">Graphics Card Exposure Test</a></h2>
 
 <p>Sometimes, your graphics card's details are exposed to the web. <b id="graphics-card-test-output">Yours are not right now, though, which is good.</b> Try opening this page in different browsers – I found Chrome had much more information than Firefox, for example.</p>
 

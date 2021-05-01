@@ -126,6 +126,12 @@ location ~ "\.html$" {
 	rewrite ^(.*?)\.html$ $1 permanent;
 }
 
+#Renamed a blog post.
+location ~ "^/blog-posts/13\.Shared_Array_Buffer_With_WASM$" {
+	return 301 /blog-posts/13.Shared_Array_Buffers_With_WASM;
+}
+
+
 location ~ "^/gallery(:?\.html)?$" {
 	try_files $uri $uri.html =404;
 	

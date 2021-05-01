@@ -27,7 +27,7 @@
 			</div>
 			<a name='content'></a>
 			<div id='content-pane'>
-				<h2 id="shared-wasm-buffer"><a href="13.Shared_Array_Buffer_With_WASM.html">Shared Array Buffers With WASM</a></h2>
+				<h2 id="shared-wasm-buffer"><a href="13.Shared_Array_Buffers_With_WASM.html">Shared Array Buffers With WASM</a></h2>
 				
 				<p>Yesterday, I solved a long-standing question I'd had - how do you get data out of a  WebAssembly program without having to copy it back? Ideally, in such a way that a web worker wouldn't have to copy it back to the main thread either. I've been able to find some information on this around the web, but much of it seems to be rather outdated or does not address the issue. I decided to have a crack at it myself and figure out the state of the art by writing a small proof-of-concept.</p>
 				
@@ -67,7 +67,7 @@
 					<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
 				</code>
 				
-				<p>Here, we start by defining some <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WebAssembly/Memory/Memory">WebAssembly memory</a> to pass args around with. (The <code>initial</code> value is in number of 64-KiB pages to allocate.) We then define a function, <code>log</code>, which will take this memory and print the contents using <code>console.log(…)</code>. We'll call this from our WASM code, which we've serialised in this case as a base64 string. (The source of which is <a href="/blog-posts/13.Shared_Array_Buffer_With_WASM/hello.1.wat">hello.1.wat</a>, compiled using <a href="https://webassembly.github.io/wabt/doc/wat2wasm.1.html">wat2wasm</a> from <a href="https://github.com/WebAssembly/wabt">WABT</a>.)</p>
+				<p>Here, we start by defining some <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WebAssembly/Memory/Memory">WebAssembly memory</a> to pass args around with. (The <code>initial</code> value is in number of 64-KiB pages to allocate.) We then define a function, <code>log</code>, which will take this memory and print the contents using <code>console.log(…)</code>. We'll call this from our WASM code, which we've serialised in this case as a base64 string. (The source of which is <a href="/blog-posts/13.Shared_Array_Buffers_With_WASM/hello.1.wat">hello.1.wat</a>, compiled using <a href="https://webassembly.github.io/wabt/doc/wat2wasm.1.html">wat2wasm</a> from <a href="https://github.com/WebAssembly/wabt">WABT</a>.)</p>
 				
 				<p>To get our shared memory, we create a new array backed by a <code>SharedArrayBuffer</code>. In JS, all the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray"><em>typed</em> arrays</a> have a backing buffer. Usually, by default, it's an <code>ArrayBuffer</code>. Amusingly enough, an <code>ArrayBuffer</code> <em>can</em> be shared between multiple typed arrays, even of different types. The <code>SharedArrayBuffer</code> is called so because it can be passed between web workers without copying as well, which a regular <code>ArrayBuffer</code> can't do. This is the behaviour we're after.</p>
 				
@@ -115,7 +115,7 @@
 				
 				<p>With our new memory declaration returning a shared buffer… on most non-Apple desktop browsers… 😬 we can now test this method of memory manipulation. We immediately find three things:
 				<ol>
-					<li>Our WASM program needs to have it's memory declaration updated too, yielding <a href="/blog-posts/13.Shared_Array_Buffer_With_WASM/hello.2.wat">hello.2.wat</a> and a new base64 blob.</li>
+					<li>Our WASM program needs to have it's memory declaration updated too, yielding <a href="/blog-posts/13.Shared_Array_Buffers_With_WASM/hello.2.wat">hello.2.wat</a> and a new base64 blob.</li>
 					<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/TextDecoder"><code>TextDecoder</code></a> doesn't accept a SharedArrayBuffer, so we have to write our own little routine here. I guess this is because, as the bytes could change at any time, we could potentially output invalid utf-8 as our data shifted under us. We don't care for this single-threaded demo, but it would be an issue normally.</li>
 					<li>We must capture the newly-shared text buffer in the callback (as <code>globalBytes</code>), so we won't bother manipulating it before we instantiate our WebAssembly program.</li>
 				</ol>

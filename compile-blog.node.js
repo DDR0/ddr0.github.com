@@ -78,7 +78,7 @@ fs.readdirSync('blog-posts')
 			throw new Error(`Could not find published date metadata in ${match.input}.`)
 		}
 		metadata.set('number', match.groups.number)
-		metadata.set('title', match.groups.title)
+		metadata.set('title', match.groups.title.replace(/_/g, ' '))
 		
 		const outfile = `${match.groups.number}.${match.groups.title}.html`
 		metadata.set('file', outfile)

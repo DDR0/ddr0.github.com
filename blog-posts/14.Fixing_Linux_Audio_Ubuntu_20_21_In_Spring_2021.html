@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang='en'>
+	<head>
+		<meta charset=utf-8>
+		<title>Fixing Linux Audio, Spring '21 edition</title>
+		<link href="/css/grey-and-blue.css" rel=stylesheet>
+		<meta name="theme-color" content="#3377FF">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5.0, minimum-scale=1">
+		<link rel="canonical" href="https://ddr0.ca/single-post">
+		<link href='/css/blog.css' rel='stylesheet'>
+		<link rel="alternate" type="application/rss+xml" title="DDR's Blog" href="/blog-rss-feed.xml" />
+	</head>
+	<body>
+		<a href='#content' id='skip-nav'>skip nav</a>
+		<div id='content-holder'>
+			<div id="content-header">
+				<div id='badge'><a href="/blog"><img alt='' src='/images/icons/page.svg'></a></div>
+				<h1><img alt='blog' src='/images/text-blog.png'></h1>
+				<div id='icon-bar'>
+					<a href='/blog'    ><img src='/images/icons/page.svg' ><span>blog</span></a>
+					<a href='/gallery' ><img src='/images/icons/work.svg' ><span>gallery</span></a>
+					<a href='/contact' ><img src='/images/icons/chat2.svg'><span>contact</span></a>
+					<a href='/rss.xml'                                                            ><img src='/images/icons/rss.svg'  ><span>rss</span></a>
+				</div>
+			</div>
+			<a name='content'></a>
+			<div id='content-pane'>
+				<h2><a href="/blog-posts/14.Fixing_Linux_Audio_Ubuntu_20_21_In_Spring_2021">Fixing Linux Audio, Spring '21 edition</a></h2>
+
+				<p>When upgrading from Ubuntu 20 to 21 this spring, my father and I both had the rear audio line out on our computers stop working. As we both had the same problem, I figured I would write it up in case anyone else was affected.</p>
+				
+				<h3>Symptoms</h3>
+				<ol>
+					<li>The original audio device no longer shows up in the list of audio devices.</li>
+					<li>The device is not turned off or muted, and cannot be turned on or unmuted, because it doesn't exist any more.</li>
+					<li>Other devices (USB headphones, Bluetooth, etc.) still work.</li>
+					<li>When no other audio device is attached, a dummy audio device is created.</li>
+					<li>The troublesome audio device shows up when running some commands, I think such as <code>pacmd list-sinks</code>.</li>
+				</ol>
+				
+				<h3>Confirmation</h3>
+				<ol>
+					<li>Running <code>sudo lsof /dev/snd/*</code> in a console shows Timidity holding open some files.</li>
+					<li>Ending the <code>timidity</code> process makes the audio device show up again.</li>
+				</ol>
+				
+				<h3>Fix</h3>
+				<ol>
+					<li>Uninstall Timidity using your software manager, or by running <code>sudo apt remove timidity</code>.</li>
+				</ol>
+				
+				<p class=noindent>Somewhat surprisingly, this does not seem to affect my ability to play back Midi files. I assume my music program is using Fluidsynth, which is a separate system? Nonetheless, a strange bug caused by a misconfiguration somewhere.</p>
+
+				<span class="tags">tags: <a href="/blog-posts/tags#linux">linux</a>, <a href="/blog-posts/tags#sound">sound</a>, <a href="/blog-posts/tags#audio">audio</a>, <a href="/blog-posts/tags#fix">fix</a>, <a href="/blog-posts/tags#tech-support">tech support</a>, <a href="/blog-posts/tags#workaround">workaround</a></span>
+
+			</div>
+		</div>
+	</body>
+	<footer>Site ©2021 DDR.</footer>
+</html>

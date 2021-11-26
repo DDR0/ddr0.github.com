@@ -2,7 +2,7 @@
 set -euo pipefail
 IFS=$'\n\t'
 
-REMOTE=media
+REMOTE=bb
 
 rsync --recursive --links --times --itemize-changes \
 	./                    $REMOTE:/var/www/ddr0.ca/ \

@@ -162,6 +162,9 @@ location ~ "^/gallery(:?\.html)?$" {
 location ~ "^/(?:cube trains|editabled)$" {
 	return 301 $request_uri/;
 }
+location ~ "^/wlroberts$" {
+	return 301 $request_uri/;
+}
 
 #Allow some external resources for Cube Trains.
 location ~ "^/cube trains/[^\.]*(?:\.html)?$" {

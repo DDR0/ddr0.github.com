@@ -53,7 +53,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
 			}${
 				data.comment ? ` ${data.comment}` : ''
 			} (${
-				data.string.includes(', ')
+				data.string.includes(', ') || data.string.includes(']+[') //Try to show multi-rolls, but hide individual results for single rolls since it's redundant.
 					? data.string
 					: data.string.split(':').shift()
 			})`
@@ -97,9 +97,16 @@ document.addEventListener("DOMContentLoaded", ()=>{
 		$('#app output ul').textContent = ''
 	})
 	
+	//Save speak roll results checkbox state.
+	const speakRollResultsCheckbox = $('#speak');
+	speakRollResultsCheckbox.checked = localStorage.speakRollResults === 'true';
+	speakRollResultsCheckbox.addEventListener('change', evt => {
+		localStorage.speakRollResults = evt.target.checked
+	})
+	
 	
 	if (!window['speechSynthesis']) {
-		$('#speak').parentNode.remove()
+		speakRollResultsCheckbox.parentNode.remove()
 		console.warn('speechSynthesis API unavailable')
 	} else {
 		const scoreVoice = voice => {
@@ -127,7 +134,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
 		
 		const spokenRolls = new Set()
 		socket.on('roll', ({data, isHistorical}) => {
-			if (!$('#speak').checked) { return }
+			if (!speakRollResultsCheckbox.checked) { return }
 			if (isHistorical) { return } //Don't announce historical rolls, the usual 10 of them are quite verbose together.
 			
 			if (spokenRolls.has(data.id)) { return } //Don't announce duplicate rolls.
@@ -137,21 +144,25 @@ document.addEventListener("DOMContentLoaded", ()=>{
 				`${
 					data.name
 				} rolled ${
-					data.rolls.flat().length>1 ? '' : 'a '
+					data.rolls.flat().length > 1 ? '' : 'a '
 				}${
-					data['result'] ? data['result'] : data
+					data.result
 				}${
 					data.comment ? ` ${data.comment}` : ''
-				}`
+				} with: ${
+					data.string.includes(', ') || data.string.includes(']+[') //Try to show multi-rolls, but hide individual results for single rolls since it's redundant.
+						? data.string
+						: data.string.split(':').shift()
+				})`
 			)
 			chosenVoice && (line.voice = chosenVoice)
 			line.rate = 1.5
-			line.volume = 0.8
+			line.volume = 0.9
 			speechSynthesis.speak(line)
 		})
 		
 		socket.on('roll_error', data => {
-			if (!$('#speak').checked) { return }
+			if (!speakRollResultsCheckbox.checked) { return }
 			
 			const line = new SpeechSynthesisUtterance(
 				data.type == 'parse'
@@ -161,7 +172,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
 			
 			chosenVoice && (line.voice = chosenVoice)
 			line.rate = 1.5
-			line.volume = 0.8
+			line.volume = 0.9
 			speechSynthesis.speak(line)
 		})
 	}

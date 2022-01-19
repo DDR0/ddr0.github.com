@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
 		
 		const li = document.createElement('li')
 		
-		data.string = data.string.replace(/d, /g, ', ') //There's a bug in the library, results like {[8, 20]+2, [20]} are rendered as {[8d, 20]+2, [20]}. (Note the extra d after the 8.)
+		data.string = data.string.replace(/d(,|\]) /g, '$1 ') //There's a bug in the library, results like {[8, 20]+2, [20]} are rendered as {[8d, 20]+2, [20]}. (Note the extra d after the 8.)
 		li.textContent = `${
 				data.name
 			} rolled ${

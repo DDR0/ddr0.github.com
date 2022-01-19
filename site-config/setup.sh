@@ -64,11 +64,7 @@ wait
 
 ssh $REMOTE << ENABLE_EVERYTHING
 	sudo su -
-	systemctl enable dice.service
-	systemctl enable dice2.service
 	systemctl enable dice3.service
-	systemctl start dice.service
-	systemctl start dice2.service
 	systemctl start dice3.service
 	rm /etc/nginx/sites-enabled/default
 	ln -s /etc/nginx/sites-available/ddr0.ca /etc/nginx/sites-enabled/ddr0.ca

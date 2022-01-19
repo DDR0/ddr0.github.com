@@ -41,17 +41,14 @@
 				<h1>Dice Roller</h1>
 				<sub>Multiplayer DnD Roll Bot</sub>
 			</div>
+			
 			<div id=app>
-				<label>
-					<input id=speak type=checkbox>
-					Speak Roll Results
-				</label>
 				<form id=roll-entry>
-					<label for=game>Game Name:</label> <input id=game>
+					<label for=game title="case insensitive">Game Name:</label> <input id=game>
 					<label for=name>Character Name:</label> <input id=name>
-					<label for=roll>Roll:</label> <input id=roll disabled autocomplete=off placeholder="Connecting…">
+					<label for=roll title="View history with the up/down arrow keys.">Roll:</label> <input id=roll disabled autocomplete=off placeholder="Connecting…">
 					<button disabled title="Disabled; can not contact roll server.">roll</button>
-					<p>(eg.; <code>2d10 + 1 to hit</code>)</p>
+					<p>eg.; <code>2d10 + 1 to hit</code> <a href="https://dice-roller.github.io/documentation/guide/notation/">(?)</a></p>
 				</form>
 				<output for=roll-entry role=log aria-relevant=additions aria-live=polite>
 					<ul>
@@ -60,10 +57,21 @@
 					</ul>
 				</output>
 			</div>
+			
+			<label id=speak-roll-results title="Have your browser read new rolls out loud as they happen.">
+				<input id=speak type=checkbox>
+				Speak Roll Results
+			</label>
 		</div>
+		
 		<div id=status>
 			<div>Status: <span>loading…</span></div>
 			<p>Based on <a href="https://github.com/GreenImp">GreenImp's</a> <a href="https://github.com/GreenImp/rpg-dice-roller">RPG Dice Roller</a>. ️❤</p>
+		</div>
+		
+		<div id=help>
+			<h2>Help</h2>
+			<p>To use the dice roller, enter your game name (case insensitive), a roll in <a href="https://dice-roller.github.io/documentation/guide/notation/">standard roll notation</a>, and hit enter. You can use the up/down arrow keys to recall session history.</p>
 		</div>
 	</body>
 </html>

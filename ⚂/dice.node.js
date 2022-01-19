@@ -3,9 +3,8 @@
 const express = require('express')
 
 const SSEChannel = require('sse-pubsub')
-const roll = require('roll-parser').parseAndRoll
 
-const {DiceRoll} = require('rpg-dice-roller')
+const {DiceRoll} = require('@dice-roller/rpg-dice-roller')
 const socketio = require('socket.io')
 
 const app = express()
@@ -146,6 +145,7 @@ io.on('connection', socket => {
 			notation: rollResult.notation,
 			result: rollResult.total,
 			rolls: rollResult.rolls,
+			string: rollResult.toString(),
 		}
 		
 		history[room].push(results)

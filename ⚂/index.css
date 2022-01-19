@@ -3,6 +3,8 @@ html {
 }
 
 body {
+	--scroll-padding: 2em;
+	
 	font-family: sans-serif;
 	min-height: 100vh;
 	margin: 0;
@@ -31,7 +33,7 @@ body {
 	background: rgb(78, 38, 14);
 	border: 0.4mm dashed #e6a280;
 	border-radius: 1ch;
-	padding: 2ch;
+	padding: var(--scroll-padding);
 	padding-top: 1.25ch;
 	margin-top: 2em;
 	color: #d9beae;
@@ -82,7 +84,8 @@ form > p {
 
 #app {
 	max-width: 30em;
-	margin: 2em;
+	margin: var(--scroll-padding);
+	margin-bottom: calc(var(--scroll-padding) / 20);
 	
 	/*We can set border and background-color to #FEE0A0, so that if the image
 	doesn't load we still have a nice box to put our text on. ~However~, if the
@@ -102,11 +105,19 @@ output {
 	font-family: cursive;
 }
 
+#speak-roll-results {
+	align-self: flex-start;
+	margin: calc(var(--scroll-padding)/20)
+	        0
+	        var(--scroll-padding)
+	        calc(var(--scroll-padding) + 1.25em);
+}
+
 #status {
 	--status-padding: 1ex;
 	align-self: flex-end;
 	width: calc(100% - var(--status-padding)*3);
-	padding: var(--status-padding) calc(var(--status-padding)*1.5);
+	padding: var(--status-padding) calc(var(--status-padding) * 1.5);
 	display: flex;
 	justify-content: space-between;
 	background: rgba(255,255,255,0.2);
@@ -120,4 +131,15 @@ output {
 .roll-error {
 	color: #555;
 	font-style: italic;
+}
+
+[title] {
+	cursor: help;
+}
+
+#help { /*Hide help visually, provided by title attributes instead.*/
+    position: absolute;
+    width: 500px;
+    overflow: hidden;
+    left: -99999px;
 }

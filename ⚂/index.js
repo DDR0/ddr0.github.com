@@ -42,6 +42,8 @@ document.addEventListener("DOMContentLoaded", ()=>{
 		}
 		
 		const li = document.createElement('li')
+		
+		data.string = data.string.replace(/d, /g, ', ') //There's a bug in the library, results like {[8, 20]+2, [20]} are rendered as {[8d, 20]+2, [20]}. (Note the extra d after the 8.)
 		li.textContent = `${
 				data.name
 			} rolled ${
@@ -51,9 +53,9 @@ document.addEventListener("DOMContentLoaded", ()=>{
 			}${
 				data.comment ? ` ${data.comment}` : ''
 			} (${
-				data.notation
-			}${
-				data.rolls.flat().length > 1 ? `: ${data.rolls.map(rolls=>rolls.join(', ')).join('; ')}` : ''
+				data.string.includes(', ')
+					? data.string
+					: data.string.split(':').shift()
 			})`
 		li.setAttribute('roll-id', data.id)
 		outputList.prepend(li)
@@ -137,7 +139,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
 				} rolled ${
 					data.rolls.flat().length>1 ? '' : 'a '
 				}${
-					data.result
+					data['result'] ? data['result'] : data
 				}${
 					data.comment ? ` ${data.comment}` : ''
 				}`

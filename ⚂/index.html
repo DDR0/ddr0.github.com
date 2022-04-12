@@ -44,11 +44,11 @@
 			
 			<div id=app>
 				<form id=roll-entry>
-					<label for=game title="case insensitive">Game Name:</label> <input id=game>
+					<label for=game title="Room to join, case insensitive.">Game Name:</label> <input id=game>
 					<label for=name>Character Name:</label> <input id=name>
 					<label for=roll title="View history with the up/down arrow keys.">Roll:</label> <input id=roll disabled autocomplete=off placeholder="Connecting…">
 					<button disabled title="Disabled; can not contact roll server.">roll</button>
-					<p>eg.; <code>2d10 + 1 to hit</code> <a href="https://dice-roller.github.io/documentation/guide/notation/">(?)</a></p>
+					<p>eg.; <code>2d10 + 1 to hit</code> <a href="https://dice-roller.github.io/documentation/guide/notation/" title="role notation documentation">(?)</a></p>
 				</form>
 				<output for=roll-entry role=log aria-relevant=additions aria-live=polite>
 					<ul>

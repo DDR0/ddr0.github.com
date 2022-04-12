@@ -5,7 +5,7 @@
 		<atom:id>https://ddr0.ca/gallery</atom:id>
 		<link>https://ddr0.ca/gallery</link>
 		<description>Updates to DDR's gallery. Get notified of new projects!</description>
-		<atom:updated>2021-04-24T03:01:56.740Z</atom:updated>
+		<atom:updated>2022-04-12T05:36:52.500Z</atom:updated>
 		<atom:link href='https://ddr0.ca/gallery'></atom:link>
 		<atom:link href='https://ddr0.ca/gallery-rss-feed.xml'
 			rel='self' type='application/rss+xml'></atom:link>
@@ -26,6 +26,14 @@
 			<link>https://ddr0.github.io/gallery.html</link>
 			<source url="https://ddr0.github.io/gallery.html"></source>
 			<pubDate>Tue, 04 Aug 2020 00:00:00 GMT</pubDate>
+		</item>
+		
+		<item>
+			<title>Added two small side-projects to gallery.</title>
+			<description>I have built an accessible, multi-player <a href="https://ddr0.ca/%F0%9F%8E%B2">dice roller</a> and a tiny <a href="https://ddr0.ca/side%20projects/reminder">periodic reminder tool</a>, both added to the final section of the gallery.</description>
+			<link>https://ddr0.github.io/gallery.html</link>
+			<source url="https://ddr0.github.io/gallery.html"></source>
+			<pubDate>Mon, 11 Apr 2022 00:00:00 GMT</pubDate>
 		</item>
 		
 	</channel>

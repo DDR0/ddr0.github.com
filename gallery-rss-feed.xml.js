@@ -9,6 +9,11 @@ const entries = [
 		desc: "Added two projects to gallery, the Chronos Camera UI and old Cityecho. This brings the gallery fully up to date again.",
 		url: "https://ddr0.github.io/gallery.html",
 		date: "2020-08-04",
+	},{
+		title: "Added two small side-projects to gallery.",
+		desc: "I have built an accessible, multi-player <a href=\"https://ddr0.ca/%F0%9F%8E%B2\">dice roller</a> and a tiny <a href=\"https://ddr0.ca/side%20projects/reminder\">periodic reminder tool</a>, both added to the final section of the gallery.",
+		url: "https://ddr0.github.io/gallery.html",
+		date: "2022-04-11",
 	},
 ]
 

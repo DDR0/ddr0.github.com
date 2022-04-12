@@ -110,11 +110,12 @@ ${include('site shell intro.html.frag.js', {
 				
 				<!-- MISCELLANEOUS -->
 				<p>
-					Minor Links:
+					Minor Links & Side Projects:
 					<ol>
-						<li>money calculator: <a href="/side%20projects/%24%E2%8C%9A.html">$⌚.html</a></li>
-						<li>light painting tool: <a href="/side%20projects/colour.html">colour.html</a></li>
+						<li><a href="/side projects/$⌚">money calculator</a></li>
+						<li><a href="/side projects/colour">light painting tool</a></li>
 						<li>accessible D&D dice roller: <a href="/d">d</a> or <a href="/🎲">🎲</a>. (Version history: <a href="/⚀">⚀</a>, <a href="/⚁">⚁</a>.)</li>
+						<li><a href="/side projects/reminder">periodic reminder tool</a></li>
 					</ol>
 					
 					See also: <a href="/files/personal/resume.pdf">my resume</a>.

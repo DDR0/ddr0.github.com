@@ -10,6 +10,7 @@ rsync --recursive --links --times --itemize-changes \
 	--exclude="site-config" \
 	--exclude="*.node.js" \
 	--exclude="node_modules" \
+	--exclude="*.sublime-*" \
 	&
 
 rsync --recursive --links --times --itemize-changes \

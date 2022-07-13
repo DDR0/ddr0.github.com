@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang='en'>
+	<head>
+		<meta charset=utf-8>
+		<title>Fixing Linux Audio, Spring '22 edition</title>
+		<link href="/css/grey-and-blue.css" rel=stylesheet>
+		<meta name="theme-color" content="#3377FF">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5.0, minimum-scale=1">
+		<link rel="canonical" href="https://ddr0.ca/single-post">
+		<link href='/css/blog.css' rel='stylesheet'>
+		<link rel="alternate" type="application/rss+xml" title="DDR's Blog" href="/blog-rss-feed.xml" />
+	</head>
+	<body>
+		<a href='#content' id='skip-nav'>skip nav</a>
+		<div id='content-holder'>
+			<div id="content-header">
+				<div id='badge'><a href="/blog"><img alt='' src='/images/icons/page.svg'></a></div>
+				<h1><img alt='blog' src='/images/text-blog.png'></h1>
+				<div id='icon-bar'>
+					<a href='/blog'    ><img src='/images/icons/page.svg' ><span>blog</span></a>
+					<a href='/gallery' ><img src='/images/icons/work.svg' ><span>gallery</span></a>
+					<a href='/contact' ><img src='/images/icons/chat2.svg'><span>contact</span></a>
+					<a href='/rss.xml'                                                            ><img src='/images/icons/rss.svg'  ><span>rss</span></a>
+				</div>
+			</div>
+			<a name='content'></a>
+			<div id='content-pane'>
+				<h2><a href="/blog-posts/16.Fixing_Linux_Audio_Ubuntu_21_22_In_Spring_2022">Fixing Linux Audio, Spring '22 edition</a></h2>
+
+				<p class=noindent>When upgrading from Ubuntu 21 to 22 this spring, I encountered two separate issues:</p>
+				<ol>
+					<li>KDE would not show any audio devices in the task bar, under the speaker icon, which appeared muted.</li>
+					<li>After fixing that, my bluetooth headphones would connect but immediately disconnect, announcing pairing failed.</li>
+				</ol>
+				
+				<p class=noindent>To fix the first issue, I had to enable Pipewire. It had been installed, but not turned on.</p>
+				
+				<code>systemctl --user --now enable pipewire pipewire-pulse</code>
+				
+				<p class=noindent>It seems that Pipewire has now replaced ALSA, which was the previous sound system.</p>
+				
+				<p class=noindent>Interestingly enough, it seems Pipewire is now also responsible for Bluetooth! To fix my wireless headphones not connecting, I had to install Pipewire's bluetooth module. From <a href="https://www.reddit.com/r/linuxquestions/comments/led200/bluetooth_headset_wont_connect_after_installing/">Reddit</a>:</p>
+				
+				<code style="white-space: pre-line;">sudo apt install libspa-0.2-bluetooth
+				systemctl --user restart pipewire.service pipewire-pulse.service</code>
+				
+				<p class=noindent>And now I can listen to my music again.</p>
+
+				<span class="tags">tags: <a href="/blog-posts/tags#linux">linux</a>, <a href="/blog-posts/tags#sound">sound</a>, <a href="/blog-posts/tags#audio">audio</a>, <a href="/blog-posts/tags#fix">fix</a>, <a href="/blog-posts/tags#tech-support">tech support</a></span>
+
+			</div>
+		</div>
+	</body>
+	<footer>Site ©2021 DDR.</footer>
+</html>

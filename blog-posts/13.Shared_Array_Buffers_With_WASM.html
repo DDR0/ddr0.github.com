@@ -10,7 +10,7 @@
 		<link href='/css/blog.css' rel='stylesheet'>
 		<link rel="alternate" type="application/rss+xml" title="DDR's Blog" href="/blog-rss-feed.xml" />
 		<link href='/css/prism-okaidia.css' rel='stylesheet'>
-		<script async defer src='/scripts/unindent-code-blocks.js'></script>
+		<script defer src='/scripts/unindent-code-blocks.js'></script>
 	</head>
 	<body>
 		<a href='#content' id='skip-nav'>skip nav</a>
@@ -39,7 +39,7 @@
 				
 				<code class="prism-block language-js">
 					<span class="token punctuation">(</span><span class="token keyword">async</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
-						<span class="token keyword">const</span> memory <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">WebAssembly<span class="token punctuation">.</span>Memory</span><span class="token punctuation">(</span><span class="token punctuation">{</span> initial<span class="token operator">:</span> <span class="token number">1</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+						<span class="token keyword">const</span> memory <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">WebAssembly<span class="token punctuation">.</span>Memory</span><span class="token punctuation">(</span><span class="token punctuation">{</span> <span class="token literal-property property">initial</span><span class="token operator">:</span> <span class="token number">1</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 						
 						<span class="token keyword">const</span> <span class="token function-variable function">log</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter">offset<span class="token punctuation">,</span> length</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
 							<span class="token keyword">const</span> bytes <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Uint8Array</span><span class="token punctuation">(</span>memory<span class="token punctuation">.</span>buffer<span class="token punctuation">,</span> offset<span class="token punctuation">,</span> length<span class="token punctuation">)</span>
@@ -58,7 +58,7 @@
 						sharedData<span class="token punctuation">[</span>sharedData<span class="token punctuation">.</span>length <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">'?'</span><span class="token punctuation">.</span><span class="token function">charCodeAt</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
 						
 						<span class="token keyword">const</span> <span class="token punctuation">{</span> instance <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token keyword">await</span> WebAssembly<span class="token punctuation">.</span><span class="token function">instantiate</span><span class="token punctuation">(</span>sharedData<span class="token punctuation">,</span> <span class="token punctuation">{</span>
-							env<span class="token operator">:</span> <span class="token punctuation">{</span> log<span class="token punctuation">,</span> memory <span class="token punctuation">}</span>
+							<span class="token literal-property property">env</span><span class="token operator">:</span> <span class="token punctuation">{</span> log<span class="token punctuation">,</span> memory <span class="token punctuation">}</span>
 						<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 						
 						instance<span class="token punctuation">.</span>exports<span class="token punctuation">.</span><span class="token function">hello</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
@@ -83,7 +83,7 @@
 				
 				<code class="prism-block language-js">
 					<span class="token punctuation">(</span><span class="token keyword">async</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
-						<span class="token keyword">const</span> memory <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">WebAssembly<span class="token punctuation">.</span>Memory</span><span class="token punctuation">(</span><span class="token punctuation">{</span> initial<span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span> maximum<span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span> shared<span class="token operator">:</span><span class="token boolean">true</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+						<span class="token keyword">const</span> memory <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">WebAssembly<span class="token punctuation">.</span>Memory</span><span class="token punctuation">(</span><span class="token punctuation">{</span> <span class="token literal-property property">initial</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token literal-property property">maximum</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token literal-property property">shared</span><span class="token operator">:</span><span class="token boolean">true</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 						
 						<span class="token keyword">let</span> globalBytes <span class="token operator">=</span> <span class="token keyword">null</span>
 						<span class="token keyword">const</span> <span class="token function-variable function">log</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter">offset<span class="token punctuation">,</span> length</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
@@ -104,7 +104,7 @@
 							BBWhlbGxvAAEKCgEIAEEAQQ0QAAsLEwEAQQALDUhlbGxvLCBXb3JsZCE=
 						</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">)</span>
 						<span class="token keyword">const</span> <span class="token punctuation">{</span> instance <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token keyword">await</span> WebAssembly<span class="token punctuation">.</span><span class="token function">instantiate</span><span class="token punctuation">(</span>wasm<span class="token punctuation">,</span> <span class="token punctuation">{</span>
-							env<span class="token operator">:</span> <span class="token punctuation">{</span> log<span class="token punctuation">,</span> memory <span class="token punctuation">}</span>
+							<span class="token literal-property property">env</span><span class="token operator">:</span> <span class="token punctuation">{</span> log<span class="token punctuation">,</span> memory <span class="token punctuation">}</span>
 						<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 						
 						instance<span class="token punctuation">.</span>exports<span class="token punctuation">.</span><span class="token function">hello</span><span class="token punctuation">(</span><span class="token punctuation">)</span>

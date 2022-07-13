@@ -10,7 +10,7 @@
 		<link href='/css/blog.css' rel='stylesheet'>
 		<link rel="alternate" type="application/rss+xml" title="DDR's Blog" href="/blog-rss-feed.xml" />
 		<link href='/css/prism-okaidia.css' rel='stylesheet'>
-		<script async defer src='/scripts/unindent-code-blocks.js'></script>
+		<script defer src='/scripts/unindent-code-blocks.js'></script>
 	</head>
 	<body>
 		<a href='#content' id='skip-nav'>skip nav</a>
@@ -58,8 +58,8 @@
 						<span class="token keyword">const</span> ctx <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">'canvas'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getContext</span><span class="token punctuation">(</span><span class="token string">'webgl'</span><span class="token punctuation">)</span> 
 						<span class="token keyword">const</span> ext <span class="token operator">=</span> ctx<span class="token punctuation">.</span><span class="token function">getExtension</span><span class="token punctuation">(</span><span class="token string">'WEBGL_debug_renderer_info'</span><span class="token punctuation">)</span>
 						<span class="token keyword">return</span> <span class="token punctuation">{</span>
-							card<span class="token operator">:</span> ctx<span class="token punctuation">.</span><span class="token function">getParameter</span><span class="token punctuation">(</span>ext<span class="token punctuation">.</span><span class="token constant">UNMASKED_RENDERER_WEBGL</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
-							vendor<span class="token operator">:</span> ctx<span class="token punctuation">.</span><span class="token function">getParameter</span><span class="token punctuation">(</span>ext<span class="token punctuation">.</span><span class="token constant">UNMASKED_VENDOR_WEBGL</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+							<span class="token literal-property property">card</span><span class="token operator">:</span> ctx<span class="token punctuation">.</span><span class="token function">getParameter</span><span class="token punctuation">(</span>ext<span class="token punctuation">.</span><span class="token constant">UNMASKED_RENDERER_WEBGL</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+							<span class="token literal-property property">vendor</span><span class="token operator">:</span> ctx<span class="token punctuation">.</span><span class="token function">getParameter</span><span class="token punctuation">(</span>ext<span class="token punctuation">.</span><span class="token constant">UNMASKED_VENDOR_WEBGL</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
 						<span class="token punctuation">}</span>
 					<span class="token punctuation">}</span>
 					

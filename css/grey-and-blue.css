@@ -89,6 +89,9 @@ code.prism-block {
   overflow: auto;
   display: block;
   letter-spacing: -0.01rem;
+  border: 0.5ex solid transparent;
+  border-left-width: 1.2ex;
+  border-right-width: 1ex;
 }
 #icon-bar a {
   color: lightgrey;

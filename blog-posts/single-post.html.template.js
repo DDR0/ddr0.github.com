@@ -13,7 +13,7 @@ ${include('site shell intro.html.frag.js', {
 		`<link rel="alternate" type="application/rss+xml" title="DDR's Blog" href="/blog-rss-feed.xml" />`,
 		... !capreq.includes('prism') ? [] : [
 			`<link href='/css/prism-okaidia.css' rel='stylesheet'>`,
-			`<script async defer src='/scripts/unindent-code-blocks.js'></script>`,
+			`<script defer src='/scripts/unindent-code-blocks.js'></script>`, //Can't be async, mucks up the first code block in /blog-posts/15.Hydrating_Objects. (Seems to be fighting Prism.)
 		],
 	],
 	...global,

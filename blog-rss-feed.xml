@@ -5,7 +5,7 @@
 		<atom:id>https://ddr0.ca</atom:id>
 		<link>https://ddr0.ca/blog.html</link>
 		<description>Updates to DDR's Blog. Get notified of new posts!</description>
-		<atom:updated>2021-05-07T21:23:48.498Z</atom:updated>
+		<atom:updated>2022-05-16T04:40:02.392Z</atom:updated>
 		<atom:link href='https://ddr0.ca/blog.html'></atom:link>
 		<atom:link href='https://ddr0.ca/blog-rss-feed.xml' rel='self'></atom:link>
 		
@@ -135,6 +135,24 @@
 			<guid isPermaLink='true'>https://ddr0.ca/blog-posts/14.Fixing_Linux_Audio_Ubuntu_20_21_In_Spring_2021.html</guid>
 			<source url="https://ddr0.ca/blog-posts/14.Fixing_Linux_Audio_Ubuntu_20_21_In_Spring_2021.html"></source>
 			<pubDate>Fri, 07 May 2021 00:00:00 GMT</pubDate>
+		</item>
+		
+		<item>
+			<title>Hydrating Objects in Javascript</title>
+			<description>Quick JS Hydration</description>
+			<link>https://ddr0.ca/blog-posts/15.Hydrating_Objects.html</link>
+			<guid isPermaLink='true'>https://ddr0.ca/blog-posts/15.Hydrating_Objects.html</guid>
+			<source url="https://ddr0.ca/blog-posts/15.Hydrating_Objects.html"></source>
+			<pubDate>Sun, 15 May 2022 00:00:00 GMT</pubDate>
+		</item>
+		
+		<item>
+			<title>Fixing Linux Audio, Spring '22 edition</title>
+			<description>When upgrading Ubuntu 21 to 22 this spring, audio through Pipewire was broken.</description>
+			<link>https://ddr0.ca/blog-posts/16.Fixing_Linux_Audio_Ubuntu_21_22_In_Spring_2022.html</link>
+			<guid isPermaLink='true'>https://ddr0.ca/blog-posts/16.Fixing_Linux_Audio_Ubuntu_21_22_In_Spring_2022.html</guid>
+			<source url="https://ddr0.ca/blog-posts/16.Fixing_Linux_Audio_Ubuntu_21_22_In_Spring_2022.html"></source>
+			<pubDate>Sun, 15 May 2022 00:00:00 GMT</pubDate>
 		</item>
 		
 	</channel>

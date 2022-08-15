@@ -5,7 +5,7 @@
 		<atom:id>https://ddr0.ca</atom:id>
 		<link>https://ddr0.ca/blog.html</link>
 		<description>Updates to DDR's Blog. Get notified of new posts!</description>
-		<atom:updated>2022-05-16T04:40:02.392Z</atom:updated>
+		<atom:updated>2022-08-15T06:04:23.429Z</atom:updated>
 		<atom:link href='https://ddr0.ca/blog.html'></atom:link>
 		<atom:link href='https://ddr0.ca/blog-rss-feed.xml' rel='self'></atom:link>
 		
@@ -153,6 +153,15 @@
 			<guid isPermaLink='true'>https://ddr0.ca/blog-posts/16.Fixing_Linux_Audio_Ubuntu_21_22_In_Spring_2022.html</guid>
 			<source url="https://ddr0.ca/blog-posts/16.Fixing_Linux_Audio_Ubuntu_21_22_In_Spring_2022.html"></source>
 			<pubDate>Sun, 15 May 2022 00:00:00 GMT</pubDate>
+		</item>
+		
+		<item>
+			<title>A Variadic println() for Arduino</title>
+			<description>A variadic Arduino Serial.println(). Because convenience is king.</description>
+			<link>https://ddr0.ca/blog-posts/17.arduino_multi_println.html</link>
+			<guid isPermaLink='true'>https://ddr0.ca/blog-posts/17.arduino_multi_println.html</guid>
+			<source url="https://ddr0.ca/blog-posts/17.arduino_multi_println.html"></source>
+			<pubDate>Sun, 14 Aug 2022 00:00:00 GMT</pubDate>
 		</item>
 		
 	</channel>

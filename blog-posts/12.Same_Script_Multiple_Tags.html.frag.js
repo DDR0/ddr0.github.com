@@ -2,10 +2,10 @@ const Prism = require('prismjs')
 
 ;`
 <!--
+	capreq: prism,
 	published: 2021-04-20,
 	tags: js quirk microblog web-dev,
 	desc: Same script\\, multiple tags. What happens?,
-	capreq: prism,
 	title: Same Script\\, Multiple Tags,
 -->
 

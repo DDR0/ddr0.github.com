@@ -5,7 +5,7 @@
 		<atom:id>https://ddr0.ca</atom:id>
 		<link>https://ddr0.ca/blog.html</link>
 		<description>Updates to DDR's Blog. Get notified of new posts!</description>
-		<atom:updated>2022-08-15T06:04:23.429Z</atom:updated>
+		<atom:updated>2022-09-06T00:23:56.798Z</atom:updated>
 		<atom:link href='https://ddr0.ca/blog.html'></atom:link>
 		<atom:link href='https://ddr0.ca/blog-rss-feed.xml' rel='self'></atom:link>
 		
@@ -162,6 +162,15 @@
 			<guid isPermaLink='true'>https://ddr0.ca/blog-posts/17.arduino_multi_println.html</guid>
 			<source url="https://ddr0.ca/blog-posts/17.arduino_multi_println.html"></source>
 			<pubDate>Sun, 14 Aug 2022 00:00:00 GMT</pubDate>
+		</item>
+		
+		<item>
+			<title>Managing Files On A Phone</title>
+			<description>This is how I manage files on my phone and transfer them to my computer.</description>
+			<link>https://ddr0.ca/blog-posts/18.Managing_Files_On_A_Phone.html</link>
+			<guid isPermaLink='true'>https://ddr0.ca/blog-posts/18.Managing_Files_On_A_Phone.html</guid>
+			<source url="https://ddr0.ca/blog-posts/18.Managing_Files_On_A_Phone.html"></source>
+			<pubDate>Mon, 05 Sep 2022 00:00:00 GMT</pubDate>
 		</item>
 		
 	</channel>

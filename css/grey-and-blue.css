@@ -85,6 +85,10 @@ h1 img {
 p {
   font-family: sans-serif;
 }
+p > a > img {
+  margin-top: 2ex;
+  margin-bottom: 3ex;
+}
 code.prism-block {
   overflow: auto;
   display: block;

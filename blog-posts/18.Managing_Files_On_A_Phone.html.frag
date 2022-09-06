@@ -1,0 +1,62 @@
+<!--
+	published: 2022-09-05,
+	tags: mobile-device phone files file-management networking linux dolphin ftp,
+	desc: This is how I manage files on my phone and transfer them to my computer.,
+-->
+
+<h3>The Problem</h3>
+
+<p>Let's say you've accumulated about 20,000 files on your phone which you would like to move to a computer. The bulk of them are photos, but there's some stuff you've downloaded using multiple chat apps as well. In short; you've got yourself a non-homogenous mess.</p>
+
+<p>There's a few options you have. You know you can send yourself stuff by email or a chat app, but those have a file size limit. You could work around that with dedicated service like <a href="https://wormhole.app/">Wormhole</a>, but it still has limitations. Besides, just sending the files wouldn't help you organize your phone. And the on-phone apps are struggling with your photos folder.</p>
+
+<p>How about cloud sync? If you've got Apple, in my experience, you're going pay some money, sync for a month, and find a perfect duplicate of your files labelled "failed to sync". There's also the worrying question of "is it syncing my full phone to my empty computer, or my empty computer to my full phone?" If you're on an Android, I do not think it is ideal from a privacy perspective either. Like with gravity, what goes up to The Cloud will come down from The Cloud at some point. A company gets hacked, goes bust, sells out. Or someone gets access to your account by scamming their support.</p>
+
+<p>Besides, you probably don't have the world's best internet uplink anyway. Your telecommunication infrastructure was designed for cable TV, and your internet providers enjoy a sweet a monopoly and have no reason to offer a decent service.</p>
+
+<h3>My Solution</h3>
+
+<p>I ended up solving this problem for myself by installing an app on my phone, an FTP<a id="mfoap-fn1-ret" href="#mfoap-fn1">¹</a> server. Then I could use another program on my computer to manage the files on my phone via FTP; move them around, and copy them off. Here's how I did it in detail. The software used is not important, as it's nicely modular and you can substitute other software at any step.</p>
+
+<h4>On The Phone</h4>
+
+<p>I grabbed Banana Studio's <a href="https://play.google.com/store/apps/details?id=net.xnano.android.ftpserver.tv&hl=en_CA&gl=US">FTP Server</a> for the phone part of this. It seems a respectible one, though it's always hard to tell with these things. (If you use an iPhone, there are apps for that as well. e.g., <a href="https://apps.apple.com/us/app/ftpmanager-ftp-sftp-client/id525959186">this one</a> I found on the first page of Google.)</p>
+
+<p class=noindent>
+	In the FTP Server app, I've configured a user for myself like this:
+	<a href="~/Screenshot_20220903-031758.png"><img src="~/Screenshot_20220903-031758.png" width=432 alt="Username: ddr, Password set, show hidden files, and the path / is /storage/emulated/0 for this account. Writable."></a>
+	Then, starting the server and connecting to the address given at the top:
+	<a href="~/Screenshot_20220903-031807.png"><img src="~/Screenshot_20220903-031807.png" width=432 alt="On the home screen of the FTP Server app, we see a button labelled stop, to the right of some text saying that the FTP server is listening on addresses ftp://<user>@10.0.0.127:2121. There are no active sessions. Some configuration and warnings appear at the bottom, but they are not relevant for this."></a><a href="~/Screenshot_20220903-032037.png"><img src="~/Screenshot_20220903-032037.png" width=432  alt="After connecting, there is one active session — ddr — who we specified on the user screen earlier."></a>
+</p>
+
+<h4>On The Computer</h4>
+
+<p>
+	To connect to the address on the computer, we need an FTP client. <a href="https://filezilla-project.org/">Filezilla</a> is a good one for Windows, Panic Inc.'s <a href="https://panic.com/transmit/">Transmit</a> is a good one for Mac, but since I'm using KDE on Ubuntu, my default file manager <a href="https://apps.kde.org/en-gb/dolphin/">Dolphin</a> (the equivalent of <a href="https://support.microsoft.com/en-us/windows/windows-explorer-has-a-new-name-c95f0e92-b1aa-76da-b994-36a7c7c413d7">Windows Explorer/File Explorer</a>) just comes with one.
+	<a href="~/phone-files-1.png"><img src="~/phone-files-1.png" width=657 alt=""></a>
+</p>
+
+<p class=noindent>
+	Plugging in the <code>ftp://</code> URL we got from the FTP server app,
+	<a href="~/phone-files-2.png"><img src="~/phone-files-2.png" width=657 alt="into the address bar of Dolphin,"></a>
+	and entering our password, we are now browsing our phone and can move the files around as desired from our computer.
+	<a href="~/phone-files-4.png"><img src="~/phone-files-4.png" width=657 alt=""></a>
+	Since the files aren't leaving our immediate vicinity, this is also faster and more secure than a cloud-based solution can be. 🙂
+</p>
+
+<p>
+	As a fun bonus with KDE; through the magic of FUSE and having a terminal integrated with my file manager, I can also run basic Linux commands against my phone filesystem now. For example, to roughly count the number of pictures I took since I last cleared pictures off my phone:
+	<a href="~/phone-files-6.png"><img src="~/phone-files-6.png" width=657 alt="I can run &quot;ls -la | wc -l&quot; in the embedded terminal."></a>
+</p>
+
+<h3>Further Remarks</h3>
+
+<p>There is one other option I haven't touched upon - <a href="https://kdeconnect.kde.org/download.html">KDE Connect</a> offers a nice file browsing feature among its many other useful features. (And it is cross-platform! Not just for Linux and Android.) However, there is currently one issue with it - KDE Connect can't let me manage my phone downloads folder "for security reasons". This puts it out of the running for this article, since managing my downloads is half of what I need it for. However, it has worked in the past, continues to work partially at the moment, and may work fully again in the future. So it gets an honourable mention, and it requires much less configuration than the FTP server option I've went with in this article.</p>
+
+<p>For all that Linux has a reputation as hard to use, I find in some ways it's far easier to use than Windows or Mac. Today, because Dolphin supports SSH as well as FTP for browsing out of the box, it let me copy a screenshot from my phone directly to my web server using the standard graphical interface I'm used to. I've got both locations bookmarked, and having everything <em>available</em> under a standard point-and-click interface makes things so easy.</p>
+
+<p>And if anything breaks? It's all discreet software components, you can switch them out for a different component if need be. Files on a disk are pretty much the universal language of data storage, and FTP is a pretty universally available transfer mechanism for them. 🙂</p>
+
+<br>
+
+<p><a id="mfoap-fn1" href="#mfoap-fn1-ret">¹</a>: When I say FTP, I'm including SFTP in it. Like with HTTP/HTTPS, the S stands for &quot;Secure&quot;. I'm not too concerned about security for this setup, because I'm going over a local-area network. It should be reasonably free from snooping as it's all physically within about a meter of me here. If you're routing your FTP traffic over the internet, you should absolutely make sure you're using SFTP vs FTP. Any FTP software worth its salt will support both protocols. <a href="#mfoap-fn1-ret">⮌</a></p>

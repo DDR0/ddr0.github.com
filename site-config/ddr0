@@ -24,11 +24,15 @@ set $NEL        '{"report_to":"default","max_age":31536000,"include_subdomains":
 # Allow access for letsencrypt/certbot.
 location ~ /\.well-known { 
 	allow all;
+	
+	#add_header X-Debug 1;
 }
 
 #Otherwise, don't serve hidden files. (Not that there should be any.)
 location ~ /\. { 
     deny all;
+	
+	#add_header X-Debug 2;
 }
 
 
@@ -162,6 +166,22 @@ location ~ "^/(?:blog-posts/\d+\.)?[^\.]*(?:\.html)?$" {
 	#add_header X-Debug 16;
 }
 
+#Scratch space for embedding elsewhere.
+location ~ "^/scratch" {
+	try_files $uri $uri.html =404;
+	
+	#autoindex is broken
+	autoindex on;
+	
+	add_header Cache-Control "max-age=900";
+	add_header Content-Security-Policy "default-src '*'";
+	
+	add_header Report-To "${REPORT_TO}";
+	add_header NEL "${NEL}";
+	
+	#add_header X-Debug 17;
+}
+
 #Catchall for text files and such.
 location / {
 	set $DENY_ALL "default-src 'none'; object-src 'none'; frame-ancestors 'none'";
@@ -176,5 +196,5 @@ location / {
 	add_header Cross-Origin-Embedder-Policy "require-corp";
 	add_header Cross-Origin-Resource-Policy "same-origin";
 	
-	#add_header X-Debug 17;
+	#add_header X-Debug 18;
 }

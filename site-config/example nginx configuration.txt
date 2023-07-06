@@ -1,10 +1,10 @@
 server {
-	include /home/david/Projects/ddr0.github.com/site-config/ddr0;
+	include /home/ddr/Projects/ddr0.github.com/site-config/ddr0;
 
 	listen 8300 default_server;
 	listen [::]:8300 default_server;
 
-	root /home/david/Projects/ddr0.github.com/;
+	root /home/ddr/Projects/ddr0.github.com/;
 
 	server_name ddr0.ca;
 }

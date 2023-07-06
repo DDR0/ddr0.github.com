@@ -87,7 +87,7 @@ ${include('site shell intro.html.frag.js', {
 					[1,2,2,2]
 					"></a>
 					<h2>ComeFrom 2</h2>
-					<p>ComeFrom 2 is an esoteric language which explores the implications of only being able to COMEFROM lines, not GOTO them. Since no stupid idea is any use if it's not accessible, an <a href="https://ddr0.github.io/side projects/cfl">online IDE</a> is available. Be sure to run the 'Counting Up to Ten' program! For a more detailed explanation and introduction, see the <a href="https://esolangs.org/wiki/ComeFrom2">esolangs.org page</a>.</p>
+					<p>ComeFrom 2 is an esoteric language which explores the implications of only being able to COMEFROM lines, not GOTO them. Since no stupid idea is any use if it's not accessible, an <a href="https://ddr0.github.io/side projects/cfl/">online IDE</a> is available. Be sure to run the 'Counting Up to Ten' program! For a more detailed explanation and introduction, see the <a href="https://esolangs.org/wiki/ComeFrom2">esolangs.org page</a>.</p>
 					<p>ComeFrom's real coup de grâce, however, is the <em>conditional</em> comefrom. By examining the top variable on the stack, we eliminate the need for if-based conditionals and loops entirely.</p>
 				</section>
 				<hr>

@@ -21,14 +21,14 @@ const HELP_MESSAGE = `build.js: Compile ddr0.ca.
 Options:
 	--dot: Don't build, but output a graph of what would be built on stdout.
 	       Useful with imagemagick as ./build.js -dot | dot -Tsvg | display
+	--full-rebuild: Force recompile everything.
 	--help: Show this message and exit.
 	--print-events: Debug file events detected by --watch.
 	--show-task[s][=task-name]: Print information and status of build steps.
 	--watch: Watch for task changes. (Will [1mnot[0m reload the build script.)
 `
 
-const dump = (...args) => 
-	(console.error.apply(console, args), args.slice(-1)[0])
+const dump = (...args) => (console.info(...args), args.at(-1))
 
 
 
@@ -44,19 +44,19 @@ const scanTree = path => fs.readdir(path)
 			&& (entry.isDirectory() || entry.isFile())
 		)
 	)
-	.then(async listing => Array.prototype.concat.call(
-		(await Promise.all(listing
+	.then(async listing => [
+		...await Promise.all(listing
 			.filter(entry => entry.isDirectory())
 			.map(entry => scanTree(`${path}/${entry.name}`))
-		)).reduce((a,b)=>Array.prototype.concat.call(a,b), []),
-		listing
+		),
+		...listing
 			.filter(entry => entry.isFile())
 			.map(entry => ({
 				name: `${path}/${entry.name}`,
 				date: entry.mtimeMs,
 				//toString: ()=>`${entry.name}@${entry.mtimeMs}`,
 			})),
-	))
+	])
 
 
 
@@ -95,12 +95,13 @@ const findTasks = allFiles => {
 	let input, output, deps
 	
 	//Main HTML Files
-	deps = [].concat(
-		filter(/^\.\/[^/]*?\.html\.frag$/),
-		filter(/^\.\/[^/]*?\.html\.frag\.js$/),
-		filter(/^\.\/compile-template.node.js$/),
-		filter(/^\.\/render-file.node.js$/),
-	)
+	deps = [
+		...filter(/^\.\/[^/]*?\.html\.frag$/),
+		...filter(/^\.\/[^/]*?\.html\.frag\.js$/),
+		...filter(/^\.\/compile-template.node.js$/),
+		...filter(/^\.\/render-file.node.js$/),
+	]
+	
 	for(input of filter(/^\.\/[^/]*?\.html\.js$/)) {
 		output = replace([input], 'html.js', 'html')
 		
@@ -111,61 +112,57 @@ const findTasks = allFiles => {
 		
 		addTask({
 			name: 'main html',
-			input: [input].concat(deps, blogPosts), output,
+			input: [input, deps, blogPosts].flat(),
+			output,
 			command: `./compile-template.node.js "${input.name}" > "${output[0].name}"`,
 		})
 	}
 	
 	//Blog HTML Files
-	deps = [].concat(
-		filter(/^\.\/compile-blog\.node\.js$/),
-		filter(/^\.\/blog-posts\/single-post\.html\.template\.js$/),
-		filter(/^\.\/blog-posts\/tags\.html\.template\.js$/),
-		filter(/^\.\/site shell intro\.html\.frag\.js$/),
-		filter(/^\.\/site shell outro\.html\.frag$/),
-	)
-	input = [].concat(
-		filter(/^\.\/blog-posts\/[^/]*?\.html\.frag(?:\.js)?$/),
-		filter(/^\.\/blog-rss-feed\.xml\.js$/),
-	)
+	deps = [
+		...filter(/^\.\/compile-blog\.node\.js$/),
+		...filter(/^\.\/blog-posts\/single-post\.html\.template\.js$/),
+		...filter(/^\.\/blog-posts\/tags\.html\.template\.js$/),
+		...filter(/^\.\/site shell intro\.html\.frag\.js$/),
+		...filter(/^\.\/site shell outro\.html\.frag$/),
+	]
+	input = [
+		...filter(/^\.\/blog-posts\/[^/]*?\.html\.frag(?:\.js)?$/),
+		...filter(/^\.\/blog-rss-feed\.xml\.js$/),
+	]
 	output = replace(input, /\.html\.frag(?:\.js)?$/, '.html')
 	output = replace(output, /\.xml\.js$/, '.xml')
 	input && addTask({
 		name: 'blog html',
-		input: input.concat(deps), output,
+		input: input.concat(deps),
+		output,
 		command: `./compile-blog.node.js`,
 	})
 	
 	//Gallery RSS XML File (Blog RSS is compiled separately.)
-	deps = [].concat(
-		filter(/^\.\/compile-template\.node\.js$/),
-		filter(/^\.\/render-file\.node\.js$/),
-	)
+	deps = [
+		...filter(/^\.\/compile-template\.node\.js$/),
+		...filter(/^\.\/render-file\.node\.js$/),
+	]
 	for(input of filter(/^\.\/gallery-rss-feed\.xml\.js$/)) {
 		output = replace([input], '.xml.js', '.xml')
 		addTask({
 			name: 'rss xml',
-			input: [input].concat(deps), output,
+			input: [input].concat(deps),
+			output,
 			command: `./compile-template.node.js "${input.name}" > "${output[0].name}"`,
 		})
 	}
 	
-	//Background Town's Coffeescript
-	for(input of filter(/^\.\/background-town\/.*?\.coffee$/)) {
-		output = replace([input], '.coffee', '.js')
-		addTask({
-			name: 'coffeescript',
-			input: [input].concat(deps), output,
-			command: `coffee --map --compile "${input.name}"`,
-		})
-	}
+	//Background Town's Coffeescript is no longer being maintained. It was an experiment. The outcome was that CoffeeScript has a rather error-prone syntax, and therefore isn't worth the added complexity.
 	
 	//LESS CSS
 	for(input of filter(/^\.\/css\/.*?\.less$/)) {
 		output = replace([input], '.less', '.css')
 		addTask({
 			name: 'css',
-			input: [input].concat(deps), output,
+			input: [input].concat(deps),
+			output,
 			command: `node_modules/less/bin/lessc --source-map --math=strict "${input.name}" "${output[0].name}"`,
 		})
 	}
@@ -223,14 +220,23 @@ const markOutOfDate = tasks => {
 
 
 
+const markTasksDirty = tasks => {
+	for (const task of tasks) {
+		task.dirty = true
+		task.postreqs.forEach(markAllTasksOutOfDate)
+	}
+}
+
+
+
 const refreshTimestamps = async tasks => 
-	Promise.all(Array.prototype.concat.call(
+	Promise.all(...
 		tasks.map(task =>
 			task.input.map(async file => 
 				file.date = (await fs.lstat(file.name, {bigint:true})).mtimeMs 
 			)
 		)
-	))
+	)
 
 const markFileDirty = (tasks, updatedName) => {
 	for (const task of tasks) {
@@ -305,7 +311,9 @@ const runAllTasks = async tasks => {
 	let allFiles = await scanTree('.') //Can't do anything until we have our tree.
 	let tasks = findTasks(allFiles) //Generates the list of files we work on. These are the nodes of our dependancy tree.
 	calculateRequirements(tasks) //Calculate the relations between the nodes of the dependancy tree.
-	markOutOfDate(tasks) //Re-marks tasks clean/dirty, useful when re-runnning.
+	process.argv.includes('--full-rebuild')
+		? markTasksDirty(tasks) //Marks all tasks as needed to be run, useful when developing.
+		: markOutOfDate(tasks) //Re-marks tasks as clean or dirty, useful when re-runnning.
 	
 	let taskToShow = ''
 	let shownTasks = 0
@@ -467,31 +475,3 @@ const dotify = tasks => {
 	
 	return out
 }
-
-/*
-digraph G {
-	subgraph cluster0 {
-		node [style=filled,color=white];
-		style=filled;color=lightgrey;
-		a0 -> a1 -> a2 -> a3;
-		label = "process #1";
-	}
-	
-	subgraph cluster1 {
-		node [style=filled];
-		b0 -> b1 -> b2 -> b3;
-		label = "process #2";
-		color=blue
-	}
-	start -> a0;
-	start -> b0;
-	a1 -> b3;
-	b2 -> a3;
-	a3 -> a0;
-	a3 -> end;
-	b3 -> end;
-	start [shape=Mdiamond];
-	
-	end [shape=Msquare];
-}
-*/

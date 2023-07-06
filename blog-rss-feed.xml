@@ -5,7 +5,7 @@
 		<atom:id>https://ddr0.ca</atom:id>
 		<link>https://ddr0.ca/blog.html</link>
 		<description>Updates to DDR's Blog. Get notified of new posts!</description>
-		<atom:updated>2022-09-06T00:44:53.654Z</atom:updated>
+		<atom:updated>2023-06-13T06:41:02.678Z</atom:updated>
 		<atom:link href='https://ddr0.ca/blog.html'></atom:link>
 		<atom:link href='https://ddr0.ca/blog-rss-feed.xml' rel='self'></atom:link>
 		
@@ -171,6 +171,15 @@
 			<guid isPermaLink='true'>https://ddr0.ca/blog-posts/18.Managing_Files_On_A_Phone.html</guid>
 			<source url="https://ddr0.ca/blog-posts/18.Managing_Files_On_A_Phone.html"></source>
 			<pubDate>Mon, 05 Sep 2022 00:00:00 GMT</pubDate>
+		</item>
+		
+		<item>
+			<title>Negative Results</title>
+			<description>In which we fail to write some multithreaded Rust.</description>
+			<link>https://ddr0.ca/blog-posts/19.Negative_Results.html</link>
+			<guid isPermaLink='true'>https://ddr0.ca/blog-posts/19.Negative_Results.html</guid>
+			<source url="https://ddr0.ca/blog-posts/19.Negative_Results.html"></source>
+			<pubDate>Mon, 12 Jun 2023 00:00:00 GMT</pubDate>
 		</item>
 		
 	</channel>

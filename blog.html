@@ -28,7 +28,97 @@
 			<a name='content'></a>
 			<div id='content-pane'>
 
-				<h2 id="managing-files-on-a-phone">
+				<h2 id="negative-results">
+											<a href="/blog-posts/19.Negative_Results">Negative Results</a>
+										</h2>
+				
+						
+				<p>A few months ago, I decided to try my hand at writing a little bit of multithreaded Rust, running in Web Workers. While I have not been met with success, I feel it is important to mention what I've done so others can save some time and sanity – plus, I think the story is at least mildly interesting. All code is open-source and all examples should be fairly easy to run.</p>
+				
+				<p>Besides, if nothing else, you can take great <a href="https://www.youtube.com/watch?v=kb20xhcrK4g">schadenfreude</a> in my hobbies.</p>
+				
+				
+				<h3>Backstory</h3>
+				
+				<p>It's currently June 2023. In November 2020, I decided, hey, you know what would be cool?</p>
+				
+				<p><em>A multithreaded <a href="https://sandspiel.club/">falling-sand game</a>.</em></p>
+				
+				<p>So, naturally, the tools I choose to do this with are <a href="https://developer.mozilla.org/en-US/docs/Glossary/HTML5">HTML5</a> for the front-end. It's easy to package, I just have to throw a couple files up on my web server and there we go. Then, for the core, I'll write the simulation in Rust, and run it on all the cores of my CPU with a shared-memory model. I know we've got <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Atomics">atomics</a> in JS and WASM now, so let's try to use it to build something simple. Heh. <strong>Heh,</strong> I tell you.</p>
+				
+				
+				<h3><a href="https://github.com/DDR0/Stardust/tree/attempt-1">1<sup>st</sup> Attempt</a> - wasm-bindgen and Why FFI Is Not Your Friend For Speed</h3>
+				
+				<p>This approach attempted to use <a href="https://docs.rs/wasm-bindgen/latest/wasm_bindgen/">wasm-bindgen</a> to read/write shared memory in the web-worker from <a href="https://webassembly.org">WASM</a>, generated from Rust, in a fairly naïeve manner. But why not just set the memory directly from WASM?</p>
+				
+				<h4>The Core Problem</h4>
+				
+				<p>Web assembly has one linear memory.¹ This is, by default, not shared. And if it is shared, <em>all</em> memory is shared - you can't just share a portion of it.</p>
+				
+				<p>To share the memory, you also literally have to share the memory. Generally, <a href="https://github.com/DDR0/Stardust/blob/897ae96ab8a5d8957e97d0637abc26ffe69dc8cd/www/worker/logicWorker.mjs#LL4C12-L4C12">you initialize your WASM in a web worker</a>, the memory for the worker is allocated there. So, if we want to have shared memory, we must send it to the worker in a message and pass it in to whatever is compiling our WASM. This isn't, or at least wasn't in 2020, supported by wasm-bindgen as far as I could tell.² So, what do we do?</p>
+				
+				<p>To get something working, I simply called back out to Javascript whenever I wanted to modify a value in the shared memory. The way this ended up working out was that, to read, say, the x-velocity of a falling particle of sand, I'd go something like <code>Reflect::get_u32(Reflect::get(Reflect::get(world_obj, "velocity"), "x"), particle_index)</code>, which is a fairly direct translation of JS' <code>world.particles.x[particle_index]</code>. I don't think the idiom translates very well, especially including that this rust allocates two strings and a number as part of the FFI operation which then needs to get GC'd. I did try <a href="https://github.com/DDR0/Stardust/blob/897ae96ab8a5d8957e97d0637abc26ffe69dc8cd/crate-wasm/src/particles/particle_data.rs#L21">allocating the strings statically</a> to speed things up, but it didn't speed things up that much. I could peg every core of my computer and hit, maybe, 5fps doing nothing. So this approach was, as suspected, hot garbage and FFI is slow when you're doing a few million operations a second.</p>
+				
+				<blockquote>
+					<p>In total, the render thread takes 128ms on Chrome and 59ms on Firefox to render out a 300x150 playfield. Aiming for a 120hz framerate, that gives us a budget of 8.3ms/frame, which is not particularly in the neighbourhood we need. Effectively all the time is spent creating and destroying our internal representation of a particle, which consists of world, thread_id, x, y, and maybe w/h if it references a real particle. The allocation and deallocation of one of these data structures takes about 30% of the processing time, and we usually end up creating a few of them as they're what we use to work with other particles as well. Another 20% of the time was spent reading data from the JS side of things, since we can't map the data we're working with in from the shared array buffer passed to the web-worker.</p>
+				
+					<p>Rust interop with JS in this case has also proved rather awkward; while I'm sure it would work for other projects, for the sort of high-performance access we're looking at it's not suitable. Right now, WASM is more suited to the sort of workload where a little data is passed in to do a lot of work on, rather than a lot of data passed in to do a little work on.</p>
+				
+					<p>One alternative might be to copy the raw memory in to the WASM process in the worker thread, thus avoiding the lookups. More sensibly, I think the best solution is just to avoid using WASM for this at all, and use Javascript or Typescript in the worker.</p>
+				</blockquote>
+				—<a href="https://github.com/DDR0/Stardust/tree/attempt-1#outcome">Attempt 1's readme.md</a>
+				
+				<p>Oh, and the kicker? Back on the main thread, it seems you can't paint shared array buffers directly to canvas - you need to copy them into a new ImageData() first, because ImageData will only accept non-shared array buffers. So our zero-copy goal is kinda hosed at this point, if we're being <em>pure</em> about it. Let's ignore that and continue on. It's certainly not an ill omen of things to come... right?</p>
+				
+				
+				<h3><a href="https://github.com/DDR0/Stardust/tree/attempt-2">2<sup>nd</sup> Attempt</a> - Can't Read That Here</h3>
+				
+				<p>This was a fairly intense yet short-lived branch, because I ran up square against the core problem mentioned above. Diving in, this was when I figured out what was happening, and why I couldn't pass in a chunk of shared memory directly as I'd first assumed I could. Or, rather, I can <a href="https://github.com/DDR0/Stardust/blob/attempt-2/worker/sim.mjs"><em>pass it in</em></a>, but I can't <a href="https://github.com/DDR0/Stardust/blob/attempt-2/worker/sim.rs"><em>read it out</em></a>.</p>
+				
+				<blockquote>
+					The issue is that [multiple linear memories are] not a value which is represented in linear memory. That thing which Rust and C++ are based around. So it's kind of a new concept for them, and they just... don't support it, according to <a href="https://github.com/rust-lang/rust/issues/60825#issuecomment-566273568">this GitHub issue from 2019</a>.
+				</blockquote>
+				—<a href="https://github.com/DDR0/Stardust/tree/attempt-2#outcome">Attempt 2's readme.md</a>
+				
+				<p>So, now we know what we're up against, what do?</p>
+				
+				
+				<h3><a href="https://github.com/DDR0/Stardust/tree/attempt-3">3<sup>rd</sup> Attempt</a> - Can't Pass Array References</h3>
+				
+				<p>Yeah, that doesn't exist as a concept. You can't pass arrays from JS to WASM, because WASM only works on what is in linear memory. The array isn't in linear memory because we didn't copy it there, and we can only invoke functions and provide numbers as args to them.<p>
+				
+				<p>A few months burned reading refactoring, moving on.</p>
+				
+				
+				<h3><a href="https://github.com/DDR0/Stardust/">4<sup>th</sup> Attempt</a> - Memory Synchronisation Issues</h3>
+				
+				<p>This brings us up to today, in mid-2023. I've managed to make my Rust generate - at least theoretically - with <a href="https://github.com/DDR0/Stardust/blob/multithreading-issue-reproduction-3/worker/.cargo/config.toml">shared memory multithreading support</a>, by adding <code>atomics</code> and <code>mutable-globals</code> to the feature list and linking with <code>--shared-memory</code> on Nightly. <code>bulk-memory</code> and <code>--import-memory</code> allow for <a href="https://github.com/DDR0/Stardust/blob/885be83b8b4475e6811bc85ebcbadd30f1c9d8c4/worker/sim.mjs#L14">the import of our shared memory object from JS</a>. Coss'… this doesn't actually <strong>work</strong>. And I have no idea why! The documentation I've read says it darn well should, but it doesn't. My threads are sharing memory <em>too well</em> now - <a href="https://stackoverflow.com/questions/76452839/how-to-compile-rust-for-use-with-wasms-shared-memory">non-shared local variables appear to be getting allocated over top of each other</a> in shared memory.</p>
+				
+				<p><strong>And this is where I give up. I can't figure this out. Save yourself some time and learn from my mistakes, and avoid using multithreaded Rust on the web. Even if someone hands you a fully-baked module, it's more trouble than it's worth - you'll wind up fiddling with it when something inevitably breaks, like browsers starting to require site-isolation headers. It's under-documented and very few people understand it. Certainly none than I can find asking around on various forums and Discords over the years this has been ongoing. You will not be able to get help when things go wrong, and things will go wrong.</strong></p>
+				
+				<p>On the upside, it wasn't a total loss - <a href="https://github.com/DDR0/Stardust/wiki/External-Bugs-Filed-As-Part-Of-This-Project">we filed a few browser bugs</a>. But at the same time, that shows no one's been poking around this area much.</p>
+				
+				<hr>
+				
+				<p>¹: There's loose plans to allow multiple <a href="https://developer.mozilla.org/en-US/docs/WebAssembly/JavaScript_interface/Memory">memory objects</a> to be provided to WASM, but that is not high priority because <em>nothing expects to operate on more than one memory.</em> We have based all our technology on things which can be pointed to with a numerical pointer, and web assembly memories are <em>named</em>, not numbered. So currently, we only have one memory, which is the default the number points into.</p>
+				
+				<p>²: wasm-bindgen does have <a href="https://rustwasm.github.io/docs/wasm-bindgen/examples/raytrace.html">a proper mechanism to multithread things</a>, but as far as I can tell it works by copying memory around which isn't what we want. If it does share memory, I can't figure out how.</p>
+						
+										<span class="tags">tags: 				<a href="/blog-posts/tags#web-dev">web dev</a>, <a href="/blog-posts/tags#rust">rust</a>, <a href="/blog-posts/tags#wasm">wasm</a>, <a href="/blog-posts/tags#multithreading">multithreading</a>, <a href="/blog-posts/tags#html5">html5</a>, <a href="/blog-posts/tags#negative-result">negative result</a></span>
+					
+				
+				
+				
+				
+				
+				<hr>
+				
+				
+				
+				
+				
+				
+										<h2 id="managing-files-on-a-phone">
 											<a href="/blog-posts/18.Managing_Files_On_A_Phone">Managing Files On A Phone</a>
 										</h2>
 				

@@ -105,7 +105,7 @@ location ~ "^/.*\.xml$" {
 
 #Moved `/file.html` URLs to `/file`. (I think it looks sleeker.)
 location ~ "\.html$" {
-	rewrite ^(.*?)\.html$ $1 permanent;
+	rewrite ^(.*?)\.html$ https://$host$1 permanent;
 }
 
 #Renamed a blog post.

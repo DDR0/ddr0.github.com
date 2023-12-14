@@ -115,7 +115,7 @@ ${include('site shell intro.html.frag.js', {
 						<li><a href="/side projects/$⌚">money calculator</a></li>
 						<li><a href="/side projects/colour">light painting tool</a></li>
 						<li>accessible D&D dice roller: <a href="/d">d</a> or <a href="/🎲">🎲</a>. (Version history: <a href="/⚀">⚀</a>, <a href="/⚁">⚁</a>.)</li>
-						<li><a href="/side projects/reminder">periodic reminder tool</a></li>
+						<li><a href="/side projects/reminder">periodic reminder tool</a> <a href="/side projects/📳">📳</a></li>
 					</ol>
 					
 					See also: <a href="/files/personal/resume.pdf">my resume</a>.

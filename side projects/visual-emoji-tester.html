@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang='en'>
+	<head>
+		<meta charset=utf-8>
+		<title>Visual Emoji Tester</title>
+		<meta name="theme-color" content="#3377FF">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5.0, minimum-scale=1">
+		
+		<!-- Tests / Examples -->
+		<script defer type="module">
+			const {environmentHasEmoji, isEmoji} = await import('./visual-emoji-tester.mjs')
+			//console.log('is emoji', isEmoji({string: '🙂', canvas: document.querySelector('canvas')}))
+			
+			let errors = 0
+			let tests = 0
+			const assert = (description, condition, expectation) => {
+				tests++
+				if (condition !== expectation) {
+					console.error(`Test failed: ${description}; ${condition} is not ${expectation}`)
+					errors++
+				} else {
+					console.info(`Test passed: ${description}`)
+				}
+			}
+			
+			assert("environment supports emoji", environmentHasEmoji, true)
+			
+			assert("🙂 is an emoji", isEmoji('🙂'), true)
+			assert("☹ is an emoji", isEmoji('☹'), true)
+			assert("🙂 is an emoji even when tiny", isEmoji({string: '🙂', font: '5px serif'}), true)
+			assert("🙂̀́̀́ is an emoji with combining chararcters", isEmoji('🙂̀́̀́'), true)
+			assert("🟰 is also an emoji", isEmoji('🟰'), true)
+			assert("🍴 is an emoji too", isEmoji('🍴'), true)
+			assert("h is not an emoji", isEmoji('h'), false)
+			assert("hh is not an emoji", isEmoji('hh'), false)
+			assert("i🙂 is not an emoji", isEmoji('hh'), false)
+			assert("🙂i is not an emoji", isEmoji('hh'), false)
+			assert("🙂🙂 is two emojis (unjoined)", isEmoji('🙂🙂'), false)
+			assert("🙂‍🙂 is two emojis (joined)", isEmoji('🙂‍🙂'), false)
+			
+			console.info(`${tests-errors}/${tests} tests passed`)
+		</script>
+		
+		<script defer type="module">
+			const {environmentHasEmoji, isEmoji} = await import('./visual-emoji-tester.mjs')
+			
+			const input = document.querySelector('input')
+			const canvas = document.querySelector('canvas')
+			const output = document.querySelector('output')
+			
+			if (!environmentHasEmoji) {
+				input.disabled = true
+				output.textContent = "colour emoji unavailable to test"
+				throw new Error(output.textContent)
+			}
+			
+			const testEmoji = () => output.textContent = isEmoji({string:input.value, canvas})
+			input.addEventListener('change', testEmoji);
+			input.addEventListener('input', testEmoji);
+			input.addEventListener('paste', testEmoji);
+			testEmoji();
+		</script>
+	</head>
+	<body>
+		<h1>Emoji Tester</h1>
+		<label>Input: <input type="text"></input></label>
+		→
+		<canvas width=10 height=10></canvas>
+		→
+		<label>Is One Colour Emoji: <output>Pending! Enter an emoji.</output></label>
+		
+		
+	</body>
+</html>

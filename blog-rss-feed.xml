@@ -5,7 +5,7 @@
 		<atom:id>https://ddr0.ca</atom:id>
 		<link>https://ddr0.ca/blog.html</link>
 		<description>Updates to DDR's Blog. Get notified of new posts!</description>
-		<atom:updated>2023-07-06T19:50:07.384Z</atom:updated>
+		<atom:updated>2023-12-14T02:17:06.368Z</atom:updated>
 		<atom:link href='https://ddr0.ca/blog.html'></atom:link>
 		<atom:link href='https://ddr0.ca/blog-rss-feed.xml' rel='self'></atom:link>
 		
@@ -180,6 +180,24 @@
 			<guid isPermaLink='true'>https://ddr0.ca/blog-posts/19.Negative_Results.html</guid>
 			<source url="https://ddr0.ca/blog-posts/19.Negative_Results.html"></source>
 			<pubDate>Mon, 12 Jun 2023 00:00:00 GMT</pubDate>
+		</item>
+		
+		<item>
+			<title>Salty Pepper</title>
+			<description>Don't buy the Zwilling Enfinigy Electric Pepper Mill.</description>
+			<link>https://ddr0.ca/blog-posts/20.Salty_Pepper.html</link>
+			<guid isPermaLink='true'>https://ddr0.ca/blog-posts/20.Salty_Pepper.html</guid>
+			<source url="https://ddr0.ca/blog-posts/20.Salty_Pepper.html"></source>
+			<pubDate>Wed, 13 Dec 2023 00:00:00 GMT</pubDate>
+		</item>
+		
+		<item>
+			<title>A Visual Emoji Tester</title>
+			<description>A reliable</description>
+			<link>https://ddr0.ca/blog-posts/21.A_Visual_Emoji_Tester.html</link>
+			<guid isPermaLink='true'>https://ddr0.ca/blog-posts/21.A_Visual_Emoji_Tester.html</guid>
+			<source url="https://ddr0.ca/blog-posts/21.A_Visual_Emoji_Tester.html"></source>
+			<pubDate>Wed, 13 Dec 2023 00:00:00 GMT</pubDate>
 		</item>
 		
 	</channel>

@@ -223,7 +223,7 @@ const markOutOfDate = tasks => {
 const markTasksDirty = tasks => {
 	for (const task of tasks) {
 		task.dirty = true
-		task.postreqs.forEach(markAllTasksOutOfDate)
+		task.postreqs.forEach(markOutOfDate)
 	}
 }
 

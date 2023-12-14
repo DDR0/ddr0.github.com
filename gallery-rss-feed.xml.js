@@ -14,6 +14,11 @@ const entries = [
 		desc: "I have built an accessible, multi-player <a href=\"https://ddr0.ca/%F0%9F%8E%B2\">dice roller</a> and a tiny <a href=\"https://ddr0.ca/side%20projects/reminder\">periodic reminder tool</a>, both added to the final section of the gallery.",
 		url: "https://ddr0.github.io/gallery.html",
 		date: "2022-04-11",
+	},{
+		title: "Added another side-project to gallery.",
+		desc: "Added the <a href=\"https://ddr0.ca/side projects/visual-emoji-tester\">Visual Emoji Tester</a> side-project, and took another stab at the <a href=\"https://ddr0.ca/side%20projects/reminder\">periodic reminder tool</a>.",
+		url: "https://ddr0.github.io/gallery.html",
+		date: "2022-12-13",
 	},
 ]
 

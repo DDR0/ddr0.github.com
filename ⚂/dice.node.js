@@ -22,11 +22,6 @@ const history = new Proxy(new Map(), {
 
 console.info('starting dice server v3')
 
-const setResponseHeader = (req, res) => {
-	res.header('Access-Control-Allow-Origin', req.headers.origin)
-	res.header('Vary', 'Origin')
-}
-
 io.on('connection', socket => {
 	let room = '' //The room we are in.
 	socket.join(room)

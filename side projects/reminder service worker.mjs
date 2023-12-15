@@ -113,7 +113,7 @@ addEventListener("message", event => {
 	}[event.data.action] || logUnknownEvent)(event.data.payload)
 });
 
-addEventListener("notificationclick", event => {
+addEventListener('notificationclick', event => {
 	event.notification.close();
 	if (event.action === "stop") {
 		tabs.get(event.notification.tag)?.source.postMessage({ action: 'stop' });

@@ -13,7 +13,7 @@ charset utf-8;
 
 include mime.types;
 types {
-	application/javascript js mjs;
+	application/javascript mjs;
 }
 
 #Set up CSP for use later. Use CSP_REPORT in conjunction with REPORT_TO and NEL.
@@ -30,19 +30,19 @@ set $NEL        '{"report_to":"default","max_age":31536000,"include_subdomains":
 location ~ /\.well-known { 
 	allow all;
 	
-	#add_header X-Debug 1;
+	add_header X-Debug 1;
 }
 
 #Otherwise, don't serve hidden files. (Not that there should be any.)
 location ~ /\. { 
     deny all;
 	
-	#add_header X-Debug 2;
+	add_header X-Debug 2;
 }
 
 
 
-# --- Dice Roller Roll Server Redirects --- #
+# --- Node Server Redirects --- #
 
 
 location ~ /⚂/ws {
@@ -60,7 +60,25 @@ location ~ /⚂/ws {
 	add_header Report-To "${REPORT_TO}";
 	add_header NEL "${NEL}";
 	
-	#add_header X-Debug 12;
+	add_header X-Debug 12;
+}
+
+location ~ "/side projects/reminder/api" {
+	rewrite "^/side projects/reminder/api/(.*)" /$1 break;
+	proxy_pass http://localhost:8304;
+	proxy_http_version 1.1;
+	proxy_set_header Upgrade $http_upgrade;
+	proxy_set_header Connection 'upgrade';
+	proxy_set_header Host $host;
+	proxy_cache_bypass $http_upgrade;
+	proxy_set_header X-Real-IP $remote_addr;
+	proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+	
+	add_header Content-Security-Policy "${CSP_BASE}; ${CSP_REPORT}; ${CSP_SCRIPT} ${SCRIPTS}; ${CSP_IMG}; ${CSP_STYLE}";
+	add_header Report-To "${REPORT_TO}";
+	add_header NEL "${NEL}";
+	
+	add_header X-Debug 15;
 }
 
 
@@ -77,7 +95,7 @@ location ~ "^/.*\.js$" {
 	add_header Cross-Origin-Opener-Policy "same-origin";
 	add_header Cross-Origin-Embedder-Policy "require-corp";
 	
-	#add_header X-Debug 19;
+	add_header X-Debug 19;
 }
 
 #Fix web worker imports in https://ddr0.ca/editabled/fullscreen.html not working because CSP is being applied relative to them.
@@ -89,7 +107,7 @@ location ~ "^/.*\.svg$" {
 	add_header Cross-Origin-Opener-Policy "same-origin";
 	add_header Cross-Origin-Embedder-Policy "require-corp";
 	
-	#add_header X-Debug 20;
+	add_header X-Debug 20;
 }
 
 #RSS feeds are the only XML we have on site.
@@ -102,7 +120,7 @@ location ~ "^/.*\.xml$" {
 	add_header Cross-Origin-Opener-Policy "same-origin";
 	add_header Cross-Origin-Embedder-Policy "require-corp";
 	
-	#add_header X-Debug 21;
+	add_header X-Debug 21;
 }
 
 
@@ -129,7 +147,7 @@ location ~ "^/gallery(:?\.html)?$" {
 	add_header Cross-Origin-Opener-Policy "unsafe-none";
 	add_header Cross-Origin-Embedder-Policy "unsafe-none";
 	
-	#add_header X-Debug 13;
+	add_header X-Debug 13;
 }
 
 #Must make request from project folder, because of relative URLs.
@@ -152,7 +170,7 @@ location ~ "^/cube trains/[^\.]*(?:\.html)?$" {
 	add_header Report-To "${REPORT_TO}";
 	add_header NEL "${NEL}";
 	
-	#add_header X-Debug 14;
+	add_header X-Debug 14;
 }
 
 location ~ "^/(?:blog-posts/\d+\.)?[^\.]*(?:\.html)?$" {
@@ -168,7 +186,7 @@ location ~ "^/(?:blog-posts/\d+\.)?[^\.]*(?:\.html)?$" {
 	add_header Cross-Origin-Embedder-Policy "require-corp";
 	add_header Cross-Origin-Resource-Policy "same-origin";
 	
-	#add_header X-Debug 16;
+	add_header X-Debug 16;
 }
 
 #Scratch space for embedding elsewhere.
@@ -184,7 +202,7 @@ location ~ "^/scratch" {
 	add_header Report-To "${REPORT_TO}";
 	add_header NEL "${NEL}";
 	
-	#add_header X-Debug 17;
+	add_header X-Debug 17;
 }
 
 #Catchall for text files and such.
@@ -201,5 +219,5 @@ location / {
 	add_header Cross-Origin-Embedder-Policy "require-corp";
 	add_header Cross-Origin-Resource-Policy "same-origin";
 	
-	#add_header X-Debug 18;
+	add_header X-Debug 18;
 }

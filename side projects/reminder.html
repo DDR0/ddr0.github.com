@@ -20,6 +20,7 @@
 				align-items: center;
 			}
 			form {
+				max-width: 21rem;
 				background-color: #0002;
 				margin: 1rem;
 				border: 1rem solid #CCA;
@@ -41,7 +42,7 @@
 			.error {
 				color: darkred;
 				&::before {
-					content: '⚠️';
+					content: '⚠️ ';
 				}
 			}
 			[title] {
@@ -53,7 +54,7 @@
 			"use strict";
 			
 			(async ()=>{
-				const registration = await navigator.serviceWorker.register("reminder service worker.js");
+				const registration = await navigator.serviceWorker.register("reminder service worker.mjs");
 				if (registration.installing) {
 					console.info("Service worker installing");
 				} else if (registration.waiting) {
@@ -62,6 +63,11 @@
 					console.info("Service worker active");
 				}
 			})();
+			
+			addEventListener('push', evt=>console.log('tab: push', evt));
+			
+			let applicationServerKey;
+			const keyFetch = fetch('/side projects/reminder/api/v1/key');
 			
 			document.addEventListener("DOMContentLoaded", ()=>{
 				if (!("Notification" in window)) {
@@ -82,23 +88,62 @@
 				let clockInterval = -1;
 				let startTime = 0;
 				
+				
+				const fatalError = message => {
+					stopDesc.setAttribute("class", "hidden");
+					startDesc.removeAttribute("class");
+					startButton.disabled = true;
+					startButton.setAttribute('title', "Can not start due to error.");
+					error.innerText = message;
+					error.classList.remove('hidden');
+				}
+				
+				keyFetch.then(async response => {
+					if (response.ok)
+						applicationServerKey = new Uint8Array(await (await response.blob()).arrayBuffer());
+					else
+				             fatalError("Could not contact push notification server. Service may be down. Contact site admin for help.");
+				}).catch(()=>fatalError("Could not contact push notification server. Service may be down. Contact site admin for help."));
+				
 				navigator.serviceWorker.addEventListener('controllerchange', e => {
 					console.info('service worker changed', e);
 				});
 				
 				startButton.addEventListener('click', evt=>{
 					evt.preventDefault();
+					
+					console.log(applicationServerKey);
+					
+					if(!applicationServerKey) {
+						error.innerText = "Waiting on push notification server… please try again in a second…";
+						error.classList.remove('hidden');
+					} else {
+						error.classList.add('hidden');
+					}
+					
 					console.info('starting timer');
+					
 					
 					navigator.serviceWorker.ready.then(registration => {
 						registration.active.postMessage({
-							action: "start", 
+							action: 'start', 
 							payload: {
 								prompt: prompt.value,
 								minutes: minutes.valueAsNumber,
 								round: round.checked,
 							},
 						});
+						
+						registration.pushManager.subscribe({
+							userVisibleOnly: true,
+							applicationServerKey,
+						}).then(
+							pushSubscription => {
+								console.log('pse', pushSubscription);
+							},
+							error => fatalError(error),
+						);
+						
 					}).catch(err => console.error('could not start', err));
 						
 					//Set visual state to "running".
@@ -134,14 +179,7 @@
 						stop: ()=>{
 							confirm("Cancel repeating timer?") && stopButton.click()
 						},
-						error: ({message="An error occurred. Try reloading?"}) => {
-							stopDesc.setAttribute("class", "hidden");
-							startDesc.removeAttribute("class");
-							startButton.disabled = true;
-							startButton.setAttribute('title', "Can not start due to error.");
-							error.innerText = message;
-							error.classList.remove('hidden');
-						}
+						error: ({message="An error occurred. Try reloading?"}) => fatalError(message),
 					})[action](payload);
 				});
 				

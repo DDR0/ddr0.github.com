@@ -33,123 +33,111 @@
 				padding-left: 1em;
 				padding-right: 1em;
 			}
-			label {
-				user-select: none;
-			}
 			.hidden {
 				display: none;
-			}
-			.error {
-				color: darkred;
-				&::before {
-					content: '⚠️';
-				}
-			}
-			[title] {
-				cursor: help;
 			}
 		</style>
 		
 		<script>
-			"use strict";
-			
-			(async ()=>{
-				const registration = await navigator.serviceWorker.register("reminder service worker.js");
-				if (registration.installing) {
-					console.info("Service worker installing");
-				} else if (registration.waiting) {
-					console.info("Service worker installed");
-				} else if (registration.active) {
-					console.info("Service worker active");
-				}
-			})();
-			
 			document.addEventListener("DOMContentLoaded", ()=>{
+				"use strict";
+				
 				if (!("Notification" in window)) {
 					document.body.innerText = "This browser does not support notifications."
-				}
-				if (!"serviceWorker" in navigator) {
-					document.body.innerText = "This browser does not support service workers, which are needed for reliable notifications."
 				}
 				
 				const $ = document.querySelectorAll.bind(document);
 				const [startDesc, stopDesc] = $("p");
-				const [prompt, minutes, round] = $("input");
-				const [roundingTime] = $("#rounding-time")
+				const [prompt, minutes] = $("input");
 				const [startButton, stopButton] = $("button");
-				const [error, output] = $("output");
+				const [output] = $("output");
 				
 				let notificationInterval = -1;
 				let clockInterval = -1;
 				let startTime = 0;
 				
-				navigator.serviceWorker.addEventListener('controllerchange', e => {
-					console.info('service worker changed', e);
-				});
 				
 				startButton.addEventListener('click', evt=>{
-					evt.preventDefault();
-					console.info('starting timer');
-					
-					navigator.serviceWorker.ready.then(registration => {
-						registration.active.postMessage({
-							action: "start", 
-							payload: {
-								prompt: prompt.value,
-								minutes: minutes.valueAsNumber,
-								round: round.checked,
-							},
+					//Before starting the notification countdown, get notification permissions.
+					if (Notification.permission === "granted") {
+						scheduleReminderNotification();
+					} else {
+						Notification.requestPermission(function (permission) {
+							if (permission === "granted") {
+								if (minutes.valueAsNumber > 0) {
+									new Notification(`Reminder scheduled in ${minutes.value} minutes.`);
+								}
+								
+								scheduleReminderNotification();
+							}
 						});
-					}).catch(err => console.error('could not start', err));
+					}
+					
+					//Start the notification countdown.
+					function scheduleReminderNotification() {
+						//Make sure we stop anything running, just for sanity's sake.
+						clearInterval(notificationInterval);
+						clearInterval(clockInterval);
 						
-					//Set visual state to "running".
-					startDesc.setAttribute("class", "hidden");
-					stopDesc.removeAttribute("class");
+						notificationInterval = setInterval(()=>{
+							const notification = new Notification(`Don't forget to ${prompt.value}!`, {
+								renotify: true,
+								tag: "Reminders",
+								body: "It is time.",
+								// actions are only supported for persistent notifications delivered via service workers in Chrome
+								//actions: [{
+								//	action: "done",
+								//	title: Math.random() <= 0.01 ? "👍 If you insist…" : "👍 Done",
+								//}],
+							});
+							
+							notification.addEventListener('error', err=>{
+								console.error(err);
+								alert("An unknown error was encountered displaying your reminder.");
+							});
+							
+							notification.addEventListener('notificationclick', evt=>{
+								evt.notification.close();
+								evt.preventDefault();
+							});
+							
+							startTime = Date.now(); //Countdown to next notification.
+						}, minutes.valueAsNumber * 60000);
+						
+						startTime = Date.now();
+						const updateClock = ()=>{
+							const elapsedSec = (Date.now() - startTime)/1000; //seconds
+							const totalSec = minutes.valueAsNumber * 60;
+							const delta = Math.round(totalSec - elapsedSec);
+							output.innerText = `${Math.floor(delta/60)}:${`${delta%60}`.padStart(2, '0')}`;
+						};
+						clockInterval = setInterval(updateClock, 1000);
+						updateClock();
+						
+						//Set visual state to "running".
+						startDesc.setAttribute("class", "hidden");
+						stopDesc.removeAttribute("class");
+					};
+					
+					evt.preventDefault();
 				});
 				
+				
 				stopButton.addEventListener('click', evt=>{
-					evt.preventDefault();
-					console.info('stopping timer');
-					
-					navigator.serviceWorker.ready.then(registration => {
-						registration.active.postMessage({ action:"stop" });
-					}).catch(err => console.error('could not stop', err));
+					clearInterval(notificationInterval);
+					clearInterval(clockInterval);
 					
 					stopDesc.setAttribute("class", "hidden");
 					startDesc.removeAttribute("class");
+					
+					evt.preventDefault();
 				});
 				
 				//If the form is submitted, just trigger the button action instead.
 				$('form')[0].addEventListener('submit', ()=>{
 					$('p:not(.hidden) button')[0].click();
 					evt.preventDefault();
-				});
-				
-				minutes.addEventListener('change', e => roundingTime.innerText = e.target.value);
-				roundingTime.innerText = minutes.value
-				
-				//Update the timer when we're running.
-				navigator.serviceWorker.addEventListener("message", ({data: {action, payload}}) => {
-					({
-						updateRemainingTime: ({time})=>output.innerText = time,
-						stop: ()=>{
-							confirm("Cancel repeating timer?") && stopButton.click()
-						},
-						error: ({message="An error occurred. Try reloading?"}) => {
-							stopDesc.setAttribute("class", "hidden");
-							startDesc.removeAttribute("class");
-							startButton.disabled = true;
-							startButton.setAttribute('title', "Can not start due to error.");
-							error.innerText = message;
-							error.classList.remove('hidden');
-						}
-					})[action](payload);
-				});
-				
-				//OK, script ran, we're good to go.
-				startButton.disabled = false;
-				startButton.removeAttribute('title');
-				error.classList.add('hidden');
+				})
 			});
 		</script>
 	</head>
@@ -157,9 +145,8 @@
 	<body>
 		<form>
 			<p>
-				Tell me <input name="prompt" value=save> every <input name="duration" type=number value=15 min=0> minutes.<br>
-				<label><input name=round type=checkbox> Round alert times to nearest <span id="rounding-time">15</span> minutes.</label><br><br>
-				<button disabled title="Can not start due to error.">Go</button> <output class="error">Error loading JS.</output>
+				Remind me to <input value=save><br>every <input type=number value=15 min=0> minutes.<br><br>
+				<button>Go</button>
 			</p>
 			<p class=hidden>
 				Reminder in <output></output>.<br><br>

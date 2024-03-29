@@ -24,7 +24,7 @@
   "homepage": "https://github.com/DDR0/ddr0.github.com#readme",
   "dependencies": {
     "@dice-roller/rpg-dice-roller": "^5.0.0",
-    "express": "^4.17.3",
+    "express": "^4.19.2",
     "socket.io": "^2.4.0",
     "sse-pubsub": "^1.4.1"
   },

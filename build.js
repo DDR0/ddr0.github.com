@@ -32,31 +32,35 @@ const dump = (...args) => (console.info(...args), args.at(-1))
 
 
 
-const scanTree = path => fs.readdir(path)
-	.then(async names =>
-		(await Promise.all(
-			names.map(name => fs.lstat(`${path}/${name}`, {bigint:true})))
-		).map((entry, i) => (entry.name=names[i], entry))
+const scanTree = async path => {
+	const names = await fs.readdir(path)
+	const directoryContents = (await Promise.all(
+		names.map(name => fs.lstat(`${path}/${name}`, {bigint:true})))
+	).map((entry, i) => (entry.name=names[i], entry))
+	
+	//Filter out hidden and non-normal files, we don't want to watch .git or a fifo or anything.
+	const filesAndFolders = directoryContents.filter(entry =>
+		(!entry.name.startsWith('.')) 
+		&& (entry.isDirectory() || entry.isFile())
 	)
-	.then(listing => 
-		listing.filter(entry => //Filter out hidden and nonnormal files, we don't want to watch .git or a fifo or anything.
-			(!entry.name.startsWith('.')) 
-			&& (entry.isDirectory() || entry.isFile())
-		)
-	)
-	.then(async listing => [
-		...await Promise.all(listing
+	
+	const subfolders = (
+		await Promise.all(filesAndFolders
 			.filter(entry => entry.isDirectory())
 			.map(entry => scanTree(`${path}/${entry.name}`))
-		),
-		...listing
-			.filter(entry => entry.isFile())
-			.map(entry => ({
-				name: `${path}/${entry.name}`,
-				date: entry.mtimeMs,
-				//toString: ()=>`${entry.name}@${entry.mtimeMs}`,
-			})),
-	])
+		)
+	).flat()
+	
+	const files = filesAndFolders
+		.filter(entry => entry.isFile())
+		.map(entry => ({
+			name: `${path}/${entry.name}`,
+			date: entry.mtimeMs,
+			//toString: ()=>`${entry.name}@${entry.mtimeMs}`,
+		}))
+	
+	return [...subfolders, ...files]
+}
 
 
 
@@ -134,7 +138,7 @@ const findTasks = allFiles => {
 	output = replace(output, /\.xml\.js$/, '.xml')
 	input && addTask({
 		name: 'blog html',
-		input: input.concat(deps),
+		input: [...input, ...deps],
 		output,
 		command: `./compile-blog.node.js`,
 	})

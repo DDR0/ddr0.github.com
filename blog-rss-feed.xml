@@ -5,7 +5,7 @@
 		<atom:id>https://ddr0.ca</atom:id>
 		<link>https://ddr0.ca/blog.html</link>
 		<description>Updates to DDR's Blog. Get notified of new posts!</description>
-		<atom:updated>2024-01-12T03:09:11.314Z</atom:updated>
+		<atom:updated>2025-04-26T18:39:32.050Z</atom:updated>
 		<atom:link href='https://ddr0.ca/blog.html'></atom:link>
 		<atom:link href='https://ddr0.ca/blog-rss-feed.xml' rel='self'></atom:link>
 		
@@ -198,6 +198,15 @@
 			<guid isPermaLink='true'>https://ddr0.ca/blog-posts/21.A_Visual_Emoji_Tester.html</guid>
 			<source url="https://ddr0.ca/blog-posts/21.A_Visual_Emoji_Tester.html"></source>
 			<pubDate>Wed, 13 Dec 2023 00:00:00 GMT</pubDate>
+		</item>
+		
+		<item>
+			<title>Open RGB on Linux</title>
+			<description>Setting Up OpenRGB for KDE Neon.</description>
+			<link>https://ddr0.ca/blog-posts/22.Open_RGB_on_Linux.html</link>
+			<guid isPermaLink='true'>https://ddr0.ca/blog-posts/22.Open_RGB_on_Linux.html</guid>
+			<source url="https://ddr0.ca/blog-posts/22.Open_RGB_on_Linux.html"></source>
+			<pubDate>Thu, 24 Apr 2025 00:00:00 GMT</pubDate>
 		</item>
 		
 	</channel>

@@ -30,7 +30,7 @@
   },
   "devDependencies": {
     "less": "^3.13.1",
-    "prismjs": "^1.27.0"
+    "prismjs": "^1.30.0"
   },
   "x-eslintConfig": {
     "env": {

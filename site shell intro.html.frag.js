@@ -23,7 +23,7 @@
 					<a href='/blog'    ${page === './blog.html.js'    ? 'class=\'selected\'' : ''}><img src='/images/icons/page.svg' ><span>blog</span></a>
 					<a href='/gallery' ${page === './gallery.html.js' ? 'class=\'selected\'' : ''}><img src='/images/icons/work.svg' ><span>gallery</span></a>
 					<a href='/contact' ${page === './contact.html.js' ? 'class=\'selected\'' : ''}><img src='/images/icons/chat2.svg'><span>contact</span></a>
-					<a href='/rss.xml'                                                            ><img src='/images/icons/rss.svg'  ><span>rss</span></a>
+					<a href='/rss.xml' ${''                                                      }><img src='/images/icons/rss.svg'  ><span>rss</span></a>
 				</div>
 			</div>
 			<a name='content'></a>

@@ -18,7 +18,7 @@ ${include('site shell intro.html.frag.js', {
 	<section>
 		<h3 id="${name}"><a href="#${name}">${name.replace(/-/g, ' ')}</a></h3>
 		${
-			posts.map(post=>`<a href=${post}>${
+			posts.map(post=>`<a href=${post.replace(/\.html$/, '')}>${ //Avoid unneccessary redirect.
 				post.split('.')[1].replace(/_/g, ' ')
 			}</a>`).join(',\n\t\t')
 		}

@@ -91,6 +91,11 @@ fs.readdirSync('blog-posts')
 				metadata,
 				content: postContent.groups.content,
 				page: 'single-post.html.template.js',
+				additionalHeadFields: [ //Should be specified on a page-by-page basis, since not all pages use syntax highlighting.
+					`<link href='/css/blog.css' rel='stylesheet'>`,
+					`<link href='/css/prism-okaidia.css' rel='stylesheet'>`,
+					`<script defer src='/scripts/unindent-code-blocks.js'></script>`, //Can't be async, mucks up the first code block in /blog-posts/15.Hydrating_Objects. (Seems to be fighting Prism.)
+				],
 			})
 		)
 		

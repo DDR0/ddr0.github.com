@@ -1,5 +1,5 @@
 			</div>
 		</div>
 	</body>
-	<footer>Site ©2023 DDR.</footer>
+	<footer>Site ©2025 DDR.</footer>
 </html>

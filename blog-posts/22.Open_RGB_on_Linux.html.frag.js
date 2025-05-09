@@ -75,7 +75,7 @@ require('prismjs/components/')(['bash', 'systemd'])
 
 				case $1 in
 				  post)
-				    /bin/openrgb --server --profile "deep orange.orp"
+				    /bin/openrgb --profile "deep orange.orp"
 				    ;;
 				esac
 			`, Prism.languages.bash, 'bash'))

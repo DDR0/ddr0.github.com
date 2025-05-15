@@ -1,5 +1,10 @@
 const entries = [
 	{
+		title: "Added a few things I worked on at EA to the gallery.",
+		desc: "In Full: \"Between 2021 and 2025 I worked at Electronic Arts Inc. Initially I worked on FIFA 22 as a UI engineer, but after release moved to Skate where I am currently a tools engineer.\"",
+		url: "https://ddr0.github.io/gallery.html",
+		date: "2025-05-14",
+	},{
 		title: "Fixed easter egg not responding to clicks.",
 		desc: "Some CSS had disabled input for the easter egg.",
 		url: "https://ddr0.github.io/gallery.html",

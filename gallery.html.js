@@ -11,6 +11,15 @@ ${include('site shell intro.html.frag.js', {
 		`<link rel="alternate" type="application/rss+xml" title="DDR's Blog" href="/gallery-rss-feed.xml" />`,
 	],
 })}${''/*Note: We have an easter egg in this footer, so just leave everything properly indented here.*/}
+				<!-- Electronic Arts -->
+				<section>
+					<a href="https://www.ea.com/games/skate"><img width=300 height=300 class="cover right" src="images/gallery/skate.jpg"></a>
+					<h2>Skate and FIFA</h2>
+					<p>According to EA, Skate is "EA's first social sandbox rooted in creativity and connection". I just think it's a lot of fun. 😁</p>
+					<p>I've been working at Electronic Arts Inc. since 2021. Initially, I worked on FIFA 22 as a UI engineer. After that released, I moved to Skate where I am currently a tools engineer on the project.</p>
+				</section>
+				<hr>
+				
 				<!-- FROGATTO -->
 				<!-- Oh, wouldn't it be nice to be able to define a height variable here… but can't do that. -->
 				<section>
@@ -34,7 +43,7 @@ ${include('site shell intro.html.frag.js', {
 				<script src='https://code.jquery.com/jquery-2.0.0.min.js'></script>
 				<section>
 					<!-- Measured width/height is 641, 643. Half that is 320, 321. We have two margins, so half that is 160/161. Margin right is +2ex. -->
-					<iFrame class='cover left' height='643' id='candy-crush' src='Candy Crunch/minimal.html' style='-webkit-transform:scale(0.5,0.5); transform:scale(0.5,0.5); margin-left:-161px; margin-right:-150px; margin-top:-161px; margin-bottom:-161px; max-width:200%;' width='641'></iFrame>
+					<iFrame class='cover left' height='643' id='candy-crush' src='Candy Crunch/minimal.html' style='transform:scale(0.5,0.5); margin-left:-161px; margin-right:-150px; margin-top:-161px; margin-bottom:-161px; max-width:200%;' width='641'></iFrame>
 					<h2>Candy Crunch</h2>
 					<p>Over the course of two weeks in the spring of 2013, I was commissioned by a company called <a href="https://ayogo.com">Ayogo</a> to program a match-3 game. Candy Crunch was the outcome. Match more than three candies together to score a bonus. There is also a <a href="Candy Crunch/index.html">double-sized version</a>. You can <button onclick="$('#candy-crush')[0].contentWindow.location.reload()">restart</button> the game.</p>
 				</section>

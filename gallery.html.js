@@ -9,6 +9,7 @@ ${include('site shell intro.html.frag.js', {
 	additionalHeadFields: [
 		`<link href='css/gallery.css' rel='stylesheet'>`,
 		`<link rel="alternate" type="application/rss+xml" title="DDR's Blog" href="/gallery-rss-feed.xml" />`,
+		`<script async type=module src="boloball/bolo-game.js"></script>`,
 	],
 })}${''/*Note: We have an easter egg in this footer, so just leave everything properly indented here.*/}
 				<!-- Electronic Arts -->
@@ -58,10 +59,21 @@ ${include('site shell intro.html.frag.js', {
 				<hr>
 				
 				<!-- OPEN PIXEL PLATFORMER -->
+				<!--
 				<section>
 					<a href="https://github.com/DDR0/open_pixel_platformer"><img class="cover left" src="images/gallery/open platformer project jungle test level mod.png"></a>
 					<h2>Open Pixel Platformer</h2>
 					<p>This project aims to make a free, open-source platformer for coders and artists to use as a resource. I lead the programming side of the project. Code on <a href="https://github.com/DDR0/open_pixel_platformer">Github</a>. Discussion is at a <a href="https://www.pixeljoint.com/forum/forum_topics.asp?FID=23">sub-forum on PixelJoint</a>.</p>
+				</section>
+				<hr>
+				-->
+				
+				<!-- BOLO BALL -->
+				<section>
+					<bolo-game class="cover left" style="height: 350px; width: 450px;"></bolo-game>
+					<h2>Bolo Ball</h2>
+					<p>A loose fan remake of <a href="https://archive.org/details/BoloBall">Soleau Software's 1992 classic</a>, written mostly over Christmas 2025. Code on <a href="https://github.com/DDR0/Soleau-Ball">Github</a>.</p>
+					<p>Why not check out the <a href="boloball/boloball.html">full-screen version</a>?</p>
 				</section>
 				<hr>
 				

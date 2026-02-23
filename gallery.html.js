@@ -125,7 +125,7 @@ ${include('site shell intro.html.frag.js', {
 			</div>
 		</div>
 		<footer> ${''/*Note: We have an easter egg in this footer, so we can't just paste in the standard footer fragment.*/}
-			Site ©2023 David Roberts.
+			Site ©2026 David Roberts.
 			<a href='#' onclick='window.city.toggleVisibility()' style='float: right; margin-right: 20%;'>
 				<img src='images/easter-egg pull.svg'>
 			</a>

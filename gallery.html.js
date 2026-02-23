@@ -73,7 +73,7 @@ ${include('site shell intro.html.frag.js', {
 					<bolo-game class="cover left" style="height: 350px; width: 450px;"></bolo-game>
 					<h2>Bolo Ball</h2>
 					<p>A loose fan remake of <a href="https://archive.org/details/BoloBall">Soleau Software's 1992 classic</a>, written mostly over Christmas 2025. Code on <a href="https://github.com/DDR0/Soleau-Ball">Github</a>.</p>
-					<p>Why not check out the <a href="boloball/boloball.html">full-screen version</a>?</p>
+					<p>Why not check out the <a href="boloball/">full-screen version</a>?</p>
 				</section>
 				<hr>
 				

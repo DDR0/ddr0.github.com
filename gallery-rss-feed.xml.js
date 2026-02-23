@@ -1,10 +1,4 @@
-const entries = [
-	{
-		title: "Added a few things I worked on at EA to the gallery.",
-		desc: "In Full: \"Between 2021 and 2025 I worked at Electronic Arts Inc. Initially I worked on FIFA 22 as a UI engineer, but after release moved to Skate where I am currently a tools engineer.\"",
-		url: "https://ddr0.github.io/gallery.html",
-		date: "2025-05-14",
-	},{
+const entries = [{
 		title: "Fixed easter egg not responding to clicks.",
 		desc: "Some CSS had disabled input for the easter egg.",
 		url: "https://ddr0.github.io/gallery.html",
@@ -24,6 +18,16 @@ const entries = [
 		desc: "Added the <a href=\"https://ddr0.ca/side projects/visual-emoji-tester\">Visual Emoji Tester</a> side-project, and took another stab at the <a href=\"https://ddr0.ca/side%20projects/reminder\">periodic reminder tool</a>.",
 		url: "https://ddr0.github.io/gallery.html",
 		date: "2022-12-13",
+	},{
+		title: "Added a few things I worked on at EA to the gallery.",
+		desc: "In Full: \"Between 2021 and 2025 I worked at Electronic Arts Inc. Initially I worked on FIFA 22 as a UI engineer, but after release moved to Skate where I am currently a tools engineer.\"",
+		url: "https://ddr0.github.io/gallery.html",
+		date: "2025-05-14",
+	},{
+		title: "New game to play - Bolo Ball remake.",
+		desc: "I did a remake of a 1992 game from Soleau Software for fun. It replaces the rather defunct Open Pixel Platformer project in the gallery.",
+		url: "https://ddr0.github.io/gallery.html",
+		date: "2026-02-22",
 	},
 ]
 

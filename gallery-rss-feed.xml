@@ -5,20 +5,12 @@
 		<atom:id>https://ddr0.ca/gallery</atom:id>
 		<link>https://ddr0.ca/gallery</link>
 		<description>Updates to DDR's gallery. Get notified of new projects!</description>
-		<atom:updated>2025-05-15T02:49:44.799Z</atom:updated>
+		<atom:updated>2026-02-23T05:13:07.769Z</atom:updated>
 		<atom:link href='https://ddr0.ca/gallery'></atom:link>
 		<atom:link href='https://ddr0.ca/gallery-rss-feed.xml'
 			rel='self' type='application/rss+xml'></atom:link>
 		
 		
-		
-		<item>
-			<title>Added a few things I worked on at EA to the gallery.</title>
-			<description>In Full: "Between 2021 and 2025 I worked at Electronic Arts Inc. Initially I worked on FIFA 22 as a UI engineer, but after release moved to Skate where I am currently a tools engineer."</description>
-			<link>https://ddr0.github.io/gallery.html</link>
-			<source url="https://ddr0.github.io/gallery.html"></source>
-			<pubDate>Wed, 14 May 2025 00:00:00 GMT</pubDate>
-		</item>
 		
 		<item>
 			<title>Fixed easter egg not responding to clicks.</title>
@@ -50,6 +42,22 @@
 			<link>https://ddr0.github.io/gallery.html</link>
 			<source url="https://ddr0.github.io/gallery.html"></source>
 			<pubDate>Tue, 13 Dec 2022 00:00:00 GMT</pubDate>
+		</item>
+		
+		<item>
+			<title>Added a few things I worked on at EA to the gallery.</title>
+			<description>In Full: "Between 2021 and 2025 I worked at Electronic Arts Inc. Initially I worked on FIFA 22 as a UI engineer, but after release moved to Skate where I am currently a tools engineer."</description>
+			<link>https://ddr0.github.io/gallery.html</link>
+			<source url="https://ddr0.github.io/gallery.html"></source>
+			<pubDate>Wed, 14 May 2025 00:00:00 GMT</pubDate>
+		</item>
+		
+		<item>
+			<title>New game to play - Bolo Ball remake.</title>
+			<description>I did a remake of a 1992 game from Soleau Software for fun. It replaces the rather defunct Open Pixel Platformer project in the gallery.</description>
+			<link>https://ddr0.github.io/gallery.html</link>
+			<source url="https://ddr0.github.io/gallery.html"></source>
+			<pubDate>Sun, 22 Feb 2026 00:00:00 GMT</pubDate>
 		</item>
 		
 	</channel>

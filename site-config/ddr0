@@ -141,6 +141,10 @@ location ~ "^/wlroberts$" {
 	return 301 $request_uri/;
 }
 
+location ~* "^/linkedin$" {
+	return 301 https://www.linkedin.com/in/david-roberts-b9410654/;
+}
+
 #Allow some external resources for Cube Trains.
 location ~ "^/cube trains/[^\.]*(?:\.html)?$" {
 	try_files $uri $uri.html $uri/index.html =404;

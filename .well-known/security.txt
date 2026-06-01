@@ -1,0 +1,4 @@
+Contact: mailto:d@ddr0.ca
+Expires: 2100-01-01T00:00:00Z
+Preferred-Languages: en
+Canonical: https://ddr0.ca/.well-known/security.txt

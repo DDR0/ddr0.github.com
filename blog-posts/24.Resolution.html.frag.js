@@ -3,7 +3,7 @@ require('prismjs/components/')(['js', 'bash'])
 
 ;`<!--
 	published: 2026-07-27,
-	tags: web-dev rust wasm multithreading html5 fix,
+	tags: web-dev rust wasm multithreading html5 fix AI,
 	desc: I asked an AI and it figured out what was wrong with my multithreaded web workers.,
 -->
 

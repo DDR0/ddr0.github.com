@@ -5,7 +5,7 @@
 		<atom:id>https://ddr0.ca</atom:id>
 		<link>https://ddr0.ca/blog.html</link>
 		<description>Updates to DDR's Blog. Get notified of new posts!</description>
-		<atom:updated>2026-02-21T21:13:33.809Z</atom:updated>
+		<atom:updated>2026-07-28T03:46:34.178Z</atom:updated>
 		<atom:link href='https://ddr0.ca/blog.html'></atom:link>
 		<atom:link href='https://ddr0.ca/blog-rss-feed.xml' rel='self'></atom:link>
 		
@@ -216,6 +216,15 @@
 			<guid isPermaLink='true'>https://ddr0.ca/blog-posts/23.Flip_Speaker_Audio_with_Pipewire_on_Linux.html</guid>
 			<source url="https://ddr0.ca/blog-posts/23.Flip_Speaker_Audio_with_Pipewire_on_Linux.html"></source>
 			<pubDate>Wed, 18 Feb 2026 00:00:00 GMT</pubDate>
+		</item>
+		
+		<item>
+			<title>Resolution</title>
+			<description>I asked an AI and it figured out what was wrong with my multithreaded web workers.</description>
+			<link>https://ddr0.ca/blog-posts/24.Resolution.html</link>
+			<guid isPermaLink='true'>https://ddr0.ca/blog-posts/24.Resolution.html</guid>
+			<source url="https://ddr0.ca/blog-posts/24.Resolution.html"></source>
+			<pubDate>Mon, 27 Jul 2026 00:00:00 GMT</pubDate>
 		</item>
 		
 	</channel>

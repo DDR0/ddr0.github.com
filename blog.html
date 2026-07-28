@@ -29,7 +29,57 @@
 			<a name='content'></a>
 			<div id='content-pane'>
 
-				<h2 id="flip-speaker-audio-with-pipewire-on-linux">
+				<h2 id="resolution">
+											<a href="/blog-posts/24.Resolution">Resolution</a>
+										</h2>
+				
+						
+				<p>
+					After three years, I have solved the mystery why my webassembly won't load correctly as mentioned in <a href="/blog-posts/19.Negative_Results">Negative Results</a>, itself a follow-up to <a href="/blog-posts/13.Shared_Array_Buffers_With_WASM">Shared Array Buffers with WASM</a>. I asked <a href="https://www.perplexity.ai/products/computer">an AI</a>.
+				</p>
+				
+				<p>
+					It turns out we needed to explicitly set the stack memory location during setup, so that each program got <em>separate</em> stack memory to work with. To do this, and allocate thread-local storage areas as well, we add <code class="prism-span language-bash"><span class="token parameter variable">--export</span><span class="token operator">=</span>__stack_pointer <span class="token parameter variable">--export</span><span class="token operator">=</span>__wasm_init_tls <span class="token parameter variable">--export</span><span class="token operator">=</span>__tls_size <span class="token parameter variable">--export</span><span class="token operator">=</span>__tls_base <span class="token parameter variable">--export</span><span class="token operator">=</span>__tls_align</code> to the Rust link args, and then set them like this:
+				</p>
+				
+				<code class="prism-block language-js">
+					<span class="token keyword">const</span> <span class="token constant">REGION_BASE</span> <span class="token operator">=</span> <span class="token number">2</span> <span class="token operator">*</span> <span class="token number">1024</span> <span class="token operator">*</span> <span class="token number">1024</span> <span class="token comment">//Above the module's static data, heap base, and world.globalTick.</span>
+					<span class="token keyword">const</span> <span class="token constant">STACK_SIZE</span>  <span class="token operator">=</span> <span class="token number">512</span> <span class="token operator">*</span> <span class="token number">1024</span>      <span class="token comment">//Plenty for this program; grows downward from the top of the block.</span>
+					<span class="token keyword">const</span> <span class="token function-variable function">align</span> <span class="token operator">=</span> <span class="token parameter">n</span> <span class="token operator">=></span> <span class="token punctuation">(</span>n <span class="token operator">+</span> <span class="token number">15</span><span class="token punctuation">)</span> <span class="token operator">&amp;</span> <span class="token operator">~</span><span class="token number">15</span>
+					<span class="token keyword">const</span> tlsSize <span class="token operator">=</span> <span class="token function">align</span><span class="token punctuation">(</span>exports<span class="token punctuation">.</span>__tls_size<span class="token punctuation">.</span>value<span class="token punctuation">)</span> <span class="token comment">//0 here (no #[thread_local]s), but honour it for correctness.</span>
+					<span class="token keyword">const</span> blockSize <span class="token operator">=</span> tlsSize <span class="token operator">+</span> <span class="token constant">STACK_SIZE</span>
+					<span class="token keyword">const</span> blockBase <span class="token operator">=</span> <span class="token constant">REGION_BASE</span> <span class="token operator">+</span> workerIndex <span class="token operator">*</span> blockSize
+					
+					<span class="token comment">//TLS sits at the bottom of the block; the shadow stack occupies the rest and grows down from the top.</span>
+					<span class="token comment">//Set the private shadow stack FIRST, before any wasm call (including TLS init), so the</span>
+					<span class="token comment">//very first function entry runs on this worker's own stack rather than the shared one.</span>
+					exports<span class="token punctuation">.</span>__stack_pointer<span class="token punctuation">.</span>value <span class="token operator">=</span> blockBase <span class="token operator">+</span> blockSize
+					exports<span class="token punctuation">.</span><span class="token function">__wasm_init_tls</span><span class="token punctuation">(</span>blockBase<span class="token punctuation">)</span>
+				</code>
+				
+				<p>
+					The <a href="/blog-posts/24.Resolution/stardust_multithreading_fix(2).patch">minimal diff</a> on top of <a href="https://github.com/DDR0/Stardust-WASM/commit/de6020d072ef058337f228d1f39d23379f8069a2">my minimal test-case</a> to fix it shows exactly how to do this, if you have run into the same solution and need a fix.
+				</p>
+				
+				<p>
+					However, this is not directly what the AI produced. What it did is quite interesting, and kind of reinforces the "incredibly brilliant, incredibly stupid" bimodality of these expert systems. The <a href="/blog-posts/24.Resolution/stardust_multithreading_fix.patch">first patch</a> it produced fixed the issue, but by patching the <em>compiled WASM binary</em> the worker ran, instead of patching the source code <em>right next to it in the folder</em>. The fix was another prompt to "not do that" producing <a href="/blog-posts/24.Resolution/stardust_multithreading_fix(1).patch">a saner patch</a>, but my goodness… brilliant but blind. 🤦
+				</p>
+						
+										<span class="tags">tags: 				<a href="/blog-posts/tags#web-dev">web dev</a>, <a href="/blog-posts/tags#rust">rust</a>, <a href="/blog-posts/tags#wasm">wasm</a>, <a href="/blog-posts/tags#multithreading">multithreading</a>, <a href="/blog-posts/tags#html5">html5</a>, <a href="/blog-posts/tags#fix">fix</a></span>
+					
+				
+				
+				
+				
+				
+				<hr>
+				
+				
+				
+				
+				
+				
+										<h2 id="flip-speaker-audio-with-pipewire-on-linux">
 											<a href="/blog-posts/23.Flip_Speaker_Audio_with_Pipewire_on_Linux">Flip Speaker Audio with Pipewire on Linux</a>
 										</h2>
 				
@@ -87,7 +137,7 @@
 					<span class="token punctuation">}</span><span class="token punctuation">)</span>
 				</code>
 				
-				This matches <em>specifically</em> our speakers and reverses the channels of them. Hope that helps!
+				<p>This matches <em>specifically</em> our speakers and reverses the channels of them. Hope that helps!</p>
 						
 										<span class="tags">tags: 				<a href="/blog-posts/tags#linux">linux</a>, <a href="/blog-posts/tags#audio">audio</a>, <a href="/blog-posts/tags#sound">sound</a>, <a href="/blog-posts/tags#fix">fix</a></span>
 					

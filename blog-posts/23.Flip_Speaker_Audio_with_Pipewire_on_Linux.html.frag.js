@@ -62,5 +62,5 @@ require('prismjs/components/')(['bash', 'lua'])
 	`, Prism.languages.lua, 'lua'))
 }</code>
 
-This matches <em>specifically</em> our speakers and reverses the channels of them. Hope that helps!
+<p>This matches <em>specifically</em> our speakers and reverses the channels of them. Hope that helps!</p>
 `

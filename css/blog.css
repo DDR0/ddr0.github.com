@@ -84,7 +84,7 @@
 #content-pane img.emote {
   vertical-align: middle;
 }
-#content-pane code {
+#content-pane > code {
   white-space: pre;
 }
 #content-pane .code-container {

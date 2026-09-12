@@ -149,7 +149,7 @@ code.prism-block {
 	border: 0.5ex solid transparent; //Give it a bit of padding. (Padding is used elswhere, by the prism-okaidia.)
 	border-left-width: 1.2ex; //Visually align first letter roughly square to the corner.
 	border-right-width: 1ex;
-	white-space: pre !important;
+	white-space: pre !important; //Not sure why, but prism-okaida overrides this to "normal" which is not what we want.
 }
 
 #icon-bar a {

@@ -96,6 +96,7 @@ code.prism-block {
   border: 0.5ex solid transparent;
   border-left-width: 1.2ex;
   border-right-width: 1ex;
+  white-space: pre !important;
 }
 #icon-bar a {
   color: lightgrey;

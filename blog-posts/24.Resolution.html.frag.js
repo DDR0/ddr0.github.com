@@ -37,6 +37,6 @@ require('prismjs/components/')(['js', 'bash'])
 </p>
 
 <p>
-	However, this is not directly what the AI produced. What it did is quite interesting, and kind of reinforces the "incredibly brilliant, incredibly stupid" bimodality of these expert systems. The <a href="${postFolder}/stardust_multithreading_fix.patch">first patch</a> it produced fixed the issue, but by patching the <em>compiled WASM binary</em> the worker ran, instead of patching the source code <em>right next to it in the folder</em>. The fix was another prompt to "not do that" producing <a href="${postFolder}/stardust_multithreading_fix(1).patch">a saner patch</a>, but my goodness… brilliant but blind. 🤦
+	However, this is not directly what the AI produced. What it did is quite interesting, and kind of reinforces the "incredibly brilliant, incredibly stupid" bimodality of these expert systems. The <a href="${postFolder}/stardust_multithreading_fix.patch">first patch</a> it produced fixed the issue, but by patching the <em>compiled WASM binary</em> the worker ran, instead of patching the source code <em>right next to it in the folder</em>. The fix was another prompt to "not do that" producing <a href="${postFolder}/stardust_multithreading_fix(1).patch">a saner patch</a>, but my goodness… brilliant but blind. 🤦 Even this patch needed to be trimmed down to <a href="https://github.com/DDR0/Stardust-WASM/commit/401b7a6c50b9608b5a08155fb8c0cb9ce16c15a8">something appropriate to commit</a>, and it could have been trimmed down further.
 </p>
 `

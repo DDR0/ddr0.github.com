@@ -3,6 +3,9 @@ const parsePostContent = RegExp.prototype.exec.bind(/^`?\s*?<!--(?<metadata>(?:.
 
 const genpost = file => {
 	const match = parseFileName(file)
+	if (!match) {
+		throw new Error(`Could not parse file name ${file}. Did not match ${parseFileName}.`)
+	}
 	
 	const postContent = parsePostContent(
 		file.endsWith('.js')

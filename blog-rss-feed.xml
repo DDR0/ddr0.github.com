@@ -5,7 +5,7 @@
 		<atom:id>https://ddr0.ca</atom:id>
 		<link>https://ddr0.ca/blog.html</link>
 		<description>Updates to DDR's Blog. Get notified of new posts!</description>
-		<atom:updated>2026-09-12T16:13:53.525Z</atom:updated>
+		<atom:updated>2026-09-13T21:38:02.522Z</atom:updated>
 		<atom:link href='https://ddr0.ca/blog.html'></atom:link>
 		<atom:link href='https://ddr0.ca/blog-rss-feed.xml' rel='self'></atom:link>
 		
@@ -225,6 +225,24 @@
 			<guid isPermaLink='true'>https://ddr0.ca/blog-posts/24.Resolution.html</guid>
 			<source url="https://ddr0.ca/blog-posts/24.Resolution.html"></source>
 			<pubDate>Mon, 27 Jul 2026 00:00:00 GMT</pubDate>
+		</item>
+		
+		<item>
+			<title>Logistics and Logics</title>
+			<description>Software development parallels expeditionary logistics.</description>
+			<link>https://ddr0.ca/blog-posts/25.Logistics_and_Logics.html</link>
+			<guid isPermaLink='true'>https://ddr0.ca/blog-posts/25.Logistics_and_Logics.html</guid>
+			<source url="https://ddr0.ca/blog-posts/25.Logistics_and_Logics.html"></source>
+			<pubDate>Sun, 13 Sep 2026 00:00:00 GMT</pubDate>
+		</item>
+		
+		<item>
+			<title>Html Components</title>
+			<description>I've found a useful way to hold Web Components. It is a technology worth paying attention to!</description>
+			<link>https://ddr0.ca/blog-posts/26.Html_Components.html</link>
+			<guid isPermaLink='true'>https://ddr0.ca/blog-posts/26.Html_Components.html</guid>
+			<source url="https://ddr0.ca/blog-posts/26.Html_Components.html"></source>
+			<pubDate>Sun, 13 Sep 2026 00:00:00 GMT</pubDate>
 		</item>
 		
 	</channel>

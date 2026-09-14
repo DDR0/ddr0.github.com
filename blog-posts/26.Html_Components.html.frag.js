@@ -1,5 +1,5 @@
 const Prism = require('prismjs')
-require('prismjs/components/')(['js'])
+require('prismjs/components/')(['js', 'html'])
 
 ;`
 <!--
@@ -73,7 +73,7 @@ require('prismjs/components/')(['js'])
 
 <p>This might result in a DOM which looks like this:</p>
 
-<code class="prism-block language-js">${
+<code class="prism-block language-html">${
 	indent(-1, Prism.highlight(`
 		<heatmap-display>
 			<template>
@@ -88,7 +88,7 @@ require('prismjs/components/')(['js'])
 			<tr><td field=x>7</td><td field=y>12</td><td field=value>437</td></tr>
 			<tr><td field=x>5</td><td field=y>2</td><td field=value>1301</td></tr>
 		</heatmap-display>
-	`, Prism.languages.js, 'js'))
+	`, Prism.languages.html, 'html'))
 }</code>
 
 <p>The new code is very similar, but by rendering to the DOM we have a few major advantages.</p>

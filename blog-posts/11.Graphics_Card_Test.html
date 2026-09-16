@@ -28,24 +28,23 @@
 			<div id='content-pane'>
 				<h2><a href="/blog-posts/11.Graphics_Card_Test">Graphics Card Exposure Test</a></h2>
 
-				<p>Sometimes, your graphics card's details are exposed to the web. <b id="graphics-card-test-output">Yours are not right now, though, which is good.</b> Try opening this page in different browsers – I found Chrome had much more information than Firefox, for example.</p>
+				<p>Sometimes, your graphics card's details are exposed to the web. <strong id="graphics-card-test-output">Yours are not right now, though, which is good.</strong> Try opening this page in different browsers – I found Chrome had much more information than Firefox, for example.</p>
 				
 				<h3>The Code</h3>
 				
-				<script>{
+				<script type=module>{
 					const getGPU = () => {
-						const ctx = document.createElement('canvas').getContext('webgl') 
-						const ext = ctx.getExtension('WEBGL_debug_renderer_info')
+						const ctx = document.createElement('canvas').getContext('webgl')
 						return {
-							card: ctx.getParameter(ext.UNMASKED_RENDERER_WEBGL),
-							vendor: ctx.getParameter(ext.UNMASKED_VENDOR_WEBGL),
+							card: ctx.getParameter(ctx.RENDERER),
+							vendor: ctx.getParameter(ctx.VENDOR),
 						}
 					}
 					
 					try {
-						const gpu = getGPU()
+						const {vendor, card} = getGPU()
 						document.getElementById('graphics-card-test-output')
-							.textContent = `For example, you are running ${gpu.vendor}'s ${gpu.card}.`
+							.textContent = `For example, you are purportedly running ${vendor}'s ${card}.`
 					} catch (e) {
 						console.info("Graphics card test failed.", e)
 					}
@@ -54,18 +53,17 @@
 				<code class="prism-block language-js">
 					<span class="token comment">//Function to grab GPU data.</span>
 					<span class="token keyword">const</span> <span class="token function-variable function">getGPU</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
-						<span class="token keyword">const</span> ctx <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">'canvas'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getContext</span><span class="token punctuation">(</span><span class="token string">'webgl'</span><span class="token punctuation">)</span> 
-						<span class="token keyword">const</span> ext <span class="token operator">=</span> ctx<span class="token punctuation">.</span><span class="token function">getExtension</span><span class="token punctuation">(</span><span class="token string">'WEBGL_debug_renderer_info'</span><span class="token punctuation">)</span>
+						<span class="token keyword">const</span> ctx <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">'canvas'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getContext</span><span class="token punctuation">(</span><span class="token string">'webgl'</span><span class="token punctuation">)</span>
 						<span class="token keyword">return</span> <span class="token punctuation">{</span>
-							<span class="token literal-property property">card</span><span class="token operator">:</span> ctx<span class="token punctuation">.</span><span class="token function">getParameter</span><span class="token punctuation">(</span>ext<span class="token punctuation">.</span><span class="token constant">UNMASKED_RENDERER_WEBGL</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
-							<span class="token literal-property property">vendor</span><span class="token operator">:</span> ctx<span class="token punctuation">.</span><span class="token function">getParameter</span><span class="token punctuation">(</span>ext<span class="token punctuation">.</span><span class="token constant">UNMASKED_VENDOR_WEBGL</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+							<span class="token literal-property property">card</span><span class="token operator">:</span> ctx<span class="token punctuation">.</span><span class="token function">getParameter</span><span class="token punctuation">(</span>ctx<span class="token punctuation">.</span><span class="token constant">RENDERER</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+							<span class="token literal-property property">vendor</span><span class="token operator">:</span> ctx<span class="token punctuation">.</span><span class="token function">getParameter</span><span class="token punctuation">(</span>ctx<span class="token punctuation">.</span><span class="token constant">VENDOR</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
 						<span class="token punctuation">}</span>
 					<span class="token punctuation">}</span>
 					
 					<span class="token comment">//Put the GPU data into the web page.</span>
-					<span class="token keyword">const</span> gpu <span class="token operator">=</span> <span class="token function">getGPU</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+					<span class="token keyword">const</span> <span class="token punctuation">{</span>vendor<span class="token punctuation">,</span> card<span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">getGPU</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
 					document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'graphics-card-test-output'</span><span class="token punctuation">)</span>
-						<span class="token punctuation">.</span>textContent <span class="token operator">=</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">Yours is </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>gpu<span class="token punctuation">.</span>vendor<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">'s </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>gpu<span class="token punctuation">.</span>card<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">.</span><span class="token template-punctuation string">`</span></span>
+						<span class="token punctuation">.</span>textContent <span class="token operator">=</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">For example, you are purportedly running </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>vendor<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">'s </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>card<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">.</span><span class="token template-punctuation string">`</span></span>
 				</code>
 
 				<span class="tags">tags: <a href="/blog-posts/tags#webgl">webgl</a>, <a href="/blog-posts/tags#privacy">privacy</a>, <a href="/blog-posts/tags#demo">demo</a>, <a href="/blog-posts/tags#web-dev">web dev</a></span>
